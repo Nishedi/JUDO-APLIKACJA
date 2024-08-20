@@ -1,0 +1,97 @@
+@font-face {
+    font-family: 'Kodchasan-SemiBold';
+    src: url('../fonts/Kodchasan-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Kodchasan-Medium';
+    src: url('../fonts/Kodchasan-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('../fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+.mainTitle{
+    font-size: 32px;
+    margin: 1rem 0 0.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    font-family: 'Kodchasan-SemiBold';
+}
+
+.logowanie{
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 1rem 0 2rem 0;
+    color: #FFFFFF;
+    font-family: "Kodchasan-Medium";
+}
+
+.custom_input{
+    padding: 10px;
+    width: 80%;
+    border-radius: 10px;
+    font-family: "Poppins-Medium";
+    font-size: 15px;
+    border-width: 1px;
+    border-color: #cecbcb;
+    color: #707070;
+    box-sizing: border-box; 
+}
+
+.buttonPlacement{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.button{
+    background-image: linear-gradient(90deg, #2B1315 0%, #540808 100%);
+    width: 80%;
+    border-radius: 15px;
+    color: #FFFFFF;
+    padding: 10px;
+    font-family: "Poppins-Medium";
+    font-size: 18px;
+    box-sizing: border-box; 
+}
+
+.test2{
+    background-color: #FFFFFF;
+    background-image: linear-gradient(135deg, #FFFFFF 0%, rgba(19, 68, 154, 0.25) 100%);
+;
+    border-top-left-radius: 50px;  
+    border-top-right-radius: 50px; 
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    padding: 100px 0 100px 0;
+}
+
+.background{
+    display: grid;
+    grid-template-rows: 1fr 5fr; 
+    height: 100vh;
+    background-image: linear-gradient(180deg, #103476 0%, #1D61DC 20%, #ffffff 100%);
+}
+
+
+
+.allTitle{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.inputs-placer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    row-gap: 1rem;
+}
