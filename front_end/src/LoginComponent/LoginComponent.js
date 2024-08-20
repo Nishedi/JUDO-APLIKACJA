@@ -1,6 +1,8 @@
 import './LoginComponent.css';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const LoginComponent = () => {
+    const navigate = useNavigate();
     const [login, setLogin] = useState("Login");
     const [password, setPassword] = useState("Hasło");
 
@@ -14,6 +16,7 @@ const LoginComponent = () => {
 
     const tryLogin = () => {
         console.log(login, password);
+        navigate('/trener/playerView');
     }
     return (
         <div className="background">

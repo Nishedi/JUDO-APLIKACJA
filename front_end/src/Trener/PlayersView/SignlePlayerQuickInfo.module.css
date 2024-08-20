@@ -1,0 +1,20 @@
+.element{
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 16px;
+    gap: 5px;
+}
+
+.mainString{
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);  
+    font-family: 'Montserrat-Regular';
+}
+
+.subString{
+    font-size: 16px;
+    font-family: 'Montserrat-Regular';
+}
