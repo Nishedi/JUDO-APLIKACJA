@@ -2,18 +2,17 @@ import styles2 from "./SignlePlayerQuickInfo.module.css";
 const SimpleInfo = ({ player }) => {
     return (
         <div className={styles2.element}>
-            {console.log(player)}
             <div className={styles2.mainString}>
-                {player.name}
+                {player.imie} {player.nazwisko}
             </div>
             <div className={styles2.subString}>
-                Stran treningów: {player.trainingCount}
+                Stran treningów: {player.stan_treningow}
             </div>
             <div className={styles2.subString}>
-                Samopoczucie: {player.wellBeing}
+                Samopoczucie: {player.samopoczucie}
             </div>
             <div className={styles2.subString}>
-                Waga: {player.weight}
+                Waga: {player.waga}
             </div>
         </div>
     );
