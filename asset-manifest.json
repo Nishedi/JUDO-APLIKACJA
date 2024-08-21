@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/.github.io/JUDO-APLIKACJA/static/css/main.d3f25e6b.css",
+    "main.js": "/.github.io/JUDO-APLIKACJA/static/js/main.22ec196c.js",
+    "static/js/952.d6a342af.chunk.js": "/.github.io/JUDO-APLIKACJA/static/js/952.d6a342af.chunk.js",
+    "static/js/453.f7be5b23.chunk.js": "/.github.io/JUDO-APLIKACJA/static/js/453.f7be5b23.chunk.js",
+    "static/media/Montserrat-SemiBold.ttf": "/.github.io/JUDO-APLIKACJA/static/media/Montserrat-SemiBold.93b37a465fc4ec0d0415.ttf",
+    "static/media/Montserrat-Regular.ttf": "/.github.io/JUDO-APLIKACJA/static/media/Montserrat-Regular.24785cc015b27a3e964b.ttf",
+    "static/media/logo.png": "/.github.io/JUDO-APLIKACJA/static/media/logo.8b52f135bdc57a1cb5eb.png",
+    "static/media/Poppins-Medium.ttf": "/.github.io/JUDO-APLIKACJA/static/media/Poppins-Medium.673ed42382ab264e0bf5.ttf",
+    "static/media/Kodchasan-SemiBold.ttf": "/.github.io/JUDO-APLIKACJA/static/media/Kodchasan-SemiBold.3bae0debc19fe2d62b59.ttf",
+    "static/media/Kodchasan-Medium.ttf": "/.github.io/JUDO-APLIKACJA/static/media/Kodchasan-Medium.f116fd90bf385815a8b9.ttf",
+    "index.html": "/.github.io/JUDO-APLIKACJA/index.html",
+    "main.d3f25e6b.css.map": "/.github.io/JUDO-APLIKACJA/static/css/main.d3f25e6b.css.map",
+    "main.22ec196c.js.map": "/.github.io/JUDO-APLIKACJA/static/js/main.22ec196c.js.map",
+    "952.d6a342af.chunk.js.map": "/.github.io/JUDO-APLIKACJA/static/js/952.d6a342af.chunk.js.map",
+    "453.f7be5b23.chunk.js.map": "/.github.io/JUDO-APLIKACJA/static/js/453.f7be5b23.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d3f25e6b.css",
+    "static/js/main.22ec196c.js"
+  ]
+}
