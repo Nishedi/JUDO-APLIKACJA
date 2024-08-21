@@ -1,10 +1,12 @@
 import './LoginComponent.css';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from '../GlobalContext';
 
 import { createClient } from '@supabase/supabase-js'
 
 const LoginComponent = () => {
+    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
     const supabase = createClient(supabaseUrl, supabaseKey)
@@ -24,13 +26,15 @@ const LoginComponent = () => {
     }
 
     const tryLogin = async () => {
-        let { data: haslo, error } = await supabase
+        let { data: dane_trenera, error } = await supabase
             .from('trenerzy')
-            .select('haslo')
+            .select('*')
             .eq('login',  login)
+        console.log(dane_trenera[0].haslo);    
         
-        if(haslo.length!==0 && haslo[0].haslo === password){
+        if(dane_trenera.length!==0 && dane_trenera[0].haslo === password){
             setIsLogged(true);
+            setGlobalVariable(dane_trenera[0]);
             navigate('/trener/playerView');
         }else{
             setIsLogged(false);

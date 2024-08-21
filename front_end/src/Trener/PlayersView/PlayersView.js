@@ -1,10 +1,12 @@
 import styles from "./PlayersView.module.css";
 import SimpleInfo from "./SinglePlayerQuickInfo";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GlobalContext } from '../../GlobalContext';
 import { createClient } from '@supabase/supabase-js'
 import { useEffect } from "react";
 
 const PlayersView = () => {
+    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
     const supabase = createClient(supabaseUrl, supabaseKey)
@@ -13,7 +15,7 @@ const PlayersView = () => {
         let { data: zawodnicy, error } = await supabase
             .from('zawodnicy')
             .select('imie, nazwisko, stan_treningow, samopoczucie, waga')
-            .eq('id_trenera', '1')
+            .eq('id_trenera', globalVariable.id)
         if(zawodnicy.length!==0){
             setPlayers(zawodnicy);
         }
@@ -23,8 +25,6 @@ const PlayersView = () => {
     useEffect(() => {
         getPlayers();
       }, []);
-
-   
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -43,8 +43,7 @@ const PlayersView = () => {
                     <div className={styles.date_div}>
                         {now.getDate()+" "+monthNames[now.getMonth()]+", "+dayNames[now.getDay()]}
                     </div>
-                </div>
-                
+                </div>  
             </div>
             <div>
                 {players.map((player) => {
