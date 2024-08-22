@@ -1,5 +1,6 @@
 import styles from "./PlayersView.module.css";
 import SimpleInfo from "./SinglePlayerQuickInfo";
+import Sidebar from "./SideBar";
 import { useState, useContext } from "react";
 import { GlobalContext } from '../../GlobalContext';
 import { createClient } from '@supabase/supabase-js'
@@ -11,6 +12,7 @@ const PlayersView = () => {
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
     const supabase = createClient(supabaseUrl, supabaseKey)
     const [players, setPlayers] = useState([]);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const getPlayers = async () => {
         let { data: zawodnicy, error } = await supabase
             .from('zawodnicy')
@@ -26,14 +28,23 @@ const PlayersView = () => {
         getPlayers();
       }, []);
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    }
+
+    const hideSidebar = () => {
+        setIsSidebarOpen(false);
+    }
+
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
     return (
         <div className={styles.background}>
+            <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko}/>
             <div className={styles.navbar}>
-                <div>
+                <div onClick={toggleSidebar}>
                     Burger
                 </div>
                 <div className="left_navbar">
@@ -45,7 +56,7 @@ const PlayersView = () => {
                     </div>
                 </div>  
             </div>
-            <div>
+            <div onClick={hideSidebar}>
                 {players.map((player) => {
                     return <SimpleInfo player={player} />
                 })}
