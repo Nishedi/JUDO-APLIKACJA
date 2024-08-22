@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginComponent from './LoginComponent/LoginComponent';
 import PlayersView from './Trener/PlayersView/PlayersView';
+import AddingPlayerFirstPage from './Trener/AddingPlayer/AddingPlayerFirstPage';
+import AddingPlayerSecondPage from './Trener/AddingPlayer/AddingPlayerSecondPage';
 import './App.css';
 import { GlobalProvider } from './GlobalContext'; // Import GlobalProvider
 
@@ -12,6 +14,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginComponent />} />
           <Route path="trener/playerView" element={<PlayersView />} />
+          <Route path="trener/addingplayerbaseinfo/" element={<AddingPlayerFirstPage />} />
+          <Route path="trener/addingplayerlogininfo/" element={<AddingPlayerSecondPage />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

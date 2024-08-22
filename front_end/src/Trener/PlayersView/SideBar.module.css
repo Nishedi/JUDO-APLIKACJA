@@ -67,11 +67,15 @@
 }
 
 .emptyElement{
-    padding: 34px;
+    padding: 26px;
 }
 
 .singleClickableElemement{
     font-family: 'Montserrat-Regular';
+}
+
+.singleClickableElemement:hover, .singleClickableElemementv2:hover{
+    background-color: #a0a6b1;
 }
 
 .singleClickableElemementv2{

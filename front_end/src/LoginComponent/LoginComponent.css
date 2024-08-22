@@ -13,6 +13,11 @@
     src: url('../fonts/Poppins-Medium.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
 .mainTitle{
     font-size: 32px;
     margin: 1rem 0 0.5rem 0;

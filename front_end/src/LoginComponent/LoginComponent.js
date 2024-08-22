@@ -2,7 +2,7 @@ import './LoginComponent.css';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
-
+import { FaUser } from 'react-icons/fa';
 import { createClient } from '@supabase/supabase-js'
 
 const LoginComponent = () => {
@@ -29,8 +29,7 @@ const LoginComponent = () => {
         let { data: dane_trenera, error } = await supabase
             .from('trenerzy')
             .select('*')
-            .eq('login',  login)
-        console.log(dane_trenera[0].haslo);    
+            .eq('login',  login) 
         
         if(dane_trenera.length!==0 && dane_trenera[0].haslo === password){
             setIsLogged(true);
@@ -50,12 +49,14 @@ const LoginComponent = () => {
                 </div>
             </div>
             <div className="test2">
-                <div className="inputs-placer">
+                <div className="inputs-placer">    
                     {isLogged === false 
                     ? (<><input onChange={handleLoginChange} className = "custom_input_incorrect" type="text" placeholder={login} />
                     <input onChange={handlePasswordChange} className = "custom_input_incorrect" type="password" placeholder={password} /></>)
                     : (<><input onChange={handleLoginChange} className = "custom_input_correct" type="text" placeholder={login} />
-                        <input onChange={handlePasswordChange} className = "custom_input_correct" type="password" placeholder={password} /></>)
+                        <input onChange={handlePasswordChange} className = "custom_input_correct" type="password" placeholder={password} />
+                        
+                        </>)
                     }
                 </div>
                 <div className="buttonPlacement">
