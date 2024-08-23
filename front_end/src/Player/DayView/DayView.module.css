@@ -1,0 +1,38 @@
+.background{
+    display: grid;
+    grid-template-rows: 1fr 10fr; 
+    height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Poppins-Medium";
+    font-size: 10px;
+}
+
+.weekDay{
+    padding: 5px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Kodchasan-SemiBold";
+    font-size: 20px;
+}
+
+.weekDayData{
+    font-size: 16px;
+    font-family: 'Montserrat-SemiBold';
+}
+
+.name{
+    display: flex;
+    justify-content: end;
+    font-family: "Kodchasan-SemiBold";
+    font-size: 14px;
+}

@@ -34,7 +34,8 @@ const LoginComponent = () => {
         if(dane_trenera.length!==0 && dane_trenera[0].haslo === password){
             setIsLogged(true);
             setGlobalVariable(dane_trenera[0]);
-            navigate('/trener/playerView');
+          //  navigate('/trener/playerView');
+            navigate('/player/dayview');
         }else{
             setIsLogged(false);
             setPassword("Hasło");
