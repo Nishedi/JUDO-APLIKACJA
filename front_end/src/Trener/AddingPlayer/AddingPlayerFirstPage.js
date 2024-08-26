@@ -1,7 +1,65 @@
 import styles from './AddingPlayer.module.css';
+import { Dropdown } from 'primereact/dropdown';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from '../../GlobalContext';
+
 const AddingPlayerFirstPage = () => {
+    const navigate = useNavigate();
+    const {newPlayer, setNewPlayer } = useContext(GlobalContext);
+    const [selectedGender, setSelectedGender] = useState("Mężczyzna");
+    const [selectedWeightCategory, setSelectedWeightCategory] = useState("Wybierz kategorię wagową");
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [yearOfBirth, setYearOfBirth] = useState("");
+    const genders = [
+        { label: "Mężczyzna", value: "Mężczyzna" },
+        { label: "Kobieta", value: "Kobieta" }
+    ];
+
+    const weightCategories = {
+        "Mężczyzna": ["-60kg", "-66kg", "-73kg", "-81kg", "-90kg", "-100kg", "+100kg"],
+        "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]
+    }
+
+    const handleGenderChange = (e) => {
+        setSelectedGender(e.value);
+        console.log('Selected Value:', e.value); 
+    }
+
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+    }
+
+    const handleSurnameChange = (e) => {
+        setSurname(e.target.value);
+    }
+
+    const handleYearOfBirthChange = (e) => {
+        setYearOfBirth(e.target.value);
+    }
+
+    const checkDataAndGoFurther = () => {
+        if (name === "" || surname === "" || selectedGender === "" ||  yearOfBirth === "" || selectedWeightCategory === "Wybierz kategorię wagową") {
+            alert("Wypełnij wszystkie pola");
+            return;
+        } 
+        const regex = /^[A-Z][a-z]*$/;
+        if (regex.test(name) === false || regex.test(surname) === false) {
+            alert("Imię i nazwisko musi zaczynać się z wielkiej litery i nie może zawierać cyfr");
+            return;
+        }
+        const currentYear = new Date().getFullYear();
+        if (yearOfBirth < 1930 || yearOfBirth > currentYear) {
+            alert(`Rok urodzenia musi być z przedziału 1900-${currentYear}`);
+            return;
+        }
+        setNewPlayer({"name": name, "surname": surname, "gender": selectedGender, "weightCategory": selectedWeightCategory, "yearOfBirth": yearOfBirth});
+        navigate('/trener/addingplayerlogininfo');
+    }
+
     return (
-        <div className = {styles.background}>
+        <div className={styles.background}>
             <div className={styles.navbar}>
                 DANE ZAWODNIKA
             </div>
@@ -9,30 +67,67 @@ const AddingPlayerFirstPage = () => {
                 <div className={styles.inputs}>
                     <div className={styles.input_container}>
                         <div>IMIĘ</div>
-                        <input type="text" className={styles.input} placeholder={'test'}/>
+                        <input type="text" 
+                        className={styles.input} 
+                        placeholder={'Podaj imię zawodnika'} 
+                        value={name} 
+                        onChange={handleNameChange}/>
                     </div>
                     <div className={styles.input_container}>
                         <div>NAZWISKO</div>
-                        <input type="text" className={styles.input} placeholder={'test'}/>
+                        <input type="text" 
+                        className={styles.input} 
+                        placeholder={'Podaj nazwisko zawodnika'} 
+                        value={surname} 
+                        onChange={handleSurnameChange} />
                     </div>
                     <div className={styles.input_container}>
-                        <div>PŁEĆ</div>
-                        <input type="text" className={styles.input} placeholder={'test'}/>
+                        <div>PŁEĆ</div>                        
+                        <Dropdown
+                            value={selectedGender}
+                            onChange={handleGenderChange}
+                            options={genders}
+                            optionLabel="label"
+                            placeholder="Wybierz płeć"
+                            className={`${styles.customDropdown} p-dropdown`}
+                            panelStyle={{ backgroundColor: '#F8F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                        />
                     </div>
                     <div className={styles.input_container}>
                         <div>KATEGORIA WAGOWA</div>
-                        <input type="text" className={styles.input} placeholder={'test'}/>
+                        {selectedGender === "Mężczyzna" ? 
+                            <Dropdown
+                                value={selectedWeightCategory} 
+                                onChange={(e) => setSelectedWeightCategory(e.value)}  
+                                options={weightCategories["Mężczyzna"]}  
+                                placeholder="Wybierz kategorię wagową"
+                                className={`${styles.customDropdown} p-dropdown`}
+                            panelStyle={{ backgroundColor: '#F8F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                            />
+                            :
+                            <Dropdown
+                                value={selectedWeightCategory} 
+                                onChange={(e) => setSelectedWeightCategory(e.value)}  
+                                options={weightCategories["Kobieta"]}  
+                                placeholder="Wybierz kategorię wagową"
+                                className={`${styles.customDropdown} p-dropdown`}
+                                panelStyle={{ backgroundColor: '#F8F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                            />
+                        }
                     </div>
                     <div className={styles.input_container}>
                         <div>ROCZNIK</div>
-                        <input type="text" className={styles.input} placeholder={'test'}/>
+                        <input type="number" 
+                        className={styles.input}
+                        placeholder={'Podaj rok urodzenia zawodnika'}
+                        value={yearOfBirth}
+                        onChange={handleYearOfBirthChange} />
                     </div>
-
-
-                    </div>
-                <button className={styles.button}>Dalej</button>
+                </div>
+                <button onClick={checkDataAndGoFurther} className={styles.button}>Dalej</button>
             </div>
         </div>
     );
 };
+
 export default AddingPlayerFirstPage;

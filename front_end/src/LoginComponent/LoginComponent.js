@@ -2,7 +2,6 @@ import './LoginComponent.css';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
-// import { FaUser } from 'react-icons/fa';
 import { createClient } from '@supabase/supabase-js'
 
 const LoginComponent = () => {
@@ -34,11 +33,21 @@ const LoginComponent = () => {
         if(dane_trenera.length!==0 && dane_trenera[0].haslo === password){
             setIsLogged(true);
             setGlobalVariable(dane_trenera[0]);
-          //  navigate('/trener/playerView');
-            navigate('/player/dayview');
+            navigate('/trener/playerView');
         }else{
-            setIsLogged(false);
-            setPassword("Hasło");
+            let { data: dane_zawodnika, error } = await supabase
+            .from('zawodnicy')
+            .select('*')
+            .eq('login',  login)
+
+            if(dane_zawodnika.length!==0 && dane_zawodnika[0].haslo === password){
+                setIsLogged(true);
+                setGlobalVariable(dane_zawodnika[0]);
+                navigate('/player/dayview');
+            }else{
+                setIsLogged(false);
+                setPassword("Hasło");
+            }
         }
     }
     return (

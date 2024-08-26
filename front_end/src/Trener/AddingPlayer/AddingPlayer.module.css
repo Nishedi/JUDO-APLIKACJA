@@ -23,7 +23,6 @@
     height: 100%;
     width: 100%;
     padding: 10px;
-    
 }
 
 .input{
@@ -61,4 +60,16 @@
     align-items: center;
     justify-content: space-between;
     height: 95%;
+}
+
+.customDropdown {
+    border-radius: 10px;
+    width: 95%;
+    border-width: 0px;
+    padding: 8px;
+    background-color: #f8f6f6 !important;
+}
+
+.panelStyle {
+    background-color: #f0f0f0 !important; /* Zmiana koloru tła panelu */
 }
