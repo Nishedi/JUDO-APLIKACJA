@@ -2,7 +2,7 @@ import './LoginComponent.css';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
-import { FaUser } from 'react-icons/fa';
+// import { FaUser } from 'react-icons/fa';
 import { createClient } from '@supabase/supabase-js'
 
 const LoginComponent = () => {
