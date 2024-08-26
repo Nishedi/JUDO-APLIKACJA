@@ -6,6 +6,10 @@
 }
 
 .rectangleStats{
+  display: flex; /* Użycie flexbox do ustawienia układu */
+  justify-content: space-between; /* Rozdziela przestrzeń między elementami, aby strzałka była po prawej stronie */
+  align-items: center; /* Centruje elementy pionowo */
+
     background-color: #FFFFFF; /* Biały kolor tła */
     border-radius: 15px; /* Zaokrąglone rogi */
     padding: 10px; /* Wewnętrzne odstępy */
@@ -52,6 +56,9 @@
 
   
 .activity {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Dwie kolumny: jedna elastyczna na tekst i jedna dla strzałki */
+  align-items: center; /* Centrowanie w pionie */
   border-radius: 15px;
   border: 2px solid;
   margin: 10px 0;
@@ -91,6 +98,7 @@
     font-family: "Poppins-Medium";
     font-size: 10px;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  
 }
 
 .weekDay{
@@ -113,4 +121,22 @@
     justify-content: end;
     font-family: "Kodchasan-SemiBold";
     font-size: 14px;
+}
+
+.burger{
+  color: #FFFFFF; 
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.right_arrow{
+  justify-self: end;
+  font-size: 24px;
+}
+
+.down_arrow{
+  color: #103476; 
+  font-size: 24px;
+  padding-right: 5%;
 }

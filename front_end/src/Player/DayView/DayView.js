@@ -1,4 +1,8 @@
 import styles from "./DayView.module.css";
+import SideBarCalendar from "./SideBarCalendar";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { useState, useContext } from "react";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 
 // Tu sie domyślam, że można by utworzyć jeden komponent
 // i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
@@ -19,17 +23,31 @@ const Activity = ({title, wykonany, odczucia, komentarz, color, borderColor}) =>
                 <p>Komentarz: {komentarz}</p>
             </div>
             {/* <div> tu bedzie strzałka w prawo </div> */}
+            <IoIosArrowForward  className={styles.right_arrow} style={{ color: borderColor }}  />
         </div>
     );
 }
 
 
 const DayView = () => {
+ //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    }
+
+
+    const hideSidebar = () => {
+        setIsSidebarOpen(false);
+    }
+
     return (
         <div className={styles.background}>
+             <SideBarCalendar isOpen={isSidebarOpen}/>
             <div className={styles.navbar}>
-                <div>
-
+                <div onClick={toggleSidebar} className={styles.burger}>
+                <RxHamburgerMenu/>
                 </div>
                 <div className = {styles.weekDay}> 
                     <div >
@@ -57,16 +75,19 @@ const DayView = () => {
                 </div>   */}
             </div>
 
-            <div className = {styles.layout}>
+            <div onClick={hideSidebar} className = {styles.layout}>
 
                     <div className = {styles.rectangleStats}> {/* Statystyki dnia */}
-                        <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
-                        <div className = {styles.text}>
-                            <p> Tętno: 100 </p>
-                            <p> Samopoczucie: złe </p>
-                            <p> Zakwaszenie: TAK/NIE(przycisk!!!) </p>
-                            <p> Kinaza: idk co to jest</p>
-                        </div>
+                            <div>
+                            <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
+                            <div className = {styles.text}>
+                                <p> Tętno: 100 </p>
+                                <p> Samopoczucie: złe </p>
+                                <p> Zakwaszenie: TAK/NIE(przycisk!!!) </p>
+                                <p> Kinaza: idk co to jest</p>
+                            </div>
+                            </div>
+                        <IoIosArrowDown className={styles.down_arrow} />
                     </div>
                
                     <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
