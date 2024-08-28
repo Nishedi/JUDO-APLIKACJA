@@ -1,7 +1,9 @@
 import styles from "./DayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
+import StatsInput from "./StatsInput";
+import React, {useState} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useState, useContext } from "react";
+//import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 
 // Tu sie domyślam, że można by utworzyć jeden komponent
@@ -32,64 +34,67 @@ const Activity = ({title, wykonany, odczucia, komentarz, color, borderColor}) =>
 const DayView = () => {
  //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
+    const [isStatsOpen, setIsStatsOpen] = useState(false);
+    const [stats, setStats] = useState({
+        tetne: "",
+        samopoczucie: "",
+        zakwaszenie: "",
+        kinaza: "",
+        komentarz: ""
+    });
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
 
-
     const hideSidebar = () => {
         setIsSidebarOpen(false);
     }
 
+    const toggleStats = () => {
+        setIsStatsOpen(!isStatsOpen);
+    }
+
+    const handleStatsSubmit = (newStats) => {
+        setStats(newStats);
+        setIsStatsOpen(false); // Zamyka panel po zatwierdzeniu
+    };
+
+
     return (
         <div className={styles.background}>
-             <SideBarCalendar isOpen={isSidebarOpen}/>
+            <SideBarCalendar isOpen={isSidebarOpen}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
-                <RxHamburgerMenu/>
+                    <RxHamburgerMenu/>
                 </div>
                 <div className = {styles.weekDay}> 
-                    <div >
-                        Poniedziałek
-                    </div>
-                    <div className={styles.weekDayData}>
-                        12 sierpnia
-                    </div>
+                    <div > Poniedziałek </div>
+                    <div className={styles.weekDayData}> 12 sierpnia </div>
                 </div>
-                
-                <div className={styles.name}>
-                    Piotr Kopiec
-                </div>
-                
-                {/* <div onClick={toggleSidebar}>
-                    <RxHamburgerMenu className={styles.burger}/>
-                </div>
-                <div className="left_navbar">
-                    <div className={styles.writing_div}>
-                        Twoi ZAWODNICY
-                    </div>
-                    <div className={styles.date_div}>
-                        {now.getDate()+" "+monthNames[now.getMonth()]+", "+dayNames[now.getDay()]}
-                    </div>
-                </div>   */}
+                <div className={styles.name}> Piotr Kopiec </div>
             </div>
 
-            <div onClick={hideSidebar} className = {styles.layout}>
-
-                    <div className = {styles.rectangleStats}> {/* Statystyki dnia */}
-                            <div>
+            <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
+                    {/* Prostokąt statystyk dnia */}
+                    <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
+                        <div>
                             <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
-                            <div className = {styles.text}>
-                                <p> Tętno: 100 </p>
-                                <p> Samopoczucie: złe </p>
-                                <p> Zakwaszenie: TAK/NIE(przycisk!!!) </p>
-                                <p> Kinaza: idk co to jest</p>
-                            </div>
-                            </div>
+                            {/* Renderuj treść w zależności od stanu isStatsOpen */}
+                            {!isStatsOpen ? (
+                                <div className = {styles.text}>
+                                    <p>Tętno: {stats.tetno || "kc Kondi"}</p>
+                                    <p>Samopoczucie: {stats.samopoczucie || "kc Konradzio"}</p>
+                                    <p>Zakwaszenie: {stats.zakwaszenie || "kc Kondik"}</p>
+                                    <p>Kinaza: {stats.kinaza || "kc Kondziś"}</p>
+                                </div>
+                            ) : (
+                                <StatsInput onSubmit={handleStatsSubmit} initialData={stats} />
+                            )}
+                        </div>
                         <IoIosArrowDown className={styles.down_arrow} />
                     </div>
-               
+                   
                     <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
                     <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
                         <div>
@@ -100,8 +105,6 @@ const DayView = () => {
                                 komentarz="brak"
                                 color="#FF7A68"
                                 borderColor="#BE0000"
-                               
-                           
                            />
                             <Activity
                                 title="Trening biegowy"
