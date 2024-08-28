@@ -15,7 +15,9 @@
 .background{
     display: grid;
     grid-template-rows: 1fr 10fr; 
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     background-color: #D7DFEE;
 }
 
@@ -28,6 +30,8 @@
     color: #FFFFFF;
     font-family: "Poppins-Medium";
     font-size: 20px;
+    height: 80px;
+    min-height: 80px;
 }
 
 .left_navbar{
