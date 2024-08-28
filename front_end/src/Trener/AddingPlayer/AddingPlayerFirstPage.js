@@ -6,57 +6,57 @@ import { GlobalContext } from '../../GlobalContext';
 
 const AddingPlayerFirstPage = () => {
     const navigate = useNavigate();
-    const {newPlayer, setNewPlayer } = useContext(GlobalContext);
-    const [selectedGender, setSelectedGender] = useState("Mężczyzna");
+    const { newPlayer, setNewPlayer } = useContext(GlobalContext);
+    const [selectedGender, setSelectedGender] = useState("");
     const [selectedWeightCategory, setSelectedWeightCategory] = useState("Wybierz kategorię wagową");
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [yearOfBirth, setYearOfBirth] = useState("");
     const genders = [
-        { label: "Mężczyzna", value: "Mężczyzna" },
-        { label: "Kobieta", value: "Kobieta" }
+        { name: "Mężczyzna", value: "Mężczyzna" },
+        { name: "Kobieta", value: "Kobieta" }
     ];
 
     const weightCategories = {
         "Mężczyzna": ["-60kg", "-66kg", "-73kg", "-81kg", "-90kg", "-100kg", "+100kg"],
         "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]
-    }
+    };
 
     const handleGenderChange = (e) => {
         setSelectedGender(e.value);
-        console.log('Selected Value:', e.value); 
-    }
+        console.log('Selected Gender:', e.value); 
+    };
 
     const handleNameChange = (e) => {
         setName(e.target.value);
-    }
+    };
 
     const handleSurnameChange = (e) => {
         setSurname(e.target.value);
-    }
+    };
 
     const handleYearOfBirthChange = (e) => {
         setYearOfBirth(e.target.value);
-    }
+    };
 
     const checkDataAndGoFurther = () => {
-        if (name === "" || surname === "" || selectedGender === "" ||  yearOfBirth === "" || selectedWeightCategory === "Wybierz kategorię wagową") {
+        if (name === "" || surname === "" || selectedGender === "" || yearOfBirth === "" || selectedWeightCategory === "Wybierz kategorię wagową") {
             alert("Wypełnij wszystkie pola");
             return;
         } 
         const regex = /^[A-Z][a-z]*$/;
-        if (regex.test(name) === false || regex.test(surname) === false) {
+        if (!regex.test(name) || !regex.test(surname)) {
             alert("Imię i nazwisko musi zaczynać się z wielkiej litery i nie może zawierać cyfr");
             return;
         }
         const currentYear = new Date().getFullYear();
         if (yearOfBirth < 1930 || yearOfBirth > currentYear) {
-            alert(`Rok urodzenia musi być z przedziału 1900-${currentYear}`);
+            alert(`Rok urodzenia musi być z przedziału 1930-${currentYear}`);
             return;
         }
         setNewPlayer({"name": name, "surname": surname, "gender": selectedGender, "weightCategory": selectedWeightCategory, "yearOfBirth": yearOfBirth});
         navigate('/trener/addingplayerlogininfo');
-    }
+    };
 
     return (
         <div className={styles.background}>
@@ -87,10 +87,11 @@ const AddingPlayerFirstPage = () => {
                             value={selectedGender}
                             onChange={handleGenderChange}
                             options={genders}
-                            optionLabel="label"
+                            optionLabel="name"
+                            editable={true}
                             placeholder="Wybierz płeć"
                             className={`${styles.customDropdown} p-dropdown`}
-                            panelStyle={{ backgroundColor: '#F8F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                            panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
                         />
                     </div>
                     <div className={styles.input_container}>
@@ -99,19 +100,19 @@ const AddingPlayerFirstPage = () => {
                             <Dropdown
                                 value={selectedWeightCategory} 
                                 onChange={(e) => setSelectedWeightCategory(e.value)}  
-                                options={weightCategories["Mężczyzna"]}  
+                                options={weightCategories["Mężczyzna"].map(category => ({ label: category, value: category }))}  
                                 placeholder="Wybierz kategorię wagową"
                                 className={`${styles.customDropdown} p-dropdown`}
-                            panelStyle={{ backgroundColor: '#F8F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                                panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
                             />
                             :
                             <Dropdown
                                 value={selectedWeightCategory} 
                                 onChange={(e) => setSelectedWeightCategory(e.value)}  
-                                options={weightCategories["Kobieta"]}  
+                                options={weightCategories["Kobieta"].map(category => ({ label: category, value: category }))}  
                                 placeholder="Wybierz kategorię wagową"
                                 className={`${styles.customDropdown} p-dropdown`}
-                                panelStyle={{ backgroundColor: '#F8F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                                panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
                             />
                         }
                     </div>
