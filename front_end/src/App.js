@@ -7,6 +7,7 @@ import AddingPlayerSecondPage from './Trener/AddingPlayer/AddingPlayerSecondPage
 import './App.css';
 import { GlobalProvider } from './GlobalContext'; // Import GlobalProvider
 import DayView from './Player/DayView/DayView';
+import WeekView from './Player/WeekView/WeekView';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path = "trener/addingplayerbaseinfo/" element={<AddingPlayerFirstPage />} />
           <Route path = "trener/addingplayerlogininfo/" element={<AddingPlayerSecondPage />} />
           <Route path = "player/dayview" element = {<DayView />} />
+          <Route path = "player/weekview" element = {<WeekView />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

@@ -1,0 +1,81 @@
+/* ExpandedStatsView.module.css */
+.expandedContent {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.inputContainer {
+    margin-bottom: 10px;
+}
+
+.inputContainer label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.inputContainer input,
+.inputContainer select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.statsInput {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: fit-content; /* Set the width to fit the content, so it can be centered properly */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+  }
+
+
+.statsInputTitle  {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f3fb;
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 5px;
+    margin: 0 auto;
+}
+
+.statsInputTitle p  {
+    font-size: 16px;
+    font-family: "Kodchasan-SemiBold";
+    text-align: center;
+    text-transform: uppercase;
+    color: #021840;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    line-height: 1.5;
+    margin: 0;
+    transform: scale(0.9);
+
+}
+
+.statsInputContentElement {
+    font-family: 'Montserrat-Regular';
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.submitButton {
+    background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+    color: #FFFFFF;
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 0px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 16px;
+    margin-top: 10px;
+}
