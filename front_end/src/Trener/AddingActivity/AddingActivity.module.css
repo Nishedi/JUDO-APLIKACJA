@@ -34,13 +34,14 @@
     font-family: 'Roboto-Regular';
     font-size: 14px;
     padding: 13px;
+    width: 100%;
 }
 
 .content{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    gap: 20px;
+    align-items: center;
     padding: 10px;
 }
 
@@ -48,3 +49,9 @@
     width: 100%;
     background-color: blueviolet;
 }
+
+.p-calendar.calendar-control  {
+    opacity: 1;
+    color: black;
+    background: #eeeeee;
+  }
