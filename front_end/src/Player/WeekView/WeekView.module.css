@@ -1,0 +1,93 @@
+.background{
+    display: grid;
+    grid-template-rows: 1fr 10fr; 
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 10px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Poppins-Medium";
+    font-size: 10px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.right_navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.date_div, .writing_div{
+    display: flex;
+    justify-content: right;
+}
+
+.writing_div{
+    display: flex;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 16px;
+    justify-content: right;
+}
+
+.date_div{
+    display: flex;
+    justify-content: left;
+    font-family: 'Montserrat-SemiBold';
+    font-size: 14px;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+.weekDay{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    border-radius: 16px;
+    background-color: #FFFFFF;
+}
+
+.weeklist{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.activity {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Dwie kolumny: jedna elastyczna na tekst i jedna dla strzałki */
+    align-items: center; /* Centrowanie w pionie */
+    border-radius: 15px;
+    border: 2px solid;
+    margin: 10px 0;
+    padding: 5px, 10px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    text-align: left;
+    color: #000000;
+    font-size: 15px;
+    font-family: 'Montserrat-Regular';
+    margin: 5px;
+  }
+  
+  .activity p {
+      padding-left: 10px;
+      color: #000000;
+      font-size: 15px;
+      font-family: 'Montserrat-Regular';
+      margin: 5px;
+    }
+  
+  .activity h3 {
+      padding-top: 5px;
+      padding-left: 10px;
+      margin: 5px ;
+      font-size: 15px;
+      font-family: 'Montserrat-Regular';
+      text-align: justify;
+  }

@@ -61,6 +61,8 @@ const DayView = () => {
     };
 
 
+    
+
     return (
         <div className={styles.background}>
             <SideBarCalendar isOpen={isSidebarOpen}/>
@@ -77,20 +79,19 @@ const DayView = () => {
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
                     {/* Prostokąt statystyk dnia */}
+                    
                     <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
-                        <div>
+                        <div >
+                        <StatsInput onSubmit={handleStatsSubmit} initialData={stats} />
                             <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
-                            {/* Renderuj treść w zależności od stanu isStatsOpen */}
-                            {!isStatsOpen ? (
+                            
                                 <div className = {styles.text}>
                                     <p>Tętno: {stats.tetno || "kc Kondi"}</p>
                                     <p>Samopoczucie: {stats.samopoczucie || "kc Konradzio"}</p>
                                     <p>Zakwaszenie: {stats.zakwaszenie || "kc Kondik"}</p>
                                     <p>Kinaza: {stats.kinaza || "kc Kondziś"}</p>
                                 </div>
-                            ) : (
-                                <StatsInput onSubmit={handleStatsSubmit} initialData={stats} />
-                            )}
+                            
                         </div>
                         <IoIosArrowDown className={styles.down_arrow} />
                     </div>
