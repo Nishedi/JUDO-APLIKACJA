@@ -146,3 +146,13 @@
     font-size: 15px;
     font-family: "Poppins-Medium";
 }
+/* Użyj większej specyficzności, aby nadpisać domyślne style */
+.custom-calendar .p-calendar-header {
+    background-color: #007bff !important; /* Dodanie !important */
+    color: white !important;
+}
+
+.custom-calendar .p-calendar-days .p-calendar-day.p-highlight {
+    background-color: #007bff !important;
+    color: white !important;
+}

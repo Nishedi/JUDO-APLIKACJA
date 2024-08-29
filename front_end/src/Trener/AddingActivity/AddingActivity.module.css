@@ -1,0 +1,50 @@
+.background{
+    display: grid;
+    grid-template-rows: 1fr 10fr; 
+    height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Kodchasan-SemiBold";
+    font-size: 32px;
+}
+
+.multiDropDown{
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+.input{
+    border-radius: 10px;
+    border-width: 0px;
+    padding: 8px;
+}
+
+.input_container{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: 'Roboto-Regular';
+    font-size: 14px;
+    padding: 13px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 20px;
+    padding: 10px;
+}
+
+.p-calendar{
+    width: 100%;
+    background-color: blueviolet;
+}

@@ -45,7 +45,7 @@ const PlayersView = () => {
     }
 
     const onAddActivityClick = () => {
-        alert("In progress");
+        navigate('/trener/addingactivityfirstpage');
     }
 
     const onAddPlayerClick = () => {
