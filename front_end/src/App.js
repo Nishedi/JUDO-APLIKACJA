@@ -20,12 +20,8 @@ function App() {
           <Route path = "trener/addingplayerbaseinfo/" element={<AddingPlayerFirstPage />} />
           <Route path = "trener/addingplayerlogininfo/" element={<AddingPlayerSecondPage />} />
           <Route path = "player/dayview" element = {<DayView />} />
-<<<<<<< HEAD
           <Route path = "player/weekview" element = {<WeekView />} />
-=======
           <Route path = "trener/addingactivityfirstpage" element = {<AddiActivityFirstPage />} />
-          
->>>>>>> 0f81da7f1c2737feb690a8b9085ce28d87c96fb7
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

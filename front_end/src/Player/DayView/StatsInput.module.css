@@ -31,38 +31,63 @@
     width: fit-content; /* Set the width to fit the content, so it can be centered properly */
     margin-left: auto; /* Center horizontally */
     margin-right: auto; /* Center horizontally */
+
+    padding: 10px;
+    padding-top: 0;
   }
 
 
 .statsInputTitle  {
-    padding: 10px 20px;
+   
+    padding: 10px 0px;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #f0f3fb;
     padding: 10px;
-    border-radius: 20px;
-    margin-top: 5px;
-    margin: 0 auto;
+    border-radius: 25px;
+    margin-top: 0;
+    margin: 0 ;
+    width: 60%;
 }
 
 .statsInputTitle p  {
     font-size: 16px;
+    width: 100%;
+    padding: 0;
     font-family: "Kodchasan-SemiBold";
     text-align: center;
     text-transform: uppercase;
     color: #021840;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    line-height: 1.5;
+    line-height: 1;
     margin: 0;
     transform: scale(0.9);
 
 }
 
-.statsInputContentElement {
+.statsInputContentElement2{
+    display: flex;
+    flex-direction: row;
     font-family: 'Montserrat-Regular';
     font-size: 12px;
     text-transform: uppercase;
+    margin-top: 20px;
+    align-items: center; /* Wyśrodkowanie w pionie */
+    justify-content: space-between; /* Równomierne rozmieszczenie elementów */
+    padding: 10px 0; /* Opcjonalne dodanie odstępu, aby zwiększyć przestrzeń wokół elementów */
+
+}
+
+.statsInputContentElement {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat-Regular';
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 10px 0; /* Opcjonalne dodanie odstępu, aby zwiększyć przestrzeń wokół elementów */
+    justify-content: space-between;
 }
 
 .submitButton {
@@ -78,4 +103,121 @@
     font-family: 'Kodchasan-SemiBold';
     font-size: 16px;
     margin-top: 10px;
+}
+
+.zakwaszenieButtonYes, .zakwaszenieButtonNo {
+    border-radius: 16px;
+    color: black;
+}
+
+.zakwaszenieButtonYes {
+    background-color: #d10404;
+    color: #000000;
+}
+
+.zakwaszenieButtonNo {
+    background-color: #039703;
+    color: #000000;
+}
+
+.selectElement {
+    width: 50%; /* Szerokość rozwijanej listy */
+    padding: 10px; /* Odstępy wewnętrzne */
+    border-radius: 5px; /* Zaokrąglone rogi */
+    border: 1px solid #ccc; /* Kolor obramowania */
+    font-size: 16px; /* Rozmiar czcionki */
+    font-family: "Montserrat", sans-serif; /* Czcionka */
+    background-color: #f0f3fb; /* Kolor tła */
+    color: #021840; /* Kolor tekstu */
+  }
+  
+  .selectElement option {
+    padding: 10px; /* Odstępy wewnętrzne dla opcji */
+    background-color: #fff; /* Kolor tła opcji */
+    color: #021840; /* Kolor tekstu opcji */
+  }
+
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px; /* Dopasuj szerokość */
+    height: 26px; /* Dopasuj wysokość */
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #66bb6a; /* Zielony kolor po włączeniu */
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(14px);
+  }
+
+/* -------------------emoji test------------------------------ */
+
+.emojiContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between emojis */
+}
+
+.emojiLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer; /* Makes it clear that emojis are clickable */
+}
+
+.emojiInput {
+    display: none; /* Hide the default radio button */
+}
+
+.emoji {
+    font-size: 1.5rem; /* Increase emoji size */
+    line-height: 1;
+    transition: transform 0.2s, filter 0.2s; /* Add smooth transitions for hover effects */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.emoji:hover {
+    transform: scale(1.1); /* Enlarge emoji on hover */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Add a subtle shadow */
+}
+
+.emojiInput:checked + .emoji {
+    transform: scale(1.3); /* Enlarge the selected emoji */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)); /* Add a more prominent shadow for selected emoji */
 }

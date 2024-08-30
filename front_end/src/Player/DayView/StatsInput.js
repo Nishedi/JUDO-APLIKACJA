@@ -1,12 +1,33 @@
-import { useState } from "react";
+import React,{ useState } from "react";
 import styles from "./StatsInput.module.css";
-import React from "react";
 
 const StatsInput = ({ onSubmit, initialData }) => {
 
     const [soreness, setSoreness] = useState(false); // State dla przycisku TAK/NIE
     const [mood, setMood] = useState(''); // State dla samopoczucia
     const [stats, setStats] = useState(initialData);
+
+    const emojiIcons = [
+        'front_end/src/emojis/beaming-face-with-smiling-eyes-svgrepo-com.svg',
+        'front_end/src/emojis/neutral-face-svgrepo-com.svg',
+    'front_end/src/emojis/sad-but-relieved-face-svgrepo-com.svg',
+        'front_end/src/emojis/slightly-frowning-face-svgrepo-com.svg',
+        'front_end/src/emojis/slightly-smiling-face-svgrepo-com.svg',
+        'front_end/src/emojis/smiling-face-with-smiling-eyes-svgrepo-com.svg',
+];
+
+const Switch = ({ isOn, onToggle }) => {
+    return (
+      <label className={styles.switch}>
+        <input type="checkbox" checked={isOn} onChange={onToggle} />
+        <span
+          className={`${styles.slider} ${
+            isOn ? styles.on : styles.off
+          }`}
+        ></span>
+      </label>
+    );
+  };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -15,6 +36,13 @@ const StatsInput = ({ onSubmit, initialData }) => {
             [name]: value
         }));
     };
+
+    const handleToggle = () => {
+        setStats(prevStats => ({ 
+          ...prevStats, 
+          zakwaszenie: prevStats.zakwaszenie === "TAK" ? "NIE" : "TAK" 
+        }));
+      };
 
     const handleSubmit = () => {
         onSubmit(stats);
@@ -31,7 +59,11 @@ const StatsInput = ({ onSubmit, initialData }) => {
                 {/* Tętno */}
                 <div className={styles.statsInputContentElement}>
                     <p>Tętno</p>
-                    <select name="tetno" value={stats.tetno} onChange={handleChange}>
+                    <select name="tetno"
+                            value={stats.tetno} 
+                            onChange={handleChange}
+                            className={styles.selectElement}
+                    >
                         {Array.from({ length: 151 }, (_, i) => (
                             <option key={i} value={i + 50}>
                                 {i + 50}
@@ -43,28 +75,30 @@ const StatsInput = ({ onSubmit, initialData }) => {
                 {/* Samopoczucie */}
                 <div className={styles.statsInputContentElement}>
                     <p>Samopoczucie</p>
-                    <div className={styles.moodSelector}>
+                    <div className={styles.emojiContainer}>
                         {['😢', '🙁', '😐', '🙂', '😊', '😁'].map((emoji, index) => (
-                            <label key={index}>
+                            <label key={index}className={styles.emojiLabel}>
                                 <input
                                     type="radio"
                                     name="mood"
                                     value={emoji}
                                     checked={mood === emoji}
                                     onChange={() => setMood(emoji)}
+                                    className={styles.emojiInput}
                                 />
-                                {emoji}
+                               <span className={styles.emoji}>{emoji}</span>
                             </label>
                         ))}
                     </div>
                 </div>
 
                 {/* Zakwaszenie */}
-                <div className={styles.statsInputContentElement}>
+                <div className={styles.statsInputContentElement2}>
                     <p>Zakwaszenie</p>
-                    <button type="button" onClick={() => setStats(prevStats => ({ ...prevStats, zakwaszenie: stats.zakwaszenie === "TAK" ? "NIE" : "TAK" }))}>
-                        {stats.zakwaszenie}
-                    </button>
+                    <div><Switch 
+                         isOn={stats.zakwaszenie === "TAK" }
+                         onToggle={handleToggle} />
+                    </div>
                 </div>
 
                 {/* Kinaza */}
