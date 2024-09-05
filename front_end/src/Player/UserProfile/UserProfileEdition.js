@@ -3,13 +3,19 @@ import React from 'react';
 import { LiaAccessibleIcon } from 'react-icons/lia';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from '../../GlobalContext';
+import { useContext } from 'react';
+
 
 
 const UserProfileEdition = () => {
-// Zmienne stanu przechowujące wartości pól formularza
+// Zmienne stanu przechowujące wartości pól formularza'
+   const {globalVariable, setGlobalVariable} = useContext(GlobalContext);
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
    const [error, setError] = useState('');
+   const navigate = useNavigate();
 
 // Dynamiczne uzyskanie bieżącego roku
    const currentYear = new Date().getFullYear();
@@ -33,7 +39,20 @@ const UserProfileEdition = () => {
    // Jeśli hasła są takie same, wyślij formularz
    setError('');
    alert('Formularz został wysłany');
-   // Możesz tu dodać kod obsługi, np. wysyłkę danych na serwer
+
+   // Zaktualizowanie danych użytkownika
+   setGlobalVariable({
+      ...globalVariable,
+      firstName: e.target.firstname.value,
+      lastName: e.target.lastname.value,
+      login: e.target.login.value,
+      gender: e.target.gender.value,
+      birthYear: e.target.year.value,
+      weightCategory: e.target.weight.value
+  });
+
+   // Zmiana flagi na zakończenie edycji
+   navigate('/player/userprofile');
 }
 
 
@@ -46,11 +65,9 @@ const UserProfileEdition = () => {
                   </div>
                   <div className={styles.profilDiv}>
                         <div className={styles.end} >
-                           Twoj profil 
+                           Edycja danych 
                         </div>
-                        <div className={styles.uppercase}>
-                           Aleksander Brzeczyszczykiewicz
-                        </div>
+                        
                   </div>
             </div>
             {/* Body */}
