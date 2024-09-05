@@ -9,6 +9,7 @@ import AddiActivityFirstPage from './Trener/AddingActivity/AddingActivityFirstPa
 import { GlobalProvider } from './GlobalContext'; // Import GlobalProvider
 import DayView from './Player/DayView/DayView';
 import WeekView from './Player/WeekView/WeekView';
+import UserProfileEdition from './Player/UserProfileEdition/UserProfileEdition';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path = "trener/addingplayerlogininfo/" element={<AddingPlayerSecondPage />} />
           <Route path = "player/dayview" element = {<DayView />} />
           <Route path = "player/weekview" element = {<WeekView />} />
+          <Route path = "player/userprofileedition" element = {<UserProfileEdition />} />
           <Route path = "trener/addingactivityfirstpage" element = {<AddiActivityFirstPage />} />
         </Routes>
       </BrowserRouter>
