@@ -22,9 +22,11 @@
 }
 
 .input{
-    border-radius: 10px;
-    border-width: 0px;
-    padding: 8px;
+    border-radius: 4px;
+    border-color: #CCC;
+    border-width: 1px;
+    padding: 12px 8px;
+    font-size: 14px;
 }
 
 .input_container{
@@ -55,3 +57,36 @@
     color: black;
     background: #eeeeee;
   }
+.add_button{
+    font-size: 40px;
+    color: #FFF;
+    background-image: linear-gradient(90deg, #1D61DC 9%,#1D61DC 47%, #103476 100%);
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.buttons{
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    row-gap: 12px;
+    column-gap: 1rem;
+}
+
+.multiLineDiv{
+    width: 100%;
+    padding: 14px;
+}
+
+.multiLineInput{
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    overflow-wrap: break-word;
+    font-family: 'Roboto-Regular';
+    border-radius: 4px;
+    border-color: #CCC;
+}

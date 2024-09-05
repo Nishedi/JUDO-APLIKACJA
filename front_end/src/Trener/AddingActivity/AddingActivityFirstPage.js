@@ -5,6 +5,9 @@ import Multiselect from 'multiselect-react-dropdown';
 import { GlobalContext } from '../../GlobalContext';
 import { createClient } from '@supabase/supabase-js';
 import { Calendar } from 'primereact/calendar';
+import { AiOutlinePlus } from "react-icons/ai";
+import { MdOutlineDone } from "react-icons/md";
+
 
 import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
 import 'primereact/resources/primereact.min.css';          // Podstawowe style komponentów
@@ -21,10 +24,20 @@ const AddingActivityFirstPage = () => {
         initialTime.setHours(0, 0, 0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
         return initialTime;
       });
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [selectedTrenings, setSelectedTrenings] = useState([]);
+    const [selectedExercises, setSelectedExercises] = useState([]);
+    const [isAnotherExercise, setIsAnotherExercise] = useState(false);
+    const [comment, setComment] = useState('');
+    const [newActivity, setNewActivity] = useState('');
 
     const sharedStyles = {
         chips: {
-            color: '#000'
+            color: '#f8f8f8',
+            fontSize: '1rem',
+            padding: '2px 8px',
+            backgroundColor: '#1D61DC',
+            margin: '0px',
         },
         multiselectContainer: {
             color: '#000',
@@ -50,7 +63,8 @@ const AddingActivityFirstPage = () => {
             cursor: 'pointer',
         },
         selectedOption: {
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            fontSize: '15px',
         }
     };
 
@@ -66,8 +80,14 @@ const AddingActivityFirstPage = () => {
     const [trenings, setTrenings] = useState([
         { name: 'Biegowy', id: 1 },
         { name: 'Motoryczny', id: 2 },
-        { name: 'Na macie', id: 3 }
+        { name: 'Na macie', id: 3 },
+        { name: 'Fizjoterapia', id: 4}
     ]);
+
+    const [exercises, setExercises] = useState([
+        { name: 'Bieg ciągły', id: 1 }
+    ]);
+
 
     // Set Polish locale globally for PrimeReact
     addLocale('pl', {
@@ -92,12 +112,41 @@ const AddingActivityFirstPage = () => {
         }
     };
 
+    const initiateExercises = async () => {
+            if(selectedTrenings[0]?.name === 'Biegowy' || selectedTrenings[0]?.name === 'Na macie') {
+                let { data: cwiczenia, error } = await supabase
+                    .from('cwiczenia')
+                    .select('*')
+                    .eq('rodzaj', selectedTrenings[0]?.name);
+
+                if (cwiczenia && cwiczenia.length !== 0) {
+                    const sortedExercises = cwiczenia
+                    .map(cwiczenie => {
+                        return { name: cwiczenie.cwiczenie, id: cwiczenie.id };
+                    })
+                    .sort((a, b) => a.name.localeCompare(b.name));
+                    sortedExercises.push({ name: 'Inna aktywność', id: 0 });
+                    setExercises(sortedExercises);
+                }
+                if(error){
+                    console.log(error);
+                }
+            }
+    };
+    
+
     useEffect(() => {
         initiateOptions();
     }, []);
 
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [selectedTrenings, setSelectedTrenings] = useState([]);
+    useEffect(() => {
+        if (selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie') {
+            initiateExercises();
+        }else{
+            setExercises([]);
+            setIsAnotherExercise(false);
+        }
+    }, [selectedTrenings]);
 
     const onSelect = (selectedList, selectedItem) => {
         setSelectedOptions(selectedList);
@@ -109,11 +158,64 @@ const AddingActivityFirstPage = () => {
 
     const onSelectTrening = (selectedList, selectedItem) => {
         setSelectedTrenings(selectedList);
+        // initiateExercises();
     };
 
     const onRemoveTrening = (selectedList, removedItem) => {
         setSelectedTrenings(selectedList);
+        // initiateExercises();
     };
+
+    const onSelectedExercises = (selectedList, selectedItem) => {
+        if(selectedItem.id === 0){
+            setIsAnotherExercise(true);
+        }else{
+            console.log("Setting selected exercises");
+            setSelectedExercises(selectedList);
+        }
+    };
+
+    const onRemoveExercises = (selectedList, removedItem) => {
+        if(removedItem.id === 0){
+            setIsAnotherExercise(true);
+        }else{
+            console.log("Setting selected exercises");
+            setSelectedExercises(selectedList);
+        }
+    };
+
+    const onCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const handleNewActivityChange = (e) => {
+        setNewActivity(e.target.value);
+    };
+
+    const addNewActivityToSelected=()=>{
+        const actualListOfActivities = [...selectedExercises];
+        actualListOfActivities.push({name: newActivity, id: actualListOfActivities.length});
+        setSelectedExercises(actualListOfActivities);
+    }
+
+    const addNewActivityToDatabase = async () => {
+        const rodzaj1 = selectedTrenings[0]?.name;
+        const cwiczenie1 = newActivity;
+        if (rodzaj1!== 'Biegowy' && rodzaj1 !== 'Na macie') {
+           return;
+        };
+        const { data, error } = await supabase
+            .from('cwiczenia')
+            .insert([
+                { rodzaj: rodzaj1, cwiczenie: cwiczenie1 },
+            ])
+            .select()
+            if(!data || data.length !== 0 || !error || data?.name!==cwiczenie1 || data?.rodzaj!==rodzaj1){
+                // alert('Nie udało się dodać nowego ćwiczenia');
+                console.log(data);
+            }
+    };
+    
 
     const getTimeString = () => {
         if (!time) return '';
@@ -121,6 +223,7 @@ const AddingActivityFirstPage = () => {
         const minutes = time.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
       };
+
 
     return (
         <div className={styles.background}>
@@ -169,26 +272,54 @@ const AddingActivityFirstPage = () => {
                         displayValue="name"
                         placeholder='Wybierz rodzaj treningu'
                         style={sharedStyles}
+                        singleSelect={true}
                     />
                 </div>
                 
-                {selectedTrenings[0]?.name=== 'Biegowy'  ? console.log("Biegowy") : trenings[0]?.name ==='Na macie' ? console.log("Na macie") : console.log(selectedTrenings[0])}
+                {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
                 <div className={styles.input_container}>
                     Wybierz ćwiczenia
                     <Multiselect
-                        options={trenings}
-                        selectedValues={selectedTrenings}
-                        onSelect={onSelectTrening}
-                        onRemove={onRemoveTrening}
+                        options={exercises}
+                        selectedValues={selectedExercises}
+                        onSelect={onSelectedExercises}
+                        onRemove={onRemoveExercises}
                         displayValue="name"
                         placeholder='Wybierz ćwiczenia'
                         style={sharedStyles}
                     />
+                </div> : null}
+                {isAnotherExercise ? 
+                <div className={styles.input_container}>
+                    <div>Nowa aktywność</div>
+                    <input type="text" 
+                    className={styles.input} 
+                    placeholder={'Podaj nową aktywność'} 
+                    value={newActivity} 
+                    onChange={handleNewActivityChange}/>
+                    <div className={styles.buttons}>
+                        <AiOutlinePlus className={styles.add_button} onClick={addNewActivityToDatabase}/>
+                        <MdOutlineDone className={styles.add_button} onClick={addNewActivityToSelected}/>
+                    </div>
                 </div>
+                :null}
+                
                 <div className={styles.input_container}>
                     Podaj długość trwania aktywności
                     <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
                 </div>
+                <div className={styles.input_container}>
+                    <div>Komentarz</div>
+                    <textarea
+                        id="multiline-input"
+                        value={comment}
+                        onChange={onCommentChange}
+                        rows={5}  // Ustaw liczbę widocznych wierszy
+                        className={styles.multiLineInput}
+                        placeholder="Wpisz komentarz"
+                    />
+                </div>
+                
 
             </div>
         </div>
