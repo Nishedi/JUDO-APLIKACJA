@@ -85,8 +85,7 @@ input, select{
     font-family: 'Montserrat-Medium';
 }
 
-button {
-
+.buttonTrening {
     justify-self: center;
     background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     color: #FFFFFF;
@@ -98,7 +97,7 @@ button {
     font-size: 15px;
 }
 
-button:hover {
+.buttonTrening:hover {
     background-color: #103476;
 }
 
@@ -153,7 +152,7 @@ button:hover {
   }
   
   input:checked + .slider {
-    background-color: #0d6efd;
+    background-color: #0f9300;
   }
   
   input:checked + .slider:before {
@@ -183,11 +182,14 @@ button:hover {
   
   .mood:hover {
     transform: scale(1.2);
+    
   }
   
   .selected {
     transform: scale(1.2);
-    border-bottom: 2px solid #0d6efd;
+    border-bottom: 2px solid #022457;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Add a subtle shadow */
+
   }
   
   
@@ -199,3 +201,17 @@ button:hover {
     resize: none;
   }
   
+  .emoji {
+    font-size: 1.5rem; /* Increase emoji size */
+    line-height: 1;
+    transition: transform 0.2s, filter 0.2s; /* Add smooth transitions for hover effects */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.emoji:hover {
+    transform: scale(1.1); /* Enlarge emoji on hover */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Add a subtle shadow */
+}

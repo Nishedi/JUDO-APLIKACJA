@@ -124,7 +124,7 @@ const UserProfileEdition = () => {
 
 
                      <div className={styles.buttoncenter}>
-                        <button type="submit">Zapisz</button>
+                        <button className={styles.buttonEdit} type="submit">Zapisz</button>
                      </div>
                   </form>
                </div>

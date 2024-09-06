@@ -98,7 +98,7 @@ const TrainingView = () => {
           ></textarea>
         </div>
         <div className={styles.buttoncenter}>
-            <button className={styles.buttoncenter} onClick={handleSubmit}>Dodaj komentarz</button>
+            <button className={styles.buttonTrening} onClick={handleSubmit}>Dodaj komentarz</button>
         </div>
       </div>
     </div>

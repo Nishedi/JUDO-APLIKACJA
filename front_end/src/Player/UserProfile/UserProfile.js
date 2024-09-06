@@ -48,7 +48,7 @@ const UserProfile = () => {
                 <p>Kategoria wagowa:{globalVariable.weight}</p>
             </div>
             <div className={styles.buttoncenter}>
-                <button onClick={handleEditClick}>
+                <button className={styles.buttonUser} onClick={handleEditClick}>
                     Edytuj profil
                 </button>
             </div>

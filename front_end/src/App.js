@@ -12,6 +12,7 @@ import WeekView from './Player/WeekView/WeekView';
 import UserProfileEdition from './Player/UserProfile/UserProfileEdition';
 import UserProfile from './Player/UserProfile/UserProfile';
 import TrainingView from './Player/TrainingView/TrainingView';
+import Notes from './Player/Notes/Notes';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path = "trener/addingactivityfirstpage" element = {<AddiActivityFirstPage />} />
           <Route path = "player/userprofile" element = {<UserProfile />} />        
           <Route path = "player/trainingview" element = {<TrainingView />} />
+          <Route path = "player/notes" element = {<Notes />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>
