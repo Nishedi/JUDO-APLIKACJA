@@ -21,11 +21,14 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    padding: 10px;
     width: 100%;
     font-family: 'Kodchasan-SemiBold';
     font-size: 20px;
     text-align: right;
 }
+
+
 
 .uppercase{
     text-transform: uppercase;
@@ -39,16 +42,23 @@
   }
 
 .userdetails {
-    padding: 20px;
+    
     background-color: #F5F7FA;
     border-radius: 20px;
     margin: 20px;
 }
 
 .userdetails h2 {
+    padding: 20px;
     text-align: center;
     font-family: 'Montserrat-Medium';
     font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.userdetails p {
+    font-family: 'Montserrat-Medium';
+    font-size: 15px;
     margin-bottom: 20px;
 }
 
@@ -93,5 +103,6 @@ button:hover {
     display: flex;
     justify-self: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 30px;
+    padding: 20px;
 }

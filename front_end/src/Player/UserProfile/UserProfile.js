@@ -39,13 +39,13 @@ const UserProfile = () => {
                 <h2>Dane użytkownika</h2>
             </div>
             <div>
-                <div className={styles.profileDetails}>
-                <p><strong>Imię:</strong> {globalVariable.firstname}</p>
-                <p><strong>Nazwisko:</strong> {globalVariable.lastname}</p>
-                <p><strong>Login:</strong> {globalVariable.login}</p>
-                <p><strong>Płeć:</strong> {globalVariable.gender}</p>
-                <p><strong>Rocznik:</strong> {globalVariable.year}</p>
-                <p><strong>Kategoria wagowa:</strong> {globalVariable.weight}</p>
+                <div className={styles.userdetails}>
+                <p>Imię: {globalVariable.firstname}</p>
+                <p>Nazwisko:{globalVariable.lastname}</p>
+                <p>Login: {globalVariable.login}</p>
+                <p>Płeć: {globalVariable.gender}</p>
+                <p>Rocznik: {globalVariable.year}</p>
+                <p>Kategoria wagowa:{globalVariable.weight}</p>
             </div>
             <div className={styles.buttoncenter}>
                 <button onClick={handleEditClick}>

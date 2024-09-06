@@ -11,6 +11,7 @@ import DayView from './Player/DayView/DayView';
 import WeekView from './Player/WeekView/WeekView';
 import UserProfileEdition from './Player/UserProfile/UserProfileEdition';
 import UserProfile from './Player/UserProfile/UserProfile';
+import TrainingView from './Player/TrainingView/TrainingView';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path = "player/userprofileedition" element = {<UserProfileEdition />} />
           <Route path = "trener/addingactivityfirstpage" element = {<AddiActivityFirstPage />} />
           <Route path = "player/userprofile" element = {<UserProfile />} />        
+          <Route path = "player/trainingview" element = {<TrainingView />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>
