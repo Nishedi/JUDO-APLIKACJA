@@ -1,0 +1,143 @@
+.background{
+    display: grid;
+    grid-template-rows: 1fr 10fr; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Montserrat-SemiBold";
+    font-size: 10px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.burger{
+    color: #FFFFFF; 
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.navbarText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 20px;
+}
+
+.navbarButton {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.addButton {
+    background-color: #FFFFFF; /* Biały przycisk */;
+    border: none;
+    width: 40%; /* Szerokość kwadratu */
+    height: 80%; /* Wysokość kwadratu */  border-radius: 10px; /* Zaokrąglony przycisk */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.addButton svg {
+    color: #103476; /* Niebieski plus */
+    font-size: 24px; /* Rozmiar ikony */
+    stroke-width: 1;
+}
+
+/* Rozwinięcie */
+.mainContent {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    
+  }
+  
+  .opponentDetails {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .opponentDetails h3 {
+    margin: 0;
+    font-family: "Montserrat-SemiBold";
+  }
+  
+  .opponentDetails p {
+    margin: 0;
+    font-family: "Montserrat-Regular";
+  }
+  
+  .addNoteButton {
+    background-color: white;
+    color: #103476;
+    border: 0px solid #103476;
+    border-radius: 10px;
+    padding: 5px 15px;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    font-size: 12px;
+    font-family: 'Montserrat-Medium';
+  }
+  
+  .matchList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .match {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    background-color: #D7DFEE;
+    border:1px solid #A7B7D6;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+
+  }
+  
+  .match p {
+    margin: 0;
+    font-family: "Montserrat-Regular";
+    font-size: 16px;
+  }
+  
+  .arrowUp {
+    color: green;
+    font-size: 20px;
+  }
+  
+  .arrowDown {
+    color: red;
+    font-size: 20px;
+  }

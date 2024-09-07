@@ -14,6 +14,8 @@ import UserProfileEdition from './Player/UserProfile/UserProfileEdition';
 import UserProfile from './Player/UserProfile/UserProfile';
 import TrainingView from './Player/TrainingView/TrainingView';
 import Notes from './Player/Notes/Notes';
+import NotesOpponent from './Player/Notes/NotesOpponent';
+import AddNote from './Player/Notes/AddNote';
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
           <Route path = "player/userprofile" element = {<UserProfile />} />        
           <Route path = "player/trainingview" element = {<TrainingView />} />
           <Route path = "player/notes" element = {<Notes />} />
+          <Route path = "player/notesopponent" element={<NotesOpponent/>} />
+          <Route path = "player/addnote" element={<AddNote/>} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>
