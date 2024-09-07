@@ -52,6 +52,11 @@ const PlayersView = () => {
         navigate('/trener/addingplayerbaseinfo');
     }
 
+    const pickPlayer = () => {
+        console.log("Working")
+        navigate('/trener/singleplayerweekview');
+    }
+
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
@@ -71,10 +76,11 @@ const PlayersView = () => {
                         {now.getDate()+" "+monthNames[now.getMonth()]+", "+dayNames[now.getDay()]}
                     </div>
                 </div>  
+                {/* "trener/singleplayerweekview" */}
             </div>
-            <div onClick={hideSidebar}>
+            <div onClick={pickPlayer}>
                 {players.map((player) => {
-                    return <SimpleInfo player={player} />
+                    return <SimpleInfo onClick={pickPlayer}  player={player} />
                 })}
             </div>
         </div>

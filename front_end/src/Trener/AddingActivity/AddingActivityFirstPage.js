@@ -158,11 +158,13 @@ const AddingActivityFirstPage = () => {
 
     const onSelectTrening = (selectedList, selectedItem) => {
         setSelectedTrenings(selectedList);
-        // initiateExercises();
+        setSelectedExercises([]);
+       // initiateExercises();
     };
 
     const onRemoveTrening = (selectedList, removedItem) => {
         setSelectedTrenings(selectedList);
+        setSelectedExercises([]);
         // initiateExercises();
     };
 
@@ -217,12 +219,55 @@ const AddingActivityFirstPage = () => {
     };
     
 
-    const getTimeString = () => {
+    const getTimeString = (time) => {
         if (!time) return '';
+        const day = time.getDate().toString().padStart(2, '0');
+        const month = (time.getMonth() + 1).toString().padStart(2, '0');
+        const year = time.getFullYear();
         const hours = time.getHours().toString().padStart(2, '0');
         const minutes = time.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+        return `${day}.${month}.${year} ${hours}:${minutes}`;
       };
+
+    
+
+    const addActivities = async () => {
+        for (const athlete of selectedOptions) {
+            for (const date of dates) {
+                const activity = {
+                    id_trainer: globalVariable.id,
+                    id_athlete: athlete.id,
+                    date: getTimeString(date),
+                    duration: getTimeString(time),
+                    activity_type: selectedTrenings[0]?.name,
+                    exercise: selectedExercises.map(exercise => exercise.name).join(','),
+                    comment: comment
+                };
+                const { data, error } = await supabase
+                    .from('aktywności')
+                    .insert([
+                        { 
+                            id_trenera: activity.id_trainer, 
+                            id_zawodnika: activity.id_athlete,
+                            data: activity.date,
+                            czas_trwania: activity.duration,
+                            rodzaj_aktywności: activity.activity_type,
+                            zadania: activity.exercise,
+                            komentarz_trenera: activity.comment
+                        },
+                    ])
+                    .select()
+                if(error){
+                    console.log("Problem podczas dodawania nowej aktywności");
+                    console.log(error);
+                    return;
+                }
+                if(data && data.length !== 0){
+                    console.log(data);
+                };
+            }
+        }
+    };
 
 
     return (
@@ -319,9 +364,8 @@ const AddingActivityFirstPage = () => {
                         placeholder="Wpisz komentarz"
                     />
                 </div>
-                
-
             </div>
+            <button onClick={addActivities} className={styles.button}>Dalej</button>
         </div>
     );
 };
