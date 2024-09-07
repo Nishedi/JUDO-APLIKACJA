@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/JUDO-APLIKACJA/static/css/main.fa3f330f.css",
-    "main.js": "/JUDO-APLIKACJA/static/js/main.9c3fab37.js",
+    "main.css": "/JUDO-APLIKACJA/static/css/main.933f6262.css",
+    "main.js": "/JUDO-APLIKACJA/static/js/main.0d42bcde.js",
     "static/js/952.d6a342af.chunk.js": "/JUDO-APLIKACJA/static/js/952.d6a342af.chunk.js",
     "static/js/453.f7be5b23.chunk.js": "/JUDO-APLIKACJA/static/js/453.f7be5b23.chunk.js",
     "static/media/primeicons.svg": "/JUDO-APLIKACJA/static/media/primeicons.6ed59f962963a4a73af2.svg",
@@ -18,13 +18,13 @@
     "static/media/primeicons.ttf": "/JUDO-APLIKACJA/static/media/primeicons.a5c2a53d1ff7a9ff5933.ttf",
     "static/media/primeicons.woff2": "/JUDO-APLIKACJA/static/media/primeicons.024b32cc7bf399b1a847.woff2",
     "index.html": "/JUDO-APLIKACJA/index.html",
-    "main.fa3f330f.css.map": "/JUDO-APLIKACJA/static/css/main.fa3f330f.css.map",
-    "main.9c3fab37.js.map": "/JUDO-APLIKACJA/static/js/main.9c3fab37.js.map",
+    "main.933f6262.css.map": "/JUDO-APLIKACJA/static/css/main.933f6262.css.map",
+    "main.0d42bcde.js.map": "/JUDO-APLIKACJA/static/js/main.0d42bcde.js.map",
     "952.d6a342af.chunk.js.map": "/JUDO-APLIKACJA/static/js/952.d6a342af.chunk.js.map",
     "453.f7be5b23.chunk.js.map": "/JUDO-APLIKACJA/static/js/453.f7be5b23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fa3f330f.css",
-    "static/js/main.9c3fab37.js"
+    "static/css/main.933f6262.css",
+    "static/js/main.0d42bcde.js"
   ]
 }
