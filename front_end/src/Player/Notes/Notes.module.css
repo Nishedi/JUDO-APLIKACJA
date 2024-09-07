@@ -1,0 +1,102 @@
+.background{
+    display: grid;
+    grid-template-rows: 1fr 10fr; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Montserrat-SemiBold";
+    font-size: 10px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.burger{
+    color: #FFFFFF; 
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.navbarText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 20px;
+}
+
+.navbarButton {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.addButton {
+    background-color: #FFFFFF; /* Biały przycisk */;
+    border: none;
+    width: 40%; /* Szerokość kwadratu */
+    height: 80%; /* Wysokość kwadratu */  border-radius: 10px; /* Zaokrąglony przycisk */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.addButton svg {
+    color: #103476; /* Niebieski plus */
+    font-size: 24px; /* Rozmiar ikony */
+    stroke-width: 1;
+}
+
+/* Lista przeciwników */
+.opponentList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 15px;
+}
+
+.opponentCard {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+.opponentInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.opponentName {
+    font-weight: bold;
+    font-family: 'Montserrat-Regular';
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.opponentDetails {
+    font-size: 12px;
+    color: gray;
+}
+
+.arrowIcon {
+    color: gray;
+    font-size: 20px;
+}

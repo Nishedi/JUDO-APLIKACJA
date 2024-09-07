@@ -41,7 +41,7 @@ const WeekDay = ({ day, date, training }) => {
         <div className={styles.weekDay}>
             <div>
                 <p>{day}, {formatDate(date)}</p>
-                <p>Trening: {training ? "Tak" : "Nie"}</p>
+                <body>Trening: {training ? "Tak" : "Nie"}</body>
             </div>
         </div>
     );

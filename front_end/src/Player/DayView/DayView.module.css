@@ -1,7 +1,7 @@
 .background{
-    display: grid;
-    grid-template-rows: 1fr 10fr; 
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #D7DFEE;
 }
 

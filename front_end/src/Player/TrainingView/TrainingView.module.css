@@ -1,0 +1,217 @@
+.background{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    
+}
+
+.profilDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 20px;
+    text-align: center;
+}
+
+.trainingDetails {
+    padding: 20px;
+    background-color: #F5F7FA;
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.trainingDetails p {
+    font-family: 'Montserrat-Medium';
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.trainingDetails label {
+    font-family: 'Montserrat-SemiBold';
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+}
+
+.trainingDetails li {
+    font-family: 'Montserrat-Regular';
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.commentSection {
+    font-size: 12px;
+    font-family: 'Montserrat-Regular';
+    margin-bottom: 15px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+.burger{
+    color: #FFFFFF; 
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+
+
+
+input, select{
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Montserrat-Medium';
+}
+
+.buttonTrening {
+    justify-self: center;
+    background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+    color: #FFFFFF;
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 0px;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 15px;
+}
+
+.buttonTrening:hover {
+    background-color: #103476;
+}
+
+.buttoncenter {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.switchContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #0f9300;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  .trainerComment {
+    margin: 15px 0;
+  }
+  
+  .moodContainer {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .moods {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+  
+  .mood {
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .mood:hover {
+    transform: scale(1.2);
+    
+  }
+  
+  .selected {
+    transform: scale(1.2);
+    border-bottom: 2px solid #022457;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Add a subtle shadow */
+
+  }
+  
+  
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+  }
+  
+  .emoji {
+    font-size: 1.5rem; /* Increase emoji size */
+    line-height: 1;
+    transition: transform 0.2s, filter 0.2s; /* Add smooth transitions for hover effects */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.emoji:hover {
+    transform: scale(1.1); /* Enlarge emoji on hover */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Add a subtle shadow */
+}
