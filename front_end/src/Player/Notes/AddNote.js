@@ -4,17 +4,20 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown } from 'react-icons/io';
+import "react-datepicker/dist/react-datepicker.css";
+import { useState } from 'react';
+import DatePicker from 'react-datepicker';
 
 
-// Przykładowa lista przeciwników
-const opponents = [
-    { name: "Piotr Wysocki", lastMeeting: "10.07.2024", balance: "5 / 1" },
-    { name: "Jan Kowalski", lastMeeting: "04.05.2024", balance: "2 / 0" },
-    { name: "Bartłomiej Dobrowolski", lastMeeting: "24.01.2023", balance: "1 / 3" },
-];
 
 const AddNote = () => {
     
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
@@ -22,42 +25,57 @@ const AddNote = () => {
                         <RxHamburgerMenu/>
                 </div>
                 <div className={styles.navbarText}>
-                        Notatnik <br/> Przeciwnicy
+                        Nowa notatka
                 </div>
-                <div className={styles.navbarButton}>
-                   
-                </div>
-
-                
             </div>
 
                     {/* Główna sekcja */}
             <div className={styles.mainContent}>
-                <div className={styles.opponentDetails}>
-                    <div>
-                        <h3>Piotr Kopiec</h3>
-                        <p>Bilans: 5 / 1</p>
-                    </div>
-                <button className={styles.addNoteButton}><FaPlus/></button>
+                <div class={styles.noteHeader}>
+                    Piotr Kopiec
                 </div>
 
-                {/* Lista spotkań */}
-                <div className={styles.matchList}>
-                    <div className={styles.match}>
-                        <p>01.08.2024 r.</p>
-                        <span className={styles.arrowUp}>↑</span>
+                <div class={styles.noteSection}>
+                        <p>Data:</p>
+
+                        <input type="date" className={styles.customDatePicker} />
+                        <input type="time" className={styles.timePicker} />
+                        {/* <DatePicker 
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="dd/MM/yyyy"
+                            className={styles.customDatePicker} 
+                        />
+                        <DatePicker
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            showTimeSelect
+                            showTimeSelectOnly
+                            timeIntervals={15}
+                            timeCaption="Czas"
+                            dateFormat="h:mm aa"
+                            className={styles.timePicker} // Klasa CSS dla pickera czasu
+                        /> */}
+                </div>
+
+                <div class={styles.noteSection}>
+                    <p>Status walki:</p>
+                    <div class={styles.fightStatus}>
+                        <button class={styles.statusButton}>wygrana</button>
+                        <button class={styles.statusButton}>przegrana</button>
                     </div>
-                    <div className={styles.match}>
-                        <p>10.08.2022 r.</p>
-                        <span className={styles.arrowDown}>↓</span>
-                    </div>
-                    <div className={styles.match}>
-                        <p>19.12.2021 r.</p>
-                        <span className={styles.arrowUp}>↑</span>
-                    </div>
+                </div>
+
+                <div class={styles.noteTextArea}>
+                    <textarea placeholder="Dodaj notatkę..."></textarea>
+                </div>
+
+                <div class={styles.submitButton}>
+                    <button class={styles.addNoteButton}>Dodaj</button>
                 </div>
             </div>
         </div>
+
     );
 };
 

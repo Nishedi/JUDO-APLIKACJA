@@ -34,110 +34,211 @@
     font-size: 20px;
 }
 
-.navbarButton {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-}
-
-.addButton {
-    background-color: #FFFFFF; /* Biały przycisk */;
-    border: none;
-    width: 40%; /* Szerokość kwadratu */
-    height: 80%; /* Wysokość kwadratu */  border-radius: 10px; /* Zaokrąglony przycisk */
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-}
-
-.addButton svg {
-    color: #103476; /* Niebieski plus */
-    font-size: 24px; /* Rozmiar ikony */
-    stroke-width: 1;
-}
 
 /* Rozwinięcie */
 .mainContent {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: left;
+   
     background-color: white;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 10px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-    margin: 20px;
-    
+    margin: 20px;    
   }
-  
-  .opponentDetails {
-    display: flex;
-    justify-content: space-between;
+
+  .noteContainer {
     width: 100%;
-    align-items: center;
     background-color: white;
     border-radius: 10px;
     padding: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .opponentDetails h3 {
-    margin: 0;
-    font-family: "Montserrat-SemiBold";
-  }
-  
-  .opponentDetails p {
-    margin: 0;
-    font-family: "Montserrat-Regular";
-  }
-  
-  .addNoteButton {
-    background-color: white;
-    color: #103476;
-    border: 0px solid #103476;
-    border-radius: 10px;
-    padding: 5px 15px;
-    cursor: pointer;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-    font-size: 12px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.noteHeader  {
     font-family: 'Montserrat-Medium';
-  }
-  
-  .matchList {
+    font-size: 16px;
+    color: #A7B7D6;
+    margin-bottom: 10px;
+}
+
+.noteSection {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.noteSection p {
+    font-family: 'Montserrat-Regular';
+    font-size: 20px;
+    color: black;
+    
+}
+
+.dateTimePicker {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+}
+
+.dateButton, .timeButton {
+    background-color: #E5EBF5;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: 'Montserrat-Regular';
+    font-size: 16px;
+    cursor: pointer;
+    color: #13449A;
+}
+
+.fightStatus {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+
+}
+
+.statusButton {
+    background-color: #E5EBF5;
+    border: none;
+    border-radius: 10px;
+    padding: 5px ;
+    font-family: 'Montserrat-Regular';
+    font-size: 16px;
+    cursor: pointer;
+    color: #13449A;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.statusButton.selected {
+    background-color: #103476;
+    color: white;
+}
+
+.noteTextArea{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+
+}
+
+.noteTextArea textarea {
     width: 100%;
-  }
-  
-  .match {
+    height: 40vh;
+    border: 2px solid #E5EBF5;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: 'Montserrat-Regular';
+    font-size: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    resize: none;
+    margin: 0;}
+
+.submitButton {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: center;
+}
+
+.addNoteButton {
+    background-color: #103476;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-family: 'Montserrat-Medium';
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(90deg, #1D61DC 9%,#1D61DC 47%, #103476 100%);
+}
+
+/* datepicker */
+
+
+
+.customDatePicker, .timePicker {
+    display: inline-flex;
     align-items: center;
     background-color: #D7DFEE;
-    border:1px solid #A7B7D6;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
-
-  }
-  
-  .match p {
-    margin: 0;
-    font-family: "Montserrat-Regular";
+    width:min-content;
+    color: #103476;
+    border-radius: 10px;
+    padding: 5px ; /* Padding dopasowany do treści */
     font-size: 16px;
-  }
-  
-  .arrowUp {
-    color: green;
-    font-size: 20px;
-  }
-  
-  .arrowDown {
-    color: red;
-    font-size: 20px;
-  }
+    font-family: 'Montserrat-Medium';
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: auto;
+
+}
+
+.customDatePicker input {
+    background: transparent;
+    border: none;
+    font-family: 'Montserrat-Medium';
+    font-size: 16px;
+    text-align: center;
+     /* Dynamiczna szerokość */
+}
+
+/* Picker na hover */
+.customDatePicker:hover {
+    background-color: #FFFFFF;
+}
+
+/* Zmiana stylu dla kalendarza */
+.react-datepicker {
+    border: 2px solid #103476;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.react-datepicker__header {
+    background-color: #103476;
+    border-bottom: none;
+    color: #FFFFFF;
+    font-family: 'Montserrat-SemiBold';
+}
+
+.react-datepicker__day {
+    font-family: 'Montserrat-Regular';
+    color: #103476;
+}
+
+.react-datepicker__day:hover {
+    background-color: #D7DFEE;
+}
+
+.react-datepicker__day--selected {
+    background-color: #1D61DC;
+    color: white;
+}
+
+.react-datepicker__current-month {
+    font-family: 'Montserrat-SemiBold';
+}
+
+.react-datepicker__navigation {
+    top: 15px;
+}
+
+.react-datepicker__time-container .react-datepicker__time {
+    background-color: #F0F4F8;
+}
+
+.react-datepicker__time-list-item {
+    font-family: 'Montserrat-Medium';
+    color: #103476;
+}
+
+.react-datepicker__time-list-item--selected {
+    background-color: #1D61DC;
+    color: #FFFFFF;
+}
