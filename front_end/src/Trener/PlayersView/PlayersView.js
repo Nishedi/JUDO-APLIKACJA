@@ -9,6 +9,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 
 const PlayersView = () => {
+    const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
     const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
@@ -19,7 +20,7 @@ const PlayersView = () => {
     const getPlayers = async () => {
         let { data: zawodnicy, error } = await supabase
             .from('zawodnicy')
-            .select('imie, nazwisko, stan_treningow, samopoczucie, waga')
+            .select('id, imie, nazwisko, stan_treningow, samopoczucie, waga')
             .eq('id_trenera', globalVariable.id)
         if(zawodnicy.length!==0){
             setPlayers(zawodnicy);
@@ -52,8 +53,9 @@ const PlayersView = () => {
         navigate('/trener/addingplayerbaseinfo');
     }
 
-    const pickPlayer = () => {
-        console.log("Working")
+    const pickPlayer = (player) => {
+        console.log(player);
+        setViewedPlayer(player);
         navigate('/trener/singleplayerweekview');
     }
 
@@ -78,9 +80,13 @@ const PlayersView = () => {
                 </div>  
                 {/* "trener/singleplayerweekview" */}
             </div>
-            <div onClick={pickPlayer}>
+            <div >
                 {players.map((player) => {
-                    return <SimpleInfo onClick={pickPlayer}  player={player} />
+                    return <SimpleInfo 
+                        key={player.id}
+                        onClick={() => pickPlayer(player)}  // Przekazanie gracza
+                        player={player} 
+                    />
                 })}
             </div>
         </div>
