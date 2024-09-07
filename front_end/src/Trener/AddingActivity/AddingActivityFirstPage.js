@@ -7,6 +7,7 @@ import { createClient } from '@supabase/supabase-js';
 import { Calendar } from 'primereact/calendar';
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineDone } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
 
 import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
@@ -14,6 +15,7 @@ import 'primereact/resources/primereact.min.css';          // Podstawowe style k
 import 'primeicons/primeicons.css';                        // Ikony
 
 const AddingActivityFirstPage = () => {
+    const navigate = useNavigate();
     const { globalVariable } = useContext(GlobalContext);
     const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
@@ -221,12 +223,17 @@ const AddingActivityFirstPage = () => {
 
     const getTimeString = (time) => {
         if (!time) return '';
+        const hours = time.getHours().toString().padStart(2, '0');
+        const minutes = time.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+      };
+
+      const getDateString = (time) => {
+        if (!time) return '';
         const day = time.getDate().toString().padStart(2, '0');
         const month = (time.getMonth() + 1).toString().padStart(2, '0');
         const year = time.getFullYear();
-        const hours = time.getHours().toString().padStart(2, '0');
-        const minutes = time.getMinutes().toString().padStart(2, '0');
-        return `${day}.${month}.${year} ${hours}:${minutes}`;
+        return `${day}.${month}.${year}`;
       };
 
     
@@ -237,12 +244,14 @@ const AddingActivityFirstPage = () => {
                 const activity = {
                     id_trainer: globalVariable.id,
                     id_athlete: athlete.id,
-                    date: getTimeString(date),
+                    date: getDateString(date),
+                    start_time: getTimeString(date),
                     duration: getTimeString(time),
                     activity_type: selectedTrenings[0]?.name,
                     exercise: selectedExercises.map(exercise => exercise.name).join(','),
                     comment: comment
                 };
+                console.log(activity);
                 const { data, error } = await supabase
                     .from('aktywności')
                     .insert([
@@ -253,6 +262,7 @@ const AddingActivityFirstPage = () => {
                             czas_trwania: activity.duration,
                             rodzaj_aktywności: activity.activity_type,
                             zadania: activity.exercise,
+                            czas_rozpoczęcia: activity.start_time,
                             komentarz_trenera: activity.comment
                         },
                     ])
@@ -264,6 +274,7 @@ const AddingActivityFirstPage = () => {
                 }
                 if(data && data.length !== 0){
                     console.log(data);
+                    navigate('/trener/playerView');
                 };
             }
         }
