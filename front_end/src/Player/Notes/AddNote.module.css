@@ -114,8 +114,8 @@
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.statusButton.selected {
-    background-color: #103476;
+.statusButton:hover {
+    background-color: #D7DFEE;
     color: white;
 }
 
@@ -165,7 +165,7 @@
 .customDatePicker, .timePicker {
     display: inline-flex;
     align-items: center;
-    background-color: #D7DFEE;
+    background-color: #E5EBF5;
     width:min-content;
     color: #103476;
     border-radius: 10px;
@@ -190,7 +190,7 @@
 
 /* Picker na hover */
 .customDatePicker:hover {
-    background-color: #FFFFFF;
+    background-color: #D7DFEE;
 }
 
 /* Zmiana stylu dla kalendarza */
