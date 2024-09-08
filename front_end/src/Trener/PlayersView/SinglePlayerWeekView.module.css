@@ -47,9 +47,9 @@
 }
 
 .weekDay{
-    display: flex;
-    justify-content: left;
-    align-items: center;
+    /* display: flex; */
+    /* justify-content: left; */
+    /* align-items: center; */
     border-radius: 16px;
     background-color: #FFFFFF;
     margin: 10px;
@@ -76,8 +76,10 @@
 }
 
 .weeklist{
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    /* display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -113,4 +115,18 @@
     font-size: 15px;
     font-family: 'Montserrat-Regular';
     text-align: justify;
+}
+
+.singleActivity{
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.singleActivityInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: space-between;
 }

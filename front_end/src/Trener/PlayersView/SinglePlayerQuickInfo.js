@@ -1,7 +1,7 @@
 import styles2 from "./SignlePlayerQuickInfo.module.css";
-const SimpleInfo = ({ player }) => {
+const SimpleInfo = ({ player, onClick }) => {
     return (
-        <div className={styles2.element}>
+        <div onClick={onClick} className={styles2.element}>
             <div className={styles2.mainString}>
                 {player.imie} {player.nazwisko}
             </div>
