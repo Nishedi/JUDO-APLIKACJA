@@ -4,12 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
+import {useNavigate} from 'react-router-dom';
 
 
 const SinglePlayerWeekView = () => {
     const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
     const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const now = new Date();
+    const navigate = useNavigate();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwiec",
         "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
@@ -123,11 +125,15 @@ const SinglePlayerWeekView = () => {
         );
     };
     
+    const goToSinglePlayerSingleDay = (date) => {
+        console.log(date);
+        navigate(`/trener/singleplayersingleday`);
+    };
 
     const WeekDay = ({ day, date}) => {
         const activities = getActivitiesForThatDay(date);
         return (
-            <div className={styles.weekDay}>
+            <div onClick={()=>goToSinglePlayerSingleDay(date)} className={styles.weekDay}>
                 <div>
                     <p>{day}, {formatDate(date)}</p>
                     <div >

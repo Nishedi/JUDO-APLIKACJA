@@ -54,7 +54,6 @@ const PlayersView = () => {
     }
 
     const pickPlayer = (player) => {
-        console.log(player);
         setViewedPlayer(player);
         navigate('/trener/singleplayerweekview');
     }

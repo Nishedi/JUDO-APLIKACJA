@@ -16,6 +16,7 @@ import TrainingView from './Player/TrainingView/TrainingView';
 import Notes from './Player/Notes/Notes';
 import NotesOpponent from './Player/Notes/NotesOpponent';
 import AddNote from './Player/Notes/AddNote';
+import SinglePlayerSingleDayView from './Trener/PlayersView/SinglePlayerSingleDayView';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path = "player/notes" element = {<Notes />} />
           <Route path = "player/notesopponent" element={<NotesOpponent/>} />
           <Route path = "player/addnote" element={<AddNote/>} />
+          <Route path = "/trener/singleplayersingleday" element = {<SinglePlayerSingleDayView />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

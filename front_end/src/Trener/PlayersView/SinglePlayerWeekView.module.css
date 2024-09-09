@@ -3,19 +3,21 @@
     grid-template-rows: 1fr 10fr; 
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100%;
     background-color: #D7DFEE;
 }
 
 .navbar{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 20px;
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #FFFFFF;
     font-family: "Poppins-Medium";
-    font-size: 10px;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    height: 80px;
+    min-height: 80px;
 }
 
 .right_navbar{
