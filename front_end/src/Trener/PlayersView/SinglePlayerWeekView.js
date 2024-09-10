@@ -9,7 +9,7 @@ import {useNavigate} from 'react-router-dom';
 
 const SinglePlayerWeekView = () => {
     const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const { globalVariable} = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -126,8 +126,9 @@ const SinglePlayerWeekView = () => {
     };
     
     const goToSinglePlayerSingleDay = (date) => {
-        console.log(date);
-        navigate(`/trener/singleplayersingleday`);
+        setViewedPlayer({...viewedPlayer, currentDate: date});
+        console.log(viewedPlayer);
+        navigate('/trener/singleplayersingleday');
     };
 
     const WeekDay = ({ day, date}) => {
@@ -183,7 +184,6 @@ const SinglePlayerWeekView = () => {
 
     return (
         <div className={styles.background}>
-            {console.log(viewedPlayer)}
             <div className={styles.navbar}>
                 <div className={styles.date_div}>
                     {currentWeek}
@@ -204,7 +204,6 @@ const SinglePlayerWeekView = () => {
                 ))}
                 
             </div>
-            <button > XXX</button>
         </div>
     );
 };

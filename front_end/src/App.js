@@ -16,7 +16,7 @@ import TrainingView from './Player/TrainingView/TrainingView';
 import Notes from './Player/Notes/Notes';
 import NotesOpponent from './Player/Notes/NotesOpponent';
 import AddNote from './Player/Notes/AddNote';
-import SinglePlayerSingleDayView from './Trener/PlayersView/SinglePlayerSingleDayView';
+import SinglePlayerSingleDayView from './Trener/PlayersView/SingleDayView/SinglePlayerSingleDayView';
 
 function App() {
   return (
