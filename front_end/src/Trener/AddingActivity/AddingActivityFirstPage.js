@@ -174,7 +174,6 @@ const AddingActivityFirstPage = () => {
         if(selectedItem.id === 0){
             setIsAnotherExercise(true);
         }else{
-            console.log("Setting selected exercises");
             setSelectedExercises(selectedList);
         }
     };
@@ -183,7 +182,6 @@ const AddingActivityFirstPage = () => {
         if(removedItem.id === 0){
             setIsAnotherExercise(true);
         }else{
-            console.log("Setting selected exercises");
             setSelectedExercises(selectedList);
         }
     };
@@ -251,7 +249,6 @@ const AddingActivityFirstPage = () => {
                     exercise: selectedExercises.map(exercise => exercise.name).join(','),
                     comment: comment
                 };
-                console.log(activity);
                 const { data, error } = await supabase
                     .from('aktywności')
                     .insert([
@@ -273,7 +270,6 @@ const AddingActivityFirstPage = () => {
                     return;
                 }
                 if(data && data.length !== 0){
-                    console.log(data);
                     navigate('/trener/playerView');
                 };
             }

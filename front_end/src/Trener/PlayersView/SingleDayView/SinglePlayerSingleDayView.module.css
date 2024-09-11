@@ -44,6 +44,11 @@
     font-size: 15px;
     font-family: 'Montserrat-Regular';
     margin: 5px;
+    padding: 0px 15px;
+    display: flex;
+    flex-direction: row;
+    text-align: space-between;
+    justify-content: space-between;
   }
 
 .textBold p {
@@ -52,6 +57,10 @@
     font-family: 'Montserrat-Medium';
     margin: 5px;
   }
+.oneline{
+  display: flex;
+  flex-direction: row;
+}
 
 
   

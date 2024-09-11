@@ -20,12 +20,12 @@ const PlayersView = () => {
     const getPlayers = async () => {
         let { data: zawodnicy, error } = await supabase
             .from('zawodnicy')
-            .select('id, imie, nazwisko, stan_treningow, samopoczucie, waga')
+            .select('*')
             .eq('id_trenera', globalVariable.id)
-        if(zawodnicy.length!==0){
+            .order('nazwisko', {ascending: true});
+        if(zawodnicy && zawodnicy.length!==0){
             setPlayers(zawodnicy);
         }
-        
     }
 
     useEffect(() => {
