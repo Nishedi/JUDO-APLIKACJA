@@ -118,7 +118,8 @@
 
 .name{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
+    text-align: right;
     font-family: "Kodchasan-SemiBold";
     font-size: 14px;
 }

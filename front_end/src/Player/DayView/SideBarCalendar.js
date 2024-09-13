@@ -3,7 +3,7 @@ import styles from './SideBarCalendar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 
-const SideBarCalendar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick }) => {
+const SideBarCalendar = ({ isOpen, onLogOutClick,  onAddActivityClick, onAddPlayerClick, player }) => {
 
     const navigate = useNavigate(); // Użycie useNavigate do nawigacji
 
@@ -28,7 +28,7 @@ const SideBarCalendar = ({ isOpen, onLogOutClick, name, surname, onAddActivityCl
     return (
         <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
                 <div className={styles.navbar}>
-                    {name+" "+surname}
+                    {player.imie+" "+player.nazwisko}
                 </div>
                 <div className={styles.navbar_elements}>
                     <div className={styles.singleNonClickableElemement}>

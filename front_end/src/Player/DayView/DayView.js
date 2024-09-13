@@ -1,10 +1,11 @@
 import styles from "./DayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
 import StatsInput from "./StatsInput";
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import {GlobalContext} from "../../GlobalContext";
 
 // Tu sie domyślam, że można by utworzyć jeden komponent
 // i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
@@ -35,6 +36,7 @@ const DayView = () => {
  //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
+    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const [stats, setStats] = useState({
         tetne: "",
         samopoczucie: "",
@@ -65,7 +67,7 @@ const DayView = () => {
 
     return (
         <div className={styles.background}>
-            <SideBarCalendar isOpen={isSidebarOpen}/>
+            <SideBarCalendar name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
                     <RxHamburgerMenu/>
@@ -74,7 +76,7 @@ const DayView = () => {
                     <div > Poniedziałek </div>
                     <div className={styles.weekDayData}> 12 sierpnia </div>
                 </div>
-                <div className={styles.name}> Piotr Kopiec </div>
+                <div className={styles.name}> {globalVariable.imie + " " + globalVariable.nazwisko} </div>
             </div>
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
