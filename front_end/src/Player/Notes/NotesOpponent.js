@@ -58,6 +58,52 @@ const NotesOpponent = () => {
 }, [id_watku]);
 
 
+//----------------------------------------------
+useEffect(() => {
+    const fetchNotes = async () => {
+        try {
+            if (!id_watku) {
+                console.error('id_watku is undefined');
+                return;
+            }
+
+            console.log('Fetching details for id_watku:', id_watku);
+
+            // Pobierz szczegóły wątku
+            const { data: threadData, error: threadError } = await supabase
+                .from('watki_notatki')
+                .select('*')
+                .eq('id_watku', id_watku)
+                .single();
+
+            if (threadError) {
+                console.error('Błąd podczas pobierania wątku:', threadError);
+            } else {
+                setThreadDetails(threadData);
+            }
+
+            // Pobierz notatki
+            const { data: notesData, error: notesError } = await supabase
+                .from('notatki')
+                .select('*')
+                .eq('id_watku', id_watku);
+
+            if (notesError) {
+                console.error('Błąd podczas pobierania notatek:', notesError);
+            } else {
+                console.log('Notatki pobrane:', notesData);
+                setNotes(notesData);
+            }
+        } catch (error) {
+            console.error('Błąd podczas pobierania danych:', error);
+        }
+    };
+
+    fetchNotes();
+}, [id_watku]);
+//----------------------------------------------
+
+
     const navigate = useNavigate();
     
     const handleEditClick = () => {
@@ -95,9 +141,7 @@ const NotesOpponent = () => {
                     {notes.length > 0 ? (
                             notes.map((note) => (
                                 <div key={note.id_notatki} className={styles.match}>
-                                    <p>{new Date(note.data).toLocaleDateString()} r.</p>
-                                    <p>{note.tresc}</p>
-                                </div>
+                                    <p>{new Date(note.data).toLocaleDateString()} r.</p>                                </div>
                             ))
                         ) : (
                             <p>Brak notatek dla tego wątku.</p>

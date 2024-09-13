@@ -93,7 +93,7 @@ const Notes = () => {
             </div>
 
             {/* Wątki */}
-            <div className={styles.weeklist}>
+            <div className={styles.threadList}>
                 {threads.map((thread, index) => (
                         <div
                             key={index} 
