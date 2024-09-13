@@ -1,5 +1,6 @@
 import styles from './Notes.module.css';
 import React, { useState, useEffect, useContext }  from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -12,6 +13,8 @@ const Notes = () => {
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
     const supabase = createClient(supabaseUrl, supabaseKey)
     const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+
+    const navigate = useNavigate(); // Hook do nawigacji
 
     const [threads, setThreads] = useState([]);
     const [newThread, setNewThread] = useState({
@@ -67,6 +70,9 @@ const Notes = () => {
         }
     };
 
+    const handleThreadClick = (id_watku) => {
+        navigate(`/player/notesopponent/${id_watku}`); // Przekierowanie do strony z notatkami o przeciwniku
+    };
 
     return (
         <div className={styles.background}>
@@ -89,9 +95,14 @@ const Notes = () => {
             {/* Wątki */}
             <div className={styles.weeklist}>
                 {threads.map((thread, index) => (
-                        <div key={index} className={styles.opponentCard}>
+                        <div
+                            key={index} 
+                            className={styles.opponentCard}
+                            onClick={() => handleThreadClick(thread.id_watku)}>
                             <div className={styles.opponentInfo}>
-                                <div className={styles.opponentName}>{thread.nazwa_watku}</div>
+                                <div className={styles.opponentName}>
+                                    {thread.nazwa_watku}
+                                </div>
                                 <div className={styles.opponentDetails}>
                                     Ostatnie spotkanie: <br />
                                     Bilans: {thread.liczba_wygranych + "/" + thread.liczba_przegranych}

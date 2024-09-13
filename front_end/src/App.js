@@ -36,7 +36,7 @@ function App() {
           <Route path = "player/userprofile" element = {<UserProfile />} />        
           <Route path = "player/trainingview" element = {<TrainingView />} />
           <Route path = "player/notes" element = {<Notes />} />
-          <Route path = "player/notesopponent" element={<NotesOpponent/>} />
+          <Route path = "player/notesopponent/:id_watku" element={<NotesOpponent/>} />
           <Route path = "player/addnote" element={<AddNote/>} />
           <Route path = "/trener/singleplayersingleday" element = {<SinglePlayerSingleDayView />} />
           <Route path = "/trener/trainingview" element = {<TrenerTrainingView />} />
