@@ -9,7 +9,7 @@ import {useNavigate} from 'react-router-dom';
 
 const SinglePlayerWeekView = () => {
     const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const { globalVariable} = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -126,8 +126,9 @@ const SinglePlayerWeekView = () => {
     };
     
     const goToSinglePlayerSingleDay = (date) => {
-        console.log(date);
-        navigate(`/trener/singleplayersingleday`);
+        setViewedPlayer({...viewedPlayer, currentDate: date});
+        // console.log(viewedPlayer);
+        navigate('/trener/singleplayersingleday');
     };
 
     const WeekDay = ({ day, date}) => {
@@ -181,15 +182,93 @@ const SinglePlayerWeekView = () => {
         return startOfWeek;
     });
 
+    const requestForStat = async (whatToGet) => {
+        const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        if(whatToGet === 'prosba_o_kinaze') {
+            const { data, error } = await supabase
+            .from('zawodnicy')
+            .update({ prosba_o_kinaze: "TRUE"})
+            .eq('id', viewedPlayer.id)
+            .eq('id_trenera', globalVariable.id)
+            .select();
+            if (error) {
+                console.log(error);
+            } 
+        }
+        if(whatToGet === 'prosba_o_kwas_mlekowy') {
+            const { data, error } = await supabase
+            .from('zawodnicy')
+            .update({ prosba_o_kwas_mlekowy: "TRUE"})
+            .eq('id', viewedPlayer.id)
+            .eq('id_trenera', globalVariable.id)
+            .select();
+            if (error) {
+                console.log(error);
+            } 
+        }
+
+        
+    }
+
+
     return (
         <div className={styles.background}>
-            {console.log(viewedPlayer)}
             <div className={styles.navbar}>
                 <div className={styles.date_div}>
                     {currentWeek}
                 </div>
                 <div className={styles.writing_div}>
                     {viewedPlayer.imie} {viewedPlayer.nazwisko}
+                </div>
+            </div>
+            <div  className={styles.weekDay}>
+                <div>
+                    <div >
+                        <p>Ostatnio zmierzone dane</p>
+                        <div className={styles.singleActivityInfo}>
+                            <div>
+                                Kinaza
+                            </div>
+                            <div className={styles.singleActivity}>
+                                <div>
+                                    {viewedPlayer.kinaza}
+                                </div>      
+                            </div>
+                        </div> 
+                        <div className={styles.singleActivityInfo}>
+                            <div>
+                                Kwas mlekowy
+                            </div>
+                            <div className={styles.singleActivity}>
+                                <div>
+                                    {viewedPlayer.kwas_mlekowy}
+                                </div>      
+                            </div>
+                        </div>  
+                        <div className={styles.buttons}>
+                            <button
+                                className={styles.buttonTrening}
+                                onClick={() => requestForStat('prosba_o_kinaze')}
+                                >
+                                Poproś o akt. kinazy
+                            </button>
+                            <button 
+                                className={styles.buttonTrening}
+                                onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
+                                Poproś o akt. kwasu mlekowego
+                            </button>
+                        </div>
+                        <div className={styles.underButtons}>
+                            <div className={styles.underButton}>
+                                ost. akt. kinazy: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
+                            </div>
+                            <div className={styles.underButton}>
+                                ost. akt. kwasu mlekowego:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div> 
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -204,7 +283,6 @@ const SinglePlayerWeekView = () => {
                 ))}
                 
             </div>
-            <button > XXX</button>
         </div>
     );
 };

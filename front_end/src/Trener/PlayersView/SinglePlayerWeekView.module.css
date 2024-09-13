@@ -3,7 +3,7 @@
     grid-template-rows: 1fr 10fr; 
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     background-color: #D7DFEE;
 }
 
@@ -30,6 +30,7 @@
 .date_div, .writing_div{
     display: flex;
     justify-content: right;
+    text-align: right;
 }
 
 .writing_div{
@@ -108,6 +109,44 @@
     font-size: 15px;
     font-family: 'Montserrat-Regular';
     margin: 5px;
+  }
+
+  .buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    margin: 10px;
+    margin-bottom: 0px;
+  }
+
+  .buttonTrening {
+    justify-self: center;
+    background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+    color: #FFFFFF;
+    width: 42%;
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 0px;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 12px;
+}
+
+.underButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 10px; */
+    width: 42%;
+    font-size: 11px;
+    
+}
+
+.underButtons{
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    margin: 0px 10px;
   }
 
 .activity h3 {

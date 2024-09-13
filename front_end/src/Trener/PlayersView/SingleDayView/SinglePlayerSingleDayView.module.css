@@ -1,0 +1,155 @@
+.background{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.rectangleStats{
+  display: flex; /* Użycie flexbox do ustawienia układu */
+  justify-content: space-between; /* Rozdziela przestrzeń między elementami, aby strzałka była po prawej stronie */
+  align-items: center; /* Centruje elementy pionowo */
+
+    background-color: #FFFFFF; /* Biały kolor tła */
+    border-radius: 15px; /* Zaokrąglone rogi */
+    padding: 10px; /* Wewnętrzne odstępy */
+    margin: 10px; /* Odstęp od brzegów */
+    margin-bottom: 40px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); /* Delikatny cień */
+  }
+  
+.rectangleSActivities{
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF; /* Biały kolor tła */
+    border-radius: 15px; /* Zaokrąglone rogi */
+    padding: 10px; /* Wewnętrzne odstępy */
+    margin: 10px; /* Odstęp od brzegów */
+  }
+
+
+ .dayHeader {
+    color: #000000; /* Niebieski kolor tekstu */
+    font-size: 16px; /* Większa czcionka */
+    font-family: 'Montserrat-Medium';
+    margin-top: auto;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase; /* Zmienia tekst na wielkie litery */
+  }
+
+ .text p {
+    color: #000000;
+    font-size: 15px;
+    font-family: 'Montserrat-Regular';
+    margin: 5px;
+    padding: 0px 15px;
+    display: flex;
+    flex-direction: row;
+    text-align: space-between;
+    justify-content: space-between;
+  }
+
+.textBold p {
+    color: #000000;
+    font-size: 15px;
+    font-family: 'Montserrat-Medium';
+    margin: 5px;
+  }
+.oneline{
+  display: flex;
+  flex-direction: row;
+}
+
+
+  
+.activity {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Dwie kolumny: jedna elastyczna na tekst i jedna dla strzałki */
+  align-items: center; /* Centrowanie w pionie */
+  border-radius: 15px;
+  border: 2px solid;
+  margin: 10px 0;
+  padding: 5px, 10px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  text-align: left;
+  color: #000000;
+  font-size: 15px;
+  font-family: 'Montserrat-Regular';
+  margin: 5px;
+}
+
+.activity p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10px;
+    color: #000000;
+    font-size: 15px;
+    font-family: 'Montserrat-Regular';
+    margin: 5px;
+  }
+
+.activity h3 {
+    padding-top: 5px;
+    padding-left: 10px;
+    margin: 5px ;
+    font-size: 15px;
+    font-family: 'Montserrat-Regular';
+    text-align: justify;
+}
+
+
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Poppins-Medium";
+    font-size: 10px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  
+}
+
+.weekDay{
+    padding: 5px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Kodchasan-SemiBold";
+    font-size: 20px;
+}
+
+.weekDayData{
+    font-size: 16px;
+    font-family: 'Montserrat-SemiBold';
+}
+
+.name{
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    font-family: "Kodchasan-SemiBold";
+    font-size: 14px;
+}
+
+.burger{
+  color: #FFFFFF; 
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.right_arrow{
+  justify-self: end;
+  font-size: 24px;
+}
+
+.down_arrow{
+  color: #103476; 
+  font-size: 24px;
+  padding-right: 5%;
+}

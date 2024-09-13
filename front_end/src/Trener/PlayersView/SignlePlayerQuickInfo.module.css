@@ -15,6 +15,14 @@
 }
 
 .subString{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     font-size: 16px;
     font-family: 'Montserrat-Regular';
+}
+
+.emoticones{
+    display: flex;
+    flex-direction: row;
 }
