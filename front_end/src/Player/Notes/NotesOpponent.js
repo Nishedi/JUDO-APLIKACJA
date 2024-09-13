@@ -26,6 +26,7 @@ const NotesOpponent = () => {
     const { id_watku } = useParams(); // Pobieramy id_watku z URL
     const [notes, setNotes] = useState([]);
     const [threadDetails, setThreadDetails] = useState(null); // Stan do przechowywania szczegółów wątku
+    const [expandedNote, setExpandedNote] = useState(null); // Dodaj stan do przechowywania ID rozwiniętej notatki
 
 
     // Pobieranie notatek z Supabase przy montowaniu komponentu
@@ -58,7 +59,7 @@ const NotesOpponent = () => {
 }, [id_watku]);
 
 
-//----------------------------------------------
+
 useEffect(() => {
     const fetchNotes = async () => {
         try {
@@ -101,13 +102,23 @@ useEffect(() => {
 
     fetchNotes();
 }, [id_watku]);
-//----------------------------------------------
+
 
 
     const navigate = useNavigate();
     
     const handleEditClick = () => {
         navigate(`/player/addnote`); // Przekierowanie do strony edycji profilu
+    };
+
+    const toggleNote = (noteId) => {
+        // Zmień stan - jeśli kliknięto tę samą notatkę, ukryj ją
+        setExpandedNote(expandedNote === noteId ? null : noteId);
+    };
+
+    // Funkcja do zmiany wyniku na tekst
+    const getWynikText = (wynik) => {
+        return wynik === 1 ? 'wygrana' : wynik === 0 ? 'przegrana': 'brak danych';
     };
 
     return (
@@ -140,8 +151,23 @@ useEffect(() => {
                 <div className={styles.matchList}>
                     {notes.length > 0 ? (
                             notes.map((note) => (
-                                <div key={note.id_notatki} className={styles.match}>
-                                    <p>{new Date(note.data).toLocaleDateString()} r.</p>                                </div>
+                                <div 
+                                    key={note.id_notatki}
+                                    className={`${styles.match} ${expandedNote === note.id_notatki ? styles.open : ''}`}
+                                    onClick={() => toggleNote(note.id_notatki)}
+                                >
+                                    <div className={styles.matchHeader}>
+                                     <p>{new Date(note.data).toLocaleDateString()} r.</p>
+                                    </div>
+                                    
+                                    {/* Zawartość notatki tylko, gdy jest rozwinięta */}
+                                    {expandedNote === note.id_notatki && (
+                                        <div className={styles.matchDetails}>
+                                            <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
+                                            <div className={styles.noteText}>{note.tresc}</div>
+                                        </div>
+                                    )}
+                                </div>
                             ))
                         ) : (
                             <p>Brak notatek dla tego wątku.</p>
