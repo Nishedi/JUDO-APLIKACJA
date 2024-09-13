@@ -6,6 +6,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
+import { createClient } from '@supabase/supabase-js';
 
 // Tu sie domyślam, że można by utworzyć jeden komponent
 // i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
@@ -33,6 +34,9 @@ const Activity = ({title, wykonany, odczucia, komentarz, color, borderColor}) =>
 
 
 const DayView = () => {
+    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
+    const supabase = createClient(supabaseUrl, supabaseKey)
  //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
@@ -44,6 +48,14 @@ const DayView = () => {
         kinaza: "",
         komentarz: ""
     });
+
+    const [kinaza_needs, setKinaza_needs] = useState(true);
+    const [kwas_mlekowy_needs, setKwas_mlekowy_needs] = useState(true);
+
+    const [kinaza, setKinaza] = useState('');
+    const [kwas_mlekowy, setKwas_mlekowy] = useState('');
+
+    const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -62,8 +74,47 @@ const DayView = () => {
         setIsStatsOpen(false); // Zamyka panel po zatwierdzeniu
     };
 
+    const handleKinazaSubmit = async () => {       
+        const { data, error } = await supabase
+        .from('zawodnicy')
+        .update({ kinaza: kinaza,
+                ostatnia_aktualizacja_kinazy: formatedDate,
+                prosba_o_kinaze: false
+         })
+        .eq('id', globalVariable.id)
+        // .eq('id_trenera', globalVariable.trener_id)
+        // .eq('nazwisko', globalVariable.nazwisko)
+        // .eq('imie', globalVariable.imie)
+        .select()
 
-    
+        if(error) {
+            console.log(error);
+        }
+
+        if(data && data.length > 0) {
+            console.log(data);
+            setKinaza_needs(false);
+            setGlobalVariable({
+                ...globalVariable,
+                kinaza: kinaza,
+                ostatnia_aktualizacja_kinazy: formatedDate,
+                prosba_o_kinaze: false
+            });
+        }else {
+            console.log("Nie udało się zaktualizować kinazy");
+        }
+
+    }
+
+    const handleKwasMlekowySubmit = async () => {
+        setKwas_mlekowy_needs(false);
+        setGlobalVariable({
+            ...globalVariable,
+            kwas_mlekowy: kwas_mlekowy,
+            ostatnia_aktualizacja_kwasu_mlekowego: formatedDate,
+            prosba_o_kwas_mlekowy: false
+        });
+    }
 
     return (
         <div className={styles.background}>
@@ -78,13 +129,65 @@ const DayView = () => {
                 </div>
                 <div className={styles.name}> {globalVariable.imie + " " + globalVariable.nazwisko} </div>
             </div>
+            <button onClick= {()=>{console.log(globalVariable)}}> Sprawdź zmienną globalną </button>
+            {kinaza_needs ? 
+            <div  className={styles.stats}>
+                <div>
+                    <div >
+                        <p>Proszę podać kinazę</p>
+                        <div className={styles.buttons}>
+                            <input 
+                                id = "kinaza"
+                                type="number" 
+                                className={styles.input} 
+                                placeholder={'Podaj kinazę'} 
+                                value={kinaza}
+                                onChange={(e) => setKinaza(e.target.value)} 
+                                />  
+                            <button
+                                onClick={handleKinazaSubmit}
+                                className={styles.buttonTrening}>
+                                Aktualizuj
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            : null
+            }
+            {kwas_mlekowy_needs ?
+            <div  className={styles.stats}>
+                <div>
+                    <div >
+                        <p>Proszę podać kwas mlekowy</p>
+                        <div className={styles.buttons}>
+                            <input 
+                                id = "kwas mlekowy"
+                                type="number" 
+                                className={styles.input} 
+                                placeholder={'Podaj kwas mlekowy'} 
+                                value={kwas_mlekowy}
+                                onChange={(e) => setKwas_mlekowy(e.target.value)} 
+                                />  
+                            <button
+                                onClick={handleKwasMlekowySubmit}
+                                className={styles.buttonTrening}>
+                                Aktualizuj
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            : null        
+            }
+            
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
                     {/* Prostokąt statystyk dnia */}
                     
                     <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                         <div >
-                        <StatsInput onSubmit={handleStatsSubmit} initialData={stats} />
+                        {/* <StatsInput onSubmit={handleStatsSubmit} initialData={stats} /> */}
                             <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
                             
                                 <div className = {styles.text}>
