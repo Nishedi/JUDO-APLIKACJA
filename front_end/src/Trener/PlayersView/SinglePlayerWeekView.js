@@ -8,8 +8,7 @@ import {useNavigate} from 'react-router-dom';
 
 
 const SinglePlayerWeekView = () => {
-    const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
-    const { globalVariable} = useContext(GlobalContext);
+    const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -21,8 +20,6 @@ const SinglePlayerWeekView = () => {
         const month = monthNames[date.getMonth()];
         return `${day} ${month}`;
     };
-
-
 
     const getWeekDateRange = (date) => {
         const startOfWeek = new Date(date);
@@ -226,20 +223,20 @@ const SinglePlayerWeekView = () => {
             <div  className={styles.weekDay}>
                 <div>
                     <div >
-                        <p>Ostatnio zmierzone dane</p>
-                        <div className={styles.singleActivityInfo}>
+                        <p>Ostatnia aktualizacja</p>
+                        <div className={styles.optionalStats}>
                             <div>
-                                Kinaza
+                                Kinaza:
                             </div>
-                            <div className={styles.singleActivity}>
+                            <div className={styles.singleActivityInfo}>
                                 <div>
                                     {viewedPlayer.kinaza}
                                 </div>      
                             </div>
                         </div> 
-                        <div className={styles.singleActivityInfo}>
+                        <div className={styles.optionalStats}>
                             <div>
-                                Kwas mlekowy
+                                Kwas mlekowy: 
                             </div>
                             <div className={styles.singleActivity}>
                                 <div>
@@ -252,12 +249,12 @@ const SinglePlayerWeekView = () => {
                                 className={styles.buttonTrening}
                                 onClick={() => requestForStat('prosba_o_kinaze')}
                                 >
-                                Poproś o akt. kinazy
+                                Aktualizacja KINAZY
                             </button>
                             <button 
                                 className={styles.buttonTrening}
                                 onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
-                                Poproś o akt. kwasu mlekowego
+                                Aktualizacja KWASU MLEKOWEGO
                             </button>
                         </div>
                         <div className={styles.underButtons}>

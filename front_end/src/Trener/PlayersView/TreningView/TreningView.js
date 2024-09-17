@@ -8,12 +8,9 @@ import { createClient } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 
 const TrenerTrainingView = () => {
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const { viewedPlayer, setViewedPlayer } = useContext(GlobalContext);
     const [activity, setActivity] = useState(viewedPlayer.currentActivity);
-    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey)
     const [thingsToDo, setThingsToDo] = useState(["bład","błąd"]);
     const navigate = useNavigate();
 

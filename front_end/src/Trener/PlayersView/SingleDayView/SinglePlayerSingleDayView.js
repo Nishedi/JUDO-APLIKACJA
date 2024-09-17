@@ -14,14 +14,10 @@ import { useNavigate } from "react-router-dom";
 // ale na razie chcę po prostu zrobić cokolwiek
 
 const SinglePlayerSingleDayView = () => {
-    const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
-    const {globalVariable} = useContext(GlobalContext);
+    const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
  //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
-    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey)
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
 
