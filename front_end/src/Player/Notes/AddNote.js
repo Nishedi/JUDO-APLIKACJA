@@ -4,7 +4,6 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useContext } from 'react';
 import DatePicker from 'react-datepicker';
-import { createClient } from '@supabase/supabase-js';
 import { GlobalContext } from '../../GlobalContext';
 
 const AddNote = () => {

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown } from 'react-icons/io';
-import { createClient } from '@supabase/supabase-js';
 import { GlobalContext } from '../../GlobalContext';
 import Modal from './Modal';
 

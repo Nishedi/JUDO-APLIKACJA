@@ -1,6 +1,5 @@
 import styles from './SinglePlayerWeekView.module.css';
 import React, { useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
@@ -56,9 +55,6 @@ const SinglePlayerWeekView = () => {
 
 
     const getWeekDays = async () => {
-        const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-        const supabase = createClient(supabaseUrl, supabaseKey)
         const date = new Date();
         const { startOfWeek, endOfWeek } = getRangeToDatabase(date);
         let { data: aktywnosci, error } = await supabase
@@ -180,9 +176,6 @@ const SinglePlayerWeekView = () => {
     });
 
     const requestForStat = async (whatToGet) => {
-        const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-        const supabase = createClient(supabaseUrl, supabaseKey)
         if(whatToGet === 'prosba_o_kinaze') {
             const { data, error } = await supabase
             .from('zawodnicy')

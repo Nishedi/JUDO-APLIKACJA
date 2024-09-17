@@ -1,6 +1,5 @@
 import styles2 from "./SignlePlayerQuickInfo.module.css";
 import React, { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { GlobalContext } from "../../GlobalContext";
 import { useContext } from "react";
 

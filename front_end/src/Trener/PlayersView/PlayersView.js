@@ -3,7 +3,6 @@ import SimpleInfo from "./SinglePlayerQuickInfo";
 import Sidebar from "./SideBar";
 import { useState, useContext } from "react";
 import { GlobalContext } from '../../GlobalContext';
-import { createClient } from '@supabase/supabase-js'
 import { useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';

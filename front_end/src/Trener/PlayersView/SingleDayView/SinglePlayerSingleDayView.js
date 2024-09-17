@@ -5,7 +5,6 @@ import React, {act, useEffect, useState} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { createClient } from '@supabase/supabase-js';
 import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";

@@ -6,7 +6,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
-import { createClient } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 
 // Tu sie domyślam, że można by utworzyć jeden komponent
@@ -81,7 +80,6 @@ const DayView = () => {
         }
 
         if(data && data.length > 0) {
-            console.log(data);
             setKinaza_needs(false);
             setGlobalVariable({
                 ...globalVariable,
@@ -167,7 +165,6 @@ const DayView = () => {
             console.error("Błąd pobierania statystyk", error);
             return;
         }
-        console.log(stats);
         if (stats) {
             if(stats.length > 0) {
                 setStats(stats[0]);
@@ -259,7 +256,6 @@ const DayView = () => {
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
                     <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                         <div >
-                        {console.log(stats)}
                         {stats?.tętno && stats?.samopoczucie && stats?.zakwaszenie ? (
                             <>
                                 <p className={styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
