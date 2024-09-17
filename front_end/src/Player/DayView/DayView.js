@@ -1,7 +1,7 @@
 import styles from "./DayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
 import StatsInput from "./StatsInput";
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
@@ -42,13 +42,7 @@ const DayView = () => {
     const [isStatsOpen, setIsStatsOpen] = useState(false);
     const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const navigate = useNavigate();
-    const [stats, setStats] = useState({
-        tetne: "",
-        samopoczucie: "",
-        zakwaszenie: "",
-        kinaza: "",
-        komentarz: ""
-    });
+    const [stats, setStats] = useState(null);
     const [kinaza_needs, setKinaza_needs] = useState(globalVariable.prosba_o_kinaze);
     const [kwas_mlekowy_needs, setKwas_mlekowy_needs] = useState(globalVariable.prosba_o_kwas_mlekowy);
     const [kinaza, setKinaza] = useState('');
@@ -139,6 +133,67 @@ const DayView = () => {
         navigate('/');
     }
 
+    const GetFeelingsEmoticon = ({feelingsAfter}) => {
+        const pickEmoticon = (feelingsAfter) => {
+            switch (feelingsAfter) {
+                case 'Bardzo źle':
+                    return '😢';  // Bardzo źle
+                case 'Źle':
+                    return '😕';  // Źle
+                case 'Neutralnie':
+                    return '😐';  // Neutralnie
+                case 'Dobrze':
+                    return '🙂';  // Dobrze
+                case 'Bardzo dobrze':
+                    return '😁';  // Bardzo dobrze
+                default:
+                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
+            }
+        };
+        return (
+            <div>
+                <span> {pickEmoticon(feelingsAfter)} </span>
+            </div>
+        );
+    };
+
+    const getStatsDay = async () => {
+        const currentDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
+        let { data: stats, error } = await supabase
+            .from('statystyki_zawodników')
+            .select("*")
+            .eq('data', currentDate)
+            .eq('id_trenera', globalVariable.id_trenera)
+            .eq('id_zawodnika', globalVariable.id);
+
+        if (error) {
+            console.error("Błąd pobierania statystyk", error);
+            return;
+        }
+        console.log(stats);
+        if (stats) {
+            if(stats.length > 0) {
+                setStats(stats[0]);
+            }else{
+                const { data, error } = await supabase
+                    .from('statystyki_zawodników')
+                    .insert([
+                        { id_trenera: globalVariable.id_trenera, id_zawodnika: globalVariable.id, data: currentDate },
+                    ])
+                    .select();
+                if (error) {
+                    console.error("Błąd dodawania statystyk", error);
+                    return;
+                }
+                setStats(data[0]);
+            }
+        }
+    };
+
+    useEffect(() => {
+        getStatsDay();
+    }, []);
+
     return (
         <div className={styles.background}>
             <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
@@ -205,20 +260,21 @@ const DayView = () => {
             
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
-                    {/* Prostokąt statystyk dnia */}
-                    
                     <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                         <div >
-                        {/* <StatsInput onSubmit={handleStatsSubmit} initialData={stats} /> */}
-                            <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
-                            
-                                <div className = {styles.text}>
-                                    <p>Tętno: {stats.tetno || "kc Kondi"}</p>
-                                    <p>Samopoczucie: {stats.samopoczucie || "kc Konradzio"}</p>
-                                    <p>Zakwaszenie: {stats.zakwaszenie || "kc Kondik"}</p>
-                                    <p>Kinaza: {stats.kinaza || "kc Kondziś"}</p>
+                        {console.log(stats)}
+                        {stats?.tętno && stats?.samopoczucie && stats?.zakwaszenie ? (
+                            <>
+                                <p className={styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
+                                <div className={styles.text}>
+                                    <p>Tętno: {stats?.tetno || "Proszę podać"}</p>
+                                    <p>Samopoczucie: {stats?.samopoczucie || "Proszę podać"}</p>
+                                    <p>Waga: {stats?.zakwaszenie || "Proszę podać"}</p>
                                 </div>
-                            
+                            </>
+                        ) : (
+                            <StatsInput onSubmit={handleStatsSubmit} stats={stats} setStats={setStats} />
+                        )}
                         </div>
                         <IoIosArrowDown className={styles.down_arrow} />
                     </div>

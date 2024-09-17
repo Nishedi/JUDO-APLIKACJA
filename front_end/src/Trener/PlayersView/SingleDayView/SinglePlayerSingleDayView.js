@@ -133,7 +133,6 @@ const SinglePlayerSingleDayView = () => {
     };
 
     const handleActivityClick = (activity) => {
-        // navigate(`/trener/trainingview/${activity.id}`);
         setViewedPlayer({...viewedPlayer, currentActivity: activity});
         navigate(`/trener/trainingview`);
     };
