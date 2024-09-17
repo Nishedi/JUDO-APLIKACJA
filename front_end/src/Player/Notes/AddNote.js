@@ -1,81 +1,89 @@
 import styles from './AddNote.module.css';
 import React from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { FaPlus } from 'react-icons/fa';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { IoIosArrowDown } from 'react-icons/io';
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import DatePicker from 'react-datepicker';
-
-
+import { createClient } from '@supabase/supabase-js';
+import { GlobalContext } from '../../GlobalContext';
 
 const AddNote = () => {
-    
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { globalVariable } = useContext(GlobalContext);
 
+    // Zmienne przechowujące wybraną datę i czas
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedTime, setSelectedTime] = useState(new Date());
+
+    // Funkcje zmieniające datę i czas
     const handleDateChange = (date) => {
         setSelectedDate(date);
+    };
+
+    const handleTimeChange = (time) => {
+        setSelectedTime(time);
     };
 
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                        <RxHamburgerMenu/>
+                    <RxHamburgerMenu />
                 </div>
                 <div className={styles.navbarText}>
-                        Nowa notatka
+                    Nowa notatka
                 </div>
             </div>
 
-                    {/* Główna sekcja */}
+            {/* Główna sekcja */}
             <div className={styles.mainContent}>
-                <div class={styles.noteHeader}>
-                    Piotr Kopiec
+                <div className={styles.noteHeader}>
+                    {globalVariable.imie + ' ' + globalVariable.nazwisko}
                 </div>
 
-                <div class={styles.noteSection}>
-                        <p>Data:</p>
-
-                        <input type="date" className={styles.customDatePicker} />
-                        <input type="time" className={styles.timePicker} />
-                        {/* <DatePicker 
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                            dateFormat="dd/MM/yyyy"
-                            className={styles.customDatePicker} 
-                        />
+                <div className={styles.noteSection}>
+                    <p>Data:</p>
+                    <div className={styles.pickerWrapper}>
+                        {/* DatePicker - wybór daty */}
                         <DatePicker
                             selected={selectedDate}
                             onChange={handleDateChange}
+                            dateFormat="dd.MM.yyyy"
+                            className={styles.customDatePicker} // Klasa CSS dla daty
+                        />
+                        {/* DatePicker - wybór czasu */}
+                        <DatePicker
+                            selected={selectedTime}
+                            onChange={handleTimeChange}
                             showTimeSelect
                             showTimeSelectOnly
-                            timeIntervals={15}
+                            timeIntervals={5} // Minuty co 5 minut
                             timeCaption="Czas"
-                            dateFormat="h:mm aa"
-                            className={styles.timePicker} // Klasa CSS dla pickera czasu
-                        /> */}
-                </div>
-
-                <div class={styles.noteSection}>
-                    <p>Status walki:</p>
-                    <div class={styles.fightStatus}>
-                        <button class={styles.statusButton}>wygrana</button>
-                        <button class={styles.statusButton}>przegrana</button>
+                            dateFormat="HH:mm"
+                            className={styles.customTimePicker} // Klasa CSS dla czasu
+                        />
                     </div>
                 </div>
 
-                <div class={styles.noteTextArea}>
+                <div className={styles.noteSection}>
+                    <p>Status walki:</p>
+                    <div className={styles.fightStatus}>
+                        <button className={styles.statusButton}>wygrana</button>
+                        <button className={styles.statusButton}>przegrana</button>
+                    </div>
+                </div>
+
+                <div className={styles.noteTextArea}>
                     <textarea placeholder="Dodaj notatkę..."></textarea>
                 </div>
 
-                <div class={styles.submitButton}>
-                    <button class={styles.addNoteButton}>Dodaj</button>
+                <div className={styles.submitButton}>
+                    <button className={styles.addNoteButton}>Dodaj</button>
                 </div>
             </div>
         </div>
-
     );
 };
 

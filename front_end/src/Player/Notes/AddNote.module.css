@@ -69,6 +69,7 @@
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .noteSection p {
@@ -104,14 +105,17 @@
 
 .statusButton {
     background-color: #E5EBF5;
-    border: none;
+    border: 1px solid #A7B7D6;
     border-radius: 10px;
     padding: 5px ;
+    width: 92px;
+    height: min-content;
     font-family: 'Montserrat-Regular';
     font-size: 16px;
     cursor: pointer;
     color: #13449A;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: center;
 }
 
 .statusButton:hover {
@@ -160,22 +164,24 @@
 
 /* datepicker */
 
-
-
-.customDatePicker, .timePicker {
-    display: inline-flex;
+.pickerWrapper {
+    display: flex;
+    gap: 10px; /* Odstęp między pickerami daty i czasu */
     align-items: center;
+}
+
+.customDatePicker, .customTimePicker {
     background-color: #E5EBF5;
-    width:min-content;
-    color: #103476;
+    border: 1px solid #A7B7D6;
     border-radius: 10px;
-    padding: 5px ; /* Padding dopasowany do treści */
-    font-size: 16px;
+    padding: 5px;
     font-family: 'Montserrat-Medium';
+    font-size: 16px;
+    color: #103476;
+    width: 120px;; /* Szerokość */
+    text-align: center;
+    white-space: nowrap; /* Zapobiega zawijaniu tekstu */
     cursor: pointer;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin: auto;
 
 }
 
@@ -217,7 +223,7 @@
 }
 
 .react-datepicker__day--selected {
-    background-color: #1D61DC;
+    background-color: #103476;
     color: white;
 }
 
@@ -241,4 +247,33 @@
 .react-datepicker__time-list-item--selected {
     background-color: #1D61DC;
     color: #FFFFFF;
+}
+
+/* ==================== */
+
+/* Picker na hover */
+.customDatePicker:hover, .customTimePicker:hover {
+    background-color: #D7DFEE;
+}
+
+/* React-datepicker - kalendarz */
+.react-datepicker {
+    border: 1px solid #103476;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.react-datepicker__header {
+    background-color: #103476;
+    color: white;
+}
+
+.react-datepicker__day--selected {
+    background-color: #1D61DC;
+    color: white;
+}
+
+.react-datepicker__time-list-item--selected {
+    background-color: #1D61DC;
+    color: white;
 }

@@ -129,16 +129,21 @@
   }
   
   .match p {
-    margin: 0;
+    margin: 0 20px;
     font-family: "Montserrat-Regular";
     font-size: 20px;
   }
 
   .matchHeader {
-    cursor: pointer;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+
+.matchHeader svg {
+    color: #A7B7D6;
+    font-size: 28px;
 }
 
 .matchDetails {
@@ -173,9 +178,9 @@
   margin-bottom: 20px;
 }
 
-.noteText {
-  line-height: 1.5;
-}
+  .noteText {
+    line-height: 1.5;
+  }
   .arrowUp {
     color: green;
     font-size: 20px;

@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { GlobalContext } from '../../GlobalContext';
@@ -26,7 +26,7 @@ const NotesOpponent = () => {
     const { id_watku } = useParams(); // Pobieramy id_watku z URL
     const [notes, setNotes] = useState([]);
     const [threadDetails, setThreadDetails] = useState(null); // Stan do przechowywania szczegółów wątku
-    const [expandedNote, setExpandedNote] = useState(null); // Dodaj stan do przechowywania ID rozwiniętej notatki
+    const [expandedNotes, setExpandedNotes] = useState([]); // Dodaj stan do przechowywania ID rozwiniętej notatki
 
 
     // Pobieranie notatek z Supabase przy montowaniu komponentu
@@ -43,7 +43,6 @@ const NotesOpponent = () => {
                     .select('*')
                     .eq('id_watku', id_watku) // Filtrujemy na podstawie id_watku
                     .single(); // Oczekujemy pojedynczego wyniku
-
 
                 if (error) {
                     console.error('Błąd podczas pobierania notatek USEEFFECT:', error);
@@ -112,8 +111,15 @@ useEffect(() => {
     };
 
     const toggleNote = (noteId) => {
-        // Zmień stan - jeśli kliknięto tę samą notatkę, ukryj ją
-        setExpandedNote(expandedNote === noteId ? null : noteId);
+        setExpandedNotes((prevExpandedNotes) => {
+            if (prevExpandedNotes.includes(noteId)) {
+                // Usuń id notatki, jeśli już jest rozwinięta
+                return prevExpandedNotes.filter(id => id !== noteId);
+            } else {
+                // Dodaj id notatki, jeśli nie jest rozwinięta
+                return [...prevExpandedNotes, noteId];
+            }
+        });
     };
 
     // Funkcja do zmiany wyniku na tekst
@@ -153,15 +159,24 @@ useEffect(() => {
                             notes.map((note) => (
                                 <div 
                                     key={note.id_notatki}
-                                    className={`${styles.match} ${expandedNote === note.id_notatki ? styles.open : ''}`}
+                                    className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
                                     onClick={() => toggleNote(note.id_notatki)}
                                 >
                                     <div className={styles.matchHeader}>
-                                     <p>{new Date(note.data).toLocaleDateString()} r.</p>
+                                        <p>{new Date(note.data).toLocaleDateString()} r.</p>
+                                        
+                                        {/* Strzałka zależna od wyniku walki */}
+                                        {note.wynik === 1 ? (
+                                            <IoIosArrowUp className={styles.resultArrow} />  //* Strzałka w górę dla wygranej */}
+                                        ) : note.wynik === 0 ? (
+                                            <IoIosArrowDown className={styles.resultArrow} /> //* Strzałka w dół dla przegranej */}
+                                        ) : (
+                                            <span>Brak wyniku</span>  //* W razie braku wyniku */}
+                                        )}
                                     </div>
                                     
                                     {/* Zawartość notatki tylko, gdy jest rozwinięta */}
-                                    {expandedNote === note.id_notatki && (
+                                    {expandedNotes.includes(note.id_notatki) && (
                                         <div className={styles.matchDetails}>
                                             <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
                                             <div className={styles.noteText}>{note.tresc}</div>

@@ -134,7 +134,7 @@ const DayView = () => {
             <div  className={styles.stats}>
                 <div>
                     <div >
-                        <p>Proszę podać kinazę</p>
+                        <p>Kinaza</p>
                         <div className={styles.buttons}>
                             <input 
                                 id = "kinaza"
@@ -159,7 +159,7 @@ const DayView = () => {
             <div  className={styles.stats}>
                 <div>
                     <div >
-                        <p>Proszę podać kwas mlekowy</p>
+                        <p>Kwas mlekowy</p>
                         <div className={styles.buttons}>
                             <input 
                                 id = "kwas mlekowy"
