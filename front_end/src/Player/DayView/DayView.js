@@ -7,6 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { createClient } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
 
 // Tu sie domyślam, że można by utworzyć jeden komponent
 // i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
@@ -36,11 +37,11 @@ const Activity = ({title, wykonany, odczucia, komentarz, color, borderColor}) =>
 const DayView = () => {
     const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey)
- //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const supabase = createClient(supabaseUrl, supabaseKey);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
     const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const navigate = useNavigate();
     const [stats, setStats] = useState({
         tetne: "",
         samopoczucie: "",
@@ -48,13 +49,10 @@ const DayView = () => {
         kinaza: "",
         komentarz: ""
     });
-
-    const [kinaza_needs, setKinaza_needs] = useState(true);
-    const [kwas_mlekowy_needs, setKwas_mlekowy_needs] = useState(true);
-
+    const [kinaza_needs, setKinaza_needs] = useState(globalVariable.prosba_o_kinaze);
+    const [kwas_mlekowy_needs, setKwas_mlekowy_needs] = useState(globalVariable.prosba_o_kwas_mlekowy);
     const [kinaza, setKinaza] = useState('');
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
-
     const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
 
     const toggleSidebar = () => {
@@ -82,9 +80,9 @@ const DayView = () => {
                 prosba_o_kinaze: false
          })
         .eq('id', globalVariable.id)
-        // .eq('id_trenera', globalVariable.trener_id)
-        // .eq('nazwisko', globalVariable.nazwisko)
-        // .eq('imie', globalVariable.imie)
+        .eq('id_trenera', globalVariable.id_trenera)
+        .eq('nazwisko', globalVariable.nazwisko)
+        .eq('imie', globalVariable.imie)
         .select()
 
         if(error) {
@@ -103,22 +101,47 @@ const DayView = () => {
         }else {
             console.log("Nie udało się zaktualizować kinazy");
         }
-
     }
 
     const handleKwasMlekowySubmit = async () => {
-        setKwas_mlekowy_needs(false);
-        setGlobalVariable({
-            ...globalVariable,
-            kwas_mlekowy: kwas_mlekowy,
+        const { data, error } = await supabase
+        .from('zawodnicy')
+        .update({ kwas_mlekowy: kwas_mlekowy,
             ostatnia_aktualizacja_kwasu_mlekowego: formatedDate,
             prosba_o_kwas_mlekowy: false
-        });
+         })
+        .eq('id', globalVariable.id)
+        .eq('id_trenera', globalVariable.id_trenera)
+        .eq('nazwisko', globalVariable.nazwisko)
+        .eq('imie', globalVariable.imie)
+        .select()
+
+        if(error) {
+            console.log(error);
+        }
+
+        if(data && data.length > 0) {
+            console.log(data);
+            setKwas_mlekowy_needs(false);
+            setGlobalVariable({
+                ...globalVariable,
+                kwas_mlekowy: kwas_mlekowy,
+                ostatnia_aktualizacja_kwasu_mlekowego: formatedDate,
+                prosba_o_kwas_mlekowy: false
+            });
+        }else {
+            console.log("Nie udało się zaktualizować kinazy");
+        }
+    }
+
+    const onLogOutClick = () => {
+        setGlobalVariable(null);
+        navigate('/');
     }
 
     return (
         <div className={styles.background}>
-            <SideBarCalendar name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+            <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
                     <RxHamburgerMenu/>
@@ -129,7 +152,6 @@ const DayView = () => {
                 </div>
                 <div className={styles.name}> {globalVariable.imie + " " + globalVariable.nazwisko} </div>
             </div>
-            <button onClick= {()=>{console.log(globalVariable)}}> Sprawdź zmienną globalną </button>
             {kinaza_needs ? 
             <div  className={styles.stats}>
                 <div>

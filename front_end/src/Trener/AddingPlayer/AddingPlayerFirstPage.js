@@ -88,7 +88,6 @@ const AddingPlayerFirstPage = () => {
                             onChange={handleGenderChange}
                             options={genders}
                             optionLabel="name"
-                            editable={true}
                             placeholder="Wybierz płeć"
                             className={`${styles.customDropdown} p-dropdown`}
                             panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}

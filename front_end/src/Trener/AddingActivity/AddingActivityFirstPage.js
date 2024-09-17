@@ -276,7 +276,6 @@ const AddingActivityFirstPage = () => {
         }
     };
 
-
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
@@ -310,7 +309,6 @@ const AddingActivityFirstPage = () => {
                             showTime 
                             hourFormat="24" 
                             placeholder='Wybierz datę i godzinę'
-                        
                         />
                     </div>
                 </div>
