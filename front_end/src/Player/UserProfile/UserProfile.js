@@ -9,7 +9,7 @@ import { useContext } from 'react';
 
 const UserProfile = () => {
 
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
 
     const navigate = useNavigate();
 

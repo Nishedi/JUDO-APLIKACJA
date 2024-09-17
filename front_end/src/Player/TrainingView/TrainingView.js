@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const TrainingView = () => {
 
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const [isTrainingCompleted, setIsTrainingCompleted] = useState(false);
     const [selectedMood, setSelectedMood] = useState(null);
     const [comment, setComment] = useState('');

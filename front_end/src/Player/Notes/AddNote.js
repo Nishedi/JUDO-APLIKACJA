@@ -8,10 +8,7 @@ import { createClient } from '@supabase/supabase-js';
 import { GlobalContext } from '../../GlobalContext';
 
 const AddNote = () => {
-    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey);
-    const { globalVariable } = useContext(GlobalContext);
+    const { globalVariable, supabase } = useContext(GlobalContext);
 
     // Zmienne przechowujące wybraną datę i czas
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -25,6 +22,10 @@ const AddNote = () => {
     const handleTimeChange = (time) => {
         setSelectedTime(time);
     };
+
+    // Trzeba dodać nazwę wątku, bo do tej pory 
+    // było imię i nazwisko zawodnika
+
 
     return (
         <div className={styles.background}>
@@ -40,7 +41,8 @@ const AddNote = () => {
             {/* Główna sekcja */}
             <div className={styles.mainContent}>
                 <div className={styles.noteHeader}>
-                    {globalVariable.imie + ' ' + globalVariable.nazwisko}
+                    {/* Nazwa wątku */}
+                    
                 </div>
 
                 <div className={styles.noteSection}>

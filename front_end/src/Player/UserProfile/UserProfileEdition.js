@@ -11,7 +11,7 @@ import { useContext } from 'react';
 
 const UserProfileEdition = () => {
 // Zmienne stanu przechowujące wartości pól formularza'
-   const {globalVariable, setGlobalVariable} = useContext(GlobalContext);
+   const {globalVariable, setGlobalVariable, supabase} = useContext(GlobalContext);
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
    const [error, setError] = useState('');

@@ -16,10 +16,7 @@ import 'primeicons/primeicons.css';                        // Ikony
 
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
-    const { globalVariable } = useContext(GlobalContext);
-    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { globalVariable, supabase } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
     const [time, setTime] = useState(() => {
         const initialTime = new Date();
