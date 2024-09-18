@@ -1,20 +1,11 @@
 import React,{ useState } from "react";
 import styles from "./StatsInput.module.css";
 
-const StatsInput = ({ onSubmit, initialData }) => {
+const StatsInput = ({ onSubmit, initialData, stats, setStats }) => {
 
     const [soreness, setSoreness] = useState(false); // State dla przycisku TAK/NIE
     const [mood, setMood] = useState(''); // State dla samopoczucia
-    const [stats, setStats] = useState(initialData);
 
-    const emojiIcons = [
-        'front_end/src/emojis/beaming-face-with-smiling-eyes-svgrepo-com.svg',
-        'front_end/src/emojis/neutral-face-svgrepo-com.svg',
-        'front_end/src/emojis/sad-but-relieved-face-svgrepo-com.svg',
-        'front_end/src/emojis/slightly-frowning-face-svgrepo-com.svg',
-        'front_end/src/emojis/slightly-smiling-face-svgrepo-com.svg',
-        'front_end/src/emojis/smiling-face-with-smiling-eyes-svgrepo-com.svg',
-];
 
 const Switch = ({ isOn, onToggle }) => {
     return (
@@ -60,7 +51,7 @@ const Switch = ({ isOn, onToggle }) => {
                 <div className={styles.statsInputContentElement}>
                     <p>Tętno</p>
                     <select name="tetno"
-                            value={stats.tetno} 
+                            value={stats?.tętno} 
                             onChange={handleChange}
                             className={styles.selectElement}
                     >
@@ -76,7 +67,7 @@ const Switch = ({ isOn, onToggle }) => {
                 <div className={styles.statsInputContentElement}>
                     <p>Samopoczucie</p>
                     <div className={styles.emojiContainer}>
-                        {['😢', '🙁', '😐', '🙂', '😊', '😁'].map((emoji, index) => (
+                        {['😢', '🙁', '😐', '🙂', '😊'].map((emoji, index) => (
                             <label key={index}className={styles.emojiLabel}>
                                 <input
                                     type="radio"
@@ -92,7 +83,12 @@ const Switch = ({ isOn, onToggle }) => {
                     </div>
                 </div>
 
-                {/* Zakwaszenie */}
+                <div className={styles.statsInputContentElement}>
+                    <p>Waga</p>
+                    <input type="number" name="waga" value={stats?.waga} onChange={handleChange} />
+                </div>
+
+                {/* Zakwaszenie
                 <div className={styles.statsInputContentElement2}>
                     <p>Zakwaszenie</p>
                     <div><Switch 
@@ -102,16 +98,16 @@ const Switch = ({ isOn, onToggle }) => {
                 </div>
 
                 {/* Kinaza */}
-                <div className={styles.statsInputContentElement}>
+                {/* <div className={styles.statsInputContentElement}>
                     <p>Kinaza</p>
                     <input type="text" name="kinaza" value={stats.kinaza} onChange={handleChange} />
-                </div>
+                </div> */}
 
                 {/* Komentarz */}
-                <div className={styles.statsInputContentElement}>
+                {/* <div className={styles.statsInputContentElement}>
                     <p>Komentarz</p>
                     <textarea name="komentarz" value={stats.komentarz} onChange={handleChange}></textarea>
-                </div>
+                </div> */} 
             </div>
             
             <button onClick={handleSubmit} className={styles.submitButton}>Zatwierdź</button>

@@ -2,13 +2,9 @@ import './LoginComponent.css';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
-import { createClient } from '@supabase/supabase-js'
 
 const LoginComponent = () => {
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
-    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [login, setLogin] = useState("Login");
     const [password, setPassword] = useState("Hasło");

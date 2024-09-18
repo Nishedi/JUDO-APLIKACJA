@@ -4,7 +4,6 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { GlobalContext } from '../../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 
 const TrenerTrainingView = () => {

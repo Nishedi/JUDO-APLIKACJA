@@ -74,15 +74,11 @@ const AddingPlayerSecondPage = () => {
             || data[0].imie !== `${newUser.name}`
             || data[0].nazwisko !== `${newUser.surname}`
             || data[0].login !==  `${newUser.login}`
-            || data[0].haslo !== `${newUser.password}`
-            || data[0].kategoria_wagowa !== `${newUser.weightCategory}`
-            || data[0].rocznik != newUser.yearOfBirth
-            || data[0].plec != `${newUser.gender}`
         ){
             console.log(data);
             alert("Wystąpił błąd, nie udało się dodać zawodnika");
         }else{
-            navigate('/trener/addingplayerlogininfo');
+            navigate('/trener/playerView');
         };
     }
     return (
