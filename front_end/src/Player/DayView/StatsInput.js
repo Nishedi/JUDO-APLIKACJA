@@ -10,7 +10,7 @@ const StatsInput = ({ onSubmit, initialData }) => {
     const emojiIcons = [
         'front_end/src/emojis/beaming-face-with-smiling-eyes-svgrepo-com.svg',
         'front_end/src/emojis/neutral-face-svgrepo-com.svg',
-    'front_end/src/emojis/sad-but-relieved-face-svgrepo-com.svg',
+        'front_end/src/emojis/sad-but-relieved-face-svgrepo-com.svg',
         'front_end/src/emojis/slightly-frowning-face-svgrepo-com.svg',
         'front_end/src/emojis/slightly-smiling-face-svgrepo-com.svg',
         'front_end/src/emojis/smiling-face-with-smiling-eyes-svgrepo-com.svg',
