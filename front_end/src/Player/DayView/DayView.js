@@ -23,6 +23,11 @@ const DayView = () => {
 
     const [activity, setActivity] = useState(null);
 
+    const now = new Date();
+    const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
+    const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca",
+        "Lipiec", "sierpnia", "września", "października", "listopada", "grudnia"];
+
     const handleActivityClick = (activity) => {
         navigate(`/player/trainingview/${activity.id}`, { state: { activity } });
     }
@@ -258,10 +263,9 @@ const DayView = () => {
                     <RxHamburgerMenu/>
                 </div>
                 <div className = {styles.weekDay}> 
-                    <div > Poniedziałek </div>
-                    <div className={styles.weekDayData}> 12 sierpnia </div>
+                    {dayNames[now.getDay()]}<br/> {now.getDate()+" "+monthNames[now.getMonth()]}
                 </div>
-                <div className={styles.name}> {globalVariable.imie + " " + globalVariable.nazwisko} </div>
+                <div className={styles.name}> {globalVariable.imie} <br/> {globalVariable.nazwisko} </div>
             </div>
             {kinaza_needs ? 
             <div  className={styles.stats}>

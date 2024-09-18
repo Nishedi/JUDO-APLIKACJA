@@ -1,5 +1,7 @@
 import styles from './WeekView.module.css';
-import React from 'react';
+import React, {useContext} from 'react';
+import { globalVariable } from '../../GlobalContext';
+import { GlobalContext } from '../../GlobalContext';
 
 const now = new Date();
 const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -50,6 +52,7 @@ const WeekDay = ({ day, date, training }) => {
 const WeekView = () => {
     const now = new Date();
     const { currentWeek } = getWeekRanges(now);
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
 
     const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
         const date = new Date(now);
@@ -65,7 +68,7 @@ const WeekView = () => {
                     {currentWeek}
                 </div>
                 <div className={styles.writing_div}>
-                    Konrad Pempera
+                    {globalVariable.imie} <br/> {globalVariable.nazwisko}
                 </div>
             </div>
 

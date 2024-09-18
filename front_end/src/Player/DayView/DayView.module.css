@@ -104,10 +104,10 @@
 }
 
 .weekDay{
-    padding: 5px 0px 0px 0px;
+    padding: 5px 0px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    text-align: center;
     justify-content: center;
     font-family: "Kodchasan-SemiBold";
     font-size: 20px;
@@ -139,8 +139,10 @@
 
 .name{
     display: flex;
+    padding: 10px;
     justify-content: flex-end;
-    text-align: right;
+    text-align: left;
+    align-items: center;
     font-family: "Kodchasan-SemiBold";
     font-size: 14px;
 }
