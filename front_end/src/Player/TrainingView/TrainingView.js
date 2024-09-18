@@ -29,7 +29,7 @@ const TrainingView = () => {
   const fetchActivityFromDatabase = async (activityId) => {
     try {
       let { data: aktywnosc, error } = await supabase
-        .from('aktywnosci')  // Tabela w bazie danych
+        .from('aktywności')  // Tabela w bazie danych
         .select('*')
         .eq('id', activityId)
         .single();
@@ -55,14 +55,17 @@ const TrainingView = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
+
     // Obsługa aktualizacji komentarza, odczuć i statusu w bazie danych
     try {
+      {console.log(globalVariable)}
       const { error } = await supabase
         .from('aktywności')  // Nazwa tabeli w bazie danych
         .update({
           odczucia: selectedMood,
           komentarz_zawodnika: comment,
-          status: isTrainingCompleted
+          status: trainingStatus
         })
         .eq('id', activity.id);  // Warunek aktualizacji
 
@@ -72,7 +75,7 @@ const TrainingView = () => {
         console.log('Komentarz i odczucia zaktualizowane');
       }
     } catch (err) {
-      console.error('Błąd', err);
+      console.error('Błądddd', err);
     }
   };
 
@@ -81,6 +84,7 @@ const TrainingView = () => {
   }
 
   return (
+    
     <div className={styles.background}>
       {/* Navbar */}
       <div className={styles.navbar}>
@@ -110,7 +114,6 @@ const TrainingView = () => {
             )}
           </ul>
         </div>
-
         <div className={styles.switchContainer}>
           <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
           <label className={styles.switch}>
