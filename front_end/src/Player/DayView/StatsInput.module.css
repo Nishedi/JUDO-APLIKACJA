@@ -38,18 +38,18 @@
 
 
 .statsInputTitle  {
-   
     padding: 10px 0px;
     padding-top: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: #f0f3fb;
     padding: 10px;
     border-radius: 25px;
     margin-top: 0;
     margin: 0 ;
-    width: 60%;
+    width: 100%;
 }
 
 .statsInputTitle p  {

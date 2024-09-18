@@ -40,6 +40,7 @@ function App() {
           <Route path = "player/addnote" element={<AddNote/>} />
           <Route path = "/trener/singleplayersingleday" element = {<SinglePlayerSingleDayView />} />
           <Route path = "/trener/trainingview" element = {<TrenerTrainingView />} />
+          <Route path = "/player/trainingview/:id" element = {<TrainingView />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

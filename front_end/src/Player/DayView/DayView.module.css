@@ -7,7 +7,6 @@
 
 .rectangleStats{
   display: flex; /* Użycie flexbox do ustawienia układu */
-  justify-content: space-between; /* Rozdziela przestrzeń między elementami, aby strzałka była po prawej stronie */
   align-items: center; /* Centruje elementy pionowo */
 
     background-color: #FFFFFF; /* Biały kolor tła */
@@ -18,7 +17,7 @@
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); /* Delikatny cień */
   }
   
-.rectangleSActivities{
+  .rectangleSActivities{
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF; /* Biały kolor tła */
@@ -28,7 +27,7 @@
   }
 
 
- .dayHeader {
+  .dayHeader {
     color: #000000; /* Niebieski kolor tekstu */
     font-size: 16px; /* Większa czcionka */
     font-family: 'Montserrat-Medium';
@@ -72,12 +71,15 @@
 }
 
 .activity p {
-    padding-left: 10px;
-    color: #000000;
-    font-size: 15px;
-    font-family: 'Montserrat-Regular';
-    margin: 5px;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 10px;
+  color: #000000;
+  font-size: 15px;
+  font-family: 'Montserrat-Regular';
+  margin: 5px;
+}
 
 .activity h3 {
     padding-top: 5px;

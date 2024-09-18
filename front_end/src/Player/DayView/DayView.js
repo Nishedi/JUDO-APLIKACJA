@@ -7,39 +7,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
-
-// Tu sie domyślam, że można by utworzyć jeden komponent
-// i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
-// ale na razie chcę po prostu zrobić cokolwiek
-
-const Activity = ({title, wykonany, odczucia, komentarz, color, borderColor}) => {
-    return (
-    <div className={styles.activity} 
-        style={{
-            backgroundColor: color,
-            borderColor: borderColor
-            }}
-    >
-            <div>
-                <h3>{title}</h3>
-                <p>Wykonany: {wykonany}</p>
-                <p>Odczucia: {odczucia}</p>
-                <p>Komentarz: {komentarz}</p>
-            </div>
-            {/* <div> tu bedzie strzałka w prawo </div> */}
-            <IoIosArrowForward  className={styles.right_arrow} style={{ color: borderColor }}  />
-        </div>
-    );
-}
-
+import { createClient } from '@supabase/supabase-js';
 
 const DayView = () => {
-    const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
-    const supabase = createClient(supabaseUrl, supabaseKey);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [kinaza_needs, setKinaza_needs] = useState(globalVariable.prosba_o_kinaze);
@@ -47,6 +20,12 @@ const DayView = () => {
     const [kinaza, setKinaza] = useState('');
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
     const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
+
+    const [activity, setActivity] = useState(null);
+
+    const handleActivityClick = (activity) => {
+        navigate(`/player/trainingview/${activity.id}`, { state: { activity } });
+    }
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -113,7 +92,6 @@ const DayView = () => {
         }
 
         if(data && data.length > 0) {
-            console.log(data);
             setKwas_mlekowy_needs(false);
             setGlobalVariable({
                 ...globalVariable,
@@ -129,6 +107,87 @@ const DayView = () => {
     const onLogOutClick = () => {
         setGlobalVariable(null);
         navigate('/');
+    }
+
+    const getActivity = async () => {
+        const currentDate = `${String(globalVariable.viewedDate.getDate()).padStart(2, '0')}.${String(globalVariable.viewedDate.getMonth() + 1).padStart(2, '0')}.${globalVariable.viewedDate.getFullYear()}`;
+        console.log(currentDate);
+    
+        let { data: aktywnosc, error } = await supabase
+            .from('aktywności')
+            .select("*")
+            .eq('data', currentDate)
+            .eq('id_trenera', globalVariable.id_trenera)
+            .eq('id_zawodnika', globalVariable.id);
+    
+        if (error) {
+            console.error("Błąd pobierania aktywności", error);
+            return;
+        }
+    
+        if(aktywnosc && aktywnosc.length > 0) {
+            setActivity(aktywnosc);
+        }
+    }
+    
+    useEffect(() => {
+        getActivity();
+    }, []);
+    
+    const Activity = ({activity}) => {
+        return (
+        <div className={styles.activity}
+            // onClick={() => handleActivityClick(activity)}
+            style={{
+                backgroundColor: getActivityColor(activity.rodzaj_aktywności),
+                borderColor: getBorderColor(activity.rodzaj_aktywności)
+                }}
+            >
+                <div>
+                    <h3>{activity.rodzaj_aktywności}</h3>
+                    <p>Godzina rozpoczęcia: <div>{activity.czas_rozpoczęcia}</div></p>
+                    <p>Status: <div>{activity.status}</div></p>
+                    <p >Odczucia: 
+                        <GetFeelingsEmoticon
+                            feelingsAfter={activity.odczucia}
+                        />
+                    </p>
+                    <p>Komentarz: <div>{activity.komentarz_zawodnika}</div></p>
+                </div>
+                {/* <div> tu bedzie strzałka w prawo </div> */}
+                <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
+            </div>
+        );
+    }
+
+    const getActivityColor = (activity_type) => {
+        switch (activity_type) {
+            case 'Trening motoryczny':
+                return '#FF7A68';
+            case 'Biegowy':
+                return '#95C6FF';
+            case 'Na macie':
+                return '#FFF281';
+            case 'Fizjoterapia':
+                return '#83FF8F';
+            default:
+                return '#FF7A68';
+        }
+    }
+
+    const getBorderColor = (activity_type) => {
+        switch (activity_type) {
+            case 'Trening motoryczny':
+                return '#BE0000';
+            case 'Biegowy':
+                return '#0056BA';
+            case 'Na macie':
+                return '#CCB700';
+            case 'Fizjoterapia':
+                return '#00C514';
+            default:
+                return '#BE0000';
+        } 
     }
 
     const GetFeelingsEmoticon = ({feelingsAfter}) => {
@@ -278,39 +337,26 @@ const DayView = () => {
                     <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
                     <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
                         <div>
-                           <Activity
-                                title="Trening motoryczny"
-                                wykonany="tak"
-                                odczucia="Zle"
-                                komentarz="brak"
-                                color="#FF7A68"
-                                borderColor="#BE0000"
-                           />
-                            <Activity
-                                title="Trening biegowy"
-                                wykonany="tak"
-                                odczucia="Zle"
-                                komentarz="brak"
-                                color="#95C6FF"
-                                borderColor="#0056BA"
-                               
-                           />
-                            <Activity
-                                title="Trening mata"
-                                wykonany="tak"
-                                odczucia="Zle"
-                                komentarz="brak"
-                                color="#FFF281"
-                                borderColor="#CCB700"
-                           />
-                            <Activity
-                                title="Fizjoterapia"
-                                wykonany="tak"
-                                odczucia="Zle"
-                                komentarz="brak"
-                                color="#83FF8F"
-                                borderColor="#00C514"
-                           />    
+                        {activity
+                                ?.sort((a, b) => {
+                                    const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
+                                    const [hoursB, minutesB] = b.czas_rozpoczęcia.split(':').map(Number);
+                                    if (hoursA !== hoursB) {
+                                        return hoursA - hoursB;
+                                    }
+                                    return minutesA - minutesB;
+                                })
+                                .map((activit, index) => (
+                                    <div 
+                                        key={index} 
+                                        onClick={() => handleActivityClick(activit)}
+                                    >
+                                        <Activity
+                                            activity={activit}
+                                        />
+                                    </div>
+                                ))
+                            }
 
                         </div>
                         

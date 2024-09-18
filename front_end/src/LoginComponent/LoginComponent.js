@@ -38,8 +38,11 @@ const LoginComponent = () => {
 
             if(dane_zawodnika.length!==0 && dane_zawodnika[0].haslo === password){
                 setIsLogged(true);
-                setGlobalVariable(dane_zawodnika[0]);
-                navigate('/player/dayview');
+                setGlobalVariable({
+                    ...dane_zawodnika[0],
+                    viewedDate: new Date()
+                });
+                    navigate('/player/dayview');
             }else{
                 setIsLogged(false);
                 setPassword("Hasło");
