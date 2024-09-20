@@ -112,7 +112,7 @@ const SinglePlayerWeekView = () => {
             <div>
                 <span>{getStatusEmoticon(treningStatus)}</span> {/* Emotikona statusu */}
                 
-                <span> {getFeelingsEmoticon(feelingsAfter)} {feelingsAfter}</span>
+                <span> {getFeelingsEmoticon(feelingsAfter)}</span>
                
             </div>
         );
@@ -210,7 +210,7 @@ const SinglePlayerWeekView = () => {
                     {currentWeek}
                 </div>
                 <div className={styles.writing_div}>
-                    {viewedPlayer.imie} {viewedPlayer.nazwisko}
+                    {viewedPlayer.imie} <br/> {viewedPlayer.nazwisko}
                 </div>
             </div>
             <div  className={styles.weekDay}>

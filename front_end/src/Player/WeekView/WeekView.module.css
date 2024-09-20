@@ -3,19 +3,21 @@
     grid-template-rows: 1fr 10fr; 
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #D7DFEE;
 }
 
 .navbar{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 20px;
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #FFFFFF;
     font-family: "Poppins-Medium";
-    font-size: 10px;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    height: 80px;
+    min-height: 80px;
 }
 
 .right_navbar{
@@ -28,6 +30,7 @@
 .date_div, .writing_div{
     display: flex;
     justify-content: right;
+    text-align: right;
 }
 
 .writing_div{
@@ -40,17 +43,13 @@
 .date_div{
     display: flex;
     justify-content: left;
-    align-items: center;
     font-family: 'Montserrat-SemiBold';
-    font-size: 16px;
+    font-size: 14px;
     color: #FFFFFF;
     white-space: nowrap;
 }
 
 .weekDay{
-    display: flex;
-    justify-content: left;
-    align-items: center;
     border-radius: 16px;
     background-color: #FFFFFF;
     margin: 10px;
@@ -77,8 +76,10 @@
 }
 
 .weeklist{
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    /* display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -107,6 +108,50 @@
     margin: 5px;
   }
 
+  .optionalStats {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    margin: 10px;
+    margin-bottom: 0px;
+  }
+
+  .buttonTrening {
+    justify-self: center;
+    background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+    color: #FFFFFF;
+    width: 42%;
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 0px;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 12px;
+}
+
+.underButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 10px; */
+    width: 42%;
+    font-size: 11px;
+    
+}
+
+.underButtons{
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    margin: 0px 10px;
+  }
+
 .activity h3 {
     padding-top: 5px;
     padding-left: 10px;
@@ -116,7 +161,16 @@
     text-align: justify;
 }
 
-.writing_div {
-    margin-right: 10px;
-    align-items: center;
+.singleActivity{
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.singleActivityInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: space-between;
 }
