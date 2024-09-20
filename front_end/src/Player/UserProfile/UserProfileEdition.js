@@ -37,7 +37,7 @@ const UserProfileEdition = () => {
        try {
            // Zaktualizowanie danych użytkownika w Supabase
            const { data, error } = await supabase
-               .from('users')
+               .from('zawodnicy')
                .update({
                    imie: firstname.value,
                    nazwisko: lastname.value,
