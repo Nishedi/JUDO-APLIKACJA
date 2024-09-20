@@ -126,6 +126,10 @@ const WeekView = () => {
         navigate(`/player/dayview/${formattedDate}`);
     }
     
+    const handleDayClick = (selectedDate) => {
+        navigate(`/player/dayview/${selectedDate}`);
+    };
+
     const WeekDay = ({ day, date}) => {
         const activities = getActivitiesForThatDay(date);
         return (

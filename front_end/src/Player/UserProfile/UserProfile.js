@@ -26,10 +26,10 @@ const UserProfile = () => {
                 </div>
                 <div className={styles.profilDiv}>
                     <div className={styles.end} >
-                        Twoj profil 
+                        Twoj profil
                     </div>
                     <div className={styles.uppercase}>
-                    {globalVariable.firstname} {globalVariable.lastname}
+                    {globalVariable.imie} {globalVariable.nazwisko}
                     </div>
                 </div>
         </div>
@@ -39,13 +39,24 @@ const UserProfile = () => {
                 <h2>Dane użytkownika</h2>
             </div>
             <div>
-                <div className={styles.userdetails}>
-                <p>Imię: {globalVariable.firstname}</p>
-                <p>Nazwisko:{globalVariable.lastname}</p>
-                <p>Login: {globalVariable.login}</p>
-                <p>Płeć: {globalVariable.gender}</p>
-                <p>Rocznik: {globalVariable.year}</p>
-                <p>Kategoria wagowa:{globalVariable.weight}</p>
+            <div className={styles.userdetails1}>
+                <p>Imię: <strong>{globalVariable.imie}</strong></p>
+                <div className={styles.line}></div>
+
+                <p>Nazwisko: <strong>{globalVariable.nazwisko}</strong></p>
+                <div className={styles.line}></div>
+                
+                <p>Login: <strong>{globalVariable.login}</strong></p>
+                <div className={styles.line}></div>
+
+                <p>Płeć: <strong>{globalVariable.plec}</strong></p>
+                <div className={styles.line}></div>
+
+                <p>Rocznik: <strong>{globalVariable.rocznik}</strong></p>
+                <div className={styles.line}></div>
+                
+                <p>Kategoria wagowa: <strong>{globalVariable.kategoria_wagowa}</strong></p>
+
             </div>
             <div className={styles.buttoncenter}>
                 <button className={styles.buttonUser} onClick={handleEditClick}>

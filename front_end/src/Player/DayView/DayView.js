@@ -8,6 +8,7 @@ import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
+import { useParams } from "react-router-dom";
 
 const DayView = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
@@ -22,6 +23,7 @@ const DayView = () => {
     const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
 
     const [activity, setActivity] = useState(null);
+    const { date } = useParams(); // pobieranie daty z url
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -116,28 +118,43 @@ const DayView = () => {
 
     const getActivity = async () => {
         const currentDate = `${String(globalVariable.viewedDate.getDate()).padStart(2, '0')}.${String(globalVariable.viewedDate.getMonth() + 1).padStart(2, '0')}.${globalVariable.viewedDate.getFullYear()}`;
-        console.log(currentDate);
     
-        let { data: aktywnosc, error } = await supabase
-            .from('aktywności')
-            .select("*")
-            .eq('data', currentDate)
-            .eq('id_trenera', globalVariable.id_trenera)
-            .eq('id_zawodnika', globalVariable.id);
+         // Użyj `data` bezpośrednio do pobierania aktywności
+        const formattedDate = date; // Zakładając, że `data` jest w formacie "DD.MM.YYYY"
+
+        // let { data: aktywnosc, error } = await supabase
+        //     .from('aktywności')
+        //     .select("*")
+        //     .eq('data', currentDate)
+        //     .eq('id_trenera', globalVariable.id_trenera)
+        //     .eq('id_zawodnika', globalVariable.id);
     
-        if (error) {
-            console.error("Błąd pobierania aktywności", error);
-            return;
-        }
-    
-        if(aktywnosc && aktywnosc.length > 0) {
-            setActivity(aktywnosc);
+        if (date) {
+            // Przykład użycia formatu "DD.MM.YYYY" do pobierania aktywności z bazy danych
+            const { date: aktywnosc, error } = await supabase
+                .from('aktywności')
+                .select("*")
+                .eq('data', formatedDate)  // "data" w formacie "DD.MM.YYYY"
+                .eq('id_trenera', globalVariable.id_trenera)
+                .eq('id_zawodnika', globalVariable.id);
+                
+            if (error) {
+                console.error("Błąd pobierania aktywności", error);
+                return;
+            }
+        
+            if(aktywnosc && aktywnosc.length > 0) {
+                setActivity(aktywnosc);
+            }
         }
     }
     
     useEffect(() => {
-        getActivity();
-    }, []);
+        if (date){
+            console.log("pobrana data; ", date);
+            getActivity();  // pobieranie aktywności z bazy dla wybranej daty
+        }
+    }, [date]);
     
     const Activity = ({activity}) => {
         return (
