@@ -3,7 +3,7 @@ import styles from './SideBar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 
 
-const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick }) => {
+const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile }) => {
 
     
 
@@ -25,11 +25,18 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                         Dodaj zawodnika
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
-                    <div className={styles.emptyElement}></div>   
+{/* ------------------------------------------------------------------- */}
+                    <div className={styles.emptyElement}></div>
+{/* ------------------------------------------------------------------- */}
+                    <div onClick={goToProfile} className={styles.singleClickableElemement}>
+                        Twój profil
+                        <IoIosArrowForward className={styles.right_arrow} />    
+                    </div>
+                    <div className={styles.line}></div>
                     <div onClick = {onLogOutClick}
                     className={styles.singleClickableElemementv2}>
                         Wyloguj
-                        <IoIosArrowForward className={styles.right_arrow} />
+                        {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                     </div>
                 </div>
         </div>

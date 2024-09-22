@@ -54,13 +54,17 @@ const PlayersView = () => {
         navigate('/trener/singleplayerweekview');
     }
 
+    const goToProfile = () => {
+        navigate('/trener/userprofile');
+    }
+
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
         "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
     return (
         <div className={styles.background}>
-            <Sidebar isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick}/>
+            <Sidebar isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar}>
                     <RxHamburgerMenu className={styles.burger}/>
