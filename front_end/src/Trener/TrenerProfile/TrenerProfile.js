@@ -11,9 +11,11 @@ const TrenerProfile = () => {
 
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
 
+    const [isClicked, setIsClicked] = useState(false);
     const navigate = useNavigate();
 
     const handleEditClick = () => {
+        setIsClicked(!isClicked);
         navigate('/trener/profileedition'); // Przekierowanie do strony edycji profilu
     }
 
@@ -50,7 +52,9 @@ const TrenerProfile = () => {
                 <div className={styles.line}></div>
             </div>
             <div className={styles.buttoncenter}>
-                <button className={styles.buttonUser} onClick={handleEditClick}>
+                <button 
+                    className={`${styles.buttonUser} ${isClicked ? styles.clicked : ''}`}
+                    onClick={handleEditClick}>
                     Edytuj profil
                 </button>
             </div>

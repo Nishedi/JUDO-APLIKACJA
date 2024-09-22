@@ -15,6 +15,11 @@ const TrenerProfileEdition = () => {
    const oldestYear = currentYear - 100;
    const years = [];
 
+   const [isClicked, setIsClicked] = useState(false);
+
+   const handleClick = () => {
+         setIsClicked(!isClicked);
+    };
 
    
    for (let i = currentYear; i >= oldestYear; i--) {
@@ -112,7 +117,10 @@ const TrenerProfileEdition = () => {
 
                        {error && <p style={{ color: 'red' }}>{error}</p>}
                        <div className={styles.buttoncenter}>
-                           <button className={styles.buttonEdit} type="submit">Zapisz</button>
+                           <button 
+                                onClick={handleClick} 
+                                className={`${styles.buttonEdit} ${isClicked ? styles.clicked : ''}`}
+                                type="submit">Zapisz</button>
                        </div>
                    </form>
                </div>

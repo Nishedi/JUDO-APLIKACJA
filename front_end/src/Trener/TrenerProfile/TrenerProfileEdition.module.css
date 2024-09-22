@@ -89,6 +89,10 @@ input, select{
     background-color: #103476;
 }
 
+.clicked {
+    background-color: #103476;
+}
+
 .buttoncenter {
     display: flex;
     justify-content: center;
