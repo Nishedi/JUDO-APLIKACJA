@@ -229,6 +229,11 @@ const DayView = () => {
         if (stats) {
             if(stats.length > 0) {
                 setStats(stats[0]);
+                if(stats[0]?.tętno && stats[0]?.samopoczucie && stats[0]?.waga){
+                    setIsEditing(false);
+                }else{
+                    setIsEditing(true);
+                }
             }else{
                 const { data, error } = await supabase
                     .from('statystyki_zawodników')
@@ -241,6 +246,7 @@ const DayView = () => {
                     return;
                 }
                 setStats(data[0]);
+                setIsEditing(true);
             }
         }
     };
@@ -263,11 +269,7 @@ const DayView = () => {
 
     useEffect(() => {
         getActivity(); 
-        if(stats?.tętno && stats?.samopoczucie && stats?.waga){
-            setIsEditing(false);
-        }else{
-            setIsEditing(true);
-        }
+        
     }, []);
 
     return (

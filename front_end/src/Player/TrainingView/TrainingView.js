@@ -1,13 +1,13 @@
 import styles from './TrainingView.module.css';
 import React, { useEffect } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
 
 const TrainingView = () => {
-  const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
+  const { supabase } = useContext(GlobalContext);
   const [isTrainingCompleted, setIsTrainingCompleted] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
   const [comment, setComment] = useState('');
@@ -17,16 +17,12 @@ const TrainingView = () => {
   const [activity, setActivity] = useState(null); // Tutaj będzie pobrana aktywność z bazy danych
 
   useEffect(() => {
-    if (location.state && location.state.activity) {
-      setActivity(location.state.activity);
-    } else {
-      // Pobranie aktywności z bazy danych
-      fetchActivityFromDatabase(id);
-    }
+    fetchActivityFromDatabase(id);
   }, [id, location.state]);
 
   // Pobieranie aktywności z bazy danych
   const fetchActivityFromDatabase = async (activityId) => {
+
     try {
       let { data: aktywnosc, error } = await supabase
         .from('aktywności')  // Tabela w bazie danych
@@ -37,6 +33,7 @@ const TrainingView = () => {
       if (error) {
         console.error('Błąd podczas pobierania aktywności FETCHACTFROMDATAB:', error);
       } else {
+        console.log('Aktywność pobrana z bazy danych:', aktywnosc);
         setActivity(aktywnosc);
         setIsTrainingCompleted(aktywnosc.status);
         setSelectedMood(aktywnosc.odczucia);
@@ -168,7 +165,7 @@ const TrainingView = () => {
         <p><strong>Odczucia po treningu</strong></p>
         <div className={styles.moodContainer}>
           <div className={styles.moods}>
-            {['☹️', '😕', '😐', '🙂','😊'].map((mood, index) => (
+            {['😢','☹️', '😐', '🙂','😊'].map((mood, index) => (
               <span
                 key={index}
                 className={`${styles.mood} ${pickEmoticon(selectedMood) === mood ? styles.selected : ''}`}
