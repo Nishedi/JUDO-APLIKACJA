@@ -1,15 +1,19 @@
 import styles2 from "./SignlePlayerQuickInfo.module.css";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { GlobalContext } from "../../GlobalContext";
 import { useContext } from "react";
+import { GetFeelingsEmoticon,TreningStatus } from "../../CommonFunction"
 
 const SimpleInfo = ({ player, onClick }) => {
     const { supabase } = useContext(GlobalContext);
     const currentDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
     const [stats, setStats] = useState(null);
     const [currentDayActivities, setCurrentDayActivities] = useState(null);
-    const [doneActivities, setDoneActivities] = useState(0);
+    const hasFetched = useRef(false); 
+
     const getStatsDay = async () => {
+        if (hasFetched.current) return;  // Sprawdzenie flagi
+        hasFetched.current = true;  // Ustawienie flagi
         let { data: stats, error } = await supabase
             .from('statystyki_zawodników')
             .select("*")
@@ -24,7 +28,6 @@ const SimpleInfo = ({ player, onClick }) => {
             if(stats.length > 0) {
                 setStats(stats[0]);
             }else{
-                console.log(player)
                 const { data, error } = await supabase
                     .from('statystyki_zawodników')
                     .insert([
@@ -40,40 +43,11 @@ const SimpleInfo = ({ player, onClick }) => {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         getStatsDay();
         getCurrentDayActivities();
-    } 
-    , []);
-
-    useEffect(() => {
-        countDoneActivities();
-    }, [currentDayActivities]);
-
-    const GetFeelingsEmoticon = ({feelingsAfter}) => {
-        const pickEmoticon = (feelingsAfter) => {
-            switch (feelingsAfter) {
-                case 'Bardzo źle':
-                    return '😢';  // Bardzo źle
-                case 'Źle':
-                    return '😕';  // Źle
-                case 'Neutralnie':
-                    return '😐';  // Neutralnie
-                case 'Dobrze':
-                    return '🙂';  // Dobrze
-                case 'Bardzo dobrze':
-                    return '😁';  // Bardzo dobrze
-                default:
-                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
-            }
-        };
-        return (
-            <div>
-                <span> {pickEmoticon(feelingsAfter)} </span>
-            </div>
-        );
-    };
-
+    }, []);
+    
     const getCurrentDayActivities = async () => {
         let { data: activities, error } = await supabase
             .from('aktywności')
@@ -88,33 +62,6 @@ const SimpleInfo = ({ player, onClick }) => {
         if (activities) {
             setCurrentDayActivities(activities);
         }
-    }
-    const TreningStatus = ({ treningStatus}) => {
-        const getStatusEmoticon = (treningStatus) => {
-            switch (treningStatus) {
-                case 'Nierozpoczęty':
-                    return '⏳';  // Emotikona oczekiwania
-                case 'Zrealizowany':
-                    return '✅';  // Emotikona wykonania
-                case 'Niezrealizowany':
-                    return '❌';  // Emotikona niewykonania
-                default:
-                    return '🤷';  // Emotikona na wypadek nieznanego statusu
-            }
-        };
-    
-        return (
-            <div style={{fontSize: '16px'}}>
-               <span>{getStatusEmoticon(treningStatus)}</span>
-            </div>
-        );
-    };
-
-    const countDoneActivities = () => {
-        if (currentDayActivities) {
-            return setDoneActivities(currentDayActivities?.filter(activity => activity.status==="Zrealizowany").length);
-        }
-        return 0;
     }
 
     return (

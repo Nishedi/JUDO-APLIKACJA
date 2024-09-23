@@ -1,7 +1,7 @@
 import styles from "./DayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
 import StatsInput from "./StatsInput";
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext, useEffect, useRef, useLayoutEffect} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
@@ -11,8 +11,10 @@ import { createClient } from '@supabase/supabase-js';
 import { useParams } from "react-router-dom";
 
 const DayView = () => {
+    const hasFetched = useRef(false);  // zeby nie wysylac statystyk dwukrotnie
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
@@ -21,9 +23,7 @@ const DayView = () => {
     const [kinaza, setKinaza] = useState('');
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
     const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
-
     const [activity, setActivity] = useState(null);
-    const { date } = useParams(); // pobieranie daty z url
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -117,24 +117,10 @@ const DayView = () => {
     }
 
     const getActivity = async () => {
-        const currentDate = `${String(globalVariable.viewedDate.getDate()).padStart(2, '0')}.${String(globalVariable.viewedDate.getMonth() + 1).padStart(2, '0')}.${globalVariable.viewedDate.getFullYear()}`;
-    
-         // Użyj `data` bezpośrednio do pobierania aktywności
-        const formattedDate = date; // Zakładając, że `data` jest w formacie "DD.MM.YYYY"
-
-        // let { data: aktywnosc, error } = await supabase
-        //     .from('aktywności')
-        //     .select("*")
-        //     .eq('data', currentDate)
-        //     .eq('id_trenera', globalVariable.id_trenera)
-        //     .eq('id_zawodnika', globalVariable.id);
-    
-        if (date) {
-            // Przykład użycia formatu "DD.MM.YYYY" do pobierania aktywności z bazy danych
-            const { date: aktywnosc, error } = await supabase
+        const { data: aktywnosc, error } = await supabase
                 .from('aktywności')
                 .select("*")
-                .eq('data', formatedDate)  // "data" w formacie "DD.MM.YYYY"
+                .eq('data', formatedDate)
                 .eq('id_trenera', globalVariable.id_trenera)
                 .eq('id_zawodnika', globalVariable.id);
                 
@@ -142,19 +128,11 @@ const DayView = () => {
                 console.error("Błąd pobierania aktywności", error);
                 return;
             }
-        
+            
             if(aktywnosc && aktywnosc.length > 0) {
                 setActivity(aktywnosc);
-            }
-        }
+            }    
     }
-    
-    useEffect(() => {
-        if (date){
-            console.log("pobrana data; ", date);
-            getActivity();  // pobieranie aktywności z bazy dla wybranej daty
-        }
-    }, [date]);
     
     const Activity = ({activity}) => {
         return (
@@ -176,7 +154,6 @@ const DayView = () => {
                     </p>
                     <p>Komentarz: <div>{activity.komentarz_zawodnika}</div></p>
                 </div>
-                {/* <div> tu bedzie strzałka w prawo </div> */}
                 <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
             </div>
         );
@@ -237,6 +214,8 @@ const DayView = () => {
     };
 
     const getStatsDay = async () => {
+        if (hasFetched.current) return; 
+        hasFetched.current = true; 
         const currentDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
         let { data: stats, error } = await supabase
             .from('statystyki_zawodników')
@@ -268,8 +247,29 @@ const DayView = () => {
         }
     };
 
-    useEffect(() => {
+    const onConfirmClick = async () => {
+        setIsEditing(false);
+        const { data, error } = await supabase
+            .from('statystyki_zawodników')
+            .update({ tętno: stats.tętno, samopoczucie: stats.samopoczucie, waga: stats.waga ? stats.waga : null })
+            .eq('id', stats?.id)
+            .eq('id_trenera', globalVariable.id_trenera)
+            .eq('id_zawodnika', globalVariable.id)
+            .eq('data', formatedDate)
+            .select()
+    }
+
+    useLayoutEffect(() => {
         getStatsDay();
+    }, []);
+
+    useEffect(() => {
+        getActivity(); 
+        if(stats?.tętno && stats?.samopoczucie && stats?.waga){
+            setIsEditing(false);
+        }else{
+            setIsEditing(true);
+        }
     }, []);
 
     return (
@@ -337,27 +337,27 @@ const DayView = () => {
             
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
-                    <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
-                        <div >
-                        {stats?.tętno && stats?.samopoczucie && stats?.zakwaszenie ? (
+                <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
+                    <div>
+                        {!isEditing? (
                             <>
                                 <p className={styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
                                 <div className={styles.text}>
-                                    <p>Tętno: {stats?.tetno || "Proszę podać"}</p>
+                                    <p>Tętno: {stats?.tętno || "Proszę podać"}</p>
                                     <p>Samopoczucie: {stats?.samopoczucie || "Proszę podać"}</p>
-                                    <p>Waga: {stats?.zakwaszenie || "Proszę podać"}</p>
+                                    <p>Waga: {stats?.waga || "Proszę podać"}</p>
                                 </div>
+                                <button onClick={() => setIsEditing(true)} className={styles.submitButton}>Edytuj</button>
                             </>
                         ) : (
-                            <StatsInput onSubmit={handleStatsSubmit} stats={stats} setStats={setStats} />
+                            <StatsInput onConfirmClick={onConfirmClick} stats={stats} setStats={setStats} />                            
                         )}
-                        </div>
-                        <IoIosArrowDown className={styles.down_arrow} />
                     </div>
-                   
-                    <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
+                    <IoIosArrowDown className={styles.down_arrow} />
+                </div>
+                <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
                     <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
-                        <div>
+                    <div>
                         {activity
                                 ?.sort((a, b) => {
                                     const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
@@ -378,14 +378,9 @@ const DayView = () => {
                                     </div>
                                 ))
                             }
-
-                        </div>
-                        
-
-                    </div>
-
-            </div>
-            
+                    </div> 
+                </div>         
+            </div>           
         </div>
     );
 }

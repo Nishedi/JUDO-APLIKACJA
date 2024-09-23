@@ -8,8 +8,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 
 const PlayersView = () => {
-    const {viewedPlayer, setViewedPlayer, supabase} = useContext(GlobalContext);
-    const { globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const {setViewedPlayer, supabase} = useContext(GlobalContext);
+    const {globalVariable, setGlobalVariable } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [players, setPlayers] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);

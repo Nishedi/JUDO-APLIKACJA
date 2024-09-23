@@ -1,25 +1,25 @@
-import React,{ useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./StatsInput.module.css";
+import {GetFeelingsEmoticon} from "../../CommonFunction"
 
-const StatsInput = ({ onSubmit, initialData, stats, setStats }) => {
-
-    const [soreness, setSoreness] = useState(false); // State dla przycisku TAK/NIE
-    const [mood, setMood] = useState(''); // State dla samopoczucia
-
-
-const Switch = ({ isOn, onToggle }) => {
-    return (
-      <label className={styles.switch}>
-        <input type="checkbox" checked={isOn} onChange={onToggle} />
-        <span
-          className={`${styles.slider} ${
-            isOn ? styles.on : styles.off
-          }`}
-        ></span>
-      </label>
-    );
-  };
-
+const StatsInput = ({ onConfirmClick, stats, setStats }) => {
+    const pickEmoticon = (feelingsAfter) => {
+        switch (feelingsAfter) {
+            case 'Bardzo źle':
+                return '😢';  // Bardzo źle
+            case 'Źle':
+                return '🙁';  // Źle
+            case 'Neutralnie':
+                return '😐';  // Neutralnie
+            case 'Dobrze':
+                return '🙂';  // Dobrze
+            case 'Bardzo dobrze':
+                return '😊';  // Bardzo dobrze
+            default:
+                return '😐';  // Brak emotikony, jeśli nie ma odczuć
+        }
+    };
+    const [mood, setMood] = useState(pickEmoticon(stats?.samopoczucie)); // State dla samopoczucia
     const handleChange = (e) => {
         const { name, value } = e.target;
         setStats(prevStats => ({
@@ -28,15 +28,60 @@ const Switch = ({ isOn, onToggle }) => {
         }));
     };
 
-    const handleToggle = () => {
-        setStats(prevStats => ({ 
-          ...prevStats, 
-          zakwaszenie: prevStats.zakwaszenie === "TAK" ? "NIE" : "TAK" 
-        }));
-      };
+    const collectAndSubmit = () => {
+       
+        onConfirmClick();
+    };
 
-    const handleSubmit = () => {
-        onSubmit(stats);
+
+    useEffect(() => {
+        setMood(pickEmoticon(stats?.samopoczucie));
+    }, [stats?.samopoczucie]);
+
+    const setMoodFromEmoticon = (feelingsAfter) => {
+        switch (feelingsAfter) {
+            case '😢':
+                setStats(prevStats => ({
+                    ...prevStats,
+                    samopoczucie: 'Bardzo źle'
+                }));
+                setMood('Bardzo źle');  
+                break; // Dodaj break, aby uniknąć "fall-through"
+            case '🙁':
+                setStats(prevStats => ({
+                    ...prevStats,
+                    samopoczucie: 'Źle'
+                }));
+                setMood('Źle');
+                break;
+            case '😐':
+                setStats(prevStats => ({
+                    ...prevStats,
+                    samopoczucie: 'Neutralnie'
+                }));
+                setMood('Neutralnie');  
+                break;
+            case '🙂':
+                setStats(prevStats => ({
+                    ...prevStats,
+                    samopoczucie: 'Dobrze'
+                }));
+                setMood('Dobrze'); 
+                break;
+            case '😊':
+                setStats(prevStats => ({
+                    ...prevStats,
+                    samopoczucie: 'Bardzo dobrze'
+                }));
+                setMood('Bardzo dobrze');  
+                break;
+            default:
+                setStats(prevStats => ({
+                    ...prevStats,
+                    samopoczucie: 'Neutralnie'
+                }));
+                setMood('Neutralnie');  // Brak emotikony, jeśli nie ma odczuć
+        }
     };
 
     return (
@@ -50,10 +95,11 @@ const Switch = ({ isOn, onToggle }) => {
                 {/* Tętno */}
                 <div className={styles.statsInputContentElement}>
                     <p>Tętno</p>
-                    <select name="tetno"
-                            value={stats?.tętno} 
-                            onChange={handleChange}
-                            className={styles.selectElement}
+                    <select 
+                        name="tętno"
+                        value={stats?.tętno} 
+                        onChange={handleChange}
+                        className={styles.selectElement}
                     >
                         {Array.from({ length: 151 }, (_, i) => (
                             <option key={i} value={i + 50}>
@@ -68,16 +114,16 @@ const Switch = ({ isOn, onToggle }) => {
                     <p>Samopoczucie</p>
                     <div className={styles.emojiContainer}>
                         {['😢', '🙁', '😐', '🙂', '😊'].map((emoji, index) => (
-                            <label key={index}className={styles.emojiLabel}>
+                            <label key={index} className={styles.emojiLabel}>
                                 <input
                                     type="radio"
                                     name="mood"
                                     value={emoji}
-                                    checked={mood === emoji}
-                                    onChange={() => setMood(emoji)}
+                                    checked={emoji === pickEmoticon(stats?.samopoczucie)}
+                                    onChange={() => setMoodFromEmoticon(emoji)} // Przekazujemy emoji
                                     className={styles.emojiInput}
                                 />
-                               <span className={styles.emoji}>{emoji}</span>
+                                <span className={styles.emoji}>{emoji}</span>
                             </label>
                         ))}
                     </div>
@@ -85,34 +131,17 @@ const Switch = ({ isOn, onToggle }) => {
 
                 <div className={styles.statsInputContentElement}>
                     <p>Waga</p>
-                    <input type="number" name="waga" value={stats?.waga} onChange={handleChange} />
+                    <input 
+                        type="number" 
+                        name="waga" 
+                        value={stats?.waga} 
+                        onChange={handleChange} 
+                    />
                 </div>
-
-                {/* Zakwaszenie
-                <div className={styles.statsInputContentElement2}>
-                    <p>Zakwaszenie</p>
-                    <div><Switch 
-                         isOn={stats.zakwaszenie === "TAK" }
-                         onToggle={handleToggle} />
-                    </div>
-                </div>
-
-                {/* Kinaza */}
-                {/* <div className={styles.statsInputContentElement}>
-                    <p>Kinaza</p>
-                    <input type="text" name="kinaza" value={stats.kinaza} onChange={handleChange} />
-                </div> */}
-
-                {/* Komentarz */}
-                {/* <div className={styles.statsInputContentElement}>
-                    <p>Komentarz</p>
-                    <textarea name="komentarz" value={stats.komentarz} onChange={handleChange}></textarea>
-                </div> */} 
             </div>
-            
-            <button onClick={handleSubmit} className={styles.submitButton}>Zatwierdź</button>
+            <button onClick={collectAndSubmit} className={styles.submitButton}>Zatwierdź</button>
         </div>
-      );
-    };
-    
-    export default StatsInput;
+    );
+};
+
+export default StatsInput;
