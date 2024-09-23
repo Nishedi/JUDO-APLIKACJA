@@ -43,7 +43,7 @@ function App() {
           <Route path = "/trener/singleplayersingleday" element = {<SinglePlayerSingleDayView />} />
           <Route path = "/trener/trainingview" element = {<TrenerTrainingView />} />
           <Route path = "/player/trainingview/:id" element = {<TrainingView />} />
-          <Route path = "/player/dayview/:data" element = {<DayView />} />
+          <Route path = "/player/dayview/" element = {<DayView />} />
           <Route path = "trener/userprofile" element = {<TrenerProfile />} />
           <Route path = "trener/profileedition" element = {<TrenerProfileEdition />} />
         </Routes>

@@ -41,25 +41,58 @@ const TrainingView = () => {
         setIsTrainingCompleted(aktywnosc.status);
         setSelectedMood(aktywnosc.odczucia);
         setComment(aktywnosc.komentarz_zawodnika);
+        console.log('Aktywność pobrana z bazy danych:', aktywnosc);
       }
     } catch (error) {
       console.error('Błąd podczas pobierania aktywności:', error);
     }
   };
 
-  const handleMoodClick = (mood) => {
-    setSelectedMood(mood);
+  const setMoodFromEmoticon = (feelingsAfter) => {
+    switch (feelingsAfter) {
+        case '😢':
+            setSelectedMood('Bardzo źle');  
+            break; 
+        case '🙁':
+            setSelectedMood('Źle');
+            break;
+        case '😐':
+            setSelectedMood('Neutralnie');  
+            break;
+        case '🙂':
+            setSelectedMood('Dobrze'); 
+            break;
+        case '😊':
+            setSelectedMood('Bardzo dobrze');  
+            break;
+        default:
+            setSelectedMood('Neutralnie');
+    }
   };
 
-  // Tutaj przeniosłem logikę aktualizacji do funkcji `handleSubmit`
+  const pickEmoticon = (feelingsAfter) => {
+    switch (feelingsAfter) {
+        case 'Bardzo źle':
+            return '😢';  // Bardzo źle
+        case 'Źle':
+            return '🙁';  // Źle
+        case 'Neutralnie':
+            return '😐';  // Neutralnie
+        case 'Dobrze':
+            return '🙂';  // Dobrze
+        case 'Bardzo dobrze':
+            return '😊';  // Bardzo dobrze
+        default:
+            return '😐';  // Brak emotikony, jeśli nie ma odczuć
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
-
-    // Obsługa aktualizacji komentarza, odczuć i statusu w bazie danych
     try {
-      {console.log(globalVariable)}
+      {console.log(selectedMood, comment, trainingStatus)}
       const { error } = await supabase
         .from('aktywności')  // Nazwa tabeli w bazie danych
         .update({
@@ -104,9 +137,8 @@ const TrainingView = () => {
         <div>
           <p><strong>Zadania do wykonania:</strong></p>
           <ul>
-            {/* Dodaję warunek, który sprawdza, czy 'zadania_do_wykonania' istnieje */}
-            { activity.zadania_do_wykonania ? (
-              activity.zadania_do_wykonania.split(',').map((task, index) => (
+            { activity.zadania ? (
+              activity.zadania.split(',').map((task, index) => (
                 <li key={index}>{task}</li>
               ))
             ) : (
@@ -136,18 +168,17 @@ const TrainingView = () => {
         <p><strong>Odczucia po treningu</strong></p>
         <div className={styles.moodContainer}>
           <div className={styles.moods}>
-            {['😊', '🙂', '😐', '😕', '☹️'].map((mood, index) => (
+            {['☹️', '😕', '😐', '🙂','😊'].map((mood, index) => (
               <span
                 key={index}
-                className={`${styles.mood} ${selectedMood === mood ? styles.selected : ''}`}
-                onClick={() => handleMoodClick(mood)}
+                className={`${styles.mood} ${pickEmoticon(selectedMood) === mood ? styles.selected : ''}`}
+                onClick={() => setMoodFromEmoticon(mood)}
               >
                 {mood}
               </span>
             ))}
           </div>
         </div>
-
         <div className={styles.commentSection}>
           <label>KOMENTARZ</label>
           <textarea
@@ -156,9 +187,8 @@ const TrainingView = () => {
             placeholder="Dodaj komentarz"
           ></textarea>
         </div>
-
         <div className={styles.buttoncenter}>
-          <button className={styles.buttonTrening} onClick={handleSubmit}>Dodaj komentarz</button>
+          <button className={styles.buttonTrening} onClick={handleSubmit}>Zatwierdź</button>
         </div>
       </div>
     </div>

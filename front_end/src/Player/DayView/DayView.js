@@ -7,8 +7,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
-import { useParams } from "react-router-dom";
 
 const DayView = () => {
     const hasFetched = useRef(false);  // zeby nie wysylac statystyk dwukrotnie
