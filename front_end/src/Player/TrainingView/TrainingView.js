@@ -33,12 +33,10 @@ const TrainingView = () => {
       if (error) {
         console.error('Błąd podczas pobierania aktywności FETCHACTFROMDATAB:', error);
       } else {
-        console.log('Aktywność pobrana z bazy danych:', aktywnosc);
         setActivity(aktywnosc);
         setIsTrainingCompleted(aktywnosc.status);
         setSelectedMood(aktywnosc.odczucia);
         setComment(aktywnosc.komentarz_zawodnika);
-        console.log('Aktywność pobrana z bazy danych:', aktywnosc);
       }
     } catch (error) {
       console.error('Błąd podczas pobierania aktywności:', error);
@@ -89,7 +87,6 @@ const TrainingView = () => {
     
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
     try {
-      {console.log(selectedMood, comment, trainingStatus)}
       const { error } = await supabase
         .from('aktywności')  // Nazwa tabeli w bazie danych
         .update({
@@ -101,9 +98,7 @@ const TrainingView = () => {
 
       if (error) {
         console.error('Błąd aktualizacji danych', error);
-      } else {
-        console.log('Komentarz i odczucia zaktualizowane');
-      }
+      } 
     } catch (err) {
       console.error('Błądddd', err);
     }
