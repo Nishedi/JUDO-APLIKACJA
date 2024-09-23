@@ -20,6 +20,9 @@ import SinglePlayerSingleDayView from './Trener/PlayersView/SingleDayView/Single
 import TrenerTrainingView from './Trener/PlayersView/TreningView/TreningView';
 import TrenerProfile from './Trener/TrenerProfile/TrenerProfile';
 import TrenerProfileEdition from './Trener/TrenerProfile/TrenerProfileEdition';
+import PlayerProfile from './Trener/TrenerProfile/PlayerProfile/PlayerProfile';
+import PlayerProfileEdition from './Trener/TrenerProfile/PlayerProfile/PlayerProfileEdition';
+
 
 function App() {
   return (
@@ -46,6 +49,9 @@ function App() {
           <Route path = "/player/dayview/" element = {<DayView />} />
           <Route path = "trener/userprofile" element = {<TrenerProfile />} />
           <Route path = "trener/profileedition" element = {<TrenerProfileEdition />} />
+          <Route path = "trener/playerprofile" element = {<PlayerProfile />} />
+          <Route path = "trener/playerprofileedition" element = {<PlayerProfileEdition />} />
+
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

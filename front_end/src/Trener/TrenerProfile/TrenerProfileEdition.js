@@ -30,10 +30,11 @@ const TrenerProfileEdition = () => {
    const handleSubmit = async (e) => {
        e.preventDefault(); // Zapobiega domyślnej akcji wysłania formularza
 
-       if (password !== confirmPassword) {
-           setError('Hasła nie są takie same');
-           return;
-       }
+       // Sprawdzenie, czy pola haseł są zgodne (jeśli oba są wypełnione)
+    if (password && confirmPassword && password !== confirmPassword) {
+        setError('Hasła nie są takie same');
+        return;
+    }
 
        setError('');
 
@@ -50,11 +51,19 @@ const TrenerProfileEdition = () => {
             if (login.value) {
                 updates.login = login.value;
             }
-            if (password) {
+           // Jeżeli oba pola hasła są wypełnione, zaktualizuj hasło
+            if (password && confirmPassword) {
                 updates.haslo = password; 
-                console.log('haslo', password);
+                console.log('hasło zostało zaktualizowane', password);
+            } else if (password && !confirmPassword) {
+                // Jeśli tylko `password` jest wypełnione, ale nie `confirmPassword`, ignoruj zmianę hasła
+                console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
             }
-            console.log('updates', updates);
+
+        console.log('updates', updates);
+
+
+
            const { data, error } = await supabase
                .from('trenerzy')
                .update(updates)

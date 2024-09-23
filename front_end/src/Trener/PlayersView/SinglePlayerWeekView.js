@@ -124,6 +124,12 @@ const SinglePlayerWeekView = () => {
         navigate('/trener/singleplayersingleday');
     };
 
+    const goToPlayerProfile = () => {
+        setViewedPlayer({...viewedPlayer});
+        navigate('/trener/playerprofile');
+    }
+
+
     const WeekDay = ({ day, date}) => {
         const activities = getActivitiesForThatDay(date);
         return (
@@ -209,7 +215,7 @@ const SinglePlayerWeekView = () => {
                 <div className={styles.date_div}>
                     {currentWeek}
                 </div>
-                <div className={styles.writing_div}>
+                <div  onClick={goToPlayerProfile} className={styles.writing_div}>
                     {viewedPlayer.imie} <br/> {viewedPlayer.nazwisko}
                 </div>
             </div>

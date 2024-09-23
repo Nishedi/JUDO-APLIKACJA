@@ -58,6 +58,7 @@ const PlayersView = () => {
         navigate('/trener/userprofile');
     }
 
+
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
