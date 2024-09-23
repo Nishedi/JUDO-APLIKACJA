@@ -16,9 +16,7 @@ const TrainingView = () => {
   const location = useLocation();
   const [activity, setActivity] = useState(null); // Tutaj będzie pobrana aktywność z bazy danych
 
-  useEffect(() => {
-    fetchActivityFromDatabase(id);
-  }, [id, location.state]);
+  
 
   // Pobieranie aktywności z bazy danych
   const fetchActivityFromDatabase = async (activityId) => {
@@ -42,6 +40,10 @@ const TrainingView = () => {
       console.error('Błąd podczas pobierania aktywności:', error);
     }
   };
+
+  useEffect(() => {
+    fetchActivityFromDatabase(id);
+  }, [id]);
 
   const setMoodFromEmoticon = (feelingsAfter) => {
     switch (feelingsAfter) {
