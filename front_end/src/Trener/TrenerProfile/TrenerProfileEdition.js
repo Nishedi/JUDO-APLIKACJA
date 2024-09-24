@@ -52,33 +52,40 @@ const TrenerProfileEdition = () => {
             if (login.value) {
                 updates.login = login.value;
             }
-           // Jeżeli oba pola hasła są wypełnione, zaktualizuj hasło
-            if (password && confirmPassword) {
+           
+           
+            // Jeżeli oba pola hasła są wypełnione, zaktualizuj hasło
+           if (password === '' && confirmPassword === '') {
+            // Jeśli oba pola są puste, nie zmieniaj hasła
+            console.log('Hasło nie zostało zmienione, ponieważ oba pola są puste'); 
+            }
+            
+            else if (password && !confirmPassword) {
+            // Jeśli tylko `password` jest wypełnione, ale nie `confirmPassword`, ignoruj zmianę hasła
+            console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
+            }
+            else if (password && confirmPassword) {
                 updates.haslo = password; 
                 console.log('hasło zostało zaktualizowane', password);
-            } else if (password && !confirmPassword) {
-                // Jeśli tylko `password` jest wypełnione, ale nie `confirmPassword`, ignoruj zmianę hasła
-                console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
             }
+            
 
         console.log('updates', updates);
 
 
 
-           const { data, error } = await supabase
-               .from('trenerzy')
-               .update({
-                   imie: firstname.value,
-                   nazwisko: lastname.value,
-                   login: login.value,
-                   haslo: password // Pamiętaj o bezpiecznym przechowywaniu haseł
-               })
-               .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
+          // Jeśli updates nie zawiera hasła, nie aktualizuj hasła w bazie danych
+        if (Object.keys(updates).length > 0) {
+            const { data, error } = await supabase
+                .from('trenerzy')
+                .update(updates) // Użyj zaktualizowanego obiektu
+                .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
 
             if (error) {
-               console.error('Błąd podczas aktualizacji danych: UPDATE', error);
-               throw error;
+                console.error('Błąd podczas aktualizacji danych: UPDATE', error);
+                throw error;
             }
+        }
 
            // Zaktualizowanie stanu globalnego
            setGlobalVariable({
