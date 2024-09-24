@@ -67,7 +67,12 @@ const TrenerProfileEdition = () => {
 
            const { data, error } = await supabase
                .from('trenerzy')
-               .update(updates)
+               .update({
+                   imie: firstname.value,
+                   nazwisko: lastname.value,
+                   login: login.value,
+                   haslo: password // Pamiętaj o bezpiecznym przechowywaniu haseł
+               })
                .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
 
             if (error) {
