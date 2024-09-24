@@ -4,6 +4,7 @@ import { LiaAccessibleIcon } from 'react-icons/lia';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../GlobalContext';
+import BackButton from '../../../BackButton';
 
 const PlayerProfile = () => {
 
@@ -23,7 +24,7 @@ const PlayerProfile = () => {
         {/* Navbar */}
         <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <RxHamburgerMenu/>
+                    <BackButton/>
                 </div>
                 <div className={styles.profilDiv}>
                     <div className={styles.end} >

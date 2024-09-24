@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
+import BackButton from '../../BackButton';
 
 const TrenerProfileEdition = () => {
    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -83,7 +84,7 @@ const TrenerProfileEdition = () => {
            });
 
            // Zmiana flagi na zakończenie edycji
-           navigate('/player/userprofile');
+           navigate('/trener/userprofile');
        } catch (error) {
            console.error('Błąd podczas aktualizacji danych:UP2', error);
            setError('Nie udało się zaktualizować danych. Spróbuj ponownie.');
@@ -95,7 +96,7 @@ const TrenerProfileEdition = () => {
            {/* Navbar */}
            <div className={styles.navbar}>
                <div className={styles.burger}>
-                   <RxHamburgerMenu />
+                   <BackButton />
                </div>
                <div className={styles.profilDiv}>
                    <div className={styles.end}>Edycja danych</div>

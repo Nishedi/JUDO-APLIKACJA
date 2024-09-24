@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../GlobalContext';
+import BackButton from '../../../BackButton';
 
 const PlayerProfileEdition = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable, setGlobalVariable} = useContext(GlobalContext);
@@ -15,7 +16,7 @@ const PlayerProfileEdition = () => {
     const oldestYear = currentYear - 100;
     const years = [];
 
-
+    
    
    for (let i = currentYear; i >= oldestYear; i--) {
        years.push(i);
@@ -70,7 +71,7 @@ const PlayerProfileEdition = () => {
            {/* Navbar */}
            <div className={styles.navbar}>
                <div className={styles.burger}>
-                   <RxHamburgerMenu />
+                   <BackButton />
                </div>
                <div className={styles.profilDiv}>
                    <div className={styles.end}>Edycja danych</div>

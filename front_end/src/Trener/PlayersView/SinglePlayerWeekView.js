@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import {useNavigate} from 'react-router-dom';
-
+import BackButton from '../../BackButton';
 
 const SinglePlayerWeekView = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
@@ -212,6 +212,7 @@ const SinglePlayerWeekView = () => {
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
+                <div>   <BackButton/>   </div>
                 <div className={styles.date_div}>
                     {currentWeek}
                 </div>
