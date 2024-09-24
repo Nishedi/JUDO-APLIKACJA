@@ -1,10 +1,11 @@
 import styles from './TrainingView.module.css';
 import React, { useEffect } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
+import BackButton from '../../BackButton';
 
 const TrainingView = () => {
   const { supabase } = useContext(GlobalContext);
@@ -15,7 +16,7 @@ const TrainingView = () => {
   const { id } = useParams();
   const location = useLocation();
   const [activity, setActivity] = useState(null); // Tutaj będzie pobrana aktywność z bazy danych
-
+  const navigate = useNavigate();
   
 
   // Pobieranie aktywności z bazy danych
@@ -88,6 +89,8 @@ const TrainingView = () => {
     e.preventDefault();
     
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
+    
+    
     try {
       const { error } = await supabase
         .from('aktywności')  // Nazwa tabeli w bazie danych
@@ -100,7 +103,9 @@ const TrainingView = () => {
 
       if (error) {
         console.error('Błąd aktualizacji danych', error);
-      } 
+      } else {
+        navigate(-1);
+      }
     } catch (err) {
       console.error('Błądddd', err);
     }
@@ -116,7 +121,7 @@ const TrainingView = () => {
       {/* Navbar */}
       <div className={styles.navbar}>
         <div className={styles.burger}>
-          <RxHamburgerMenu />
+          <BackButton />
         </div>
         <div className={styles.profilDiv}>
           <div>
