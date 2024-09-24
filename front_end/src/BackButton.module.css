@@ -1,6 +1,9 @@
 .backbutton {
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .backbutton:hover {

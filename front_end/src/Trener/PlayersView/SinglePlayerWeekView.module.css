@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    width: 100%;
     background-color: #D7DFEE;
 }
 
@@ -11,14 +12,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column;
     padding: 20px;
     padding-right: 10px;
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #FFFFFF;
     font-family: "Poppins-Medium";
     font-size: 20px;
-    height: 80px;
+    height: 100px;
     min-height: 80px;
+}
+
+.backAndDate{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .right_navbar{
@@ -37,9 +47,9 @@
 .writing_div{
     display: flex;
     font-family: 'Kodchasan-SemiBold';
-    font-size: 16px;
+    font-size: 24px;
     justify-content: right;
-    padding: 10px;
+    padding: 5px 10px;
     padding-right: 10px;
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
@@ -58,6 +68,7 @@
 .date_div{
     display: flex;
     justify-content: left;
+    align-items: center;
     font-family: 'Montserrat-SemiBold';
     font-size: 14px;
     color: #FFFFFF;
@@ -215,12 +226,15 @@
 }
 
 .arrowButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: none;
     border: none;
     color: #ffffff;
     cursor: pointer;
     font-size: 24px; /* lub inny rozmiar */
-    margin: 0 10px; /* Odstępy */
+    /* margin: 0 10px;  */
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }

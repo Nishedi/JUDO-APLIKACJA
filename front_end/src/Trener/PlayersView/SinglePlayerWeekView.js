@@ -63,8 +63,7 @@ const SinglePlayerWeekView = () => {
     const getWeekDays = async () => {
         const { startOfWeek } = getRangeToDatabase(currentDate);
         const { endOfWeek } = getRangeToDatabase(currentDate);
-        console.log(startOfWeek, endOfWeek, viewedPlayer.id, globalVariable.id);
-
+    
         let { data: aktywnosci, error } = await supabase
             .from('aktywności')
             .select('*')
@@ -75,7 +74,6 @@ const SinglePlayerWeekView = () => {
             .order('data', { ascending: true });
         if (aktywnosci && aktywnosci.length !== 0) {
             setWeeklyActivities(aktywnosci);
-            console.log(aktywnosci);
         }
     }
 
@@ -182,19 +180,24 @@ const SinglePlayerWeekView = () => {
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
-                <div><BackButton path="/trener/playerview"/></div>
+                
+                <div className={styles.backAndDate}>
+                    <BackButton path="/trener/playerview"/>
+                    <div onClick={goToPlayerProfile} className={styles.writing_div}>
+                        {viewedPlayer.imie} {viewedPlayer.nazwisko}
+                    </div>
+                    <div style={{margin:"0px 20px"}}></div>
+                </div>
                 <div className={styles.date_div}>
-                    <button onClick={() => updateWeek('prev')} className={styles.arrowButton}>
-                        <IoIosArrowBack />
-                    </button>
-                    {currentWeek}
-                    <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
-                        <IoIosArrowForward />
-                    </button>
-                </div>
-                <div onClick={goToPlayerProfile} className={styles.writing_div}>
-                    {viewedPlayer.imie} <br /> {viewedPlayer.nazwisko}
-                </div>
+                        <button onClick={() => updateWeek('prev')} className={styles.arrowButton}>
+                            <IoIosArrowBack />
+                        </button>
+                        {currentWeek}
+                        <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
+                            <IoIosArrowForward />
+                        </button>
+                    </div>
+               
             </div>
             <div className={styles.weekDay}>
                 <div>
