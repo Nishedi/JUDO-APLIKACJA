@@ -74,11 +74,13 @@ const PlayerProfileEdition = () => {
                    <BackButton />
                </div>
                <div className={styles.profilDiv}>
-                   <div className={styles.end}>Edycja danych</div>
-                   <div className={styles.uppercase}>
-                       {viewedPlayer.imie} {viewedPlayer.nazwisko}
+                    <div className={styles.end} >
+                        Profil zawodnika
                     </div>
-               </div>
+                    <div className={styles.uppercase}>
+                        {viewedPlayer.imie} {viewedPlayer.nazwisko}
+                    </div>
+                </div>
            </div>
            {/* Body */}
            <div className={styles.userdetails}>

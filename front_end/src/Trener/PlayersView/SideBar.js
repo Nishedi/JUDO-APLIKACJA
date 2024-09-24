@@ -6,7 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile }) => {
 
     
-
+// DODAC ZEBY SIE ZAMYKALO PO KLIKNIECIU NA NAVBAR SIDEBARU
     return (
         <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
                 <div className={styles.navbar}>

@@ -72,13 +72,24 @@
   border: 2px solid;
   margin: 10px 0;
   padding: 5px, 10px;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
   text-align: left;
   color: #000000;
   font-size: 15px;
   font-family: 'Montserrat-Regular';
-  margin: 5px;
+  margin: 5px;    cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
+
+.activity:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+  transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.activity:active {
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+  transform: translateY(0); /* Powrót do normalnej pozycji */
+}
+
 
 .activity p {
     display: flex;
