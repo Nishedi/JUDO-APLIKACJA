@@ -269,10 +269,6 @@ const AddingActivityFirstPage = () => {
         }
     };
 
-    const trYname = () => {
-        
-    }
-
     const addPDF = async (e) => {
         let file = e.target.files[0];
         const suffix =new Date().getDate()+""+new Date().getMonth()+""+new Date().getFullYear()+""+
@@ -286,7 +282,7 @@ const AddingActivityFirstPage = () => {
             console.log(error);
         }
         if (data) {
-            console.log('https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/' + data.path);
+            setSelectedExercises([{name: 'https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/' + data.path, id: 0}]);
         }
     }
 
@@ -358,10 +354,7 @@ const AddingActivityFirstPage = () => {
                     (
                         <>
                         <input type="file" onChange={addPDF} accept="application/pdf"/>
-                        <button onClick={trYname} className={styles.button}>PDF</button>
-
-                        </>
-                        
+                        </> 
                     ) 
                     : null
                 }

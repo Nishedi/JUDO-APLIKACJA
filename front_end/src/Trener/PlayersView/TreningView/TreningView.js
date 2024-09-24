@@ -112,11 +112,20 @@ const TrenerTrainingView = () => {
                     <div>
                         <p><strong>Zadania do wykonania:</strong></p>
                         {/* Tutaj połączone z bazą - to co trener wskaże! */}
-                        <ul>
+                        {activity.rodzaj_aktywności==='Motoryczny' ? 
+                        <button onClick={() => {
+                            window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+                        }}>Wyświetl szczegóły</button>
+                        // <a href={thingsToDo[0]}>Kliknij aby wyświetlić szczegóły</a>
+                        : (
+                            <ul>
                             {thingsToDo.map((thing, index) => (
                                 <li key={index}>{thing}</li>
                             ))}
-                        </ul>
+                            </ul>
+
+                        )}
+                        
                     </div>
 
                     <div className={styles.switchContainer}>
