@@ -5,16 +5,21 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import {useNavigate} from 'react-router-dom';
 import BackButton from '../../BackButton';
+//import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const SinglePlayerWeekView = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
+    const [currentDate, setCurrentDate] = useState(now);
+    const [weeklyActivities, setWeeklyActivities] = useState([]);
+    
+    
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwiec",
         "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-    const [weeklyActivities, setWeeklyActivities] = useState([]);
-    const formatDate = (date) => {
+    
+        const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
         return `${day} ${month}`;
@@ -31,6 +36,13 @@ const SinglePlayerWeekView = () => {
 
         return { startOfWeek, endOfWeek };
     };
+
+    const updateWeek = (direction) => {
+        const newDate = new Date(currentDate);
+        newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
+        setCurrentDate(newDate);
+    }
+
 
     const formatDateRange = (startDate, endDate) => {
         return `${formatDate(startDate)} - ${formatDate(endDate)}`;
@@ -171,7 +183,9 @@ const SinglePlayerWeekView = () => {
     useEffect(() => {
         getWeekDays();
     }
-    , []);
+    , [currentDate]);
+
+
     const { currentWeek } = getWeekRanges(now);
 
     const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
@@ -214,7 +228,13 @@ const SinglePlayerWeekView = () => {
             <div className={styles.navbar}>
                 <div>   <BackButton/>   </div>
                 <div className={styles.date_div}>
+                    <button onClick={() => updateWeek('prev')} className={styles.arrowButton}>
+                        {/* <IoIosArrowBack /> */}
+                    </button>
                     {currentWeek}
+                    <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
+                        {/* <IoIosArrowForward /> */}
+                    </button>
                 </div>
                 <div  onClick={goToPlayerProfile} className={styles.writing_div}>
                     {viewedPlayer.imie} <br/> {viewedPlayer.nazwisko}

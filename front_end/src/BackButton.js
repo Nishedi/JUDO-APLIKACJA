@@ -2,19 +2,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { IoMdArrowBack } from 'react-icons/io';
 import React from 'react';
 
-const BackButton = () => {
+const BackButton = ({path}) => {
     const navigate = useNavigate();
-    const location = useLocation();
 
     const handleBack = () => {
-        const path = location.pathname;
-        // Sprawdzenie roli użytkownika na podstawie ścieżki
-        if (path.startsWith('/trener')) {
-            navigate('/trener/playerview'); // Cofnij do widoku trenera
-        } else if (path.startsWith('/player')) {
-            navigate('/player/dayview'); // Cofnij do widoku zawodnika
+        if (path) {
+            navigate(path);
         } else {
-            navigate(-1); // W innym przypadku cofnięcie o jedną stronę
+            navigate(-1);
         }
     };
 

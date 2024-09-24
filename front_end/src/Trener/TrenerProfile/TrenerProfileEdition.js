@@ -108,7 +108,7 @@ const TrenerProfileEdition = () => {
            {/* Navbar */}
            <div className={styles.navbar}>
                <div className={styles.burger}>
-                   <BackButton />
+                   <BackButton path="/trener/userprofile"/>
                </div>
                <div className={styles.profilDiv}>
                    <div className={styles.end}>Edycja danych</div>

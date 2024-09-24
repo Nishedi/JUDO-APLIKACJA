@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
+import BackButton from '../../BackButton';
 
 const TrenerProfile = () => {
 
@@ -24,7 +25,7 @@ const TrenerProfile = () => {
         {/* Navbar */}
         <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <RxHamburgerMenu/>
+                    <BackButton path="/trener/playerview"/>
                 </div>
                 <div className={styles.profilDiv}>
                     <div className={styles.end} >

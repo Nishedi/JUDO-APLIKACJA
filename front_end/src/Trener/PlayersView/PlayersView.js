@@ -70,7 +70,7 @@ const PlayersView = () => {
                 <div onClick={toggleSidebar}>
                     <RxHamburgerMenu className={styles.burger}/>
                 </div>
-                <div className="left_navbar">
+                <div className="left_navbar" onClick={() => setIsSidebarOpen(false)}>
                     <div className={styles.writing_div}>
                         Twoi ZAWODNICY
                     </div>
@@ -80,7 +80,7 @@ const PlayersView = () => {
                 </div>  
                 {/* "trener/singleplayerweekview" */}
             </div>
-            <div >
+            <div onClick={() => setIsSidebarOpen(false)}>
                 {players.map((player) => {
                     return <SimpleInfo 
                         key={player.id}
