@@ -3,6 +3,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
+import BackButton from '../../BackButton';
 
 const AddingPlayerFirstPage = () => {
     const navigate = useNavigate();
@@ -61,6 +62,7 @@ const AddingPlayerFirstPage = () => {
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
+                <BackButton />
                 DANE ZAWODNIKA
             </div>
             <div className={styles.content}>
