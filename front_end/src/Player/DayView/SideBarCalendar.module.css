@@ -2,8 +2,8 @@
 .sidebar {
     position: fixed;
     top: 0;
-    left: -65%;
-    width: 65%;
+    left: -70%;
+    width: 70%;
     transition: left 0.3s ease;
     z-index: 1000;
     display: grid;
