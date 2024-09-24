@@ -8,6 +8,7 @@ import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../../../BackButton";
 // Tu sie domyślam, że można by utworzyć jeden komponent
 // i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
 // ale na razie chcę po prostu zrobić cokolwiek
@@ -195,7 +196,7 @@ const SinglePlayerSingleDayView = () => {
             <SideBarCalendar isOpen={isSidebarOpen}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
-                    <RxHamburgerMenu/>
+                    <BackButton path="/trener/singleplayerweekview"/>
                 </div>
                 <div className = {styles.weekDay}> 
                     <div> {dayNames[viewedPlayer.currentDate.getDay()]}</div>

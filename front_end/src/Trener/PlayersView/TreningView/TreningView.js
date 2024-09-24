@@ -5,6 +5,7 @@ import { GlobalContext } from '../../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../../../BackButton';
 
 const TrenerTrainingView = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -85,8 +86,11 @@ const TrenerTrainingView = () => {
         };
     
         return (
-            <div style={{fontSize: '24px'}}>
-               <span> {getFeelingsEmoticon(feelingsAfter)} {feelingsAfter}</span> 
+            <div style={{fontSize: '18px'}}>
+               <span>
+                    {feelingsAfter}
+                    {getFeelingsEmoticon(feelingsAfter)}
+                </span> 
             </div>
         );
     };
@@ -96,7 +100,7 @@ const TrenerTrainingView = () => {
             <div>
                 <div className={styles.navbar}>
                     <div className={styles.burger}>
-                        <RxHamburgerMenu/>
+                        <BackButton/>
                     </div>
                     <div className={styles.profilDiv}>
                         <div  >

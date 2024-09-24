@@ -71,7 +71,19 @@
     margin-bottom: 0;
     padding: 10px;
     padding-left: 10px;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.weekDay:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.weekDay:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
 .weekDay p{
@@ -146,7 +158,19 @@
     border-radius: 10px;
     border-width: 0px;
     font-family: 'Kodchasan-SemiBold';
-    font-size: 12px;
+    font-size: 12px; cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buttonTrening:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.buttonTrening:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
 .underButton{
@@ -188,4 +212,25 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: space-between;
+}
+
+.arrowButton {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 24px; /* lub inny rozmiar */
+    margin: 0 10px; /* Odstępy */
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.arrowButton:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.arrowButton:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
 }

@@ -1,25 +1,23 @@
 import styles from './SinglePlayerWeekView.module.css';
 import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
-//import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const SinglePlayerWeekView = () => {
-    const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
+    const { viewedPlayer, setViewedPlayer, supabase, globalVariable } = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
-    
-    
+
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
     const monthNames = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwiec",
         "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-    
-        const formatDate = (date) => {
+
+    const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
         return `${day} ${month}`;
@@ -43,14 +41,12 @@ const SinglePlayerWeekView = () => {
         setCurrentDate(newDate);
     }
 
-
     const formatDateRange = (startDate, endDate) => {
         return `${formatDate(startDate)} - ${formatDate(endDate)}`;
     };
 
     const getWeekRanges = (currentDate) => {
         const { startOfWeek: currentWeekStart, endOfWeek: currentWeekEnd } = getWeekDateRange(currentDate);
-
         return {
             currentWeek: formatDateRange(currentWeekStart, currentWeekEnd),
         };
@@ -58,222 +54,169 @@ const SinglePlayerWeekView = () => {
 
     const getRangeToDatabase = (date) => {
         const { startOfWeek, endOfWeek } = getWeekDateRange(date);
-
         return {
             startOfWeek: `${String(startOfWeek.getDate()).padStart(2, '0')}.${String(startOfWeek.getMonth() + 1).padStart(2, '0')}.${startOfWeek.getFullYear()}`,
             endOfWeek: `${String(endOfWeek.getDate()).padStart(2, '0')}.${String(endOfWeek.getMonth() + 1).padStart(2, '0')}.${endOfWeek.getFullYear()}`
         };
     };
 
-
     const getWeekDays = async () => {
-        const date = new Date();
-        const { startOfWeek, endOfWeek } = getRangeToDatabase(date);
+        const { startOfWeek } = getRangeToDatabase(currentDate);
+        const { endOfWeek } = getRangeToDatabase(currentDate);
+        console.log(startOfWeek, endOfWeek, viewedPlayer.id, globalVariable.id);
+
         let { data: aktywnosci, error } = await supabase
-        .from('aktywności')
-        .select('*')
-        .gte('data', startOfWeek)
-        .lte('data', endOfWeek)
-        .eq('id_zawodnika', viewedPlayer.id)
-        .eq('id_trenera', globalVariable.id)
-        .order('data', { ascending: true });
+            .from('aktywności')
+            .select('*')
+            .gte('data', startOfWeek)
+            .lte('data', endOfWeek)
+            .eq('id_zawodnika', viewedPlayer.id)
+            .eq('id_trenera', globalVariable.id)
+            .order('data', { ascending: true });
         if (aktywnosci && aktywnosci.length !== 0) {
             setWeeklyActivities(aktywnosci);
+            console.log(aktywnosci);
         }
     }
 
     const getActivitiesForThatDay = (date) => {
         const formatedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
-        const activitiesNumber = weeklyActivities.filter((activity) => {
-            return activity.data === formatedDate;
-        });
-        return activitiesNumber;
+        return weeklyActivities.filter(activity => activity.data === formatedDate);
     };
 
     const TreningStatusAndFeelingsAfter = ({ treningStatus, feelingsAfter }) => {
         const getStatusEmoticon = (treningStatus) => {
             switch (treningStatus) {
-                case 'Nierozpoczęty':
-                    return '⏳';  // Emotikona oczekiwania
-                case 'Zrealizowany':
-                    return '✅';  // Emotikona wykonania
-                case 'Niezrealizowany':
-                    return '❌';  // Emotikona niewykonania
-                default:
-                    return '🤷';  // Emotikona na wypadek nieznanego statusu
+                case 'Nierozpoczęty': return '⏳';
+                case 'Zrealizowany': return '✅';
+                case 'Niezrealizowany': return '❌';
+                default: return '🤷';
             }
         };
         const getFeelingsEmoticon = (feelingsAfter) => {
             switch (feelingsAfter) {
-                case 'Bardzo źle':
-                    return '😢';  // Bardzo źle
-                case 'Źle':
-                    return '😕';  // Źle
-                case 'Neutralnie':
-                    return '😐';  // Neutralnie
-                case 'Dobrze':
-                    return '🙂';  // Dobrze
-                case 'Bardzo dobrze':
-                    return '😁';  // Bardzo dobrze
-                default:
-                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
+                case 'Bardzo źle': return '😢';
+                case 'Źle': return '😕';
+                case 'Neutralnie': return '😐';
+                case 'Dobrze': return '🙂';
+                case 'Bardzo dobrze': return '😁';
+                default: return '😐';
             }
         };
-    
+
         return (
             <div>
-                <span>{getStatusEmoticon(treningStatus)}</span> {/* Emotikona statusu */}
-                
+                <span>{getStatusEmoticon(treningStatus)}</span>
                 <span> {getFeelingsEmoticon(feelingsAfter)}</span>
-               
             </div>
         );
     };
-    
+
     const goToSinglePlayerSingleDay = (date) => {
-        setViewedPlayer({...viewedPlayer, currentDate: date});
-        // console.log(viewedPlayer);
+        setViewedPlayer({ ...viewedPlayer, currentDate: date });
         navigate('/trener/singleplayersingleday');
     };
 
     const goToPlayerProfile = () => {
-        setViewedPlayer({...viewedPlayer});
+        setViewedPlayer({ ...viewedPlayer });
         navigate('/trener/playerprofile');
     }
 
-
-    const WeekDay = ({ day, date}) => {
+    const WeekDay = ({ day, date }) => {
         const activities = getActivitiesForThatDay(date);
         return (
-            <div onClick={()=>goToSinglePlayerSingleDay(date)} className={styles.weekDay}>
+            <div onClick={() => goToSinglePlayerSingleDay(date)} className={styles.weekDay}>
                 <div>
                     <p>{day}, {formatDate(date)}</p>
-                    <div >
-                        {activities
-                            .sort((a, b) => {
-                                const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
-                                const [hoursB, minutesB] = b.czas_rozpoczęcia.split(':').map(Number);
-                                if (hoursA !== hoursB) {
-                                    return hoursA - hoursB;
-                                }
-                                return minutesA - minutesB;
-                            })
-                            .map((activity, index) => (
-                                <div className={styles.singleActivityInfo} key={index}>
-                                    <div>
-                                        {activity.rodzaj_aktywności}
-                                    </div>
-                                    <div className={styles.singleActivity}>
-                                        <div>
-                                            {activity.czas_rozpoczęcia}
-                                        </div>
-                                        <TreningStatusAndFeelingsAfter 
-                                            treningStatus={activity.status}
-                                            feelingsAfter={activity.odczucia}
-                                        />
-                                    </div>
+                    <div>
+                        {activities.sort((a, b) => {
+                            const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
+                            const [hoursB, minutesB] = b.czas_rozpoczęcia.split(':').map(Number);
+                            return (hoursA - hoursB) || (minutesA - minutesB);
+                        }).map((activity, index) => (
+                            <div className={styles.singleActivityInfo} key={index}>
+                                <div>{activity.rodzaj_aktywności}</div>
+                                <div className={styles.singleActivity}>
+                                    <div>{activity.czas_rozpoczęcia}</div>
+                                    <TreningStatusAndFeelingsAfter
+                                        treningStatus={activity.status}
+                                        feelingsAfter={activity.odczucia}
+                                    />
                                 </div>
-                            ))
-                        }
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
         );
     };
+
     useEffect(() => {
         getWeekDays();
-    }
-    , [currentDate]);
+    }, [currentDate]);
 
-
-    const { currentWeek } = getWeekRanges(now);
+    const { currentWeek } = getWeekRanges(currentDate);
 
     const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
-        const date = new Date(now);
+        const date = new Date(currentDate);
         const startOfWeek = getWeekDateRange(date).startOfWeek;
         startOfWeek.setDate(startOfWeek.getDate() + i);
         return startOfWeek;
     });
 
     const requestForStat = async (whatToGet) => {
-        if(whatToGet === 'prosba_o_kinaze') {
+        const updates = { prosba_o_kinaze: "TRUE", prosba_o_kwas_mlekowy: "TRUE" };
+        if (updates[whatToGet]) {
             const { data, error } = await supabase
-            .from('zawodnicy')
-            .update({ prosba_o_kinaze: "TRUE"})
-            .eq('id', viewedPlayer.id)
-            .eq('id_trenera', globalVariable.id)
-            .select();
+                .from('zawodnicy')
+                .update({ [whatToGet]: updates[whatToGet] })
+                .eq('id', viewedPlayer.id)
+                .eq('id_trenera', globalVariable.id)
+                .select();
             if (error) {
                 console.log(error);
-            } 
+            }
         }
-        if(whatToGet === 'prosba_o_kwas_mlekowy') {
-            const { data, error } = await supabase
-            .from('zawodnicy')
-            .update({ prosba_o_kwas_mlekowy: "TRUE"})
-            .eq('id', viewedPlayer.id)
-            .eq('id_trenera', globalVariable.id)
-            .select();
-            if (error) {
-                console.log(error);
-            } 
-        }
-
-        
     }
-
 
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
-                <div>   <BackButton/>   </div>
+                <div><BackButton path="/trener/playerview"/></div>
                 <div className={styles.date_div}>
                     <button onClick={() => updateWeek('prev')} className={styles.arrowButton}>
-                        {/* <IoIosArrowBack /> */}
+                        <IoIosArrowBack />
                     </button>
                     {currentWeek}
                     <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
-                        {/* <IoIosArrowForward /> */}
+                        <IoIosArrowForward />
                     </button>
                 </div>
-                <div  onClick={goToPlayerProfile} className={styles.writing_div}>
-                    {viewedPlayer.imie} <br/> {viewedPlayer.nazwisko}
+                <div onClick={goToPlayerProfile} className={styles.writing_div}>
+                    {viewedPlayer.imie} <br /> {viewedPlayer.nazwisko}
                 </div>
             </div>
-            <div  className={styles.weekDay}>
+            <div className={styles.weekDay}>
                 <div>
-                    <div >
+                    <div>
                         <p>Ostatnia aktualizacja</p>
                         <div className={styles.optionalStats}>
-                            <div>
-                                Kinaza:
-                            </div>
+                            <div>Kinaza:</div>
                             <div className={styles.singleActivityInfo}>
-                                <div>
-                                    {viewedPlayer.kinaza}
-                                </div>      
+                                <div>{viewedPlayer.kinaza}</div>
                             </div>
-                        </div> 
+                        </div>
                         <div className={styles.optionalStats}>
-                            <div>
-                                Kwas mlekowy: 
-                            </div>
+                            <div>Kwas mlekowy:</div>
                             <div className={styles.singleActivity}>
-                                <div>
-                                    {viewedPlayer.kwas_mlekowy}
-                                </div>      
+                                <div>{viewedPlayer.kwas_mlekowy}</div>
                             </div>
-                        </div>  
+                        </div>
                         <div className={styles.buttons}>
-                            <button
-                                className={styles.buttonTrening}
-                                onClick={() => requestForStat('prosba_o_kinaze')}
-                                >
+                            <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kinaze')}>
                                 Aktualizacja KINAZY
                             </button>
-                            <button 
-                                className={styles.buttonTrening}
-                                onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
+                            <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
                                 Aktualizacja KWASU MLEKOWEGO
                             </button>
                         </div>
@@ -282,14 +225,12 @@ const SinglePlayerWeekView = () => {
                                 ost. akt. kinazy: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
                             </div>
                             <div className={styles.underButton}>
-                                ost. akt. kwasu mlekowego:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div> 
+                                ost. akt. kwasu mlekowego:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Dni poszczególne */}
             <div className={styles.weeklist}>
                 {daysOfWeek.map((date, index) => (
                     <WeekDay
@@ -298,7 +239,6 @@ const SinglePlayerWeekView = () => {
                         date={date}
                     />
                 ))}
-                
             </div>
         </div>
     );

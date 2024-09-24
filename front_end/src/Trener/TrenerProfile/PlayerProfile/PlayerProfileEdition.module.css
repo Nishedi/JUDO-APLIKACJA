@@ -7,7 +7,7 @@
 
 .navbar{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
@@ -20,16 +20,23 @@
 .profilDiv{
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px;
     width: 100%;
     font-family: 'Kodchasan-SemiBold';
     font-size: 20px;
-    text-align: right;
+    text-align: center;
+}
+
+.end {
+    white-space: nowrap; /* Keep "Profil zawodnika" on one line */
+    margin-bottom: 10px; /* Adjust this value to add more space */
+    font-size: 18px; /* You can also adjust the size if needed */
 }
 
 .uppercase{
     text-transform: uppercase;
+    font-size: 18px;
 }
 
 .burger{
@@ -83,10 +90,18 @@ input, select{
     border-width: 0px;
     font-family: 'Kodchasan-SemiBold';
     font-size: 20px;
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
 
 .buttonEdit:hover {
-    background-color: #103476;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.buttonEdit:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
 .buttoncenter {

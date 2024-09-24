@@ -1,4 +1,5 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import styles from './BackButton.module.css';
+import { useNavigate } from 'react-router-dom';
 import { IoMdArrowBack } from 'react-icons/io';
 import React from 'react';
 
@@ -14,7 +15,7 @@ const BackButton = ({path}) => {
     };
 
     return (
-        <div onClick={handleBack} style={{ cursor: 'pointer' }}>
+        <div onClick={handleBack} className={styles.backbutton}>
             <IoMdArrowBack size={30} color="white" />
         </div>
     );
