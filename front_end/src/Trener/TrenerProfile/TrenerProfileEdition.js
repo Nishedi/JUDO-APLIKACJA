@@ -40,24 +40,15 @@ const TrenerProfileEdition = () => {
        const { firstname, lastname, login} = e.target;
 
        try {
-            const updates = {};
-            if (firstname.value) {
-                updates.imie = firstname.value;
-            }
-            if (lastname.value) {
-                updates.nazwisko = lastname.value;
-            }
-            if (login.value) {
-                updates.login = login.value;
-            }
-            if (password) {
-                updates.haslo = password; 
-                console.log('haslo', password);
-            }
-            console.log('updates', updates);
+           // Zaktualizowanie danych użytkownika w Supabase
            const { data, error } = await supabase
                .from('trenerzy')
-               .update(updates)
+               .update({
+                   imie: firstname.value,
+                   nazwisko: lastname.value,
+                   login: login.value,
+                   haslo: password // Pamiętaj o bezpiecznym przechowywaniu haseł
+               })
                .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
 
             if (error) {

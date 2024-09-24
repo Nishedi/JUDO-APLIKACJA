@@ -6,12 +6,10 @@ import { GlobalContext } from '../../GlobalContext';
 import { Calendar } from 'primereact/calendar';
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineDone } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
-
-
-import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
-import 'primereact/resources/primereact.min.css';          // Podstawowe style komponentów
-import 'primeicons/primeicons.css';                        // Ikony
+import { useHref, useNavigate } from 'react-router-dom';
+import 'primereact/resources/themes/saga-blue/theme.css';  
+import 'primereact/resources/primereact.min.css';          
+import 'primeicons/primeicons.css';                        
 
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
@@ -66,7 +64,6 @@ const AddingActivityFirstPage = () => {
         }
     };
 
-    // Initialize state using the useState hook
     const [options, setOptions] = useState([
         { name: 'Option 1', id: 1 },
         { name: 'Option 2', id: 2 },
@@ -157,13 +154,11 @@ const AddingActivityFirstPage = () => {
     const onSelectTrening = (selectedList, selectedItem) => {
         setSelectedTrenings(selectedList);
         setSelectedExercises([]);
-       // initiateExercises();
     };
 
     const onRemoveTrening = (selectedList, removedItem) => {
         setSelectedTrenings(selectedList);
         setSelectedExercises([]);
-        // initiateExercises();
     };
 
     const onSelectedExercises = (selectedList, selectedItem) => {
@@ -209,7 +204,6 @@ const AddingActivityFirstPage = () => {
             ])
             .select()
             if(!data || data.length !== 0 || !error || data?.name!==cwiczenie1 || data?.rodzaj!==rodzaj1){
-                // alert('Nie udało się dodać nowego ćwiczenia');
                 console.log(data);
             }
     };
@@ -272,6 +266,27 @@ const AddingActivityFirstPage = () => {
         }
     };
 
+    const trYname = () => {
+        
+    }
+
+    const addPDF = async (e) => {
+        let file = e.target.files[0];
+        const suffix =new Date().getDate()+""+new Date().getMonth()+""+new Date().getFullYear()+""+
+        new Date().getHours()+""+new Date().getMinutes()+""+ new Date().getSeconds()
+        +""+new Date().getMilliseconds();
+        const {data, error} = await supabase
+        .storage
+        .from('treningipdf')
+        .upload('trening'+suffix+'.pdf', file);
+        if(error){
+            console.log(error);
+        }
+        if (data) {
+            console.log('https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/' + data.path);
+        }
+    }
+
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
@@ -323,7 +338,7 @@ const AddingActivityFirstPage = () => {
                 </div>
                 
                 {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
-                <div className={styles.input_container}>
+                (<div className={styles.input_container}>
                     Wybierz ćwiczenia
                     <Multiselect
                         options={exercises}
@@ -334,7 +349,17 @@ const AddingActivityFirstPage = () => {
                         placeholder='Wybierz ćwiczenia'
                         style={sharedStyles}
                     />
-                </div> : null}
+                </div> ): selectedTrenings[0]?.name=== "Motoryczny" ? 
+                    (
+                        <>
+                        <input type="file" onChange={addPDF} accept="application/pdf"/>
+                        <button onClick={trYname} className={styles.button}>PDF</button>
+
+                        </>
+                        
+                    ) 
+                    : null
+                }
                 {isAnotherExercise ? 
                 <div className={styles.input_container}>
                     <div>Nowa aktywność</div>
