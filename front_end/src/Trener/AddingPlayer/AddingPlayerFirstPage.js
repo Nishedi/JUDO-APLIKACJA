@@ -62,7 +62,9 @@ const AddingPlayerFirstPage = () => {
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
-                <BackButton />
+                <div className={styles.toLeft}>
+                    <BackButton />
+                </div>
                 DANE ZAWODNIKA
             </div>
             <div className={styles.content}>
