@@ -116,11 +116,27 @@
     color: #13449A;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     align-items: center;
-}
-
-.statusButton:hover {
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+  }
+  
+  .statusButton:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+  }
+  
+  .statusButton:active {
     background-color: #D7DFEE;
-    color: white;
+    color: #FFFFFF;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
+  }
+
+/* Nowa klasa aktywnego przycisku */
+.statusButton.active {
+    background-color: #D7DFEE;
+    color: #FFFFFF;
+    border-color: #13449A;
 }
 
 .noteTextArea{
@@ -160,7 +176,20 @@
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-image: linear-gradient(90deg, #1D61DC 9%,#1D61DC 47%, #103476 100%);
-}
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+  }
+  
+  .addNoteButton:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+  }
+  
+  .addNoteButton:active {
+    background-color: #103476;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
+  }
 
 /* datepicker */
 

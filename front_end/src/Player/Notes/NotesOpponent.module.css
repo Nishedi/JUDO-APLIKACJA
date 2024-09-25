@@ -16,6 +16,7 @@
     font-family: "Montserrat-SemiBold";
     font-size: 10px;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
 }
 
 .burger{
@@ -104,7 +105,20 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
     font-size: 12px;
     font-family: 'Montserrat-Medium';
-  }
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.addNoteButton:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+  transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.addNoteButton:active {
+  background-color: #D7DFEE;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+  transform: translateY(0); /* Powrót do normalnej pozycji */
+}
   
   .matchList {
     display: flex;
@@ -123,9 +137,19 @@
     padding: 10px;
     margin-bottom: 20px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
-
     position: relative;
-
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+  }
+  
+  .match:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+  }
+  
+  .match:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
   }
   
   .match p {

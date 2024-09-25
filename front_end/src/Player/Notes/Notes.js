@@ -6,6 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown } from 'react-icons/io';
 import { GlobalContext } from '../../GlobalContext';
 import Modal from './Modal';
+import BackButton from '../../BackButton';
 
 const Notes = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -76,7 +77,7 @@ const Notes = () => {
             {/* Navbar */}
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                        <RxHamburgerMenu/>
+                        <BackButton path="/player/dayview"/>
                 </div>
                 <div className={styles.navbarText}>
                         Notatnik <br/> Przeciwnicy

@@ -6,6 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
+import BackButton from '../../BackButton';
 
 
 
@@ -127,10 +128,11 @@ useEffect(() => {
         <div className={styles.background}>
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                        <RxHamburgerMenu/>
+                        <BackButton path="/player/notes"/>
                 </div>
                 <div className={styles.navbarText}>
-                        Notatnik <br/> Przeciwnicy
+                        Notatnik <br/>
+                        {threadDetails ? threadDetails.nazwa_watku : 'Ładowanie...'}
                 </div>
                 <div className={styles.navbarButton}>
                     <div className={styles.name}> {globalVariable.imie + " " + globalVariable.nazwisko} </div>
