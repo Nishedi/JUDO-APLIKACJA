@@ -7,6 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
+import { getActivityColor, getBorderColor, GetFeelingsEmoticon } from "../../CommonFunction";
 
 const DayView = () => {
     const hasFetched = useRef(false);  // zeby nie wysylac statystyk dwukrotnie
@@ -156,60 +157,6 @@ const DayView = () => {
             </div>
         );
     }
-
-    const getActivityColor = (activity_type) => {
-        switch (activity_type) {
-            case 'Trening motoryczny':
-                return '#FF7A68';
-            case 'Biegowy':
-                return '#95C6FF';
-            case 'Na macie':
-                return '#FFF281';
-            case 'Fizjoterapia':
-                return '#83FF8F';
-            default:
-                return '#FF7A68';
-        }
-    }
-
-    const getBorderColor = (activity_type) => {
-        switch (activity_type) {
-            case 'Trening motoryczny':
-                return '#BE0000';
-            case 'Biegowy':
-                return '#0056BA';
-            case 'Na macie':
-                return '#CCB700';
-            case 'Fizjoterapia':
-                return '#00C514';
-            default:
-                return '#BE0000';
-        } 
-    }
-
-    const GetFeelingsEmoticon = ({feelingsAfter}) => {
-        const pickEmoticon = (feelingsAfter) => {
-            switch (feelingsAfter) {
-                case 'Bardzo źle':
-                    return '😢';  // Bardzo źle
-                case 'Źle':
-                    return '😕';  // Źle
-                case 'Neutralnie':
-                    return '😐';  // Neutralnie
-                case 'Dobrze':
-                    return '🙂';  // Dobrze
-                case 'Bardzo dobrze':
-                    return '😁';  // Bardzo dobrze
-                default:
-                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
-            }
-        };
-        return (
-            <div>
-                <span> {pickEmoticon(feelingsAfter)} </span>
-            </div>
-        );
-    };
 
     const getStatsDay = async () => {
         if (hasFetched.current) return; 
