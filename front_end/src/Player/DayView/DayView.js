@@ -294,7 +294,9 @@ const DayView = () => {
                                     <p>Samopoczucie: {stats?.samopoczucie || "Proszę podać"}</p>
                                     <p>Waga: {stats?.waga || "Proszę podać"}</p>
                                 </div>
-                                <button onClick={() => setIsEditing(true)} className={styles.submitButton}>Edytuj</button>
+                                <div className={styles.center}>
+                                    <button onClick={() => setIsEditing(true)} className={styles.submitButton}>Edytuj</button>
+                                </div>
                             </>
                         ) : (
                             <StatsInput onConfirmClick={onConfirmClick} stats={stats} setStats={setStats} />                            
