@@ -45,7 +45,7 @@ const AddingPlayerFirstPage = () => {
             alert("Wypełnij wszystkie pola");
             return;
         } 
-        const regex = /^[A-Z][a-z]*$/;
+        const regex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
         if (!regex.test(name) || !regex.test(surname)) {
             alert("Imię i nazwisko musi zaczynać się z wielkiej litery i nie może zawierać cyfr");
             return;
@@ -62,7 +62,9 @@ const AddingPlayerFirstPage = () => {
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
-                <BackButton />
+                <div className={styles.toLeft}>
+                    <BackButton />
+                </div>
                 DANE ZAWODNIKA
             </div>
             <div className={styles.content}>

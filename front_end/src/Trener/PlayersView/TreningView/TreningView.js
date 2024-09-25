@@ -20,7 +20,23 @@ const TrenerTrainingView = () => {
         setThingsToDo(thingsArray);
     };
 
+    const getCurrentActivity = async () => {
+        console.log(viewedPlayer.currentActivity);
+        const { data, error } = await supabase
+        .from('aktywności')
+        .select('*')
+        .eq('id', viewedPlayer.currentActivity.id)
+        
+        if (error) {
+            console.error("Błąd pobierania aktywności", error);
+            return;
+        }
+        setActivity(data[0]);
+    };
+
+
     useEffect(() => {
+        getCurrentActivity();
         splitThingsToDo();
     }, []);
 
@@ -116,11 +132,20 @@ const TrenerTrainingView = () => {
                     <div>
                         <p><strong>Zadania do wykonania:</strong></p>
                         {/* Tutaj połączone z bazą - to co trener wskaże! */}
-                        <ul>
+                        {activity.rodzaj_aktywności==='Motoryczny' ? 
+                        <button onClick={() => {
+                            window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+                        }}>Wyświetl szczegóły</button>
+                        // <a href={thingsToDo[0]}>Kliknij aby wyświetlić szczegóły</a>
+                        : (
+                            <ul>
                             {thingsToDo.map((thing, index) => (
                                 <li key={index}>{thing}</li>
                             ))}
-                        </ul>
+                            </ul>
+
+                        )}
+                        
                     </div>
 
                     <div className={styles.switchContainer}>

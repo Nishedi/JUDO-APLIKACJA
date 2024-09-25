@@ -273,3 +273,7 @@
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
   transform: translateY(0); /* Powrót do normalnej pozycji */
 }
+
+.emptyActivities{
+  padding: 10px 20px;
+}

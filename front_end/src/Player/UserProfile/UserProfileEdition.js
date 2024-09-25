@@ -11,7 +11,10 @@ const UserProfileEdition = () => {
    const [confirmPassword, setConfirmPassword] = useState('');
    const [error, setError] = useState('');
    const navigate = useNavigate();
-
+   const weightCategories = {
+    "Mężczyzna": ["-60kg", "-66kg", "-73kg", "-81kg", "-90kg", "-100kg", "+100kg"],
+    "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]
+    };
    const currentYear = new Date().getFullYear();
    const oldestYear = currentYear - 100;
    const years = [];
@@ -186,8 +189,20 @@ const UserProfileEdition = () => {
                        </select>
 
                        <label>Kategoria wagowa:</label>
-                       <input type="text" name="weight" defaultValue={globalVariable.kategoria_wagowa} required />
-
+                       {globalVariable.plec === "Mężczyzna" ? (
+                            <select name="weight" defaultValue={globalVariable.kategoria_wagowa} required>
+                                {weightCategories.Mężczyzna.map(weight => (
+                                    <option key={weight} value={weight}>{weight}</option>
+                                ))}
+                            </select>
+                            ) : (
+                            <select name="weight" defaultValue={globalVariable.kategoria_wagowa} required>
+                                {weightCategories.Kobieta.map(weight => (
+                                    <option key={weight} value={weight}>{weight}</option>
+                                ))}
+                            </select>
+                            )
+                        } 
                        <label>Login:</label>
                        <input type="text" name="login" defaultValue={globalVariable.login} required />
 

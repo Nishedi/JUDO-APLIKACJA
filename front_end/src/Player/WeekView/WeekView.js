@@ -1,8 +1,8 @@
 import styles from './WeekView.module.css';
 import React, {useContext, useEffect, useState} from 'react';
-import { globalVariable } from '../../GlobalContext';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate } from 'react-router-dom';
+import {TreningStatusAndFeelingsAfter} from '../../CommonFunction';
 
 
 
@@ -80,55 +80,15 @@ const WeekView = () => {
         return activitiesNumber;
     };
     
-    const TreningStatusAndFeelingsAfter = ({ treningStatus, feelingsAfter }) => {
-        const getStatusEmoticon = (treningStatus) => {
-            switch (treningStatus) {
-                case 'Nierozpoczęty':
-                    return '⏳';  // Emotikona oczekiwania
-                case 'Zrealizowany':
-                    return '✅';  // Emotikona wykonania
-                case 'Niezrealizowany':
-                    return '❌';  // Emotikona niewykonania
-                default:
-                    return '🤷';  // Emotikona na wypadek nieznanego statusu
-            }
-        };
-        const getFeelingsEmoticon = (feelingsAfter) => {
-            switch (feelingsAfter) {
-                case 'Bardzo źle':
-                    return '😢';  // Bardzo źle
-                case 'Źle':
-                    return '😕';  // Źle
-                case 'Neutralnie':
-                    return '😐';  // Neutralnie
-                case 'Dobrze':
-                    return '🙂';  // Dobrze
-                case 'Bardzo dobrze':
-                    return '😁';  // Bardzo dobrze
-                default:
-                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
-            }
-        };
-    
-        return (
-            <div>
-                <span>{getStatusEmoticon(treningStatus)}</span> {/* Emotikona statusu */}
-                
-                <span> {getFeelingsEmoticon(feelingsAfter)}</span>
-               
-            </div>
-        );
-    };
-    
-    
     const goToSingleDay = (date) => {
-        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-        navigate(`/player/dayview/${formattedDate}`);
+        if (date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
+            navigate("/player/dayview");
+        } else {
+            const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
+            setGlobalVariable({ ...globalVariable, date: formattedDate });
+            navigate("/player/anotherdayview");
+        }
     }
-    
-    const handleDayClick = (selectedDate) => {
-        navigate(`/player/dayview/${selectedDate}`);
-    };
 
     const WeekDay = ({ day, date}) => {
         const activities = getActivitiesForThatDay(date);

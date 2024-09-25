@@ -7,8 +7,10 @@ import BackButton from '../../../BackButton';
 
 const PlayerProfileEdition = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable, setGlobalVariable} = useContext(GlobalContext);
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const weightCategories = {
+        "Mężczyzna": ["-60kg", "-66kg", "-73kg", "-81kg", "-90kg", "-100kg", "+100kg"],
+        "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]
+    };
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -107,10 +109,21 @@ const PlayerProfileEdition = () => {
                                <option key={year} value={year}>{year}</option>
                            ))}
                        </select>
-
                        <label>Kategoria wagowa:</label>
-                       <input type="text" name="weight" defaultValue={viewedPlayer.kategoria_wagowa} required />
-
+                       {viewedPlayer.plec === "Mężczyzna" ? (
+                            <select name="weight" defaultValue={viewedPlayer.kategoria_wagowa} required>
+                            {weightCategories.Mężczyzna.map(weight => (
+                                <option key={weight} value={weight}>{weight}</option>
+                            ))}
+                        </select>
+                            ) : (
+                            <select name="weight" defaultValue={viewedPlayer.kategoria_wagowa} required>
+                                {weightCategories.Kobieta.map(weight => (
+                                    <option key={weight} value={weight}>{weight}</option>
+                                ))}
+                            </select>
+                            )
+                        } 
                        {error && <p style={{ color: 'red' }}>{error}</p>}
                        <div className={styles.buttoncenter}>
                            <button className={styles.buttonEdit} type="submit">Zapisz</button>
