@@ -137,7 +137,9 @@ const TrenerTrainingView = () => {
                         <p><strong>Zadania do wykonania:</strong></p>
                         {/* Tutaj połączone z bazą - to co trener wskaże! */}
                         {activity.rodzaj_aktywności==='Motoryczny' ? 
-                        <button onClick={() => {
+                        <button 
+                            className={styles.buttonRozwin}
+                            onClick={() => {
                             window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
                         }}>Wyświetl szczegóły</button>
                         // <a href={thingsToDo[0]}>Kliknij aby wyświetlić szczegóły</a>

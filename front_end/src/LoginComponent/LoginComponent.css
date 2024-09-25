@@ -34,7 +34,7 @@
     font-family: "Kodchasan-Medium";
 }
 
-.custom_input_correct, .custom_input_incorrect{
+.custom_input_correct, .custom_input_incorrect {
     padding: 20px;
     width: 80%;
     border-radius: 10px;
@@ -42,17 +42,33 @@
     font-size: 15px;
     border-width: 1px;
     box-sizing: border-box; 
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(29, 97, 220, 0); /* Ustawienie lekko przezroczystego tła */
+    color: #FFFFFF; /* Ustaw kolor tekstu na biały */
 }
 
-.custom_input_correct{
-    border-color: #cecbcb;
-    color: #707070;
+/* Placeholder Styles */
+.custom_input_correct::placeholder,
+.custom_input_incorrect::placeholder {
+    background-color: rgba(29, 97, 220, 0); /* Ustawienie lekko przezroczystego tła */
+    color: #ffffff; /* Ustaw kolor placeholdera na jaśniejszy */
 }
 
-.custom_input_incorrect{
-    color: red;
-    border-color: red;
+/* Styl dla fokusa */
+.custom_input_correct:focus,
+.custom_input_incorrect:focus {
+    outline: none; /* Usunięcie domyślnego konturu */
+    border: 1px solid #FFFFFF; /* Ustawienie białego koloru obramowania na fokusie */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Opcjonalny cień */
+}
+
+.custom_input_correct {
+    border-color: #cecbcb; /* Ustawienie koloru obramowania dla poprawnego wejścia */
+    color: #ffffff; /* Ustaw kolor tekstu dla poprawnego wejścia */
+}
+
+.custom_input_incorrect {
+    color: red; /* Kolor tekstu dla błędnego wejścia */
+    border-color: red; /* Czerwone obramowanie dla błędnego wejścia */
 }
 
 .buttonPlacement{
@@ -101,10 +117,11 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
     padding: 100px 0 100px 0;
-    background-image: linear-gradient(135deg, #FFFFFF 0%, rgba(19, 68, 154, 0.25) 100%);
+    background-image: linear-gradient(45deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     background-color: #FFFFFF;
     border-top-left-radius: 50px;  
-    border-top-right-radius: 50px; 
+    border-top-right-radius: 50px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .test2::before {

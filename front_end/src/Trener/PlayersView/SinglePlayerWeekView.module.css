@@ -13,7 +13,7 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     padding-right: 10px;
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #FFFFFF;
@@ -27,7 +27,6 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -47,7 +46,7 @@
 .writing_div{
     display: flex;
     font-family: 'Kodchasan-SemiBold';
-    font-size: 24px;
+    font-size: 16px;
     justify-content: right;
     padding: 5px 10px;
     padding-right: 10px;
