@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
+import BackButton from '../../BackButton';
 
 const UserProfile = () => {
 
@@ -22,7 +23,7 @@ const UserProfile = () => {
         {/* Navbar */}
         <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <RxHamburgerMenu/>
+                    <BackButton path="/player/dayview"/>
                 </div>
                 <div className={styles.profilDiv}>
                     <div className={styles.end} >
@@ -59,7 +60,10 @@ const UserProfile = () => {
 
             </div>
             <div className={styles.buttoncenter}>
-                <button className={styles.buttonUser} onClick={handleEditClick}>
+                <button 
+                    className={styles.buttonUser} 
+                    onClick={handleEditClick}
+                >
                     Edytuj profil
                 </button>
             </div>

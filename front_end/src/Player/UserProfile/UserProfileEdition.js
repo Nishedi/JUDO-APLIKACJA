@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
+import BackButton from '../../BackButton';
 
 const UserProfileEdition = () => {
    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -28,60 +29,134 @@ const UserProfileEdition = () => {
    const handleSubmit = async (e) => {
        e.preventDefault(); // Zapobiega domyślnej akcji wysłania formularza
 
-       if (password !== confirmPassword) {
-           setError('Hasła nie są takie same');
-           return;
-       }
+          // Sprawdzenie, czy pola haseł są zgodne (jeśli oba są wypełnione)
+    if (password && confirmPassword && password !== confirmPassword) {
+        setError('Hasła nie są takie same');
+        return;
+    }
 
        setError('');
 
        const { firstname, lastname, login, gender, year, weight } = e.target;
 
-       try {
-           // Zaktualizowanie danych użytkownika w Supabase
-           const { data, error } = await supabase
-               .from('zawodnicy')
-               .update({
-                   imie: firstname.value,
-                   nazwisko: lastname.value,
-                   login: login.value,
-                   plec: gender.value,
-                   rocznik: year.value,
-                   kategoria_wagowa: weight.value,
-                   haslo: password // Pamiętaj o bezpiecznym przechowywaniu haseł
-               })
-               .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
+//        try {
+//            // Zaktualizowanie danych użytkownika w Supabase
+//            const { data, error } = await supabase
+//                .from('zawodnicy')
+//                .update({
+//                    imie: firstname.value,
+//                    nazwisko: lastname.value,
+//                    login: login.value,
+//                    plec: gender.value,
+//                    rocznik: year.value,
+//                    kategoria_wagowa: weight.value,
+//                    haslo: password // Pamiętaj o bezpiecznym przechowywaniu haseł
+//                })
+//                .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
+
+//             if (error) {
+//                console.error('Błąd podczas aktualizacji danych: UPDATE', error);
+//                throw error;
+//             }
+
+//            // Zaktualizowanie stanu globalnego
+//            setGlobalVariable({
+//                ...globalVariable,
+//                imie: firstname.value,
+//                nazwisko: lastname.value,
+//                login: login.value,
+//                plec: gender.value,
+//                rocznik: year.value,
+//                kategoria_wagowa: weight.value,
+//            });
+
+//            // Zmiana flagi na zakończenie edycji
+//            navigate('/player/userprofile');
+//        } catch (error) {
+//            console.error('Błąd podczas aktualizacji danych:UP2', error);
+//            setError('Nie udało się zaktualizować danych. Spróbuj ponownie.');
+//        }
+//    };
+
+        try {
+            const updates = {};
+            if (firstname.value) {
+                updates.imie = firstname.value;
+            }
+            if (lastname.value) {
+                updates.nazwisko = lastname.value;
+            }
+            if (login.value) {
+                updates.login = login.value;
+            }
+            if (gender.value) {
+                updates.plec = login.value;
+            }
+            if (year.value) {  
+                updates.rocznik = year.value;
+            }
+            if (weight.value) {
+                updates.kategoria_wagowa = weight.value;
+            }
+        
+            // Jeżeli oba pola hasła są wypełnione, zaktualizuj hasło
+        if (password === '' && confirmPassword === '') {
+            // Jeśli oba pola są puste, nie zmieniaj hasła
+            console.log('Hasło nie zostało zmienione, ponieważ oba pola są puste'); 
+            }
+            
+            else if (password && !confirmPassword) {
+            // Jeśli tylko `password` jest wypełnione, ale nie `confirmPassword`, ignoruj zmianę hasła
+            console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
+            }
+            else if (password && confirmPassword) {
+                updates.haslo = password; 
+                console.log('hasło zostało zaktualizowane', password);
+            }
+            
+
+        console.log('updates', updates);
+
+
+
+        // Jeśli updates nie zawiera hasła, nie aktualizuj hasła w bazie danych
+        if (Object.keys(updates).length > 0) {
+            const { data, error } = await supabase
+                .from('zawodnicy')
+                .update(updates) // Użyj zaktualizowanego obiektu
+                .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
 
             if (error) {
-               console.error('Błąd podczas aktualizacji danych: UPDATE', error);
-               throw error;
+                console.error('Błąd podczas aktualizacji danych: UPDATE', error);
+                throw error;
             }
+        }
 
-           // Zaktualizowanie stanu globalnego
-           setGlobalVariable({
-               ...globalVariable,
-               imie: firstname.value,
-               nazwisko: lastname.value,
-               login: login.value,
-               plec: gender.value,
-               rocznik: year.value,
-               kategoria_wagowa: weight.value,
-           });
+        // Zaktualizowanie stanu globalnego
+        setGlobalVariable({
+            ...globalVariable,
+            imie: firstname.value,
+            nazwisko: lastname.value,
+            login: login.value,
+            plec: gender.value,
+            rocznik: year.value,
+            kategoria_wagowa: weight.value,
+        });
 
-           // Zmiana flagi na zakończenie edycji
-           navigate('/player/userprofile');
-       } catch (error) {
-           console.error('Błąd podczas aktualizacji danych:UP2', error);
-           setError('Nie udało się zaktualizować danych. Spróbuj ponownie.');
-       }
-   };
+        // Zmiana flagi na zakończenie edycji
+        navigate('/player/userprofile');
+        } catch (error) {
+        console.error('Błąd podczas aktualizacji danych:UP2', error);
+        setError('Nie udało się zaktualizować danych. Spróbuj ponownie.');
+        }
+        };
 
    return (
        <div className={styles.background}>
            {/* Navbar */}
            <div className={styles.navbar}>
                <div className={styles.burger}>
-                   <RxHamburgerMenu />
+                   <BackButton />
                </div>
                <div className={styles.profilDiv}>
                    <div className={styles.end}>Edycja danych</div>

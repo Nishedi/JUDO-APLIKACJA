@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState, useContext } from 'react';
 import DatePicker from 'react-datepicker';
 import { GlobalContext } from '../../GlobalContext';
+import BackButton from '../../BackButton';
 
 const AddNote = () => {
     const { globalVariable, supabase } = useContext(GlobalContext);
@@ -12,6 +13,10 @@ const AddNote = () => {
     // Zmienne przechowujące wybraną datę i czas
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
+
+    // Zmienna przechowująca aktywny status walki
+    const [activeStatus, setActiveStatus] = useState(null);
+
 
     // Funkcje zmieniające datę i czas
     const handleDateChange = (date) => {
@@ -22,6 +27,14 @@ const AddNote = () => {
         setSelectedTime(time);
     };
 
+    // Funkcja zmieniająca status walki z obsługą odznaczania statusu
+    const handleStatusClick = (status) => {
+        if (activeStatus === status) {
+            setActiveStatus(null); // Jeśli status jest już aktywny, odznacz go
+        } else {
+            setActiveStatus(status); // W przeciwnym razie zaznacz go
+        }
+    };
     // Trzeba dodać nazwę wątku, bo do tej pory 
     // było imię i nazwisko zawodnika
 
@@ -30,10 +43,13 @@ const AddNote = () => {
         <div className={styles.background}>
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <RxHamburgerMenu />
+                    <BackButton />
                 </div>
                 <div className={styles.navbarText}>
-                    Nowa notatka
+                    Nowa notatka <br/>
+                    {}
+
+
                 </div>
             </div>
 
@@ -71,8 +87,18 @@ const AddNote = () => {
                 <div className={styles.noteSection}>
                     <p>Status walki:</p>
                     <div className={styles.fightStatus}>
-                        <button className={styles.statusButton}>wygrana</button>
-                        <button className={styles.statusButton}>przegrana</button>
+                    <button
+                            className={`${styles.statusButton} ${activeStatus === 'wygrana' ? styles.active : ''}`}
+                            onClick={() => handleStatusClick('wygrana')}
+                        >
+                            wygrana
+                        </button>
+                        <button
+                            className={`${styles.statusButton} ${activeStatus === 'przegrana' ? styles.active : ''}`}
+                            onClick={() => handleStatusClick('przegrana')}
+                        >
+                            przegrana
+                        </button>
                     </div>
                 </div>
 
