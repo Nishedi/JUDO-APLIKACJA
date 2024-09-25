@@ -3,12 +3,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate } from 'react-router-dom';
 import {TreningStatusAndFeelingsAfter} from '../../CommonFunction';
-
-
+import SideBarCalendar from "./../DayView/SideBarCalendar";
+import { RxHamburgerMenu } from 'react-icons/rx';
 
 const WeekView = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
+
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -16,6 +18,10 @@ const WeekView = () => {
         "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
     
     const [weeklyActivities, setWeeklyActivities] = useState([]);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    }
 
     const formatDate = (date) => {
         const day = date.getDate();
@@ -141,20 +147,35 @@ const WeekView = () => {
         return startOfWeek;
     });
     
+    const onLogOutClick = () => {
+        setGlobalVariable(null);
+        navigate('/');
+    }
+
 
     return (
         <div className={styles.background}>
+            <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+
             <div className={styles.navbar}>
+                <div onClick={toggleSidebar} className={styles.burger}>
+                    <RxHamburgerMenu/>
+                </div>
                 <div className={styles.date_div}>
                     {currentWeek}
                 </div>
-                <div className={styles.writing_div}>
+                <div 
+                    className={styles.writing_div}
+                    on onClick={toggleSidebar}>
                     {globalVariable.imie} <br/> {globalVariable.nazwisko}
                 </div>
             </div>
 
             {/* Dni poszczególne */}
-            <div className={styles.weeklist}>
+            <div 
+                className={styles.weeklist}
+                onClick={toggleSidebar}
+            >
                 {daysOfWeek.map((date, index) => (
                     <WeekDay
                         key={index}
