@@ -192,7 +192,7 @@ const SinglePlayerSingleDayView = () => {
                     <BackButton path="/trener/singleplayerweekview"/>
                 </div>
                 <div className = {styles.weekDay}> 
-                    <div> {dayNames[viewedPlayer.currentDate.getDay()]}</div>
+                    <div> {dayNames[viewedPlayer.currentDate?.getDay()]}</div>
                     <div className={styles.weekDayData}> {formatDate(viewedPlayer.currentDate)} </div>
                 </div>
                 <div className={styles.name}> {viewedPlayer.imie} {viewedPlayer.nazwisko} </div>

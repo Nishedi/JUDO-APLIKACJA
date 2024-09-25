@@ -45,7 +45,7 @@ const AddingPlayerFirstPage = () => {
             alert("Wypełnij wszystkie pola");
             return;
         } 
-        const regex = /^[A-Z][a-z]*$/;
+        const regex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
         if (!regex.test(name) || !regex.test(surname)) {
             alert("Imię i nazwisko musi zaczynać się z wielkiej litery i nie może zawierać cyfr");
             return;

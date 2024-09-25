@@ -20,7 +20,23 @@ const TrenerTrainingView = () => {
         setThingsToDo(thingsArray);
     };
 
+    const getCurrentActivity = async () => {
+        console.log(viewedPlayer.currentActivity);
+        const { data, error } = await supabase
+        .from('aktywności')
+        .select('*')
+        .eq('id', viewedPlayer.currentActivity.id)
+        
+        if (error) {
+            console.error("Błąd pobierania aktywności", error);
+            return;
+        }
+        setActivity(data[0]);
+    };
+
+
     useEffect(() => {
+        getCurrentActivity();
         splitThingsToDo();
     }, []);
 
