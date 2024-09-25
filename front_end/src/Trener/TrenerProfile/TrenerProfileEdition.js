@@ -130,7 +130,7 @@ const TrenerProfileEdition = () => {
                        <label>Login:</label>
                        <input type="text" name="login" defaultValue={globalVariable.login} required />
 
-                       <label>Hasło:</label>
+                       <label>Nowe hasło:</label>
                        <input 
                            type="password" 
                            name="password"

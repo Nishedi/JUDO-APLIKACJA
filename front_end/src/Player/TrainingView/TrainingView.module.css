@@ -88,11 +88,11 @@ input, select{
 .buttonRozwin {
     display: flex;
     justify-content: flex-start;
-    background-color: #FFFFFF;
+    background-color: #D7DFEE;
+    border: 0.5px solid #103476;
     color: #103476;
     font-family: 'Kodchasan-Regular';
     border-radius: 10px;
-    border-color: #D7DFEE;
     padding: 10px;
 }
 

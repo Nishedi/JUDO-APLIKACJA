@@ -30,6 +30,8 @@
 
 .uppercase{
     text-transform: uppercase;
+    white-space: nowrap;
+
 }
 
 .burger{

@@ -60,10 +60,11 @@ const PlayersView = () => {
 
 
     const now = new Date();
-    const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
-    const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
-        "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
-    return (
+    const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
+    const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
+        "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
+    
+        return (
         <div className={styles.background}>
             <Sidebar isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
             <div className={styles.navbar}>

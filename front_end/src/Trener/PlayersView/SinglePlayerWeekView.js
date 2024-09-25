@@ -13,10 +13,10 @@ const SinglePlayerWeekView = () => {
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
 
-    const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
-    const monthNames = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwiec",
-        "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-
+    const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
+    const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
+        "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
+    
     const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
@@ -245,10 +245,10 @@ const SinglePlayerWeekView = () => {
                         </div>
                         <div className={styles.underButtons}>
                             <div className={styles.underButton}>
-                                ost. akt. kinazy: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
+                                ostatnia aktualizacja kinazy: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
                             </div>
                             <div className={styles.underButton}>
-                                ost. akt. kwasu mlekowego:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div>
+                            ostatnia aktualizacja kwasu mlekowego:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div>
                             </div>
                         </div>
                     </div>

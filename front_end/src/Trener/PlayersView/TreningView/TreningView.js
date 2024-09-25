@@ -102,11 +102,9 @@ const TrenerTrainingView = () => {
         };
     
         return (
-            <div style={{fontSize: '18px'}}>
-               <span>
-                    {feelingsAfter}
-                    {getFeelingsEmoticon(feelingsAfter)}
-                </span> 
+            <div className={styles.emotki}>
+                <span style={{ marginRight: '10px' }}> {feelingsAfter} </span>
+                <span style={{ verticalAlign: 'middle' }}> {getFeelingsEmoticon(feelingsAfter)} </span> 
             </div>
         );
     };
@@ -120,16 +118,22 @@ const TrenerTrainingView = () => {
                     </div>
                     <div className={styles.profilDiv}>
                         <div  >
-                            Trening {activity.rodzaj_aktywności}
+                            Trening <br/>
+                            <span style={{ textTransform: 'uppercase' }}>{activity.rodzaj_aktywności}</span>
                         </div>
-
                     </div>
                 </div>
                 {/* Body */}
                 <div className={styles.trainingDetails}>
-                    <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
-                    <p className={styles.oneline}><strong>Czas trwania:</strong> {formatTime(activity.czas_trwania)}</p>
-                    <div>
+                        <div className={styles.switchContainer}>
+                            <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
+                            <TreningStatus treningStatus={activity.status} />
+                            
+                            </div>
+                            <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
+                            <p className={styles.oneline}><strong>Czas trwania:</strong> {formatTime(activity.czas_trwania)}</p>
+                        <div>
+
                         <p><strong>Zadania do wykonania:</strong></p>
                         {/* Tutaj połączone z bazą - to co trener wskaże! */}
                         {activity.rodzaj_aktywności==='Motoryczny' ? 
@@ -148,11 +152,7 @@ const TrenerTrainingView = () => {
                         
                     </div>
 
-                    <div className={styles.switchContainer}>
-                    <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
-                    <TreningStatus treningStatus={activity.status} />
-                    
-                    </div>
+                   
 
                     <div className={styles.trainerComment}>
                         <p><strong>Komentarz trenera:</strong>
@@ -163,8 +163,8 @@ const TrenerTrainingView = () => {
                         </p>    
                     </div>
                     <div className={styles.switchContainer}>
-                        <p><strong>Odczucia po treningu</strong></p>
-                        <FeelingsAfter styles={{fontSize:'40px'}} feelingsAfter={activity.odczucia} />
+                        <p><strong>Odczucia po treningu:</strong></p>
+                        <FeelingsAfter  feelingsAfter={activity.odczucia} />
                     </div>
                 
                     <div className={styles.trainerComment}>

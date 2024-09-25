@@ -184,15 +184,14 @@
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
-.underButton{
+.underButton {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* padding: 10px; */
+    justify-content: center; /* Wyśrodkowanie pionowe */
+    align-items: flex-start; /* Wyśrodkowanie poziome */
     width: 42%;
     font-size: 11px;
-    
+    text-align: center; /* Wyśrodkowanie tekstu wewnątrz elementu */
 }
 
 .underButtons{

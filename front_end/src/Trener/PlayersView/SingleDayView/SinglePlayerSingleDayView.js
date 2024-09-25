@@ -20,10 +20,11 @@ const SinglePlayerSingleDayView = () => {
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
 
-    const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
-    const monthNames = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwiec",
-        "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-    const formatDate = (date) => {
+    const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
+    const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
+        "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
+    
+        const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
         return `${day} ${month}`;

@@ -21,6 +21,19 @@
     
 }
 
+.emotki {
+  display: flex;
+  font-family: 'Montserrat-Medium';
+  font-size: 16px;
+  text-transform: uppercase;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+
 .profilDiv{
     display: flex;
     flex-direction: column;
@@ -145,6 +158,7 @@ input, select{
     justify-content: space-between;
     align-items: center;
     margin: 15px 0;
+    vertical-align: middle;
   }
   .odczucia {
     display: flex;
