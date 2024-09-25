@@ -1,7 +1,6 @@
 import styles from "./SinglePlayerSingleDayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
-import StatsInput from "./StatsInput";
-import React, {act, useEffect, useState} from "react";
+import React, {useLayoutEffect, useState} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
@@ -36,18 +35,9 @@ const SinglePlayerSingleDayView = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
 
-    const hideSidebar = () => {
-        setIsSidebarOpen(false);
-    }
-
     const toggleStats = () => {
         setIsStatsOpen(!isStatsOpen);
     }
-
-    const handleStatsSubmit = (newStats) => {
-        setStats(newStats);
-        setIsStatsOpen(false); // Zamyka panel po zatwierdzeniu
-    };
 
     const getActivity = async () => {
         const currentDate = `${String(viewedPlayer.currentDate.getDate()).padStart(2, '0')}.${String(viewedPlayer.currentDate.getMonth() + 1).padStart(2, '0')}.${viewedPlayer.currentDate.getFullYear()}`;
@@ -68,7 +58,7 @@ const SinglePlayerSingleDayView = () => {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         getStatsDay();
         getActivity();
     }, []);
@@ -157,6 +147,9 @@ const SinglePlayerSingleDayView = () => {
                     ])
                     .select();
                 if (error) {
+                    if(error.code === "23505") {
+                        return;
+                    }
                     console.error("Błąd dodawania statystyk", error);
                     return;
                 }

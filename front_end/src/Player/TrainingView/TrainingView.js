@@ -137,6 +137,12 @@ const TrainingView = () => {
           <p><strong>Zadania do wykonania:</strong></p>
           <ul>
             { activity.zadania ? (
+              activity.rodzaj_aktywności === 'Motoryczny' ?
+              <button onClick={() => {
+                window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+              }}>Wyświetl szczegóły
+              </button>
+              :
               activity.zadania.split(',').map((task, index) => (
                 <li key={index}>{task}</li>
               ))

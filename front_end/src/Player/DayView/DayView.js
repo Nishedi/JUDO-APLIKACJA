@@ -248,7 +248,7 @@ const DayView = () => {
                             <button
                                 onClick={handleKinazaSubmit}
                                 className={styles.buttonTrening}>
-                                Aktualizuj
+                                Wyślij
                             </button>
                         </div>
                     </div>
@@ -273,7 +273,7 @@ const DayView = () => {
                             <button
                                 onClick={handleKwasMlekowySubmit}
                                 className={styles.buttonTrening}>
-                                Aktualizuj
+                                Wyślij
                             </button>
                         </div>
                     </div>

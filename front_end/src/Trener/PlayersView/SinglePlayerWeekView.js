@@ -125,7 +125,7 @@ const SinglePlayerWeekView = () => {
         return (
             <div onClick={() => goToSinglePlayerSingleDay(date)} className={styles.weekDay}>
                 <div>
-                    <p>{day}, {formatDate(date)}</p>
+                    <p>{day}, {formatDate(date)} {date.getDate()===new Date().getDate() && date.getMonth() === new Date().getMonth() ? "(Dzisiaj)":null}</p>
                     <div>
                         {activities.sort((a, b) => {
                             const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
