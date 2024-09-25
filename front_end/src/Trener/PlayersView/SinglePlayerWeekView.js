@@ -60,15 +60,35 @@ const SinglePlayerWeekView = () => {
         };
     };
 
+    const generateDateArray = (startDateStr, endDateStr) => {
+        const [startDay, startMonth, startYear] = startDateStr.split('.').map(Number);
+        const [endDay, endMonth, endYear] = endDateStr.split('.').map(Number);
+    
+        const startDate = new Date(startYear, startMonth - 1, startDay); // Miesiące są zero-indeksowane
+        const endDate = new Date(endYear, endMonth - 1, endDay);
+        
+        const dates = [];
+    
+        // Wypełnianie tablicy datami
+        while (startDate <= endDate) {
+            const formattedDate = `${String(startDate.getDate()).padStart(2, '0')}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()}`;
+            dates.push(formattedDate);
+            startDate.setDate(startDate.getDate() + 1); // Przejdź do następnego dnia
+        }
+    
+        return dates;
+    };
+
     const getWeekDays = async () => {
         const { startOfWeek } = getRangeToDatabase(currentDate);
         const { endOfWeek } = getRangeToDatabase(currentDate);
+        const dates = generateDateArray(startOfWeek, endOfWeek);
+    
     
         let { data: aktywnosci, error } = await supabase
             .from('aktywności')
             .select('*')
-            .gte('data', startOfWeek)
-            .lte('data', endOfWeek)
+            .in('data', dates)
             .eq('id_zawodnika', viewedPlayer.id)
             .eq('id_trenera', globalVariable.id)
             .order('data', { ascending: true });
