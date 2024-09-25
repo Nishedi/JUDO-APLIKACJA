@@ -133,17 +133,6 @@ const TrainingView = () => {
       {/* Body */}
       
       <div className={styles.trainingDetails}>
-      <div className={styles.switchContainer}>
-          <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
-          <label className={styles.switch}>
-            <input
-              type="checkbox"
-              checked={isTrainingCompleted}
-              onChange={() => setIsTrainingCompleted(!isTrainingCompleted)}
-            />
-            <span className={styles.slider}></span>
-          </label>
-        </div>
         <p><strong>Czas trwania:</strong> {activity.czas_trwania}</p>
         <div>
           <p><strong>Zadania do wykonania:</strong></p>
@@ -194,6 +183,17 @@ const TrainingView = () => {
             onChange={(e) => setComment(e.target.value)}
             placeholder="Dodaj komentarz"
           ></textarea>
+        </div>
+        <div className={styles.switchContainer}>
+          <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
+          <label className={styles.switch}>
+            <input
+              type="checkbox"
+              checked={isTrainingCompleted}
+              onChange={() => setIsTrainingCompleted(!isTrainingCompleted)}
+            />
+            <span className={styles.slider}></span>
+          </label>
         </div>
         <div className={styles.buttoncenter}>
           <button className={styles.buttonTrening} onClick={handleSubmit}>Zatwierdź</button>

@@ -388,7 +388,7 @@ const AddingActivityFirstPage = () => {
                         placeholder="Wpisz komentarz"
                     />
                 </div>
-                <button onClick={addActivities} className={styles.button}>Dalej</button>
+                <button onClick={addActivities} className={styles.button}>Dodaj</button>
             </div>
         </div>
     );

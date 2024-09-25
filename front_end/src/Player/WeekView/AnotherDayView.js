@@ -90,7 +90,12 @@ const AnotherDayView = () => {
                     <RxHamburgerMenu/>
                 </div>
                 <div className = {styles.weekDay}> 
-                    {dayNames[now.getDay()]}<br/> {now.getDate()+" "+monthNames[now.getMonth()]}
+                    <div>
+                        {dayNames[now.getDay()]}
+                    </div>
+                    <div className={styles.date}>
+                        {now.getDate()+" "+monthNames[now.getMonth()]}
+                    </div>
                 </div>
                 <div className={styles.name}> {globalVariable.imie} <br/> {globalVariable.nazwisko} </div>
             </div>

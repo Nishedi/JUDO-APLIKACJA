@@ -13,11 +13,10 @@ const WeekView = () => {
 
 
     const now = new Date();
-    const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
-    const monthNames = ["Stycznia", "Lutego", "Marca", "Kwietnia", "Maja", "Czerwiec",
-        "Lipca", "Sierpnia", "Września", "Października", "Listopada", "Grudnia"];
-    
-    const [weeklyActivities, setWeeklyActivities] = useState([]);
+    const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
+    const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
+        "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
+   const [weeklyActivities, setWeeklyActivities] = useState([]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);

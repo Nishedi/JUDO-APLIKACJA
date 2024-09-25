@@ -36,6 +36,14 @@
     text-transform: uppercase; /* Zmienia tekst na wielkie litery */
   }
 
+.date {
+  white-space: nowrap; /* Zapobiega łamaniu tekstu */
+  overflow: hidden;    /* Ukrywa nadmiar tekstu */
+  text-overflow: ellipsis; /* Dodaje wielokropek, jeśli tekst jest za długi */
+  font-size: clamp(12px, 2vw, 16px); /* Dynamiczna zmiana rozmiaru czcionki */
+  width: fit-content; /* Dopasowuje szerokość do treści */
+}
+
  .text p {
     color: #000000;
     font-size: 15px;
@@ -116,6 +124,7 @@
 .weekDay{
     padding: 5px 0px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     text-align: center;
     justify-content: center;

@@ -128,7 +128,7 @@ const AddingPlayerFirstPage = () => {
                         onChange={handleYearOfBirthChange} />
                     </div>
                 </div>
-                <button onClick={checkDataAndGoFurther} className={styles.button}>Dalej</button>
+                <button onClick={checkDataAndGoFurther} className={styles.button}>Dodaj</button>
             </div>
         </div>
     );
