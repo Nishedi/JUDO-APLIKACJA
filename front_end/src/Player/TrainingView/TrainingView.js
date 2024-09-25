@@ -138,7 +138,9 @@ const TrainingView = () => {
           <ul>
             { activity.zadania ? (
               activity.rodzaj_aktywności === 'Motoryczny' ?
-              <button onClick={() => {
+              <button 
+                className={styles.buttonRozwin}
+                onClick={() => {
                 window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
               }}>Wyświetl szczegóły
               </button>

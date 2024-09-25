@@ -6,9 +6,7 @@
 }
 
 .rectangleStats{
-  display: flex; /* Użycie flexbox do ustawienia układu */
-  align-items: center; /* Centruje elementy pionowo */
-
+    align-items: center; /* Centruje elementy pionowo */
     background-color: #FFFFFF; /* Biały kolor tła */
     border-radius: 15px; /* Zaokrąglone rogi */
     padding: 10px; /* Wewnętrzne odstępy */
@@ -247,12 +245,19 @@
   height: 100%;
 }
 
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .submitButton {
   background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
   color: #FFFFFF;
   justify-self: center;
   align-self: center;
-  width: 100%;
+  width: 50%;
   padding: 10px;
   border-radius: 10px;
   border-width: 0px;
