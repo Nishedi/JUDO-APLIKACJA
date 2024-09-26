@@ -34,6 +34,8 @@
     font-family: "Kodchasan-Medium";
 }
 
+
+
 .custom_input_correct, .custom_input_incorrect {
     padding: 20px;
     width: 80%;
@@ -49,7 +51,6 @@
 /* Placeholder Styles */
 .custom_input_correct::placeholder,
 .custom_input_incorrect::placeholder {
-    background-color: rgba(29, 97, 220, 0); /* Ustawienie lekko przezroczystego tła */
     color: #ffffff; /* Ustaw kolor placeholdera na jaśniejszy */
 }
 
