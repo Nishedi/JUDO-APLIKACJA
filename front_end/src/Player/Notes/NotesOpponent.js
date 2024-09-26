@@ -80,6 +80,15 @@ useEffect(() => {
     fetchNotes();
 }, [id_watku]);
 
+
+
+
+    const editButton = (note) => {
+        setGlobalVariable({ ...globalVariable, notatka: note });
+        navigate('/player/addnote');
+    };
+
+
     const navigate = useNavigate();
     const handleEditClick = () => {
         setGlobalVariable({ ...globalVariable, watek: threadDetails });
@@ -114,7 +123,7 @@ useEffect(() => {
                         {threadDetails ? threadDetails.nazwa_watku : 'Ładowanie...'}
                 </div>
                 <div className={styles.navbarButton}>
-                    <div className={styles.name}> {globalVariable.imie + " " + globalVariable.nazwisko} </div>
+                    <div className={styles.name}>  </div>
                 </div>
 
                 
@@ -150,6 +159,8 @@ useEffect(() => {
                                         ) : (
                                             <span>Brak wyniku</span>  //* W razie braku wyniku */}
                                         )}
+                                        <button onClick={() => editButton(note)} className={styles.editbutton}>Edytuj</button>
+
                                     </div>
                                     {expandedNotes.includes(note.id_notatki) && (
                                         <div className={styles.matchDetails}>

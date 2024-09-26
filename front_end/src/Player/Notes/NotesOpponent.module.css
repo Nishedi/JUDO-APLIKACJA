@@ -126,11 +126,38 @@
     width: 100%;
   }
   
+  .editbutton {
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(112, 111, 111, 0.5);
+    color: #ffffff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 0 5px;
+    background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+    border: 0.5px solid #A7B7D6;
+    border-radius: 5px;
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+  }
+  
+  .editbutton:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+  }
+  
+  .editbutton:active {
+    color: #103476;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
+  }
   .match {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: space-between;
     width: 100%;
-    align-items: center;
     background-color: #D7DFEE;
     border:1px solid #A7B7D6;
     border-radius: 5px;
@@ -153,7 +180,7 @@
   }
   
   .match p {
-    margin: 0 20px;
+    margin: 0;
     font-family: "Montserrat-Regular";
     font-size: 20px;
   }
@@ -163,6 +190,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
   }
 
 .matchHeader svg {
