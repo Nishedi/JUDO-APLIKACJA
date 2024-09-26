@@ -18,6 +18,7 @@
     color: #FFFFFF;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
     min-height: 80px;
+    position: relative;
     
 }
 
@@ -100,10 +101,10 @@
     font-size: 24px;
     display: flex;
     align-items: center;
+    position: absolute;
+    left: 0;
+    padding: 20px;
   }
-
-
-
 
 input, select{
     padding: 10px;
@@ -164,6 +165,14 @@ input, select{
     margin: 15px 0;
     vertical-align: middle;
     white-space: nowrap;
+    font-size: 14px;
+    font-family: 'Montserrat-Medium';
+  }
+
+  .switchContainer p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .emotki {

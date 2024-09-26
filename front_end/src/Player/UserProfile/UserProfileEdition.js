@@ -1,6 +1,5 @@
 import styles from './UserProfileEdition.module.css';
 import React, { useState, useContext } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
@@ -19,8 +18,6 @@ const UserProfileEdition = () => {
    const oldestYear = currentYear - 100;
    const years = [];
 
-
-   
    for (let i = currentYear; i >= oldestYear; i--) {
        years.push(i);
    }
@@ -38,45 +35,6 @@ const UserProfileEdition = () => {
        setError('');
 
        const { firstname, lastname, login, gender, year, weight } = e.target;
-
-//        try {
-//            // Zaktualizowanie danych użytkownika w Supabase
-//            const { data, error } = await supabase
-//                .from('zawodnicy')
-//                .update({
-//                    imie: firstname.value,
-//                    nazwisko: lastname.value,
-//                    login: login.value,
-//                    plec: gender.value,
-//                    rocznik: year.value,
-//                    kategoria_wagowa: weight.value,
-//                    haslo: password // Pamiętaj o bezpiecznym przechowywaniu haseł
-//                })
-//                .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
-
-//             if (error) {
-//                console.error('Błąd podczas aktualizacji danych: UPDATE', error);
-//                throw error;
-//             }
-
-//            // Zaktualizowanie stanu globalnego
-//            setGlobalVariable({
-//                ...globalVariable,
-//                imie: firstname.value,
-//                nazwisko: lastname.value,
-//                login: login.value,
-//                plec: gender.value,
-//                rocznik: year.value,
-//                kategoria_wagowa: weight.value,
-//            });
-
-//            // Zmiana flagi na zakończenie edycji
-//            navigate('/player/userprofile');
-//        } catch (error) {
-//            console.error('Błąd podczas aktualizacji danych:UP2', error);
-//            setError('Nie udało się zaktualizować danych. Spróbuj ponownie.');
-//        }
-//    };
 
         try {
             const updates = {};
@@ -114,11 +72,6 @@ const UserProfileEdition = () => {
                 console.log('hasło zostało zaktualizowane', password);
             }
             
-
-        console.log('updates', updates);
-
-
-
         // Jeśli updates nie zawiera hasła, nie aktualizuj hasła w bazie danych
         if (Object.keys(updates).length > 0) {
             const { data, error } = await supabase
@@ -206,7 +159,7 @@ const UserProfileEdition = () => {
                        <label>Login:</label>
                        <input type="text" name="login" defaultValue={globalVariable.login} required />
 
-                       <label>Hasło:</label>
+                       <label>Nowe hasło:</label>
                        <input 
                            type="password" 
                            name="password"

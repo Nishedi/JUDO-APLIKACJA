@@ -41,11 +41,9 @@ export const GlobalProvider = ({ children }) => {
     if (storedNewPlayer) setNewPlayer(storedNewPlayer);
     if (storedViewedPlayer) {
       const player = JSON.parse(storedViewedPlayer);
-      console.log(player);
       if(player.currentDate){
         player.currentDate = new Date(player.currentDate);
       }
-      console.log(player);
       setViewedPlayer(player);
     };
   }, []);

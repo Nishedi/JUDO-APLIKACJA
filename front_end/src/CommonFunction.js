@@ -1,3 +1,4 @@
+import styles from './CommonFunction.module.css';
 export const GetFeelingsEmoticon = ({feelingsAfter}) => {
     const pickEmoticon = (feelingsAfter) => {
         switch (feelingsAfter) {
@@ -12,7 +13,7 @@ export const GetFeelingsEmoticon = ({feelingsAfter}) => {
             case 'Bardzo dobrze':
                 return '😊';  // Bardzo dobrze
             default:
-                return '😐';  // Brak emotikony, jeśli nie ma odczuć
+                return '';  // Brak emotikony, jeśli nie ma odczuć
         }
     };
     return (
@@ -100,7 +101,7 @@ export const TreningStatusAndFeelingsAfter = ({ treningStatus, feelingsAfter }) 
             case 'Bardzo dobrze':
                 return '😁';  // Bardzo dobrze
             default:
-                return '😐';  // Brak emotikony, jeśli nie ma odczuć
+                return '';  // Brak emotikony, jeśli nie ma odczuć
         }
     };
 
@@ -110,6 +111,71 @@ export const TreningStatusAndFeelingsAfter = ({ treningStatus, feelingsAfter }) 
             
             <span> {getFeelingsEmoticon(feelingsAfter)}</span>
            
+        </div>
+    );
+};
+
+export const setMoodFromEmoticon = (feelingsAfter, setSelectedMood) => {
+    switch (feelingsAfter) {
+        case '😢':
+            setSelectedMood('Bardzo źle');  
+            break; 
+        case '🙁':
+            setSelectedMood('Źle');
+            break;
+        case '😐':
+            setSelectedMood('Neutralnie');  
+            break;
+        case '🙂':
+            setSelectedMood('Dobrze'); 
+            break;
+        case '😊':
+            setSelectedMood('Bardzo dobrze');  
+            break;
+        default:
+            setSelectedMood('Neutralnie');
+    }
+  };
+
+  export const pickEmoticon = (feelingsAfter) => {
+    switch (feelingsAfter) {
+        case 'Bardzo źle':
+            return '😢';  // Bardzo źle
+        case 'Źle':
+            return '🙁';  // Źle
+        case 'Neutralnie':
+            return '😐';  // Neutralnie
+        case 'Dobrze':
+            return '🙂';  // Dobrze
+        case 'Bardzo dobrze':
+            return '😊';  // Bardzo dobrze
+        default:
+            return '';  // Brak emotikony, jeśli nie ma odczuć
+    }
+  };
+
+  export const FeelingsAfter = ({feelingsAfter }) => {
+    const getFeelingsEmoticon = (feelingsAfter) => {
+        switch (feelingsAfter) {
+            case 'Bardzo źle':
+                return '😢';  // Bardzo źle
+            case 'Źle':
+                return '😕';  // Źle
+            case 'Neutralnie':
+                return '😐';  // Neutralnie
+            case 'Dobrze':
+                return '🙂';  // Dobrze
+            case 'Bardzo dobrze':
+                return '😁';  // Bardzo dobrze
+            default:
+                return '';  // Brak emotikony, jeśli nie ma odczuć
+        }
+    };
+
+    return (
+        <div className={styles.emotki}>
+            <span style={{ marginRight: '10px' }}> {feelingsAfter} </span>
+            <span style={{ verticalAlign: 'middle' }}> {getFeelingsEmoticon(feelingsAfter)} </span> 
         </div>
     );
 };

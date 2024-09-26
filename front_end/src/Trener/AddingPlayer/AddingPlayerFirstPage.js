@@ -7,7 +7,7 @@ import BackButton from '../../BackButton';
 
 const AddingPlayerFirstPage = () => {
     const navigate = useNavigate();
-    const { newPlayer, setNewPlayer } = useContext(GlobalContext);
+    const { setNewPlayer } = useContext(GlobalContext);
     const [selectedGender, setSelectedGender] = useState("");
     const [selectedWeightCategory, setSelectedWeightCategory] = useState("Wybierz kategorię wagową");
     const [name, setName] = useState("");

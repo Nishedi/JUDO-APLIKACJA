@@ -1,0 +1,8 @@
+.emotki {
+    display: flex;
+    font-family: 'Montserrat-Medium';
+    font-size: 14px;
+    text-transform: uppercase;
+    justify-content: space-between;
+    align-items: center;
+  }

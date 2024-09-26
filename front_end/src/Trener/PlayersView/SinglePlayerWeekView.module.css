@@ -187,7 +187,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center; /* Wyśrodkowanie pionowe */
-    align-items: flex-start; /* Wyśrodkowanie poziome */
+    align-items: center; /* Wyśrodkowanie poziome */
     width: 42%;
     font-size: 11px;
     text-align: center; /* Wyśrodkowanie tekstu wewnątrz elementu */

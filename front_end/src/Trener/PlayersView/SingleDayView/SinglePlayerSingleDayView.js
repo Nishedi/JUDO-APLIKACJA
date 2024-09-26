@@ -1,16 +1,12 @@
 import styles from "./SinglePlayerSingleDayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
 import React, {useLayoutEffect, useState} from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
-//import { useState, useContext } from "react";
-import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import {IoIosArrowForward } from "react-icons/io";
 import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../../BackButton";
-// Tu sie domyślam, że można by utworzyć jeden komponent
-// i jakoś sparametryzować kolor, żeby nie powtarzać kodu,
-// ale na razie chcę po prostu zrobić cokolwiek
+import {getActivityColor, getBorderColor, GetFeelingsEmoticon} from "../../../CommonFunction"
 
 const SinglePlayerSingleDayView = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
@@ -62,62 +58,7 @@ const SinglePlayerSingleDayView = () => {
     useLayoutEffect(() => {
         getStatsDay();
         getActivity();
-    }, []);
-
-    const getActivityColor = (activity_type) => {
-        switch (activity_type) {
-            case 'Trening motoryczny':
-                return '#FF7A68';
-            case 'Biegowy':
-                return '#95C6FF';
-            case 'Na macie':
-                return '#FFF281';
-            case 'Fizjoterapia':
-                return '#83FF8F';
-            default:
-                return '#FF7A68';
-        }
-    }
-
-    const getBorderColor = (activity_type) => {
-        switch (activity_type) {
-            case 'Trening motoryczny':
-                return '#BE0000';
-            case 'Biegowy':
-                return '#0056BA';
-            case 'Na macie':
-                return '#CCB700';
-            case 'Fizjoterapia':
-                return '#00C514';
-            default:
-                return '#BE0000';
-        } 
-    }
-                
-
-    const GetFeelingsEmoticon = ({feelingsAfter}) => {
-        const pickEmoticon = (feelingsAfter) => {
-            switch (feelingsAfter) {
-                case 'Bardzo źle':
-                    return '😢';  // Bardzo źle
-                case 'Źle':
-                    return '😕';  // Źle
-                case 'Neutralnie':
-                    return '😐';  // Neutralnie
-                case 'Dobrze':
-                    return '🙂';  // Dobrze
-                case 'Bardzo dobrze':
-                    return '😁';  // Bardzo dobrze
-                default:
-                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
-            }
-        };
-        return (
-            <div>
-                <span> {pickEmoticon(feelingsAfter)} </span>
-            </div>
-        );
-    };
+    }, []);                
 
     const handleActivityClick = (activity) => {
         setViewedPlayer({...viewedPlayer, currentActivity: activity});
@@ -209,6 +150,7 @@ const SinglePlayerSingleDayView = () => {
                             <div className = {styles.text}>
                                 <p>Tętno: <div>{stats?.tętno || ""}</div></p>
                                 <p className={styles.oneline}>Samopoczucie: 
+                                    {console.log(stats?.samopoczucie)}
                                 <GetFeelingsEmoticon 
                                     feelingsAfter={stats?.samopoczucie || ""} 
                                         />

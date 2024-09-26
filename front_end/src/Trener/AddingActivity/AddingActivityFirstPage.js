@@ -1,5 +1,5 @@
 import styles from './AddingActivity.module.css';
-import { locale, addLocale } from 'primereact/api';
+import { addLocale } from 'primereact/api';
 import { useState, useContext, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import { GlobalContext } from '../../GlobalContext';
@@ -75,7 +75,7 @@ const AddingActivityFirstPage = () => {
         { name: 'Option 5', id: 5 }
     ]);
 
-    const [trenings, setTrenings] = useState([
+    const [trenings] = useState([
         { name: 'Biegowy', id: 1 },
         { name: 'Motoryczny', id: 2 },
         { name: 'Na macie', id: 3 },
@@ -146,20 +146,20 @@ const AddingActivityFirstPage = () => {
         }
     }, [selectedTrenings]);
 
-    const onSelect = (selectedList, selectedItem) => {
+    const onSelect = (selectedList) => {
         setSelectedOptions(selectedList);
     };
 
-    const onRemove = (selectedList, removedItem) => {
+    const onRemove = (selectedList) => {
         setSelectedOptions(selectedList);
     };
 
-    const onSelectTrening = (selectedList, selectedItem) => {
+    const onSelectTrening = (selectedList) => {
         setSelectedTrenings(selectedList);
         setSelectedExercises([]);
     };
 
-    const onRemoveTrening = (selectedList, removedItem) => {
+    const onRemoveTrening = (selectedList) => {
         setSelectedTrenings(selectedList);
         setSelectedExercises([]);
     };
@@ -210,7 +210,6 @@ const AddingActivityFirstPage = () => {
                 console.log(data);
             }
     };
-    
 
     const getTimeString = (time) => {
         if (!time) return '';
@@ -313,7 +312,7 @@ const AddingActivityFirstPage = () => {
                             value={dates}
                             onChange={(e) => setDates(e.value)}
                             selectionMode="multiple"
-                            readOnlyInput
+                            readOnlyInput = {false}
                             className="custom-calendar"
                             style={{ width: '100%' }}
                             locale='pl'
@@ -321,6 +320,7 @@ const AddingActivityFirstPage = () => {
                             showTime 
                             hourFormat="24" 
                             placeholder='Wybierz datę i godzinę'
+                            stepMinute={10}
                         />
                     </div>
                 </div>

@@ -1,7 +1,5 @@
 import styles from './PlayerProfile.module.css';
-import React, { useState, useContext } from 'react';
-import { LiaAccessibleIcon } from 'react-icons/lia';
-import { RxHamburgerMenu } from 'react-icons/rx';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../GlobalContext';
 import BackButton from '../../../BackButton';

@@ -1,6 +1,6 @@
 import styles from './TreningView.module.css';
 import React, { useEffect } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
+import { TreningStatus, FeelingsAfter } from '../../../CommonFunction';
 import { GlobalContext } from '../../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import BackButton from '../../../BackButton';
 
 const TrenerTrainingView = () => {
-    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
-    const { viewedPlayer, setViewedPlayer } = useContext(GlobalContext);
+    const { globalVariable, supabase } = useContext(GlobalContext);
+    const { viewedPlayer } = useContext(GlobalContext);
     const [activity, setActivity] = useState(viewedPlayer.currentActivity);
     const [thingsToDo, setThingsToDo] = useState(["bład","błąd"]);
     const navigate = useNavigate();
@@ -61,54 +61,6 @@ const TrenerTrainingView = () => {
         return `${hour} godz. ${minute} min.`;
     };
 
-    const TreningStatus = ({ treningStatus}) => {
-        const getStatusEmoticon = (treningStatus) => {
-            switch (treningStatus) {
-                case 'Nierozpoczęty':
-                    return '⏳';  // Emotikona oczekiwania
-                case 'Zrealizowany':
-                    return '✅';  // Emotikona wykonania
-                case 'Niezrealizowany':
-                    return '❌';  // Emotikona niewykonania
-                default:
-                    return '🤷';  // Emotikona na wypadek nieznanego statusu
-            }
-        };
-    
-        return (
-            <div style={{fontSize: '24px'}}>
-               <span>{getStatusEmoticon(treningStatus)}</span>
-            </div>
-        );
-    };
-
-    const FeelingsAfter = ({feelingsAfter }) => {
-
-        const getFeelingsEmoticon = (feelingsAfter) => {
-            switch (feelingsAfter) {
-                case 'Bardzo źle':
-                    return '😢';  // Bardzo źle
-                case 'Źle':
-                    return '😕';  // Źle
-                case 'Neutralnie':
-                    return '😐';  // Neutralnie
-                case 'Dobrze':
-                    return '🙂';  // Dobrze
-                case 'Bardzo dobrze':
-                    return '😁';  // Bardzo dobrze
-                default:
-                    return '😐';  // Brak emotikony, jeśli nie ma odczuć
-            }
-        };
-    
-        return (
-            <div className={styles.emotki}>
-                <span style={{ marginRight: '10px' }}> {feelingsAfter} </span>
-                <span style={{ verticalAlign: 'middle' }}> {getFeelingsEmoticon(feelingsAfter)} </span> 
-            </div>
-        );
-    };
-
     return (
         <div className = {styles.background}>
             <div>
@@ -149,12 +101,8 @@ const TrenerTrainingView = () => {
                                 <li key={index}>{thing}</li>
                             ))}
                             </ul>
-
                         )}
-                        
-                    </div>
-
-                   
+                    </div>                  
 
                     <div className={styles.trainerComment}>
                         <p><strong>Komentarz trenera:</strong>
@@ -165,7 +113,8 @@ const TrenerTrainingView = () => {
                         </p>    
                     </div>
                     <div className={styles.switchContainer}>
-                        <p><strong>Odczucia po treningu:</strong></p>
+                        <strong>Odczucia po treningu:</strong>
+                        {console.log(activity.odczucia)}
                         <FeelingsAfter  feelingsAfter={activity.odczucia} />
                     </div>
                 

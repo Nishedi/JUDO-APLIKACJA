@@ -245,10 +245,10 @@ const SinglePlayerWeekView = () => {
                         </div>
                         <div className={styles.underButtons}>
                             <div className={styles.underButton}>
-                                ostatnia aktualizacja kinazy: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
+                                ostatnia aktualizacja: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
                             </div>
                             <div className={styles.underButton}>
-                            ostatnia aktualizacja kwasu mlekowego:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div>
+                            ostatnia aktualizacja:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div>
                             </div>
                         </div>
                     </div>

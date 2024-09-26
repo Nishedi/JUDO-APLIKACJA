@@ -1,12 +1,11 @@
 import styles from './PlayerProfileEdition.module.css';
 import React, { useState, useContext } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../GlobalContext';
 import BackButton from '../../../BackButton';
 
 const PlayerProfileEdition = () => {
-    const {viewedPlayer, setViewedPlayer, supabase, globalVariable, setGlobalVariable} = useContext(GlobalContext);
+    const {viewedPlayer, setViewedPlayer, supabase} = useContext(GlobalContext);
     const weightCategories = {
         "Mężczyzna": ["-60kg", "-66kg", "-73kg", "-81kg", "-90kg", "-100kg", "+100kg"],
         "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]

@@ -1,10 +1,10 @@
 import styles from './TrainingView.module.css';
 import React, { useEffect } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
+import { pickEmoticon, setMoodFromEmoticon } from '../../CommonFunction';
 import BackButton from '../../BackButton';
 
 const TrainingView = () => {
@@ -12,16 +12,12 @@ const TrainingView = () => {
   const [isTrainingCompleted, setIsTrainingCompleted] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
   const [comment, setComment] = useState('');
-
   const { id } = useParams();
-  const location = useLocation();
-  const [activity, setActivity] = useState(null); // Tutaj będzie pobrana aktywność z bazy danych
+  const [activity, setActivity] = useState(null); 
   const navigate = useNavigate();
   
-
   // Pobieranie aktywności z bazy danych
   const fetchActivityFromDatabase = async (activityId) => {
-
     try {
       let { data: aktywnosc, error } = await supabase
         .from('aktywności')  // Tabela w bazie danych
@@ -32,8 +28,9 @@ const TrainingView = () => {
       if (error) {
         console.error('Błąd podczas pobierania aktywności FETCHACTFROMDATAB:', error);
       } else {
+        console.log(aktywnosc)
         setActivity(aktywnosc);
-        setIsTrainingCompleted(aktywnosc.status);
+        if(aktywnosc.status === 'Zrealizowany') setIsTrainingCompleted(true);
         setSelectedMood(aktywnosc.odczucia);
         setComment(aktywnosc.komentarz_zawodnika);
       }
@@ -46,51 +43,9 @@ const TrainingView = () => {
     fetchActivityFromDatabase(id);
   }, [id]);
 
-  const setMoodFromEmoticon = (feelingsAfter) => {
-    switch (feelingsAfter) {
-        case '😢':
-            setSelectedMood('Bardzo źle');  
-            break; 
-        case '🙁':
-            setSelectedMood('Źle');
-            break;
-        case '😐':
-            setSelectedMood('Neutralnie');  
-            break;
-        case '🙂':
-            setSelectedMood('Dobrze'); 
-            break;
-        case '😊':
-            setSelectedMood('Bardzo dobrze');  
-            break;
-        default:
-            setSelectedMood('Neutralnie');
-    }
-  };
-
-  const pickEmoticon = (feelingsAfter) => {
-    switch (feelingsAfter) {
-        case 'Bardzo źle':
-            return '😢';  // Bardzo źle
-        case 'Źle':
-            return '🙁';  // Źle
-        case 'Neutralnie':
-            return '😐';  // Neutralnie
-        case 'Dobrze':
-            return '🙂';  // Dobrze
-        case 'Bardzo dobrze':
-            return '😊';  // Bardzo dobrze
-        default:
-            return '😐';  // Brak emotikony, jeśli nie ma odczuć
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
-    
-    
     try {
       const { error } = await supabase
         .from('aktywności')  // Nazwa tabeli w bazie danych
@@ -129,9 +84,6 @@ const TrainingView = () => {
           </div>
         </div>
       </div>
-      
-      {/* Body */}
-      
       <div className={styles.trainingDetails}>
         <p><strong>Czas trwania:</strong> {activity.czas_trwania}</p>
         <div>
@@ -169,7 +121,7 @@ const TrainingView = () => {
               <span
                 key={index}
                 className={`${styles.mood} ${pickEmoticon(selectedMood) === mood ? styles.selected : ''}`}
-                onClick={() => setMoodFromEmoticon(mood)}
+                onClick={() => setMoodFromEmoticon(mood, setSelectedMood)}
               >
                 {mood}
               </span>

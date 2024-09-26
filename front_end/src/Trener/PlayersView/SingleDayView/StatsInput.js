@@ -2,19 +2,8 @@ import React,{ useState } from "react";
 import styles from "./StatsInput.module.css";
 
 const StatsInput = ({ onSubmit, initialData }) => {
-
-    const [soreness, setSoreness] = useState(false); // State dla przycisku TAK/NIE
     const [mood, setMood] = useState(''); // State dla samopoczucia
     const [stats, setStats] = useState(initialData);
-
-    const emojiIcons = [
-        'front_end/src/emojis/beaming-face-with-smiling-eyes-svgrepo-com.svg',
-        'front_end/src/emojis/neutral-face-svgrepo-com.svg',
-    'front_end/src/emojis/sad-but-relieved-face-svgrepo-com.svg',
-        'front_end/src/emojis/slightly-frowning-face-svgrepo-com.svg',
-        'front_end/src/emojis/slightly-smiling-face-svgrepo-com.svg',
-        'front_end/src/emojis/smiling-face-with-smiling-eyes-svgrepo-com.svg',
-];
 
 const Switch = ({ isOn, onToggle }) => {
     return (
