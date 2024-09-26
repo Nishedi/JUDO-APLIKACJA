@@ -1,25 +1,13 @@
 import styles from './NotesOpponent.module.css';
 import React, {useContext, useEffect, useState} from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaPlus } from 'react-icons/fa';
-import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
 
-
-
-// Przykładowa lista przeciwników
-const opponents = [
-    { name: "Piotr Wysocki", lastMeeting: "10.07.2024", balance: "5 / 1" },
-    { name: "Jan Kowalski", lastMeeting: "04.05.2024", balance: "2 / 0" },
-    { name: "Bartłomiej Dobrowolski", lastMeeting: "24.01.2023", balance: "1 / 3" },
-];
-
 const NotesOpponent = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
-
     const { id_watku } = useParams(); // Pobieramy id_watku z URL
     const [notes, setNotes] = useState([]);
     const [threadDetails, setThreadDetails] = useState(null); // Stan do przechowywania szczegółów wątku
@@ -34,7 +22,6 @@ const NotesOpponent = () => {
                     console.error('id_watku is undefined');
                     return;
                 }
-
                 const { data, error } = await supabase
                     .from('watki_notatki') // Tabela 'watki_notatki'
                     .select('*')
@@ -54,8 +41,6 @@ const NotesOpponent = () => {
     fetchThreadsDetails();
 }, [id_watku]);
 
-
-
 useEffect(() => {
     const fetchNotes = async () => {
         try {
@@ -63,9 +48,6 @@ useEffect(() => {
                 console.error('id_watku is undefined');
                 return;
             }
-
-            console.log('Fetching details for id_watku:', id_watku);
-
             // Pobierz szczegóły wątku
             const { data: threadData, error: threadError } = await supabase
                 .from('watki_notatki')
@@ -88,7 +70,6 @@ useEffect(() => {
             if (notesError) {
                 console.error('Błąd podczas pobierania notatek:', notesError);
             } else {
-                console.log('Notatki pobrane:', notesData);
                 setNotes(notesData);
             }
         } catch (error) {
@@ -99,11 +80,9 @@ useEffect(() => {
     fetchNotes();
 }, [id_watku]);
 
-
-
     const navigate = useNavigate();
-    
     const handleEditClick = () => {
+        setGlobalVariable({ ...globalVariable, watek: threadDetails });
         navigate(`/player/addnote`); // Przekierowanie do strony edycji profilu
     };
 
@@ -121,7 +100,7 @@ useEffect(() => {
 
     // Funkcja do zmiany wyniku na tekst
     const getWynikText = (wynik) => {
-        return wynik === 1 ? 'wygrana' : wynik === 0 ? 'przegrana': 'brak danych';
+        return wynik === 'wygrana' ? 'wygrana' : wynik === 'przegrana' ? 'przegrana': 'brak danych';
     };
 
     return (
@@ -164,16 +143,14 @@ useEffect(() => {
                                         <p>{new Date(note.data).toLocaleDateString()} r.</p>
                                         
                                         {/* Strzałka zależna od wyniku walki */}
-                                        {note.wynik === 1 ? (
+                                        {note.wynik === "wygrana" ? (
                                             <IoIosArrowUp className={styles.resultArrow} />  //* Strzałka w górę dla wygranej */}
-                                        ) : note.wynik === 0 ? (
+                                        ) : note.wynik === "przegrana" ? (
                                             <IoIosArrowDown className={styles.resultArrow} /> //* Strzałka w dół dla przegranej */}
                                         ) : (
                                             <span>Brak wyniku</span>  //* W razie braku wyniku */}
                                         )}
                                     </div>
-                                    
-                                    {/* Zawartość notatki tylko, gdy jest rozwinięta */}
                                     {expandedNotes.includes(note.id_notatki) && (
                                         <div className={styles.matchDetails}>
                                             <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>

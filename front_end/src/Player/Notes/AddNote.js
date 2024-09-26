@@ -1,30 +1,24 @@
 import styles from './AddNote.module.css';
 import React from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useContext } from 'react';
 import DatePicker from 'react-datepicker';
-import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
+import { GlobalContext } from '../../GlobalContext';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const AddNote = () => {
-    const { globalVariable, supabase } = useContext(GlobalContext);
-
-    // Zmienne przechowujące wybraną datę i czas
+    const {supabase, globalVariable} = useContext(GlobalContext);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedTime, setSelectedTime] = useState(new Date());
-
-    // Zmienna przechowująca aktywny status walki
     const [activeStatus, setActiveStatus] = useState(null);
-
+    const [noteText, setNoteText] = useState('');
+    const navigate = useNavigate();
 
     // Funkcje zmieniające datę i czas
     const handleDateChange = (date) => {
         setSelectedDate(date);
-    };
-
-    const handleTimeChange = (time) => {
-        setSelectedTime(time);
     };
 
     // Funkcja zmieniająca status walki z obsługą odznaczania statusu
@@ -35,8 +29,44 @@ const AddNote = () => {
             setActiveStatus(status); // W przeciwnym razie zaznacz go
         }
     };
-    // Trzeba dodać nazwę wątku, bo do tej pory 
-    // było imię i nazwisko zawodnika
+    
+    const addNote = async () => {
+        const watek = globalVariable.watek
+        const { error } = await supabase
+        .from('notatki')
+        .insert([
+          { 
+            id_watku: watek.id_watku,
+            data: selectedDate,
+            wynik: activeStatus,
+            tresc: noteText
+           },
+        ])
+        .select()
+        if(error){
+            console.log('error', error)
+            return;
+        }
+        if (activeStatus === 'wygrana') {
+            const { error } = await supabase
+                .from('watki_notatki')
+                .update({ liczba_wygranych: watek.liczba_wygranych+1 }) 
+                .eq('id_watku', watek.id_watku);
+            if (error) {
+                console.log('error', error);
+            }
+        }
+        if (activeStatus === 'przegrana') {
+            const { error } = await supabase
+                .from('watki_notatki')
+                .update({ liczba_przegranych: watek.liczba_przegranych+1 }) 
+                .eq('id_watku', watek.id_watku);
+            if (error) {
+                console.log('error', error);
+            }
+        }
+        navigate(`/player/notesopponent/${watek.id_watku}`);
+    }
 
 
     return (
@@ -47,9 +77,6 @@ const AddNote = () => {
                 </div>
                 <div className={styles.navbarText}>
                     Nowa notatka <br/>
-                    {}
-
-
                 </div>
             </div>
 
@@ -70,24 +97,13 @@ const AddNote = () => {
                             dateFormat="dd.MM.yyyy"
                             className={styles.customDatePicker} // Klasa CSS dla daty
                         />
-                        {/* DatePicker - wybór czasu */}
-                        <DatePicker
-                            selected={selectedTime}
-                            onChange={handleTimeChange}
-                            showTimeSelect
-                            showTimeSelectOnly
-                            timeIntervals={5} // Minuty co 5 minut
-                            timeCaption="Czas"
-                            dateFormat="HH:mm"
-                            className={styles.customTimePicker} // Klasa CSS dla czasu
-                        />
                     </div>
                 </div>
 
                 <div className={styles.noteSection}>
                     <p>Status walki:</p>
                     <div className={styles.fightStatus}>
-                    <button
+                        <button
                             className={`${styles.statusButton} ${activeStatus === 'wygrana' ? styles.active : ''}`}
                             onClick={() => handleStatusClick('wygrana')}
                         >
@@ -103,11 +119,14 @@ const AddNote = () => {
                 </div>
 
                 <div className={styles.noteTextArea}>
-                    <textarea placeholder="Dodaj notatkę..."></textarea>
+                    <textarea 
+                        onChange={(e) => setNoteText(e.target.value)} 
+                        placeholder="Dodaj notatkę...">
+                    </textarea>
                 </div>
 
                 <div className={styles.submitButton}>
-                    <button className={styles.addNoteButton}>Dodaj</button>
+                    <button onClick={addNote} className={styles.addNoteButton}>Dodaj</button>
                 </div>
             </div>
         </div>

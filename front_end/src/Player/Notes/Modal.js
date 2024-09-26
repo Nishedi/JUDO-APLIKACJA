@@ -1,5 +1,5 @@
 import styles from './Modal.module.css';
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 
 
 const Modal = ({ onClose, handleAddThread, newThread, setNewThread }) => {

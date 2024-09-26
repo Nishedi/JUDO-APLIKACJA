@@ -1,10 +1,10 @@
 import './LoginComponent.css';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
 
 const LoginComponent = () => {
-    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
+    const { setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [login, setLogin] = useState("Login");
     const [password, setPassword] = useState("Hasło");
@@ -19,6 +19,10 @@ const LoginComponent = () => {
         setPassword(event.target.value);
         setIsLogged(null);
     }
+
+    useEffect(() => {
+        
+    }, []);
 
     const tryLogin = async () => {
         let { data: dane_trenera, error } = await supabase
@@ -64,7 +68,6 @@ const LoginComponent = () => {
                     <input onChange={handlePasswordChange} className = "custom_input_incorrect" type="password" placeholder={password} /></>)
                     : (<><input onChange={handleLoginChange} className = "custom_input_correct" type="text" placeholder={login} />
                         <input onChange={handlePasswordChange} className = "custom_input_correct" type="password" placeholder={password} />
-                        
                         </>)
                     }
                 </div>

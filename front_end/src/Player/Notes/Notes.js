@@ -1,7 +1,6 @@
 import styles from './Notes.module.css';
 import React, { useState, useEffect, useContext }  from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoIosArrowDown } from 'react-icons/io';
 import { GlobalContext } from '../../GlobalContext';
@@ -9,20 +8,16 @@ import Modal from './Modal';
 import BackButton from '../../BackButton';
 
 const Notes = () => {
-    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
-
+    const { globalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate(); // Hook do nawigacji
-
     const [threads, setThreads] = useState([]);
     const [newThread, setNewThread] = useState({
         nazwa_watku: '',
         id_zawodnika: globalVariable.id_zawodnika,
-        liczba_wygranych: '',
-        liczba_przegranych: ''
+        liczba_wygranych: 0,
+        liczba_przegranych: 0
     });
-
     const [isModalVisible, setIsModalVisible] = useState(false); // Stan obsługi modalu
-
 
     // Pobieranie wątków z Supabase przy montowaniu komponentu
     useEffect(() => {
@@ -30,7 +25,8 @@ const Notes = () => {
             const { data, error } = await supabase
                 .from('watki_notatki') // Używamy tabeli 'watki_notatki'
                 .select('*')
-                .eq('id_zawodnika', globalVariable.id); // Pobieranie wątków tylko dla aktualnie zalogowanego zawodnika
+                .eq('id_zawodnika', globalVariable.id)
+                .order('id_watku', { ascending: false });; // Pobieranie wątków tylko dla aktualnie zalogowanego zawodnika
             if (error) {
                 console.error('Błąd podczas pobierania przeciwników USEEFFECT:', error);
             } else {
@@ -44,25 +40,25 @@ const Notes = () => {
 
     // Funkcja dodawania nowego wątku
     const handleAddThread = async () => {
-        const { nazwa_watku, id_zawodnika, liczba_wygranych, liczba_przegranych } = newThread;
+        const { nazwa_watku, liczba_wygranych, liczba_przegranych } = newThread;
         if (!nazwa_watku) {
-            alert('Proszę wypełnić pole z imieniem i nazwiskiem przeciwnika');
+            alert('Proszę wypełnić pole z nazwą wątku');
             return;
         }
         const { data, error } = await supabase
             .from('watki_notatki')
             .insert([{
-                nazwa_watku,
-                id_zawodnika: globalVariable.id, // Pobieranie ID zawodnika z globalnego kontekstu
-                liczba_wygranych,
-                liczba_przegranych
-            }]);
+                id_zawodnika: globalVariable.id,
+                nazwa_watku: nazwa_watku,
+                liczba_wygranych: liczba_wygranych,
+                liczba_przegranych: liczba_przegranych
+            }]).select();
 
         if (error) {
             console.error('Błąd podczas dodawania przeciwnika: HANDLETHREAD ', error);
         } else {
-            setThreads([...threads, ...data]);
-            setNewThread({ nazwa_watku: '', id_zawodnika: '', liczba_wygranych: '', liczba_przegranych: '' });
+            setThreads([...threads, data[0]]);
+            setNewThread({ nazwa_watku: '', id_zawodnika: '', liczba_wygranych: 0, liczba_przegranych: 0});
             setIsModalVisible(false); // Zamykanie modala po dodaniu wątku
         }
     };
