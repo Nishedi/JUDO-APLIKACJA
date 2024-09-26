@@ -27,7 +27,7 @@ const UserProfile = () => {
                 </div>
                 <div className={styles.profilDiv}>
                     <div className={styles.end} >
-                        Twoj profil
+                        Twoj profil:
                     </div>
                     <div className={styles.uppercase}>
                     {globalVariable.imie} {globalVariable.nazwisko}
