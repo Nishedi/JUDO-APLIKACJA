@@ -82,51 +82,54 @@ const TrenerTrainingView = () => {
                 <div className={styles.trainingDetails}>
                         <div className={styles.switchContainer}>
                             <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
-                            <TreningStatus treningStatus={activity.status} />
-                            
-                            </div>
+                            <TreningStatus treningStatus={activity.status} />    
+                        </div>
+                </div>
+                <div className={styles.trainingDetails}>
                             <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
                             <p className={styles.oneline}><strong>Czas trwania:</strong> {formatTime(activity.czas_trwania)}</p>
+
                         <div>
+                            <p><strong>Zadania do wykonania:</strong></p>
+                            {/* Tutaj połączone z bazą - to co trener wskaże! */}
+                            {activity.rodzaj_aktywności==='Motoryczny' ? 
+                            <button 
+                                className={styles.buttonRozwin}
+                                onClick={() => {
+                                window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+                            }}>Wyświetl szczegóły</button>
+                            : (
+                                <ul>
+                                {thingsToDo.map((thing, index) => (
+                                    <li key={index}>{thing}</li>
+                                ))}
+                                </ul>
+                            )}
+                        </div>                  
 
-                        <p><strong>Zadania do wykonania:</strong></p>
-                        {/* Tutaj połączone z bazą - to co trener wskaże! */}
-                        {activity.rodzaj_aktywności==='Motoryczny' ? 
-                        <button 
-                            className={styles.buttonRozwin}
-                            onClick={() => {
-                            window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
-                        }}>Wyświetl szczegóły</button>
-                        : (
-                            <ul>
-                            {thingsToDo.map((thing, index) => (
-                                <li key={index}>{thing}</li>
-                            ))}
-                            </ul>
-                        )}
-                    </div>                  
-
-                    <div className={styles.trainerComment}>
-                        <p><strong>Komentarz trenera:</strong>
-                                    <br/>
-                                    <div className={styles.commentSection}>
-                                        {activity.komentarz_trenera || 'Brak komentarza'}
-                                    </div>
-                        </p>    
+                        <div className={styles.trainerComment}>
+                            <p><strong>Komentarz trenera:</strong>
+                                        <br/>
+                                        <div className={styles.commentSection}>
+                                            {activity.komentarz_trenera || 'Brak komentarza'}
+                                        </div>
+                            </p>    
+                        </div>
                     </div>
-                    <div className={styles.switchContainer}>
-                        <strong>Odczucia po treningu:</strong>
-                        <FeelingsAfter  feelingsAfter={activity.odczucia} />
-                    </div>
+                    <div className={styles.trainingDetails}>
+                        <div className={styles.switchContainer}>
+                            <strong>Odczucia po treningu:</strong>
+                            <FeelingsAfter  feelingsAfter={activity.odczucia} />
+                        </div>
                 
-                    <div className={styles.trainerComment}>
-                        <p><strong>Komentarz zawodnika:</strong>
-                                    <br/>
-                            <div className={styles.commentSection}>
-                                {activity.komentarz_zawodnika || 'Brak komentarza'}
-                            </div>
-                        </p>    
-                    </div>
+                        <div className={styles.trainerComment}>
+                            <p><strong>Komentarz zawodnika:</strong>
+                                        <br/>
+                                <div className={styles.commentSection}>
+                                    {activity.komentarz_zawodnika || 'Brak komentarza'}
+                                </div>
+                            </p>    
+                        </div>
                     
                 </div>
             </div>

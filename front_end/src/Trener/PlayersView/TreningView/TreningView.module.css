@@ -50,10 +50,15 @@
   text-align: center;
 }
 .trainingDetails {
-    padding: 20px;
-    background-color: #F5F7FA;
+    padding: 5px 20px;
+    background-color: #ffffff;
     border-radius: 20px;
-    margin: 20px;
+    margin: 10px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.trainingDetails label {
+  box-shadow: none;
 }
 
 .trainingDetails p {
@@ -137,6 +142,7 @@ input, select{
     border-width: 0px;
     font-family: 'Kodchasan-SemiBold';
     font-size: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
