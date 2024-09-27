@@ -5,13 +5,8 @@ import { GlobalContext } from '../../../GlobalContext';
 import BackButton from '../../../BackButton';
 
 const PlayerProfile = () => {
-
-    const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
-
+    const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
     const navigate = useNavigate();
-
-
-
     const handleEditClick = () => {
         setViewedPlayer({...viewedPlayer});
         navigate('/trener/playerprofileedition'); // Przekierowanie do strony edycji profilu

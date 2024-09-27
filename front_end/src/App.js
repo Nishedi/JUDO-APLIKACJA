@@ -16,6 +16,7 @@ import TrainingView from './Player/TrainingView/TrainingView';
 import Notes from './Player/Notes/Notes';
 import NotesOpponent from './Player/Notes/NotesOpponent';
 import AddNote from './Player/Notes/AddNote';
+import EditNote from './Player/Notes/EditNote';
 import SinglePlayerSingleDayView from './Trener/PlayersView/SingleDayView/SinglePlayerSingleDayView';
 import TrenerTrainingView from './Trener/PlayersView/TreningView/TreningView';
 import TrenerProfile from './Trener/TrenerProfile/TrenerProfile';
@@ -44,6 +45,7 @@ function App() {
           <Route path = "player/notes" element = {<Notes />} />
           <Route path = "player/notesopponent/:id_watku" element={<NotesOpponent/>} />
           <Route path = "player/addnote" element={<AddNote/>} />
+          <Route path = "player/editnote" element={<EditNote/>} />
           <Route path = "/trener/singleplayersingleday" element = {<SinglePlayerSingleDayView />} />
           <Route path = "/trener/trainingview" element = {<TrenerTrainingView />} />
           <Route path = "/player/trainingview/:id" element = {<TrainingView />} />

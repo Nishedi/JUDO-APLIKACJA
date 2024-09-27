@@ -65,7 +65,8 @@ useEffect(() => {
             const { data: notesData, error: notesError } = await supabase
                 .from('notatki')
                 .select('*')
-                .eq('id_watku', id_watku);
+                .eq('id_watku', id_watku)
+                .order('id_notatki', { ascending: false });
 
             if (notesError) {
                 console.error('Błąd podczas pobierania notatek:', notesError);
@@ -80,12 +81,9 @@ useEffect(() => {
     fetchNotes();
 }, [id_watku]);
 
-
-
-
     const editButton = (note) => {
-        setGlobalVariable({ ...globalVariable, notatka: note });
-        navigate('/player/addnote');
+        setGlobalVariable({ ...globalVariable, watek: threadDetails, notatka: note });
+        navigate('/player/editnote');
     };
 
 

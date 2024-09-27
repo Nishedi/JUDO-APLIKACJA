@@ -127,7 +127,7 @@
 }
 
 .selectElement {
-    width: 50%; /* Szerokość rozwijanej listy */
+    width: 100%; /* Szerokość rozwijanej listy */
     padding: 10px; /* Odstępy wewnętrzne */
     border-radius: 5px; /* Zaokrąglone rogi */
     border: 1px solid #ccc; /* Kolor obramowania */
