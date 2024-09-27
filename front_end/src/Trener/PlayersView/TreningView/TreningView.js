@@ -87,7 +87,9 @@ const TrenerTrainingView = () => {
                 </div>
                 <div className={styles.trainingDetails}>
                             <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
+                            <div className={styles.line}></div>
                             <p className={styles.oneline}><strong>Czas trwania:</strong> {formatTime(activity.czas_trwania)}</p>
+                            <div className={styles.line}></div>
 
                         <div>
                             <p><strong>Zadania do wykonania:</strong></p>
@@ -106,7 +108,7 @@ const TrenerTrainingView = () => {
                                 </ul>
                             )}
                         </div>                  
-
+                        <div className={styles.line}></div>
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz trenera:</strong>
                                         <br/>
@@ -121,7 +123,7 @@ const TrenerTrainingView = () => {
                             <strong>Odczucia po treningu:</strong>
                             <FeelingsAfter  feelingsAfter={activity.odczucia} />
                         </div>
-                
+                        <div className={styles.line}></div>
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz zawodnika:</strong>
                                         <br/>
