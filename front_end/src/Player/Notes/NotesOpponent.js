@@ -151,9 +151,9 @@ useEffect(() => {
                                         
                                         {/* Strzałka zależna od wyniku walki */}
                                         {note.wynik === "wygrana" ? (
-                                            <IoIosArrowUp className={styles.resultArrow} />  //* Strzałka w górę dla wygranej */}
+                                            <span className={styles.resultEmoji} role="img" aria-label="wygrana">🏆</span> // Emoji pucharu dla wygranej
                                         ) : note.wynik === "przegrana" ? (
-                                            <IoIosArrowDown className={styles.resultArrow} /> //* Strzałka w dół dla przegranej */}
+                                            <span className={styles.resultEmoji} role="img" aria-label="przegrana">❌</span> // Emoji krzyżyka dla przegranej /> //* Strzałka w dół dla przegranej */}
                                         ) : (
                                             <span>Brak wyniku</span>  //* W razie braku wyniku */}
                                         )}
