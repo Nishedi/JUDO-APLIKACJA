@@ -50,7 +50,7 @@ const TrenerTrainingView = () => {
             console.error("Błąd usuwania aktywności", error);
             return;
         }
-        navigate(-1);
+        navigate('/trener/singleplayersingleday');
         
     }
 

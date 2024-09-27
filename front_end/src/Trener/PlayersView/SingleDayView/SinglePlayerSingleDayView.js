@@ -150,7 +150,6 @@ const SinglePlayerSingleDayView = () => {
                             <div className = {styles.text}>
                                 <p>Tętno: <div>{stats?.tętno || ""}</div></p>
                                 <p className={styles.oneline}>Samopoczucie: 
-                                    {console.log(stats?.samopoczucie)}
                                 <GetFeelingsEmoticon 
                                     feelingsAfter={stats?.samopoczucie || ""} 
                                         />

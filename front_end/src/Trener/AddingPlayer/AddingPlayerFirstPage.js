@@ -25,7 +25,6 @@ const AddingPlayerFirstPage = () => {
 
     const handleGenderChange = (e) => {
         setSelectedGender(e.value);
-        console.log('Selected Gender:', e.value); 
     };
 
     const handleNameChange = (e) => {

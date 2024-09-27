@@ -16,10 +16,10 @@ import 'primeicons/primeicons.css';                        // Ikony
 
 const EditingActivity = () => {
     const navigate = useNavigate();
-    const { globalVariable, supabase, viewedPlayer } = useContext(GlobalContext);
+    const { supabase, viewedPlayer } = useContext(GlobalContext);
     const actualDate = new Date();
     actualDate.setDate(viewedPlayer.currentActivity.data.split('.')[0]);
-    actualDate.setMonth(viewedPlayer.currentActivity.data.split('.')[1]);
+    actualDate.setMonth(viewedPlayer.currentActivity.data.split('.')[1]-1);
     actualDate.setFullYear(viewedPlayer.currentActivity.data.split('.')[2]);
     actualDate.setHours(viewedPlayer.currentActivity.czas_rozpoczęcia.split(':')[0]);
     actualDate.setMinutes(viewedPlayer.currentActivity.czas_rozpoczęcia.split(':')[1]);
@@ -31,7 +31,6 @@ const EditingActivity = () => {
          0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
         return initialTime;
       });
-    const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrenings, setSelectedTrenings] = useState([{name: viewedPlayer.currentActivity.rodzaj_aktywności, id: 0}]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [isAnotherExercise, setIsAnotherExercise] = useState(false);
@@ -214,40 +213,34 @@ const EditingActivity = () => {
     
 
     const addActivities = async () => {
-        //do dokonczenia
-        // const activity = {
-        //     id_trainer: globalVariable.id,
-        //     id_athlete: athlete.id,
-        //     date: getDateString(date),
-        //     start_time: getTimeString(date),
-        //     duration: getTimeString(time),
-        //     activity_type: selectedTrenings[0]?.name,
-        //     exercise: selectedExercises.map(exercise => exercise.name).join(','),
-        //     comment: comment
-        // };
-        // const { data, error } = await supabase
-        //     .from('aktywności')
-        //     .insert([
-        //         { 
-        //             id_trenera: activity.id_trainer, 
-        //             id_zawodnika: activity.id_athlete,
-        //             data: activity.date,
-        //             czas_trwania: activity.duration,
-        //             rodzaj_aktywności: activity.activity_type,
-        //             zadania: activity.exercise,
-        //             czas_rozpoczęcia: activity.start_time,
-        //             komentarz_trenera: activity.comment
-        //         },
-        //     ])
-        //     .select()
-        // if(error){
-        //     console.log("Problem podczas dodawania nowej aktywności");
-        //     console.log(error);
-        //     return;
-        // }
-        // if(data && data.length !== 0){
-        //     navigate('/trener/playerView');
-        // };
+        const activity = {
+            date: getDateString(dates),
+            start_time: getTimeString(dates),
+            duration: getTimeString(time),
+            activity_type: selectedTrenings[0]?.name,
+            exercise: selectedExercises.map(exercise => exercise.name).join(','),
+            comment: comment
+        };
+        const { data, error } = await supabase
+            .from('aktywności')
+            .update({
+                data: activity.date,
+                czas_trwania: activity.duration,
+                rodzaj_aktywności: activity.activity_type,
+                zadania: activity.exercise,
+                czas_rozpoczęcia: activity.start_time,
+                komentarz_trenera: activity.comment
+            })
+            .eq('id', viewedPlayer.currentActivity.id)
+            .select()
+        if(error){
+            console.log("Problem podczas dodawania nowej aktywności");
+            console.log(error);
+            return;
+        }
+        if(data && data.length !== 0){
+            navigate('/trener/trainingview');
+        };
         
     };
 
@@ -273,7 +266,6 @@ const EditingActivity = () => {
             <div className={styles.navbar}>
                 <div className={styles.toLeft}><BackButton/></div>
                 <div>Edytowanie aktywności</div>
-                {console.log(viewedPlayer.currentActivity)}
             </div>
             <div className={styles.content}>
                 <div className={styles.input_container}>
@@ -345,8 +337,9 @@ const EditingActivity = () => {
                 :null}
                 
                 <div className={styles.input_container}>
-                    Podaj długość trwania aktywności
-                    <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
+                    Podaj czas trwania aktywności
+                    <Calendar value={time} onChange={(e) => setTime(e.value)}  
+                        stepMinute={5} timeOnly />
                 </div>
                 <div className={styles.input_container}>
                     <div>Komentarz</div>

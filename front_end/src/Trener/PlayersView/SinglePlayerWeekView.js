@@ -169,6 +169,25 @@ const SinglePlayerWeekView = () => {
         );
     };
 
+    const getPlayer = async () => {
+        const { data, error } = await supabase
+            .from('zawodnicy')
+            .select('*')
+            .eq('id', viewedPlayer.id)
+            .eq('id_trenera', globalVariable.id);
+        if (error) {
+            console.log(error);
+        }
+        if (data && data.length !== 0) {
+            setViewedPlayer(data[0]);
+        }
+    }
+
+    useEffect(() => {
+        getPlayer();
+        getWeekDays();
+    }, []);
+
     useEffect(() => {
         getWeekDays();
     }, [currentDate]);

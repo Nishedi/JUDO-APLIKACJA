@@ -210,13 +210,29 @@ const DayView = () => {
             .select()
     }
 
+    const getKinazaAndKwasMlekowyNeeds = async () => {
+        const { data, error } = await supabase
+            .from('zawodnicy')
+            .select('prosba_o_kinaze, prosba_o_kwas_mlekowy')
+            .eq('id', globalVariable.id)
+            .eq('id_trenera', globalVariable.id_trenera)
+        if(error) {
+            console.log(error);
+            return;
+        }
+        if(data && data.length > 0) {
+            setKinaza_needs(data[0].prosba_o_kinaze);
+            setKwas_mlekowy_needs(data[0].prosba_o_kwas_mlekowy);
+        }
+    }
+
     useLayoutEffect(() => {
         getStatsDay();
     }, []);
 
     useEffect(() => {
         getActivity(); 
-        
+        getKinazaAndKwasMlekowyNeeds();
     }, []);
 
     return (

@@ -58,6 +58,12 @@ const PlayersView = () => {
         navigate('/trener/userprofile');
     }
 
+    const closeSidebar = () => {
+        if(isSidebarOpen){
+            setIsSidebarOpen(false);
+        }
+    }
+
 
     const now = new Date();
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -65,7 +71,7 @@ const PlayersView = () => {
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
     
         return (
-        <div className={styles.background}>
+        <div onClick={closeSidebar} className={styles.background}>
             <Sidebar isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar}>
@@ -81,7 +87,8 @@ const PlayersView = () => {
                 </div>  
                 {/* "trener/singleplayerweekview" */}
             </div>
-            <div onClick={() => setIsSidebarOpen(false)}>
+            {/* <div onClick={() => setIsSidebarOpen(false)}> */}
+            <div>
                 {players.map((player) => {
                     return <SimpleInfo 
                         key={player.id}
