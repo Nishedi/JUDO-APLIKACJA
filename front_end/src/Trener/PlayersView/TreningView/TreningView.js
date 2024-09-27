@@ -21,7 +21,6 @@ const TrenerTrainingView = () => {
     };
 
     const getCurrentActivity = async () => {
-        console.log(viewedPlayer.currentActivity);
         const { data, error } = await supabase
         .from('aktywności')
         .select('*')
@@ -53,6 +52,10 @@ const TrenerTrainingView = () => {
         }
         navigate(-1);
         
+    }
+
+    const editActivity = () => {
+        navigate('/trener/editingactivity');
     }
 
     const formatTime = (time) => {
@@ -94,7 +97,6 @@ const TrenerTrainingView = () => {
                             onClick={() => {
                             window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
                         }}>Wyświetl szczegóły</button>
-                        // <a href={thingsToDo[0]}>Kliknij aby wyświetlić szczegóły</a>
                         : (
                             <ul>
                             {thingsToDo.map((thing, index) => (
@@ -114,7 +116,6 @@ const TrenerTrainingView = () => {
                     </div>
                     <div className={styles.switchContainer}>
                         <strong>Odczucia po treningu:</strong>
-                        {console.log(activity.odczucia)}
                         <FeelingsAfter  feelingsAfter={activity.odczucia} />
                     </div>
                 
@@ -130,6 +131,9 @@ const TrenerTrainingView = () => {
                 </div>
             </div>
       <div className={styles.buttons}>
+      <div className={styles.buttoncenter}>
+            <button className={styles.buttonTrening} onClick={editActivity} >Edytuj</button>
+        </div>
         <div className={styles.buttoncenter}>
             <button className={styles.buttonTrening} onClick={deleteActivity} >Usuń</button>
         </div>
