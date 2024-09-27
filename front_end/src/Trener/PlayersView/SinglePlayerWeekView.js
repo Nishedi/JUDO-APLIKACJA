@@ -118,14 +118,14 @@ const SinglePlayerWeekView = () => {
                 case 'Neutralnie': return '😐';
                 case 'Dobrze': return '🙂';
                 case 'Bardzo dobrze': return '😁';
-                default: return '😐';
+                default: return null;
             }
         };
 
         return (
             <div>
+                {feelingsAfter ? <span> {getFeelingsEmoticon(feelingsAfter)}</span> : null}
                 <span>{getStatusEmoticon(treningStatus)}</span>
-                <span> {getFeelingsEmoticon(feelingsAfter)}</span>
             </div>
         );
     };
@@ -155,11 +155,12 @@ const SinglePlayerWeekView = () => {
                             <div className={styles.singleActivityInfo} key={index}>
                                 <div>{activity.rodzaj_aktywności}</div>
                                 <div className={styles.singleActivity}>
-                                    <div>{activity.czas_rozpoczęcia}</div>
-                                    <TreningStatusAndFeelingsAfter
+                                <TreningStatusAndFeelingsAfter
                                         treningStatus={activity.status}
                                         feelingsAfter={activity.odczucia}
                                     />
+                                    <div>{activity.czas_rozpoczęcia}</div>
+                                    
                                 </div>
                             </div>
                         ))}
