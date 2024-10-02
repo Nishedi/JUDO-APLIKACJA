@@ -51,6 +51,15 @@ const TrainingView = () => {
     fetchActivityFromDatabase(id);
   }, [id]);
 
+
+
+    const getTimeString = (time) => {
+      if (!time) return '';
+      const hours = time.getHours().toString().padStart(2, '0');
+      const minutes = time.getMinutes().toString().padStart(2, '0');
+      return `${hours}:${minutes}`;
+    };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
@@ -60,7 +69,8 @@ const TrainingView = () => {
         .update({
           odczucia: selectedMood,
           komentarz_zawodnika: comment,
-          status: trainingStatus
+          status: trainingStatus,
+          czas_trwania: getTimeString(time),
         })
         .eq('id', activity.id);  // Warunek aktualizacji
 
