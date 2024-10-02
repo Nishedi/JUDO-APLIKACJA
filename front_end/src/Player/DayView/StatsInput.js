@@ -90,55 +90,58 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                 <p>Statystyki dnia</p>
                 <p>Edycja</p>
             </div>
+        
+                <div  className={styles.rows}>
+                    {/* Tętno */}
+                    <div className={styles.statsInputContentElement}>
+                        <p>Tętno</p>
+                        <select 
+                            name="tętno"
+                            value={stats?.tętno} 
+                            onChange={handleChange}
+                            className={styles.selectElement}
+                        >
+                            {Array.from({ length: 151 }, (_, i) => (
+                                <option key={i} value={i + 50}>
+                                    {i + 50}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-            <div className={styles.statsInputContent}>
-                {/* Tętno */}
-                <div className={styles.statsInputContentElement}>
-                    <p>Tętno</p>
-                    <select 
-                        name="tętno"
-                        value={stats?.tętno} 
-                        onChange={handleChange}
-                        className={styles.selectElement}
-                    >
-                        {Array.from({ length: 151 }, (_, i) => (
-                            <option key={i} value={i + 50}>
-                                {i + 50}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* Samopoczucie */}
-                <div className={styles.statsInputContentElement}>
-                    <p>Samopoczucie</p>
-                    <div className={styles.emojiContainer}>
-                        {['😢', '🙁', '😐', '🙂', '😊'].map((emoji, index) => (
-                            <label key={index} className={styles.emojiLabel}>
-                                <input
-                                    type="radio"
-                                    name="mood"
-                                    value={emoji}
-                                    checked={emoji === pickEmoticon(stats?.samopoczucie)}
-                                    onChange={() => setMoodFromEmoticon(emoji)} // Przekazujemy emoji
-                                    className={styles.emojiInput}
-                                />
-                                <span className={styles.emoji}>{emoji}</span>
-                            </label>
-                        ))}
+                    <div className={styles.statsInputContentElement}>
+                        <p>Waga</p>
+                        <input 
+                            type="number" 
+                            name="waga" 
+                            value={stats?.waga} 
+                            onChange={handleChange} 
+                        />
                     </div>
                 </div>
-
-                <div className={styles.statsInputContentElement}>
-                    <p>Waga</p>
-                    <input 
-                        type="number" 
-                        name="waga" 
-                        value={stats?.waga} 
-                        onChange={handleChange} 
-                    />
+                
+                
+                <div>
+                    {/* Samopoczucie */}
+                    <div className={styles.statsInputContentElement}>
+                        <p>Samopoczucie</p>
+                        <div className={styles.emojiContainer}>
+                            {['😢', '🙁', '😐', '🙂', '😊'].map((emoji, index) => (
+                                <label key={index} className={styles.emojiLabel}>
+                                    <input
+                                        type="radio"
+                                        name="mood"
+                                        value={emoji}
+                                        checked={emoji === pickEmoticon(stats?.samopoczucie)}
+                                        onChange={() => setMoodFromEmoticon(emoji)} // Przekazujemy emoji
+                                        className={styles.emojiInput}
+                                    />
+                                    <span className={styles.emoji}>{emoji}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
             <button onClick={collectAndSubmit} className={styles.submitButton}>Zatwierdź</button>
         </div>
     );
