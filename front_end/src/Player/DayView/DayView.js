@@ -200,7 +200,7 @@ const DayView = () => {
 
     const onConfirmClick = async () => {
         setIsEditing(false);
-        const { data, error } = await supabase
+        await supabase
             .from('statystyki_zawodników')
             .update({ tętno: stats.tętno, samopoczucie: stats.samopoczucie, waga: stats.waga ? stats.waga : null })
             .eq('id', stats?.id)
@@ -226,6 +226,12 @@ const DayView = () => {
         }
     }
 
+    const closeSidebar = () => {
+        if(isSidebarOpen){
+            setIsSidebarOpen(false);
+        }
+    }
+
     useLayoutEffect(() => {
         getStatsDay();
     }, []);
@@ -236,7 +242,7 @@ const DayView = () => {
     }, []);
 
     return (
-        <div className={styles.background}>
+        <div onClick={closeSidebar} className={styles.background}>
             <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
@@ -305,7 +311,6 @@ const DayView = () => {
             
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
-                {console.log(globalVariable)}
                 <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                     <div>
                         {!isEditing? (

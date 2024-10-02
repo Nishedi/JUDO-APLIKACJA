@@ -113,8 +113,16 @@ const TrenerTrainingView = () => {
                             <p><strong>Komentarz trenera:</strong>
                                         <br/>
                                         <div className={styles.commentSection}>
-                                            {activity.komentarz_trenera || 'Brak komentarza'}
+                                        {activity.komentarz_trenera 
+                                            ? activity.komentarz_trenera.split('\n').map((line, index, arr) => (
+                                                <span key={index}>
+                                                {line}
+                                                {index < arr.length - 1 && <br />} {/* Dodaje <br /> tylko jeśli to nie jest ostatni element */}
+                                                </span>
+                                            ))
+                                            : 'Brak komentarza'}
                                         </div>
+
                             </p>    
                         </div>
                     </div>

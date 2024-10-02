@@ -268,6 +268,69 @@ const AddingActivityFirstPage = () => {
         }
     };
 
+    // const Activity = ({exercise}) => {
+    //     const setNumberOfRepeats = (e) => {
+    //         setSelectedExercises([{name: exercise.name, id: exercise.id, repeats: e.target.value}]);
+    //     }
+    //     const setDuration = (e) => {
+    //         setSelectedExercises([{name: exercise.name, id: exercise.id, duration: e.target.value}]);
+    //     }
+    //     return (
+    //         <div>
+    //             {console.log(selectedExercises)}
+    //             <div>{exercise.name}</div>
+    //             <input type="text" placeholder='czas trwania' onChange={(e)=>setDuration(e)}/>
+    //             <input type="number" placeholder='liczba powtórzeń' onChange={(e)=>setNumberOfRepeats(e)}/>
+    //         </div>
+    //     );
+    // };
+    const Activity = ({ exercise }) => {
+        // Funkcja do aktualizacji liczby powtórzeń
+        const setNumberOfRepeats = (e) => {
+            const newValue = e.target.value;
+    
+            setSelectedExercises((prevExercises) =>
+                prevExercises.map((item) =>
+                    item.id === exercise.id
+                        ? { ...item, repeats: newValue } // Zaktualizuj tylko liczbę powtórzeń
+                        : item // Zwróć niezmienione elementy
+                )
+            );
+        };
+    
+        // Funkcja do aktualizacji czasu trwania
+        const setDuration = (e) => {
+            const newValue = e.target.value;
+    
+            setSelectedExercises((prevExercises) =>
+                prevExercises.map((item) =>
+                    item.id === exercise.id
+                        ? { ...item, duration: newValue } // Zaktualizuj tylko czas trwania
+                        : item // Zwróć niezmienione elementy
+                )
+            );
+        };
+    
+        return (
+            <div>
+                <div>{exercise.name}:{exercise.duration}:{exercise.repeats}</div>
+                <input
+                    type="text"
+                    placeholder='Czas trwania'
+                    value={exercise?.duration}
+                    onChange={setDuration}
+                />
+                <input
+                    type="number"
+                    placeholder='Liczba powtórzeń'
+                    value={exercise?.repeats}
+                    onChange={setNumberOfRepeats}
+                />
+            </div>
+        );
+    };
+    
+
     const addPDF = async (e) => {
         let file = e.target.files[0];
         const suffix =new Date().getDate()+""+new Date().getMonth()+""+new Date().getFullYear()+""+
@@ -285,9 +348,19 @@ const AddingActivityFirstPage = () => {
         }
     }
 
+    const addHeaders = () => {
+        if(selectedTrenings[0]?.name === 'Biegowy' || selectedTrenings[0]?.name === 'Na macie'){
+            const actualListOfActivities = [...selectedExercises];
+            let headers = "";
+            for(let exercise of actualListOfActivities){
+                headers += exercise.name + ": \n";
+            }
+            setComment(headers);
+        }
+    }
+
     return (
         <div className={styles.background}>
-
             <div className={styles.navbar}>
                 <div className={styles.toLeft}><BackButton/></div>
                 <div>Nowa Aktywność</div>
@@ -350,6 +423,12 @@ const AddingActivityFirstPage = () => {
                         placeholder='Wybierz ćwiczenia'
                         style={sharedStyles}
                     />
+                    {selectedExercises.map(exercise => {
+                        
+                        return <Activity exercise={exercise}/>
+                       
+                    }
+                    )}
                 </div> ): selectedTrenings[0]?.name=== "Motoryczny" ? 
                     (
                         <>
@@ -373,10 +452,10 @@ const AddingActivityFirstPage = () => {
                 </div>
                 :null}
                 
-                <div className={styles.input_container}>
+                {/* <div className={styles.input_container}>
                     Podaj długość trwania aktywności
                     <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
-                </div>
+                </div> */}
                 <div className={styles.input_container}>
                     <div>Komentarz</div>
                     <textarea
@@ -387,6 +466,7 @@ const AddingActivityFirstPage = () => {
                         className={styles.multiLineInput}
                         placeholder="Wpisz komentarz"
                     />
+                    <button onClick={addHeaders}>Dodaj nagłówki aktywności do komentarza</button>
                 </div>
                 <button onClick={addActivities} className={styles.button}>Dodaj</button>
             </div>

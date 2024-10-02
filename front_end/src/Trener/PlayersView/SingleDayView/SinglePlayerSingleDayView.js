@@ -112,27 +112,14 @@ const SinglePlayerSingleDayView = () => {
                 <div>
                     <h3>{activity.rodzaj_aktywności}</h3>
                     <p>Godzina rozpoczęcia: <div>{activity.czas_rozpoczęcia}</div></p>
-                    {/* <div 
-                        className={styles.line} style={{
-                        backgroundColor: getBorderColor(activity.rodzaj_aktywności)}}>
-                    </div> */}
                     <p>Status: <div>{activity.status}</div></p>
-                    {/* <div 
-                        className={styles.line} style={{
-                        backgroundColor: getBorderColor(activity.rodzaj_aktywności)}}>
-                    </div> */}
                     <p >Odczucia: 
                         <GetFeelingsEmoticon
                             feelingsAfter={activity.odczucia}
                         />
                     </p>
-                    {/* <div 
-                        className={styles.line} style={{
-                        backgroundColor: getBorderColor(activity.rodzaj_aktywności)}}>
-                    </div> */}
                     <p>Komentarz: <div>{activity.komentarz_zawodnika}</div></p>
                 </div>
-                {/* <div> tu bedzie strzałka w prawo </div> */}
                 <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
             </div>
         );
@@ -154,7 +141,6 @@ const SinglePlayerSingleDayView = () => {
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
                     {/* Prostokąt statystyk dnia */}
-                    
                     <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                         <div style={{width:"100%"}}>
                         {/* <StatsInput onSubmit={handleStatsSubmit} initialData={stats} /> */}
