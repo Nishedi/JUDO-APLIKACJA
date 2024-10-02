@@ -288,7 +288,6 @@ const AddingActivityFirstPage = () => {
         // Funkcja do aktualizacji liczby powtórzeń
         const setNumberOfRepeats = (e) => {
             const newValue = e.target.value;
-    
             setSelectedExercises((prevExercises) =>
                 prevExercises.map((item) =>
                     item.id === exercise.id
@@ -301,7 +300,6 @@ const AddingActivityFirstPage = () => {
         // Funkcja do aktualizacji czasu trwania
         const setDuration = (e) => {
             const newValue = e.target.value;
-    
             setSelectedExercises((prevExercises) =>
                 prevExercises.map((item) =>
                     item.id === exercise.id

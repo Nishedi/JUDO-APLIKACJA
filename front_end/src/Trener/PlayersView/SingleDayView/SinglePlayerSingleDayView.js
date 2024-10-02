@@ -113,6 +113,11 @@ const SinglePlayerSingleDayView = () => {
                     <h3>{activity.rodzaj_aktywności}</h3>
                     <p>Godzina rozpoczęcia: <div>{activity.czas_rozpoczęcia}</div></p>
                     <p>Status: <div>{activity.status}</div></p>
+                    {/* <div 
+                        className={styles.line} style={{
+                        backgroundColor: getBorderColor(activity.rodzaj_aktywności)}}>
+                    </div> */}
+                    <p>Czas trwania treningu: <div>{activity.czas_trwania}</div> </p>
                     <p >Odczucia: 
                         <GetFeelingsEmoticon
                             feelingsAfter={activity.odczucia}

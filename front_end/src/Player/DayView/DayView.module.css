@@ -258,7 +258,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
 }
 
 .submitButton {
@@ -273,7 +272,7 @@
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
   font-family: 'Kodchasan-SemiBold';
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 5px;
   cursor: pointer; /* Kursor zmienia się na wskazujący */
   transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
