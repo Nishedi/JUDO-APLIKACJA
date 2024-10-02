@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
+import { Calendar } from 'primereact/calendar';
 import { pickEmoticon, setMoodFromEmoticon } from '../../CommonFunction';
 import BackButton from '../../BackButton';
 
@@ -14,6 +15,13 @@ const TrainingView = () => {
   const [comment, setComment] = useState('');
   const { id } = useParams();
   const [activity, setActivity] = useState(null); 
+
+  const [time, setTime] = useState(() => {
+    const initialTime = new Date();
+    initialTime.setHours(0, 0, 0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
+    return initialTime;
+  });
+
   const navigate = useNavigate();
   
   // Pobieranie aktywności z bazy danych
@@ -85,7 +93,7 @@ const TrainingView = () => {
         </div>
       </div>
       <div className={styles.trainingDetails}>
-        <p><strong>Czas trwania:</strong> {activity.czas_trwania}</p>
+        {/* <p><strong>Czas trwania:</strong> {activity.czas_trwania}</p> */}
         <div>
           <p><strong>Zadania do wykonania:</strong></p>
           <ul>
@@ -113,7 +121,8 @@ const TrainingView = () => {
             {activity.komentarz_trenera}
           </div>
         </div>
-
+</div>
+<div className={styles.trainingDetails}>
         <p><strong>Odczucia po treningu</strong></p>
         <div className={styles.moodContainer}>
           <div className={styles.moods}>
@@ -128,6 +137,12 @@ const TrainingView = () => {
             ))}
           </div>
         </div>
+
+        <div className={styles.input_container}>
+                    <p><strong>Czas trwania treningu</strong></p>
+                    <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
+        </div>
+
         <div className={styles.commentSection}>
           <label>KOMENTARZ</label>
           <textarea

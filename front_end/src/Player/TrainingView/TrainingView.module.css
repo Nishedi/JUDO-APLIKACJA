@@ -5,6 +5,15 @@
     background-color: #D7DFEE;
 }
 
+.input_container{
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  font-family: 'Roboto-Regular';
+  font-size: 14px;
+  width: 100%;
+}
+
 .navbar{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -30,9 +39,10 @@
 
 .trainingDetails {
     padding: 20px;
-    background-color: #F5F7FA;
+    background-color: #ffffff;
     border-radius: 20px;
     margin: 20px;
+    margin-bottom: 0;
 }
 
 .trainingDetails p {
