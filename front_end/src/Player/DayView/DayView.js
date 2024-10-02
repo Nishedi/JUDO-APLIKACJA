@@ -305,6 +305,7 @@ const DayView = () => {
             
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
+                {console.log(globalVariable)}
                 <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                     <div>
                         {!isEditing? (
@@ -323,7 +324,6 @@ const DayView = () => {
                             <StatsInput onConfirmClick={onConfirmClick} stats={stats} setStats={setStats} />                            
                         )}
                     </div>
-                    <IoIosArrowDown className={styles.down_arrow} />
                 </div>
                 <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
                     <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
