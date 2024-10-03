@@ -18,7 +18,7 @@ const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
     const { globalVariable, supabase } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
-    const [time, setTime] = useState(() => {
+    const [time] = useState(() => {
         const initialTime = new Date();
         initialTime.setHours(0, 0, 0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
         return initialTime;
@@ -238,7 +238,7 @@ const AddingActivityFirstPage = () => {
                     start_time: getTimeString(date),
                     duration: getTimeString(time),
                     activity_type: selectedTrenings[0]?.name,
-                    exercise: selectedExercises.map(exercise => exercise.name).join(','),
+                    exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
                     comment: comment
                 };
                 const { data, error } = await supabase
@@ -268,62 +268,50 @@ const AddingActivityFirstPage = () => {
         }
     };
 
-    // const Activity = ({exercise}) => {
-    //     const setNumberOfRepeats = (e) => {
-    //         setSelectedExercises([{name: exercise.name, id: exercise.id, repeats: e.target.value}]);
-    //     }
-    //     const setDuration = (e) => {
-    //         setSelectedExercises([{name: exercise.name, id: exercise.id, duration: e.target.value}]);
-    //     }
-    //     return (
-    //         <div>
-    //             {console.log(selectedExercises)}
-    //             <div>{exercise.name}</div>
-    //             <input type="text" placeholder='czas trwania' onChange={(e)=>setDuration(e)}/>
-    //             <input type="number" placeholder='liczba powtórzeń' onChange={(e)=>setNumberOfRepeats(e)}/>
-    //         </div>
-    //     );
-    // };
+
     const Activity = ({ exercise }) => {
+        const [duration, setDuration] = useState(exercise?.duration||'');
+        const [repeats, setRepeats] = useState(exercise?.repeats||'');
         // Funkcja do aktualizacji liczby powtórzeń
-        const setNumberOfRepeats = (e) => {
-            const newValue = e.target.value;
-            setSelectedExercises((prevExercises) =>
-                prevExercises.map((item) =>
-                    item.id === exercise.id
-                        ? { ...item, repeats: newValue } // Zaktualizuj tylko liczbę powtórzeń
-                        : item // Zwróć niezmienione elementy
-                )
-            );
-        };
-    
-        // Funkcja do aktualizacji czasu trwania
-        const setDuration = (e) => {
-            const newValue = e.target.value;
-            setSelectedExercises((prevExercises) =>
-                prevExercises.map((item) =>
-                    item.id === exercise.id
-                        ? { ...item, duration: newValue } // Zaktualizuj tylko czas trwania
-                        : item // Zwróć niezmienione elementy
-                )
-            );
+        const updateExercise = () => {
+            if(duration){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, duration: duration } // Zaktualizuj tylko czas trwania
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+            if(repeats){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, repeats: repeats } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
         };
     
         return (
             <div>
                 <div>{exercise.name}:{exercise.duration}:{exercise.repeats}</div>
-                <input
-                    type="text"
-                    placeholder='Czas trwania'
-                    value={exercise?.duration}
-                    onChange={setDuration}
-                />
-                <input
-                    type="number"
-                    placeholder='Liczba powtórzeń'
-                    value={exercise?.repeats}
-                    onChange={setNumberOfRepeats}
-                />
+                <div className={styles.exercise_details}>
+                    <input
+                        type="text"
+                        placeholder='Czas trwania'
+                        value={duration}
+                        onChange={(e)=>setDuration(e.target.value)}
+                    />
+                    <input
+                        type="number"
+                        placeholder='Liczba powtórzeń'
+                        value={repeats||exercise?.repeats}
+                        onChange={(e)=>setRepeats(e.target.value)}
+                    />
+                    <MdOutlineDone onClick={updateExercise} className={styles.add_button}/>
+                </div>
             </div>
         );
     };

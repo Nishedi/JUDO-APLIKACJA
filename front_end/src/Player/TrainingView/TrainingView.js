@@ -116,9 +116,34 @@ const TrainingView = () => {
               }}>Wyświetl szczegóły
               </button>
               :
-              activity.zadania.split(',').map((task, index) => (
-                <li key={index}>{task}</li>
-              ))
+              <ul>
+              {activity.zadania.split(',').map((task, index) => {
+                  // Podziel zadanie na części na podstawie dwukropka ":"
+                  const parts = task.split(":");
+          
+                  return (
+                      <li key={index}>
+                          {parts.length === 1 && (
+                              // Jeśli jest tylko jedna część
+                              <strong>{parts[0]}</strong>
+                          )}
+                          {parts.length === 2 && (
+                              // Jeśli są dwie części, wyświetl je z dwukropkiem pomiędzy
+                              <>
+                                  <strong>{parts[0]}</strong>: {parts[1]}
+                              </>
+                          )}
+                          {parts.length === 3 && (
+                              // Jeśli są trzy części, wyświetl każdą część
+                              <>
+                                  <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                              </>
+                          )}
+                      </li>
+                  );
+              })}
+          </ul>
+          
             ) : (
               <li>Brak zadań do wykonania</li>
             )}
@@ -136,7 +161,7 @@ const TrainingView = () => {
         <p><strong>Odczucia po treningu</strong></p>
         <div className={styles.moodContainer}>
           <div className={styles.moods}>
-            {['😢','☹️', '😐', '🙂','😊'].map((mood, index) => (
+            {['😢','🙁', '😐', '🙂','😊'].map((mood, index) => (
               <span
                 key={index}
                 className={`${styles.mood} ${pickEmoticon(selectedMood) === mood ? styles.selected : ''}`}

@@ -102,10 +102,29 @@ const TrenerTrainingView = () => {
                             }}>Wyświetl szczegóły</button>
                             : (
                                 <ul>
-                                {thingsToDo.map((thing, index) => (
-                                    <li key={index}>{thing}</li>
-                                ))}
+                                    {thingsToDo.map((thing, index) => {
+                                        const parts = thing.split(":");
+
+                                        return (
+                                            <li key={index}>
+                                                {parts.length === 1 && (
+                                                    <strong>{parts[0]}</strong>
+                                                )}
+                                                {parts.length === 2 && (
+                                                    <>
+                                                        <strong>{parts[0]}</strong>: {parts[1]}
+                                                    </>
+                                                )}
+                                                {parts.length === 3 && (
+                                                     <>
+                                                        <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                                                    </>
+                                                )}
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
+
                             )}
                         </div>                  
                         <div className={styles.line}></div>
