@@ -1,7 +1,7 @@
 .element{
     display: flex;
     flex-direction: column;
-    background-color: aliceblue;
+    background-color: #fff;
     padding: 10px;
     margin: 10px;
     border-radius: 16px;

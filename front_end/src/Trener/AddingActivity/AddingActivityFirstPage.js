@@ -359,114 +359,116 @@ const AddingActivityFirstPage = () => {
 
     return (
         <div className={styles.background}>
-            <div className={styles.navbar}>
-                <div className={styles.toLeft}><BackButton/></div>
-                <div>Nowa Aktywność</div>
-            </div>
-            <div className={styles.content}>
-                <div className={styles.input_container}>
-                    Wybierz zawodników
-                    <Multiselect
-                        options={options}
-                        selectedValues={selectedOptions}
-                        onSelect={onSelect}
-                        onRemove={onRemove}
-                        displayValue="name"
-                        placeholder='Wybierz zawodników'
-                        style={sharedStyles}
-                    />
+                <div className={styles.navbar}>
+                    <div className={styles.toLeft}><BackButton/></div>
+                    <div>Nowa Aktywność</div>
                 </div>
-                <div className={styles.input_container}>
-                    <div>Wybierz datę oraz godzinę treningu</div>
-                    <div className="card flex justify-content-center">
-                        <Calendar
-                            value={dates}
-                            onChange={(e) => setDates(e.value)}
-                            selectionMode="multiple"
-                            readOnlyInput = {false}
-                            className="custom-calendar"
-                            style={{ width: '100%' }}
-                            locale='pl'
-                            dateFormat='dd/mm/yy'
-                            showTime 
-                            hourFormat="24" 
-                            placeholder='Wybierz datę i godzinę'
-                            stepMinute={10}
+                <div className={styles.white_container}>
+                <div className={styles.content}>
+                    <div className={styles.input_container}>
+                        Wybierz zawodników
+                        <Multiselect
+                            options={options}
+                            selectedValues={selectedOptions}
+                            onSelect={onSelect}
+                            onRemove={onRemove}
+                            displayValue="name"
+                            placeholder='Wybierz zawodników'
+                            style={sharedStyles}
                         />
                     </div>
-                </div>
-                <div className={styles.input_container}>
-                    Wybierz rodzaj treningu
-                    <Multiselect
-                        options={trenings}
-                        selectedValues={selectedTrenings}
-                        onSelect={onSelectTrening}
-                        onRemove={onRemoveTrening}
-                        displayValue="name"
-                        placeholder='Wybierz rodzaj treningu'
-                        style={sharedStyles}
-                        singleSelect={true}
-                    />
-                </div>
-                
-                {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
-                (<div className={styles.input_container}>
-                    Wybierz ćwiczenia
-                    <Multiselect
-                        options={exercises}
-                        selectedValues={selectedExercises}
-                        onSelect={onSelectedExercises}
-                        onRemove={onRemoveExercises}
-                        displayValue="name"
-                        placeholder='Wybierz ćwiczenia'
-                        style={sharedStyles}
-                    />
-                    {selectedExercises.map(exercise => {
-                        
-                        return <Activity exercise={exercise}/>
-                       
-                    }
-                    )}
-                </div> ): selectedTrenings[0]?.name=== "Motoryczny" ? 
-                    (
-                        <>
-                        <input type="file" onChange={addPDF} accept="application/pdf"/>
-                        </> 
-                    ) 
-                    : null
-                }
-                {isAnotherExercise ? 
-                <div className={styles.input_container}>
-                    <div>Nowa aktywność</div>
-                    <input type="text" 
-                    className={styles.input} 
-                    placeholder={'Podaj nową aktywność'} 
-                    value={newActivity} 
-                    onChange={handleNewActivityChange}/>
-                    <div className={styles.buttons}>
-                        <AiOutlinePlus className={styles.add_button} onClick={addNewActivityToDatabase}/>
-                        <MdOutlineDone className={styles.add_button} onClick={addNewActivityToSelected}/>
+                    <div className={styles.input_container}>
+                        <div>Wybierz datę oraz godzinę treningu</div>
+                        <div className="card flex justify-content-center">
+                            <Calendar
+                                value={dates}
+                                onChange={(e) => setDates(e.value)}
+                                selectionMode="multiple"
+                                readOnlyInput = {false}
+                                className="custom-calendar"
+                                style={{ width: '100%' }}
+                                locale='pl'
+                                dateFormat='dd/mm/yy'
+                                showTime 
+                                hourFormat="24" 
+                                placeholder='Wybierz datę i godzinę'
+                                stepMinute={10}
+                            />
+                        </div>
                     </div>
+                    <div className={styles.input_container}>
+                        Wybierz rodzaj treningu
+                        <Multiselect
+                            options={trenings}
+                            selectedValues={selectedTrenings}
+                            onSelect={onSelectTrening}
+                            onRemove={onRemoveTrening}
+                            displayValue="name"
+                            placeholder='Wybierz rodzaj treningu'
+                            style={sharedStyles}
+                            singleSelect={true}
+                        />
+                    </div>
+                    
+                    {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
+                    (<div className={styles.input_container}>
+                        Wybierz ćwiczenia
+                        <Multiselect
+                            options={exercises}
+                            selectedValues={selectedExercises}
+                            onSelect={onSelectedExercises}
+                            onRemove={onRemoveExercises}
+                            displayValue="name"
+                            placeholder='Wybierz ćwiczenia'
+                            style={sharedStyles}
+                        />
+                        {selectedExercises.map(exercise => {
+                            
+                            return <Activity exercise={exercise}/>
+                        
+                        }
+                        )}
+                    </div> ): selectedTrenings[0]?.name=== "Motoryczny" ? 
+                        (
+                            <>
+                            <input type="file" onChange={addPDF} accept="application/pdf"/>
+                            </> 
+                        ) 
+                        : null
+                    }
+                    {isAnotherExercise ? 
+                    <div className={styles.input_container}>
+                        <div>Nowa aktywność</div>
+                        <input type="text" 
+                        className={styles.input} 
+                        placeholder={'Podaj nową aktywność'} 
+                        value={newActivity} 
+                        onChange={handleNewActivityChange}/>
+                        <div className={styles.buttons}>
+                            <AiOutlinePlus className={styles.add_button} onClick={addNewActivityToDatabase}/>
+                            <MdOutlineDone className={styles.add_button} onClick={addNewActivityToSelected}/>
+                        </div>
+                    </div>
+                    :null}
+                    
+                    {/* <div className={styles.input_container}>
+                        Podaj długość trwania aktywności
+                        <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
+                    </div> */}
+                    <div className={styles.input_container}>
+                        <div>Komentarz</div>
+                        <textarea
+                            id="multiline-input"
+                            value={comment}
+                            onChange={onCommentChange}
+                            rows={5}  // Ustaw liczbę widocznych wierszy
+                            className={styles.multiLineInput}
+                            placeholder="Wpisz komentarz"
+                        />
+                        <button onClick={addHeaders}>Dodaj nagłówki aktywności do komentarza</button>
+                    </div>
+                    <button onClick={addActivities} className={styles.button}>Dodaj</button>
                 </div>
-                :null}
-                
-                {/* <div className={styles.input_container}>
-                    Podaj długość trwania aktywności
-                    <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
-                </div> */}
-                <div className={styles.input_container}>
-                    <div>Komentarz</div>
-                    <textarea
-                        id="multiline-input"
-                        value={comment}
-                        onChange={onCommentChange}
-                        rows={5}  // Ustaw liczbę widocznych wierszy
-                        className={styles.multiLineInput}
-                        placeholder="Wpisz komentarz"
-                    />
-                    <button onClick={addHeaders}>Dodaj nagłówki aktywności do komentarza</button>
-                </div>
-                <button onClick={addActivities} className={styles.button}>Dodaj</button>
             </div>
         </div>
     );

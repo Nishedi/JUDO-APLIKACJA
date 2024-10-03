@@ -5,6 +5,16 @@
     background-color: #D7DFEE;
 }
 
+.white_container{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+    padding: 4px;
+}
+
 .navbar{
     display: flex;
     justify-content: center;
@@ -46,9 +56,21 @@
     gap: 4px;
     font-family: 'Roboto-Regular';
     font-size: 14px;
-    padding: 13px;
     width: 100%;
+    padding-top: 10px;
 }
+
+.input_container button {
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #fff;
+    border-color: #D7DFEE;
+    border-radius: 5px;
+    font-family: 'Montserrat-Semibold';
+    font-size: 12px;
+    padding: 10px;
+}
+
+
 
 .content{
     width: 100%;
@@ -107,6 +129,7 @@
     color: #FFFFFF;
     width: 50%;
     padding: 10px;
+    margin: 10px;
     border-radius: 10px;
     border-width: 0px;
     font-family: 'Kodchasan-SemiBold';
