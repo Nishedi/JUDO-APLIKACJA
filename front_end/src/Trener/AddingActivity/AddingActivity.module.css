@@ -160,6 +160,18 @@
     border-color: #CCC;
 }
 
+.error_message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.6rem;
+    font-family: 'Montserrat-Regular';
+    justify-content: center;
+}
+
+.error_border {
+    border: 1px solid red;
+}
+
 .button{
     background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     color: #FFFFFF;
