@@ -30,8 +30,39 @@
 
 .exercise_details{
     display:flex;
-    flex-direction: row;
-    
+    flex-direction: row;   
+    align-items: center;
+}
+
+.exercise_details div {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-family: 'Montserrat-SemiBold';
+}
+
+.exercise_details input{
+    width: 50%;
+    padding: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    overflow-wrap: break-word;
+    font-family: 'Roboto-Regular';
+    border-radius: 4px;
+    border-color: #CCC;
+    margin-top: 0;
+}
+
+.add_button{
+    font-size: 40px;
+    color: #FFF;
+    background-image: linear-gradient(90deg, #1D61DC 9%,#1D61DC 47%, #103476 100%);
+    border-radius: 10px;
+    padding: 8px;
+    margin: 4px;   
 }
 
 .toLeft{
@@ -60,10 +91,15 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    font-family: 'Roboto-Regular';
+    font-family: 'Montserrat-Medium';
+    color: #103476;
     font-size: 14px;
     width: 100%;
     padding-top: 10px;
+}
+
+.input_container div{
+    margin-top: 5px;
 }
 
 .input_container button {
@@ -96,13 +132,7 @@
     color: black;
     background: #eeeeee;
   }
-.add_button{
-    font-size: 40px;
-    color: #FFF;
-    background-image: linear-gradient(90deg, #1D61DC 9%,#1D61DC 47%, #103476 100%);
-    border-radius: 10px;
-    padding: 8px;
-}
+
 
 .buttons{
     padding: 8px 0px;
