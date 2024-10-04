@@ -57,7 +57,7 @@ const Notes = () => {
         if (error) {
             console.error('Błąd podczas dodawania przeciwnika: HANDLETHREAD ', error);
         } else {
-            setThreads([...threads, data[0]]);
+            setThreads([data[0], ...threads]);
             setNewThread({ nazwa_watku: '', id_zawodnika: '', liczba_wygranych: 0, liczba_przegranych: 0});
             setIsModalVisible(false); // Zamykanie modala po dodaniu wątku
         }

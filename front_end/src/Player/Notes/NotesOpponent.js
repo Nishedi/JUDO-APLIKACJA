@@ -1,7 +1,6 @@
 import styles from './NotesOpponent.module.css';
 import React, {useContext, useEffect, useState} from 'react';
-import { FaPlus } from 'react-icons/fa';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
@@ -12,7 +11,7 @@ const NotesOpponent = () => {
     const [notes, setNotes] = useState([]);
     const [threadDetails, setThreadDetails] = useState(null); // Stan do przechowywania szczegółów wątku
     const [expandedNotes, setExpandedNotes] = useState([]); // Dodaj stan do przechowywania ID rozwiniętej notatki
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Pobieranie notatek z Supabase przy montowaniu komponentu
     useEffect(() => {
@@ -110,6 +109,26 @@ useEffect(() => {
         return wynik === 'wygrana' ? 'wygrana' : wynik === 'przegrana' ? 'przegrana': 'brak danych';
     };
 
+    const deleteThread = async () => {
+        const { data, error } = await supabase
+            .from('watki_notatki')
+            .delete()
+            .eq('id_watku', id_watku);
+        if (error) {
+            console.error('Błąd podczas usuwania wątku:', error);
+        }else{
+            const { data, error } = await supabase
+                .from('notatki')
+                .delete()
+                .eq('id_watku', id_watku);
+            if (error) {
+                console.error('Błąd podczas usuwania notatek:', error);
+            }
+            navigate('/player/notes');
+        }
+    }
+        
+
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
@@ -134,8 +153,22 @@ useEffect(() => {
                     <h3>{threadDetails ? threadDetails.nazwa_watku : 'Ładowanie...'}</h3>
                     Bilans: {threadDetails ? threadDetails.liczba_wygranych + "/" + threadDetails.liczba_przegranych : 'Ładowanie...'}
                 </div>
-                <button onClick={handleEditClick} className={styles.addNoteButton}><FaPlus/></button>
+                <div className={styles.clickers}> 
+                    <button onClick={handleEditClick} className={styles.addNoteButton}><FaPlus/></button>
+                    <button onClick={()=>setIsModalOpen(true)} className={styles.addNoteButton}><FaTrashAlt/></button>
                 </div>
+                </div>
+                {isModalOpen && (
+                    <div className={styles.modal_overlay}>
+                        <div className={styles.modal_content}>
+                            <h2>Czy na pewno chcesz usunąć ten wątek?</h2>
+                            <div className={styles.modal_buttons}>
+                                <button onClick={deleteThread}>Tak</button>
+                                <button onClick={()=>setIsModalOpen(false)}>Nie</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Lista spotkań */}
                 <div className={styles.matchList}>

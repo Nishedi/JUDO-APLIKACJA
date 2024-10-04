@@ -99,7 +99,8 @@
 .fightStatus {
     display: flex;
     gap: 10px;
-    margin: 10px;
+    align-items: center;
+    justify-items: right;
 
 }
 
@@ -162,10 +163,13 @@
 
 .submitButton {
     display: flex;
+    flex-direction: row;
+    gap: 20px;
     justify-content: center;
+    flex: 1;
 }
 
-.addNoteButton {
+.addNoteButton, .editNoteButton {
     background-color: #103476;
     color: white;
     border: none;
@@ -178,6 +182,10 @@
     background-image: linear-gradient(90deg, #1D61DC 9%,#1D61DC 47%, #103476 100%);
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+  }
+
+  .editNoteButton{
+    flex: 1;
   }
   
   .addNoteButton:hover {
