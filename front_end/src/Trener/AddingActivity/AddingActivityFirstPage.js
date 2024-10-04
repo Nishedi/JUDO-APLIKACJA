@@ -296,7 +296,7 @@ const AddingActivityFirstPage = () => {
     
         return (
             <div>
-                <div>{exercise.name}:{exercise.duration}:{exercise.repeats}</div>
+                <div>{exercise.name}</div>
                 <div className={styles.exercise_details}>
                     <input
                         type="text"
