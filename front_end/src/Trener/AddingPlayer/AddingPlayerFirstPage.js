@@ -13,6 +13,9 @@ const AddingPlayerFirstPage = () => {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [yearOfBirth, setYearOfBirth] = useState("");
+    const [errors, setErrors] = useState({}); // Obiekt przechowujący błędy
+
+    
     const genders = [
         { name: "Mężczyzna", value: "Mężczyzna" },
         { name: "Kobieta", value: "Kobieta" }
@@ -40,23 +43,60 @@ const AddingPlayerFirstPage = () => {
     };
 
     const checkDataAndGoFurther = () => {
-        if (name === "" || surname === "" || selectedGender === "" || yearOfBirth === "" || selectedWeightCategory === "Wybierz kategorię wagową") {
-            alert("Wypełnij wszystkie pola");
-            return;
-        } 
-        const regex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
-        if (!regex.test(name) || !regex.test(surname)) {
-            alert("Imię i nazwisko musi zaczynać się z wielkiej litery i nie może zawierać cyfr");
-            return;
+        let validationErrors = {};
+
+        // Sprawdzanie, czy pola nie są puste
+        if (name === "") {
+            validationErrors.name = "Proszę podać imię zawodnika";
         }
+
+        if (surname === "") {
+            validationErrors.surname = "Proszę podać nazwisko zawodnika";
+        }
+
+        if (selectedGender === "") {
+            validationErrors.gender = "Proszę wybrać płeć";
+        }
+
+        if (selectedWeightCategory === "Wybierz kategorię wagową") {
+            validationErrors.weightCategory = "Proszę wybrać kategorię wagową";
+        }
+
+        if (yearOfBirth === "") {
+            validationErrors.yearOfBirth = "Proszę podać rok urodzenia zawodnika";
+        }
+
+        // Walidacja imienia i nazwiska: musi zaczynać się wielką literą i nie zawierać cyfr
+        const regex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
+        if (!regex.test(name)) {
+            validationErrors.name = "Imię musi zaczynać się wielką literą i nie może zawierać cyfr";
+        }
+        if (!regex.test(surname)) {
+            validationErrors.surname = "Nazwisko musi zaczynać się wielką literą i nie może zawierać cyfr";
+        }
+
+        // Walidacja roku urodzenia
         const currentYear = new Date().getFullYear();
         if (yearOfBirth < 1930 || yearOfBirth > currentYear) {
-            alert(`Rok urodzenia musi być z przedziału 1930-${currentYear}`);
+            validationErrors.yearOfBirth = `Rok urodzenia musi być z przedziału 1930-${currentYear}`;
+        }
+
+        // Jeśli są błędy, ustawiamy je w stanie i nie przechodzimy dalej
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
-        setNewPlayer({"name": name, "surname": surname, "gender": selectedGender, "weightCategory": selectedWeightCategory, "yearOfBirth": yearOfBirth});
+
+        // Jeśli nie ma błędów, kontynuujemy
+        setNewPlayer({
+            "name": name,
+            "surname": surname,
+            "gender": selectedGender,
+            "weightCategory": selectedWeightCategory,
+            "yearOfBirth": yearOfBirth
+        });
         navigate('/trener/addingplayerlogininfo');
-    };
+        };
 
     return (
         <div className={styles.background}>
@@ -66,23 +106,35 @@ const AddingPlayerFirstPage = () => {
                 </div>
                 DANE ZAWODNIKA
             </div>
-            <div className={styles.content}>
+            <div className={styles.white_container}>
                 <div className={styles.inputs}>
                     <div className={styles.input_container}>
                         <div>IMIĘ</div>
-                        <input type="text" 
-                        className={styles.input} 
-                        placeholder={'Podaj imię zawodnika'} 
-                        value={name} 
-                        onChange={handleNameChange}/>
-                    </div>
+                        <input 
+                            type="text" 
+                            className={styles.input} 
+                            placeholder={'Podaj imię zawodnika'} 
+                            value={name} 
+                            onChange={handleNameChange}
+                            style={{
+                                borderColor: errors.name ? 'red' : ''
+                            }}
+                        />
+                    {errors.name && <div className={styles.error_message}>{errors.name}</div>}
+                </div>
+                    
                     <div className={styles.input_container}>
                         <div>NAZWISKO</div>
-                        <input type="text" 
-                        className={styles.input} 
-                        placeholder={'Podaj nazwisko zawodnika'} 
-                        value={surname} 
-                        onChange={handleSurnameChange} />
+                        <input 
+                            type="text" 
+                            className={styles.input} 
+                            placeholder={'Podaj nazwisko zawodnika'} 
+                            value={surname} 
+                            onChange={handleSurnameChange}style={{
+                                borderColor: errors.surname ? 'red' : ''
+                            }}
+                        />
+                        {errors.surname && <div className={styles.error_message}>{errors.surname}</div>}
                     </div>
                     <div className={styles.input_container}>
                         <div>PŁEĆ</div>                        
@@ -94,8 +146,13 @@ const AddingPlayerFirstPage = () => {
                             placeholder="Wybierz płeć"
                             className={`${styles.customDropdown} p-dropdown`}
                             panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                            style={{
+                                borderColor: errors.gender ? 'red' : ''
+                            }}
                         />
+                        {errors.gender && <div className={styles.error_message}>{errors.gender}</div>}
                     </div>
+
                     <div className={styles.input_container}>
                         <div>KATEGORIA WAGOWA</div>
                         {selectedGender === "Mężczyzna" ? 
@@ -106,7 +163,10 @@ const AddingPlayerFirstPage = () => {
                                 placeholder="Wybierz kategorię wagową"
                                 className={`${styles.customDropdown} p-dropdown`}
                                 panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
-                            />
+                                style={{
+                                    borderColor: errors.weightCategory ? 'red' : ''
+                                }}
+                        />
                             :
                             <Dropdown
                                 value={selectedWeightCategory} 
@@ -115,16 +175,26 @@ const AddingPlayerFirstPage = () => {
                                 placeholder="Wybierz kategorię wagową"
                                 className={`${styles.customDropdown} p-dropdown`}
                                 panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
-                            />
+                                style={{
+                                    borderColor: errors.weightCategory ? 'red' : ''
+                                }}
+                        />
                         }
+                        {errors.weightCategory && <div className={styles.error_message}>{errors.weightCategory}</div>}
                     </div>
+
                     <div className={styles.input_container}>
                         <div>ROCZNIK</div>
-                        <input type="number" 
-                        className={styles.input}
-                        placeholder={'Podaj rok urodzenia zawodnika'}
-                        value={yearOfBirth}
-                        onChange={handleYearOfBirthChange} />
+                        <input 
+                            type="number" 
+                            className={styles.input}
+                            placeholder={'Podaj rok urodzenia zawodnika'}
+                            value={yearOfBirth}
+                            onChange={handleYearOfBirthChange} style={{
+                                borderColor: errors.yearOfBirth ? 'red' : ''
+                            }}
+                        />
+                        {errors.yearOfBirth && <div className={styles.error_message}>{errors.yearOfBirth}</div>}
                     </div>
                 </div>
                 <button onClick={checkDataAndGoFurther} className={styles.button}>Dodaj</button>
