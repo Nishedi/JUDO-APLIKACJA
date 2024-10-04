@@ -5,14 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import {TreningStatusAndFeelingsAfter} from '../../CommonFunction';
 import SideBarCalendar from "./../DayView/SideBarCalendar";
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const WeekView = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
-
-
-    const now = new Date();
+    const [currentDate, setCurrentDate] = useState(new Date());
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
@@ -33,10 +32,8 @@ const WeekView = () => {
         const dayOfWeek = startOfWeek.getDay();
         const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
         startOfWeek.setDate(diff);
-    
         const endOfWeek = new Date(startOfWeek);
         endOfWeek.setDate(startOfWeek.getDate() + 6);
-    
         return { startOfWeek, endOfWeek };
     };
     
@@ -81,10 +78,10 @@ const WeekView = () => {
     };
 
     const getWeekDays = async () => {
-        const date = new Date();
+        const date = currentDate;
         const { startOfWeek, endOfWeek } = getRangeToDatabase(date);
         const dates = generateDateArray(startOfWeek, endOfWeek);
-        let { data: aktywnosci, error } = await supabase
+        let { data: aktywnosci} = await supabase
         .from('aktywności')
         .select('*')
         .in('data', dates)
@@ -93,6 +90,10 @@ const WeekView = () => {
         .order('data', { ascending: true });
         if (aktywnosci && aktywnosci.length !== 0) {
             setWeeklyActivities(aktywnosci);
+        }else{
+            if(aktywnosci.length === 0){
+                setWeeklyActivities([]);
+            }
         }
     }
     
@@ -119,7 +120,7 @@ const WeekView = () => {
         return (
             <div onClick={()=>goToSingleDay(date)} className={styles.weekDay}>
                 <div>
-                    <p>{day}, {formatDate(date)}</p>
+                <p>{day}, {formatDate(date)} {date.getDate()===new Date().getDate() && date.getMonth() === new Date().getMonth() ? "(Dzisiaj)":null}</p>
                     <div >
                         {activities
                             .sort((a, b) => {
@@ -156,10 +157,21 @@ const WeekView = () => {
         getWeekDays();
     }
     , []);
-    const { currentWeek } = getWeekRanges(now);
+
+    const updateWeek = (direction) => {
+        const newDate = new Date(currentDate);
+        newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
+        setCurrentDate(newDate);
+    };
+
+    useEffect(() => {
+        getWeekDays();
+    }, [currentDate]);
+
+    const { currentWeek } = getWeekRanges(currentDate);
     
     const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
-        const date = new Date(now);
+        const date = new Date(currentDate);
         const startOfWeek = getWeekDateRange(date).startOfWeek;
         startOfWeek.setDate(startOfWeek.getDate() + i);
         return startOfWeek;
@@ -174,20 +186,26 @@ const WeekView = () => {
     return (
         <div className={styles.background}>
             <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
-
-            <div className={styles.navbar}>
-                <div onClick={toggleSidebar} className={styles.burger}>
-                    <RxHamburgerMenu/>
+                <div className={styles.navbar}>
+                    <div className={styles.burgerAndDate}>
+                            <RxHamburgerMenu onClick={toggleSidebar}/>
+                        {/*  onClick={goToPlayerProfile} */}
+                        <div className={styles.writing_div}>
+                            {globalVariable.imie} {globalVariable.nazwisko}
+                        </div>
+                        <div style={{margin:"0px 20px"}}></div>
+                    </div>
+                    <div className={styles.date_div}>
+                            <button  onClick={() => updateWeek('prev')} className={styles.arrowButton}>
+                                <IoIosArrowBack />
+                            </button>
+                            {currentWeek}
+                            <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
+                                <IoIosArrowForward />
+                            </button>
+                        </div>
+                
                 </div>
-                <div className={styles.date_div}>
-                    {currentWeek}
-                </div>
-                <div 
-                    className={styles.writing_div}
-                    on onClick={toggleSidebar}>
-                    {globalVariable.imie} <br/> {globalVariable.nazwisko}
-                </div>
-            </div>
 
             {/* Dni poszczególne */}
             <div 
