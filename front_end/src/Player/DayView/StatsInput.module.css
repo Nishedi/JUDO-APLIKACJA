@@ -25,6 +25,12 @@
 .rows {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: auto; /* Upewnij się, że wiersz zajmuje całą szerokość */
+    gap: 20px; /* Dodaje odstęp między elementami */
+    width: 80%;
+    flex: 1;
 }
 
 .statsInput {
@@ -68,16 +74,17 @@
 
 }
 
-.statsInputContentElement2{
+.statsInputContentElement2 {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     font-family: 'Montserrat-Regular';
+    justify-content: right;
+    align-items: flex-end;
     font-size: 12px;
+    margin: 0;
     text-transform: uppercase;
-    align-items: center; /* Wyśrodkowanie w pionie */
-    justify-content: space-between; /* Równomierne rozmieszczenie elementów */
-    padding: 10px 0; /* Opcjonalne dodanie odstępu, aby zwiększyć przestrzeń wokół elementów */
-
+    padding: 10px 0;
+    flex: 1; /* Sprawia, że elementy wiersza będą miały tę samą szerokość */
 }
 
 .statsInputContentElement {
@@ -87,19 +94,39 @@
     font-size: 12px;
     margin: 0;
     text-transform: uppercase;
-    padding: 10px 0; /* Opcjonalne dodanie odstępu, aby zwiększyć przestrzeń wokół elementów */
+    padding: 10px 0;
+    flex: 1; /* Sprawia, że elementy wiersza będą miały tę samą szerokość */
 }
 
 .statsInputContentElement p {
     margin: 0;
     padding: 0;
+
 }
 
 .statsInputContentElement  input {
-    width: 25%;
+    width: 50%;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.statsInputContentElement2 p {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: right;
+    justify-content: right;
+}
+
+.statsInputContentElement2 input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: right;
+    justify-content: right;
 }
 
 

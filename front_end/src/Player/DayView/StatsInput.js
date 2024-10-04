@@ -19,7 +19,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                 return '😐';  // Brak emotikony, jeśli nie ma odczuć
         }
     };
-    const [mood, setMood] = useState(pickEmoticon(stats?.samopoczucie)); // State dla samopoczucia
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setStats(prevStats => ({
@@ -33,11 +33,6 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
         onConfirmClick();
     };
 
-
-    useEffect(() => {
-        setMood(pickEmoticon(stats?.samopoczucie));
-    }, [stats?.samopoczucie]);
-
     const setMoodFromEmoticon = (feelingsAfter) => {
         switch (feelingsAfter) {
             case '😢':
@@ -45,42 +40,36 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                     ...prevStats,
                     samopoczucie: 'Bardzo źle'
                 }));
-                setMood('Bardzo źle');  
                 break; // Dodaj break, aby uniknąć "fall-through"
             case '🙁':
                 setStats(prevStats => ({
                     ...prevStats,
                     samopoczucie: 'Źle'
                 }));
-                setMood('Źle');
                 break;
             case '😐':
                 setStats(prevStats => ({
                     ...prevStats,
                     samopoczucie: 'Neutralnie'
                 }));
-                setMood('Neutralnie');  
                 break;
             case '🙂':
                 setStats(prevStats => ({
                     ...prevStats,
                     samopoczucie: 'Dobrze'
                 }));
-                setMood('Dobrze'); 
                 break;
             case '😊':
                 setStats(prevStats => ({
                     ...prevStats,
                     samopoczucie: 'Bardzo dobrze'
-                }));
-                setMood('Bardzo dobrze');  
+                })); 
                 break;
             default:
                 setStats(prevStats => ({
                     ...prevStats,
                     samopoczucie: 'Neutralnie'
                 }));
-                setMood('Neutralnie');  // Brak emotikony, jeśli nie ma odczuć
         }
     };
 
@@ -108,8 +97,8 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                             ))}
                         </select>
                     </div>
-
-                    <div className={styles.statsInputContentElement}>
+                    
+                    <div className={styles.statsInputContentElement2}>
                         <p>Waga</p>
                         <input 
                             type="number" 
@@ -118,6 +107,13 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                             onChange={handleChange} 
                         />
                     </div>
+                        {/* <input 
+                            type="number" 
+                            name="waga" 
+                            value={stats?.waga} 
+                            onChange={handleChange} 
+                        />
+                    </div> */}
                 </div>
                 
                 

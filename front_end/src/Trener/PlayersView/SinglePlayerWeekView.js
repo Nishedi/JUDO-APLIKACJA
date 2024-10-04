@@ -220,7 +220,6 @@ const SinglePlayerWeekView = () => {
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
-                
                 <div className={styles.backAndDate}>
                     <BackButton path="/trener/playerview"/>
                     <div onClick={goToPlayerProfile} className={styles.writing_div}>
