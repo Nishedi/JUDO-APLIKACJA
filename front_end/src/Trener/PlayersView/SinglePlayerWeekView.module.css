@@ -74,14 +74,24 @@
     white-space: nowrap;
 }
 
+.todayBorder {
+    border: 2px solid #103476 ;  /* Przykład ramki w kolorze czerwonym */
+    padding: 10px;  /* Dodanie odstępu wewnątrz ramki */
+    border-radius: 5px;  /* Zaokrąglenie rogów ramki */
+}
+
 .weekDay{
-    border-radius: 16px;
+    border-radius: 15px;
     background-color: #FFFFFF;
     margin: 10px;
     margin-bottom: 0;
     padding: 10px;
     padding-left: 10px;
-    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat-Regular';
+    font-weight: lighter;
+    font-size: 15px;
+    text-transform: lowercase;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
@@ -97,15 +107,16 @@
 }
 
 .weekDay p{
-    font-family: 'Montserrat-SemiBold';
+    font-family: 'Montserrat-Medium';
+    text-transform: uppercase;
     font-size: 15px;
     color: #000000;
     margin: 0;
-    text-transform: uppercase;
 }
 
 .weekDay body {
     font-family: 'Montserrat-Regular';
+    font-weight: lighter;
     font-size: 15px;
     color: #000000;
     padding-top: 0.5rem;
@@ -217,10 +228,12 @@
 }
 
 .singleActivityInfo{
+    font-family: 'Montserrat-medium';
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: space-between;
+    font-size: 15px;
 }
 
 .arrowButton {

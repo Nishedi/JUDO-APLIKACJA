@@ -142,10 +142,16 @@ const SinglePlayerWeekView = () => {
 
     const WeekDay = ({ day, date }) => {
         const activities = getActivitiesForThatDay(date);
+        // Sprawdzenie, czy dzień jest dzisiejszy
+        const isToday = date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
+
+        
         return (
-            <div onClick={() => goToSinglePlayerSingleDay(date)} className={styles.weekDay}>
+            <div onClick={() => goToSinglePlayerSingleDay(date)}
+            className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
+            >
                 <div>
-                    <p>{day}, {formatDate(date)} {date.getDate()===new Date().getDate() && date.getMonth() === new Date().getMonth() ? "(Dzisiaj)":null}</p>
+                    <p>{day}, {formatDate(date)} {isToday ? "(Dzisiaj)" : null}</p>
                     <div>
                         {activities.sort((a, b) => {
                             const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
@@ -245,13 +251,13 @@ const SinglePlayerWeekView = () => {
                         <div className={styles.optionalStats}>
                             <div>Kinaza:</div>
                             <div className={styles.singleActivityInfo}>
-                                <div>{viewedPlayer.kinaza}</div>
+                                <div><strong>{viewedPlayer.kinaza}</strong></div>
                             </div>
                         </div>
                         <div className={styles.optionalStats}>
                             <div>Kwas mlekowy:</div>
                             <div className={styles.singleActivity}>
-                                <div>{viewedPlayer.kwas_mlekowy}</div>
+                                <div><strong>{viewedPlayer.kwas_mlekowy}</strong></div>
                             </div>
                         </div>
                         <div className={styles.buttons}>
@@ -264,10 +270,10 @@ const SinglePlayerWeekView = () => {
                         </div>
                         <div className={styles.underButtons}>
                             <div className={styles.underButton}>
-                                ostatnia aktualizacja: <div>{viewedPlayer.ostatnia_aktualizacja_kinazy}</div>
+                                ostatnia aktualizacja: <div><strong>{viewedPlayer.ostatnia_aktualizacja_kinazy}</strong></div>
                             </div>
                             <div className={styles.underButton}>
-                            ostatnia aktualizacja:<div>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</div>
+                            ostatnia aktualizacja:<div><strong>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</strong></div>
                             </div>
                         </div>
                     </div>

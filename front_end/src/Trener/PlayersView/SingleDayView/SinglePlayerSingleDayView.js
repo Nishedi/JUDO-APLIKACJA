@@ -21,10 +21,18 @@ const SinglePlayerSingleDayView = () => {
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
     
         const formatDate = (date) => {
-        const day = date.getDate();
-        const month = monthNames[date.getMonth()];
-        return `${day} ${month}`;
-    };
+            let day, month;  // Zdefiniowanie zmiennych przed blokiem if
+        
+            if(date){
+                day = date.getDate();  // Przypisanie wartości do zmiennych
+                month = monthNames[date.getMonth()];
+            } else {
+                return null;  // Jeśli date jest undefined lub null, zwracamy null
+            }
+        
+            return `${day} ${month}`;  // Użycie zmiennych poza blokiem if
+        };
+
 
     const [activity, setActivity] = useState(null);
 
@@ -111,13 +119,13 @@ const SinglePlayerSingleDayView = () => {
             >
                 <div>
                     <h3>{activity.rodzaj_aktywności}</h3>
-                    <p>Godzina rozpoczęcia: <div>{activity.czas_rozpoczęcia}</div></p>
-                    <p>Status: <div>{activity.status}</div></p>
+                    <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
+                    <p>Status: <div><strong>{activity.status}</strong></div></p>
                     {/* <div 
                         className={styles.line} style={{
                         backgroundColor: getBorderColor(activity.rodzaj_aktywności)}}>
                     </div> */}
-                    <p>Czas trwania treningu: <div>{activity.czas_trwania}</div> </p>
+                    <p>Czas trwania treningu: <div><strong>{activity.czas_trwania}</strong></div> </p>
                     <p >Odczucia: 
                         <GetFeelingsEmoticon
                             feelingsAfter={activity.odczucia}
@@ -151,13 +159,13 @@ const SinglePlayerSingleDayView = () => {
                         {/* <StatsInput onSubmit={handleStatsSubmit} initialData={stats} /> */}
                             <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
                             <div className = {styles.text}>
-                                <p>Tętno: <div>{stats?.tętno || ""}</div></p>
+                                <p>Tętno: <div><strong>{stats?.tętno || ""}</strong></div></p>
                                 <p className={styles.oneline}>Samopoczucie: 
                                 <GetFeelingsEmoticon 
                                     feelingsAfter={stats?.samopoczucie || ""} 
                                         />
                                 </p> 
-                                <p>Waga: <div>{stats?.waga || ""}</div></p>
+                                <p>Waga: <div><strong>{stats?.waga || ""}</strong></div></p>
                             </div>
                             
                         </div>
