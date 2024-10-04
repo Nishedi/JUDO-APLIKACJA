@@ -30,6 +30,9 @@ const AddingActivityFirstPage = () => {
     const [comment, setComment] = useState('');
     const [newActivity, setNewActivity] = useState('');
 
+      // Stan na przechowywanie błędów
+    const [errorMessage, setErrorMessage] = useState('');
+
     const sharedStyles = {
         chips: {
             color: '#f8f8f8',
@@ -229,6 +232,36 @@ const AddingActivityFirstPage = () => {
     
 
     const addActivities = async () => {
+
+        // Sprawdzenie czy wszystkie wymagane pola są wypełnione
+        if (selectedOptions.length === 0) {
+            setErrorMessage('Wybierz co najmniej jednego zawodnika.');
+            return;
+        }
+
+        if (!dates || dates.length === 0) {
+            setErrorMessage('Wybierz co najmniej jedną datę.');
+            return;
+        }
+
+        if (selectedTrenings.length === 0) {
+            setErrorMessage('Wybierz rodzaj treningu.');
+            return;
+        }
+
+        if ((selectedTrenings[0]?.name === 'Biegowy' || selectedTrenings[0]?.name === 'Na macie') && selectedExercises.length === 0) {
+            setErrorMessage('Wybierz co najmniej jedno ćwiczenie.');
+            return;
+        }
+
+        if (selectedTrenings[0]?.name === "Motoryczny" && selectedExercises.length === 0) {
+            setErrorMessage('Załaduj plik PDF dla treningu motorycznego.');
+            return;
+        }
+
+        // Jeśli wszystkie pola są wypełnione, wyczyść komunikat błędu
+        setErrorMessage('');
+
         for (const athlete of selectedOptions) {
             for (const date of dates) {
                 const activity = {
@@ -352,6 +385,12 @@ const AddingActivityFirstPage = () => {
                     <div>Nowa Aktywność</div>
                 </div>
                 <div className={styles.white_container}>
+                     {/* Sekcja z błędem */}
+                {errorMessage && (
+                    <div className={styles.error_message}>
+                        {errorMessage}
+                    </div>
+                )}
                 <div className={styles.content}>
                     <div className={styles.input_container}>
                         Wybierz zawodników
