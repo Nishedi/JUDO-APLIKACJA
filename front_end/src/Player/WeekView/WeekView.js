@@ -117,11 +117,16 @@ const WeekView = () => {
 
     const WeekDay = ({ day, date}) => {
         const activities = getActivitiesForThatDay(date);
+        // Sprawdzenie, czy dzień jest dzisiejszy
+        const isToday = date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
+        
         return (
-            <div onClick={()=>goToSingleDay(date)} className={styles.weekDay}>
+            <div onClick={()=>goToSingleDay(date)} 
+                className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
+            >
                 <div>
-                <p>{day}, {formatDate(date)} {date.getDate()===new Date().getDate() && date.getMonth() === new Date().getMonth() ? "(Dzisiaj)":null}</p>
-                    <div >
+                    <p>{day}, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
+                    <div>
                         {activities
                             .sort((a, b) => {
                                 const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);

@@ -75,9 +75,15 @@
 }
 
 .todayBorder {
-    border: 2px solid #103476 ;  /* Przykład ramki w kolorze czerwonym */
-    padding: 10px;  /* Dodanie odstępu wewnątrz ramki */
-    border-radius: 5px;  /* Zaokrąglenie rogów ramki */
+    border: 2px solid #103476 ; 
+    padding: 10px; 
+    border-radius: 5px;
+}
+
+.todayText {
+    color: #a7b7d6;  
+    float: right;
+    text-transform: lowercase;  
 }
 
 .weekDay{

@@ -144,9 +144,9 @@ const DayView = () => {
             >
                 <div>
                     <h3>{activity.rodzaj_aktywności}</h3>
-                    <p>Godzina rozpoczęcia: <div>{activity.czas_rozpoczęcia}</div></p>
-                    <p>Czas trwania treningu: <div>{activity.czas_trwania}</div> </p>
-                    <p>Status: <div>{activity.status}</div></p>
+                    <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
+                    <p>Czas trwania treningu: <div><strong>{activity.czas_trwania}</strong></div> </p>
+                    <p>Status: <div><strong>{activity.status}</strong></div></p>
                     <p >Odczucia: 
                         <GetFeelingsEmoticon
                             feelingsAfter={activity.odczucia}

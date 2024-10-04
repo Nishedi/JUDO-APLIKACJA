@@ -77,6 +77,18 @@
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
 
+.todayBorder {
+    border: 2px solid #103476 ; 
+    padding: 10px; 
+    border-radius: 5px;
+}
+
+.todayText {
+    color: #a7b7d6;  
+    float: right;
+    text-transform: lowercase;  
+}
+
 .weekDay{
     border-radius: 16px;
     background-color: #FFFFFF;
