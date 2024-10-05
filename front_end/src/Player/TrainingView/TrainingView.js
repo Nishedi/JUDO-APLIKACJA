@@ -36,7 +36,6 @@ const TrainingView = () => {
       if (error) {
         console.error('Błąd podczas pobierania aktywności FETCHACTFROMDATAB:', error);
       } else {
-        console.log(aktywnosc)
         setActivity(aktywnosc);
         if(aktywnosc.status === 'Zrealizowany') setIsTrainingCompleted(true);
         setSelectedMood(aktywnosc.odczucia);

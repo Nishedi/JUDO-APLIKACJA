@@ -83,8 +83,14 @@ const AnotherDayView = () => {
         
     }, []);
 
+    const closeSidebar = () => {
+        if(isSidebarOpen){
+            setIsSidebarOpen(false);
+        }
+    }
+
     return (
-        <div className={styles.background}>
+        <div onClick={closeSidebar} className={styles.background}>
             <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>

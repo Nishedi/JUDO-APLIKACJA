@@ -176,8 +176,9 @@ const UserProfileEdition = () => {
                        <label>Nowe hasło:</label>
                        <input 
                            type="password" 
-                           name="password"
+                           name="new-password"
                            value={password}
+                           autoComplete='new-password'
                            onChange={(e) => setPassword(e.target.value)}
                        />
 

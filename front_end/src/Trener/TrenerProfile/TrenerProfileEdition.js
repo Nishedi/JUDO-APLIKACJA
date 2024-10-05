@@ -65,13 +65,18 @@ const TrenerProfileEdition = () => {
             console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
             }
             else if (password && confirmPassword) {
+                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/;
+                if (!regex.test(password)) {
+                    alert('Hasło powinno zawierać co najmniej jedną dużą literę, jedną małą literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 7 znaków');
+                    return;
+                }
                 updates.haslo = await bcrypt.hash(password, 10); 
                 console.log('hasło zostało zaktualizowane', password);
             }
 
           // Jeśli updates nie zawiera hasła, nie aktualizuj hasła w bazie danych
         if (Object.keys(updates).length > 0) {
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('trenerzy')
                 .update(updates) // Użyj zaktualizowanego obiektu
                 .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji

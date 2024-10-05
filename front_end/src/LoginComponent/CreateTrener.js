@@ -12,6 +12,7 @@ const CreateTrener = () => {
     const adminPassword = "admin";
     const {supabase} = useContext(GlobalContext);
     const [hashedPassword, setHashedPassword] = useState("");
+    const [testPassword, setTestPassword] = useState("");
 
     const handleLoginChange = (event) => {
         setLogin(event.target.value);
@@ -77,6 +78,15 @@ const CreateTrener = () => {
                     });
                 }
                }}>Pokaż zaszyfrowane hasło</button>
+            <input type="text" onChange={(e)=>setTestPassword(e.target.value)} value={testPassword} placeholder="Sprawdź czy hasło jest bezpieczne"/>
+            <button onClick={ ()=>{
+                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/;
+                if(regex.test(testPassword)){
+                    console.log("Hasło jest bezpieczne");
+                } else{
+                    console.error("Hasło nie jest bezpieczne, powinno zawierać co najmniej jedną małą literę, jedną dużą literę, jedną cyfrę, jeden znak specjalny i składać się z conajmniej 7 znaków");
+                }
+            }}>Sprawdź czy hasło jest bezpieczne</button>
         </div>
     )
 }
