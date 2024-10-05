@@ -83,6 +83,8 @@
     display: flex;
     gap: 10px;
     margin: 10px;
+    align-items: center;
+    position: relative;
 }
 
 .dateButton, .timeButton {
@@ -205,6 +207,7 @@
     display: flex;
     gap: 10px; /* Odstęp między pickerami daty i czasu */
     align-items: center;
+    position: relative; /* Dodane, aby kalendarz był wewnątrz kontenera */
 }
 
 .customDatePicker, .customTimePicker {
@@ -238,15 +241,20 @@
 
 /* Zmiana stylu dla kalendarza */
 .react-datepicker {
-    border: 2px solid #103476;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    border: 1px solid #103476 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    position: absolute !important; /* Dodano pozycjonowanie absolutne */
+    z-index: 1000 !important;
+    top: 50px !important;
+    left: 0 !important;
+    transform: translateX(-10%) !important;
 }
 
 .react-datepicker__header {
-    background-color: #103476;
+    background-color: #103476 !important;
     border-bottom: none;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-family: 'Montserrat-SemiBold';
 }
 
@@ -313,4 +321,14 @@
 .react-datepicker__time-list-item--selected {
     background-color: #1D61DC;
     color: white;
+}
+
+/* Media Queries dla małych ekranów */
+@media (max-width: 768px) {
+    .react-datepicker {
+        left: 0;
+        transform: none; /* Wyłączenie translate dla mniejszych ekranów */
+        width: 100%; /* Szerokość kalendarza na pełny ekran */
+        top: 40px;
+    }
 }
