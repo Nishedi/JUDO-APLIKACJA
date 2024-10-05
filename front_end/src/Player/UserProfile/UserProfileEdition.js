@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
+import bcrypt from 'bcryptjs';
 
 const UserProfileEdition = () => {
    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -40,15 +41,21 @@ const UserProfileEdition = () => {
             const updates = {};
             if (firstname.value) {
                 updates.imie = firstname.value;
+            }else{
+                alert('Imię jest wymagane');
             }
             if (lastname.value) {
                 updates.nazwisko = lastname.value;
+            }else{
+                alert('Nazwisko jest wymagane');
             }
             if (login.value) {
                 updates.login = login.value;
+            }else{
+                alert('Login jest wymagany');
             }
             if (gender.value) {
-                updates.plec = login.value;
+                updates.plec = gender.value;
             }
             if (year.value) {  
                 updates.rocznik = year.value;
@@ -64,22 +71,29 @@ const UserProfileEdition = () => {
             }
             
             else if (password && !confirmPassword) {
+                alert('Potwierdź hasło');
             // Jeśli tylko `password` jest wypełnione, ale nie `confirmPassword`, ignoruj zmianę hasła
             console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
             }
+            else if (password !== confirmPassword) {
+                alert('Hasła nie są takie same');
+                console.log('Hasła nie są takie same');
+            }
             else if (password && confirmPassword) {
-                updates.haslo = password; 
+                updates.haslo = await bcrypt.hash(password, 10); 
                 console.log('hasło zostało zaktualizowane', password);
             }
             
         // Jeśli updates nie zawiera hasła, nie aktualizuj hasła w bazie danych
         if (Object.keys(updates).length > 0) {
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('zawodnicy')
                 .update(updates) // Użyj zaktualizowanego obiektu
                 .eq('id', globalVariable.id); // Użyj ID użytkownika do aktualizacji
-
             if (error) {
+                if(error.code === '23505'){
+                    alert('Login jest zajęty');
+                }
                 console.error('Błąd podczas aktualizacji danych: UPDATE', error);
                 throw error;
             }

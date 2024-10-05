@@ -2,6 +2,7 @@ import './LoginComponent.css';
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
+import bcrypt from 'bcryptjs';
 
 const LoginComponent = () => {
     const { setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -30,7 +31,7 @@ const LoginComponent = () => {
             .select('*')
             .eq('login',  login) 
         
-        if(dane_trenera.length!==0 && dane_trenera[0].haslo === password){
+        if(dane_trenera.length!==0 && await bcrypt.compare(password, dane_trenera[0].haslo)){
             setIsLogged(true);
             setGlobalVariable(dane_trenera[0]);
             navigate('/trener/playerView');
@@ -40,7 +41,7 @@ const LoginComponent = () => {
             .select('*')
             .eq('login',  login)
 
-            if(dane_zawodnika.length!==0 && dane_zawodnika[0].haslo === password){
+            if(dane_zawodnika.length!==0 && await bcrypt.compare(password, dane_zawodnika[0].haslo)){
                 setIsLogged(true);
                 setGlobalVariable({
                     ...dane_zawodnika[0],

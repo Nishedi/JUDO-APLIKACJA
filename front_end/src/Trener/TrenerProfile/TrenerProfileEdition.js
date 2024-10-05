@@ -1,6 +1,6 @@
 import styles from './TrenerProfileEdition.module.css';
 import React, { useState, useContext } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
+import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
@@ -65,14 +65,9 @@ const TrenerProfileEdition = () => {
             console.log('Hasło nie zostało zmienione, ponieważ confirmPassword jest puste');
             }
             else if (password && confirmPassword) {
-                updates.haslo = password; 
+                updates.haslo = await bcrypt.hash(password, 10); 
                 console.log('hasło zostało zaktualizowane', password);
             }
-            
-
-        console.log('updates', updates);
-
-
 
           // Jeśli updates nie zawiera hasła, nie aktualizuj hasła w bazie danych
         if (Object.keys(updates).length > 0) {

@@ -2,7 +2,7 @@ import { GlobalContext } from '../../GlobalContext';
 import React, { useContext, useState} from 'react';
 import styles from './AddingPlayer.module.css';
 import { useNavigate } from 'react-router-dom';
-
+import bcrypt from 'bcryptjs';
 const AddingPlayerSecondPage = () => {
     const { newPlayer, globalVariable, supabase } = useContext(GlobalContext);
     const [login, setLogin] = useState("");
@@ -48,7 +48,7 @@ const AddingPlayerSecondPage = () => {
             "login": login,
             "password": password
         }
-        
+        const hashedPassword = await bcrypt.hash(password, 10);
         const { data, error } = await supabase
             .from('zawodnicy')
             .insert([
@@ -57,7 +57,7 @@ const AddingPlayerSecondPage = () => {
                     imie: `${newUser.name}`,
                     nazwisko: `${newUser.surname}`,
                     login: `${newUser.login}`,
-                    haslo: `${newUser.password}`,
+                    haslo: `${hashedPassword}`,
                     kategoria_wagowa: `${newUser.weightCategory}`,
                     rocznik: `${newUser.yearOfBirth}`,
                     plec: `${newUser.gender}`

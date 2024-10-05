@@ -70,6 +70,22 @@ const EditNote = () => {
         navigate(`/player/notesopponent/${watek.id_watku}`);
     }
 
+    const deleteNote = async () => {
+        const watek = globalVariable.watek
+        console.log(globalVariable.notatka.id_notatki)
+        const { error } = await supabase
+        .from('notatki')
+        .delete()
+        .eq('id_notatki', globalVariable.notatka.id_notatki)
+        .select()
+        if(error){
+            console.log('error', error)
+            alert('Nie udało się usunąć notatki')
+            return;
+        }
+        navigate(`/player/notesopponent/${watek.id_watku}`);
+    }
+
 
     return (
         <div className={styles.background}>
@@ -129,7 +145,8 @@ const EditNote = () => {
                 </div>
 
                 <div className={styles.submitButton}>
-                    <button onClick={addNote} className={styles.addNoteButton}>Zatwierdź</button>
+                    <button onClick={deleteNote} className={styles.editNoteButton}>Usuń</button>
+                    <button onClick={addNote} className={styles.editNoteButton}>Zatwierdź</button>
                 </div>
             </div>
         </div>
