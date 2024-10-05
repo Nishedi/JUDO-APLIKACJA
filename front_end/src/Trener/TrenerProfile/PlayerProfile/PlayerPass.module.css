@@ -8,13 +8,12 @@
 .navbar{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #FFFFFF;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-    
 }
 
 .profilDiv{
@@ -30,13 +29,12 @@
 
 .end {
     white-space: nowrap; /* Keep "Profil zawodnika" on one line */
-    margin-bottom: 10px; /* Adjust this value to add more space */
     font-size: 18px; /* You can also adjust the size if needed */
 }
 
 .uppercase{
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 18px; /* Adjust the size to create distinction */
 }
 
 .burger{
@@ -46,19 +44,38 @@
     align-items: center;
   }
 
-.userdetails {
-    padding: 20px;
-    background-color: #F5F7FA;
-    border-radius: 20px;
-    margin: 20px;
+  .userdetails {
+
+    padding: 0;
+    background-color: #f9f9f9; /* Lekki kolor tła */
+    border-radius: 8px; /* Zaokrąglone rogi */
+    margin: 20px; /* Zewnętrzne odstępy */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Lekki cień */
 }
 
-.userdetails h2 {
-    font-family: 'Montserrat-Medium';
+.userdetails1 p {
+    margin: 0; /* Usuń margines */
+    padding: 20px; /* Dodaj padding wewnętrzny */
     font-size: 15px;
-    margin-bottom: 20px;
-    text-align: center;
+    color: #333;
+    font-family: 'Montserrat-Medium';
 }
+
+.userdetails1 strong {
+    font-size: 16px;
+    color: #103476;
+    font-family: 'Montserrat-SemiBold';
+}
+
+
+.userdetails h2 {
+    padding: 20px;
+    text-align: center;
+    font-family: 'Montserrat-Medium';
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
 
 form {
     display: flex;
@@ -71,27 +88,6 @@ label {
     margin-top: 10px;
 }
 
-.change_password {
-    color: #a7b7d6;
-    font-family: 'Kodchasan-SemiBold';
-    font-size: 15px;
-    margin-top: 10px;
-    cursor: pointer;
-    text-align: center;
-    cursor: pointer; /* Kursor zmienia się na wskazujący */
-    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
-}
-.change_password:hover {
-box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
-transform: translateY(-2px); /* Lekko unosi przy najechaniu */
-}
-
-.change_password:active {
-box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
-transform: translateY(0); /* Powrót do normalnej pozycji */
-}
-
-
 input, select{
     padding: 10px;
     /* margin-top: 5px; */
@@ -101,7 +97,7 @@ input, select{
     font-family: 'Montserrat-Medium';
 }
 
-.buttonEdit {
+.buttonUser {
     justify-self: center;
     background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     color: #FFFFFF;
@@ -115,18 +111,28 @@ input, select{
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
 
-.buttonEdit:hover {
+.buttonUser:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
     transform: translateY(-2px); /* Lekko unosi przy najechaniu */
 }
 
-.buttonEdit:active {
+.buttonUser:active {
+    background-color: #103476;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
 .buttoncenter {
     display: flex;
+    justify-self: center;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.line {
+    background-color: #D7DFEE;
+    height: 1px;
+    width: 80%;
+    margin: 0; /* Upewnij się, że nie ma marginesu */
 }

@@ -23,6 +23,10 @@ const PlayerProfileEdition = () => {
        years.push(i);
    }
 
+   const handlePassChange = () => {
+       navigate('/trener/playerpass');
+    }
+
    // Funkcja obsługująca wysłanie formularza
    const handleSubmit = async (e) => {
        e.preventDefault(); // Zapobiega domyślnej akcji wysłania formularza
@@ -130,6 +134,7 @@ const PlayerProfileEdition = () => {
                    </form>
                </div>
            </div>
+           <div className={styles.change_password} onClick={handlePassChange}>zmień hasło</div>
        </div>
    );
 };

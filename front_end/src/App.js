@@ -25,6 +25,7 @@ import TrenerProfileEdition from './Trener/TrenerProfile/TrenerProfileEdition';
 import PlayerProfile from './Trener/TrenerProfile/PlayerProfile/PlayerProfile';
 import PlayerProfileEdition from './Trener/TrenerProfile/PlayerProfile/PlayerProfileEdition';
 import AnotherDayView from './Player/WeekView/AnotherDayView';
+import PlayerPass from './Trener/TrenerProfile/PlayerProfile/PlayerPass';
 
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
           <Route path = "trener/playerprofile" element = {<PlayerProfile />} />
           <Route path = "trener/playerprofileedition" element = {<PlayerProfileEdition />} />
           <Route path = "player/anotherdayview" element = {<AnotherDayView />} />
-
+          <Route path = "trener/playerpass" element = {<PlayerPass />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>
