@@ -243,11 +243,11 @@
 :global(.react-datepicker) {
     border: 1px solid #103476 !important;
     border-radius: 8px !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
     position: absolute !important; /* Dodano pozycjonowanie absolutne */
     z-index: 1000 !important;
     left: 0 !important;
-    transform: translateX(-75%) !important;
+    transform: translateX(-65%) !important;
     color: #D7DFEE !important;
 }
 
