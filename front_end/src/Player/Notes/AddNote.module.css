@@ -247,7 +247,7 @@
     position: absolute !important; /* Dodano pozycjonowanie absolutne */
     z-index: 1000 !important;
     left: 0 !important;
-    transform: translateX(-65%) !important;
+    transform: translateX(-68%) !important;
     color: #D7DFEE !important;
 }
 

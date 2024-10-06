@@ -3,6 +3,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../GlobalContext';
 import BackButton from '../../../BackButton';
+import bcrypt from 'bcryptjs';
+
 
 const PlayerPass = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -38,10 +40,13 @@ const PlayerPass = () => {
 
        setError('');
        try {
+            // Hashowanie hasła przed zapisaniem
+            const hashedPassword = await bcrypt.hash(password, 10); // 10 to "salt rounds"
+
             // Aktualizacja hasła w tabeli `players` na Supabase
             const { data, error: supabaseError } = await supabase
                 .from('zawodnicy')
-                .update({ haslo: password }) // Zakładamy, że hasło jest przechowywane w kolumnie 'haslo'
+                .update({ haslo: hashedPassword }) 
                 .eq('id', viewedPlayer.id); // Zakładamy, że zawodnik jest identyfikowany przez 'id'
 
             if (supabaseError) {
@@ -100,7 +105,7 @@ const PlayerPass = () => {
                        />
                        {error && <p style={{ color: 'red' }}>{error}</p>}
                        <div className={styles.buttoncenter}>
-                           <button className={styles.buttonEdit} type="submit">Zapisz</button>
+                           <button className={styles.buttonEdit} type="submit">zapisz</button>
                        </div>
                    </form>
                </div>

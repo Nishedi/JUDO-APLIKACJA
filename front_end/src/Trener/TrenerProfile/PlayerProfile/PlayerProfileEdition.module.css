@@ -75,7 +75,7 @@ label {
     color: #a7b7d6;
     font-family: 'Kodchasan-SemiBold';
     font-size: 15px;
-    margin-top: 10px;
+    margin: 10px 0;
     cursor: pointer;
     text-align: center;
     cursor: pointer; /* Kursor zmienia się na wskazujący */

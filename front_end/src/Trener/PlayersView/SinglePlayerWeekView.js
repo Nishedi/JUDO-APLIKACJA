@@ -260,8 +260,11 @@ const SinglePlayerWeekView = () => {
                             </div>
                         </div>
                         <div className={styles.optionalStats}>
-                            <div>Kwas mlekowy:</div>
-                            <div className={styles.singleActivity}>
+                            <div 
+                                style={{whiteSpace: 'nowrap'}}>
+                                    Kwas mlekowy:
+                            </div>
+                            <div className={styles.singleActivityInfo}>
                                 <div><strong>{viewedPlayer.kwas_mlekowy}</strong></div>
                             </div>
                         </div>
