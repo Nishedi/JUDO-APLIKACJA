@@ -270,10 +270,10 @@ const SinglePlayerWeekView = () => {
                         </div>
                         <div className={styles.buttons}>
                             <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kinaze')}>
-                                Aktualizacja KINAZY
+                                Aktualizacja <br/> KINAZY
                             </button>
                             <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
-                                Aktualizacja KWASU MLEKOWEGO
+                                Aktualizacja  <br/> KWASU MLEKOWEGO
                             </button>
                         </div>
                         <div className={styles.underButtons}>

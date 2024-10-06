@@ -29,9 +29,12 @@
 
 
  .dayHeader {
+    display: flex;
     color: #000000; /* Niebieski kolor tekstu */
     font-size: 16px; /* Większa czcionka */
     font-family: 'Montserrat-Medium';
+    justify-content: center;
+    align-items: center;
     margin-top: auto;
     margin-bottom: 10px;
     margin-left: 20px;

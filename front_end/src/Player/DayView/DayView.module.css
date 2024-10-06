@@ -26,12 +26,14 @@
 
 
   .dayHeader {
+    display: flex;
     color: #000000; /* Niebieski kolor tekstu */
     font-size: 16px; /* Większa czcionka */
     font-family: 'Montserrat-Medium';
+    justify-content: center;
+    align-items: center;
     margin-top: auto;
     margin-bottom: 10px;
-    margin-left: 20px;
     letter-spacing: 2px;
     text-transform: uppercase; /* Zmienia tekst na wielkie litery */
   }
@@ -147,7 +149,7 @@
   color: #000000;
   margin: 0;
   margin-bottom: 10px;
-  padding-left: 20px;
+  padding-left: 10px;
   text-transform: uppercase;
 }
 
@@ -265,14 +267,13 @@
   color: #FFFFFF;
   justify-self: center;
   align-self: center;
-  width: 50%;
-  padding: 10px;
+  width: fit-content;
+  padding: 10px 20px;
   border-radius: 10px;
   border-width: 0px;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-  font-family: 'Kodchasan-SemiBold';
-  font-size: 16px;
-  margin-top: 5px;
+  font-family: 'Kodchasan-Medium';
+  font-size: 12px;
   cursor: pointer; /* Kursor zmienia się na wskazujący */
   transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }

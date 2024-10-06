@@ -106,15 +106,22 @@
     height: 95%;
 }
 
-.customDropdown {
+.input, .customDropdown {
     border-radius: 10px;
-    font-family: 'Montserrat-Regular';
     width: 100%;
+    padding: 8px;
     border: 2px solid #D7DFEE;
-    padding: 2px;
-    /* background-color: #f8f6f6 !important; */
+    font-family: 'Montserrat-Regular';
+    font-size: 14px;
+    background-color: white;
+}
+
+.customDropdown .p-dropdown-label {
+    padding: 8px;
 }
 
 .panelStyle {
-    background-color: #f0f0f0 !important; /* Zmiana koloru tła panelu */
+    background-color: #f0f0f0 !important; /* Background color of dropdown panel */
+    border-radius: 10px;
+    padding: 5px 10px;
 }
