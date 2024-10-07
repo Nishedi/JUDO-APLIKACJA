@@ -398,7 +398,8 @@ const AddingActivityFirstPage = () => {
                                     ...sharedStyles,
                                     searchBox: {
                                         ...sharedStyles.searchBox,
-                                        border: errors.selectedOptions ? '2px solid red' : '1px solid #ccc'
+                                        border: errors.selectedOptions ? '2px solid red' : '1px solid #ccc',
+                                        height: 'fit-content' // Dodanie stylu height
                                     }
                                 }}
                             />

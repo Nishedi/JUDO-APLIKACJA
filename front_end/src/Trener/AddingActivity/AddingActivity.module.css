@@ -98,12 +98,12 @@
     padding-top: 10px;
 }
 
-.input_container input {
+.input_container Multiselect {
     height: fit-content;
 }
 
 .input_container div{
-    margin-top: 5px;
+    /* margin-top: 5px; */
 }
 
 .input_container button {
