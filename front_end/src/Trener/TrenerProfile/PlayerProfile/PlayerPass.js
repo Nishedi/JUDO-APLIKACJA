@@ -31,19 +31,10 @@ const PlayerPass = () => {
         setError('Hasła nie są takie same');
         return;
     }
-
-    if (password.length < 8) {
-        setError('Hasło musi mieć co najmniej 8 znaków');
-        return;
-    }
-
-
        setError('');
        try {
             // Hashowanie hasła przed zapisaniem
             const hashedPassword = await bcrypt.hash(password, 10); // 10 to "salt rounds"
-
-            // Aktualizacja hasła w tabeli `players` na Supabase
             const { data, error: supabaseError } = await supabase
                 .from('zawodnicy')
                 .update({ haslo: hashedPassword }) 
@@ -55,7 +46,6 @@ const PlayerPass = () => {
 
             setSuccess('Hasło zostało zaktualizowane');
             console.log('Hasło zostało zaktualizowane', data);
-
 
            // Zmiana flagi na zakończenie edycji
            navigate('/trener/playerprofile');

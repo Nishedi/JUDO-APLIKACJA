@@ -97,7 +97,7 @@
     font-family: 'Montserrat-Regular';
     font-weight: lighter;
     font-size: 15px;
-    text-transform: lowercase;
+    /* text-transform: lowercase; */
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
@@ -167,25 +167,21 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-  }
-
-  .buttons{
-    display: flex;
     justify-content: space-between;
-    align-items: space-between;
-    margin: 10px;
-    margin-bottom: 0px;
+    align-items: center;
+    padding: 5px 0px;
   }
 
   .buttonTrening {
     justify-self: center;
     background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     color: #FFFFFF;
-    width: 42%;
+    /* width: 42%; */
     padding: 10px;
     border-radius: 10px;
     border-width: 0px;
     font-family: 'Kodchasan-SemiBold';
+    padding: 5px 10px;
     font-size: 12px; cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
@@ -264,6 +260,7 @@
     text-transform: lowercase;
     white-space: nowrap; /* Nie przerywać tekstu */
     text-align: right;
+    gap: 5px; /* Dystans między elementami */
 }
 
 /* .singleActivityInfo{

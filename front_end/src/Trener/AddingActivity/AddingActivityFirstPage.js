@@ -238,7 +238,7 @@ const AddingActivityFirstPage = () => {
         if (selectedTrenings.length === 0) {
             newErrors.selectedTrenings = 'Proszę wybrać rodzaj treningu';
         }
-        if (selectedExercises.length === 0 && selectedTrenings[0]?.name !== 'Motoryczny') {
+        if (selectedExercises.length === 0 && (selectedTrenings[0]?.name !== 'Motoryczny'&&selectedTrenings[0]?.name !== 'Fizjoterapia')) {
             newErrors.selectedExercises = 'Proszę wybrać ćwiczenia';
         }
         return newErrors;
@@ -247,6 +247,7 @@ const AddingActivityFirstPage = () => {
     const addActivities = async () => {
 
         const formErrors = validateForm();
+        console.log(formErrors);
 
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
@@ -321,7 +322,7 @@ const AddingActivityFirstPage = () => {
                 <div>{exercise.name}</div>
                 <div className={styles.exercise_details}>
                     <input
-                        type="text"
+                        type="number"
                         placeholder='Czas trwania'
                         value={duration}
                         onChange={(e)=>setDuration(e.target.value)}

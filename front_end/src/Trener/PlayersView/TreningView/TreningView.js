@@ -36,8 +36,11 @@ const TrenerTrainingView = () => {
 
     useEffect(() => {
         getCurrentActivity();
-        splitThingsToDo();
+        
     }, []);
+    useEffect(() => {
+        splitThingsToDo();
+    }, [activity]);
 
     const deleteActivity = async () => {
         const { error } = await supabase
@@ -62,7 +65,7 @@ const TrenerTrainingView = () => {
             <div>
                 <div className={styles.navbar}>
                     <div className={styles.burger}>
-                        <BackButton/>
+                        <BackButton path={"/trener/singleplayersingleday"}/>
                     </div>
                     <div className={styles.profilDiv}>
                         <div  >
@@ -89,7 +92,7 @@ const TrenerTrainingView = () => {
                             <button 
                                 className={styles.buttonRozwin}
                                 onClick={() => {
-                                window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+                                window.open(activity.zadania);  // Przekierowanie
                             }}>Wyświetl szczegóły</button>
                             : (
                                 <ul>

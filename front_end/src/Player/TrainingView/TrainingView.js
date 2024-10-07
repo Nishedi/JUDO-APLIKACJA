@@ -80,7 +80,7 @@ const TrainingView = () => {
         <div className={styles.profilDiv}>
           <div>
             Trening 
-            <div style={{textTransform: 'uppercase'}}>{activity.rodzaj_aktywności}</div>
+            <div style={{textTransform: 'uppercase', whiteSpace: 'nowrap'}}>{activity.rodzaj_aktywności}</div>
           </div>
         </div>
       </div>

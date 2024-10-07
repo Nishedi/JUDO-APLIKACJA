@@ -229,8 +229,14 @@ const SinglePlayerWeekView = () => {
                         <div className={styles.optionalStats}>
                             <div>Kinaza:</div>
                             <div className={styles.singleActivityInfo}>
-                                <div><strong>{viewedPlayer.kinaza}</strong></div>
+                                <div><strong>{viewedPlayer.kinaza} </strong></div>
+                                {viewedPlayer.ostatnia_aktualizacja_kinazy &&
+                                <div>({viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[1]})</div>
+        }
                             </div>
+                            <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kinaze')}>
+                                Aktualizuj
+                            </button>
                         </div>
                         <div className={styles.optionalStats}>
                             <div 
@@ -239,23 +245,13 @@ const SinglePlayerWeekView = () => {
                             </div>
                             <div className={styles.singleActivityInfo}>
                                 <div><strong>{viewedPlayer.kwas_mlekowy}</strong></div>
+                                {viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego &&
+                                <div>({viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego.split(".")[1]})</div>
+                                }
                             </div>
-                        </div>
-                        <div className={styles.buttons}>
-                            <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kinaze')}>
-                                Aktualizacja KINAZY
-                            </button>
                             <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
-                                Aktualizacja KWASU MLEKOWEGO
+                                Aktualizuj
                             </button>
-                        </div>
-                        <div className={styles.underButtons}>
-                            <div className={styles.underButton}>
-                                ostatnia aktualizacja: <div><strong>{viewedPlayer.ostatnia_aktualizacja_kinazy}</strong></div>
-                            </div>
-                            <div className={styles.underButton}>
-                            ostatnia aktualizacja:<div><strong>{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego}</strong></div>
-                            </div>
                         </div>
                     </div>
                 </div>
