@@ -24,13 +24,6 @@ const EditingActivity = () => {
     actualDate.setHours(viewedPlayer.currentActivity.czas_rozpoczęcia.split(':')[0]);
     actualDate.setMinutes(viewedPlayer.currentActivity.czas_rozpoczęcia.split(':')[1]);
     const [dates, setDates] = useState(actualDate);
-    const [time, setTime] = useState(() => {
-        const initialTime = new Date();
-        initialTime.setHours(viewedPlayer.currentActivity.czas_trwania.split(':')[0],
-        viewedPlayer.currentActivity.czas_trwania.split(':')[1],
-         0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
-        return initialTime;
-      });
     const [selectedTrenings, setSelectedTrenings] = useState([{name: viewedPlayer.currentActivity.rodzaj_aktywności, id: 0}]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [isAnotherExercise, setIsAnotherExercise] = useState(false);
@@ -88,7 +81,28 @@ const EditingActivity = () => {
     useEffect(() => {
         const selectedExercisesToSplit = viewedPlayer.currentActivity.zadania;
         const selectedExercisesArray = selectedExercisesToSplit?.split(",");
-        setSelectedExercises(selectedExercisesArray.map(exercise => { return { name: exercise, id: 0 }; }));
+        setSelectedExercises(selectedExercisesArray.map(exercise => {
+            const parts = exercise.split(":"); 
+            const name = parts[0]; 
+            let duration = null;
+            let repeats = null;
+            if (parts[1]) {
+                if (parts[1].includes('min.')) {
+                    duration = parts[1].replace(' min.', '');
+                } else if (parts[1].includes('x')) {
+                    repeats = parts[1].replace('x', '');
+                }
+            }
+            if (parts[2] && parts[2].includes('x')) {
+                repeats = parts[2].replace('x', '');
+            }
+            return {
+                name,
+                duration,
+                repeats,
+                id: 0
+            };
+        }));
     }, []);
 
 
@@ -216,16 +230,14 @@ const EditingActivity = () => {
         const activity = {
             date: getDateString(dates),
             start_time: getTimeString(dates),
-            duration: getTimeString(time),
             activity_type: selectedTrenings[0]?.name,
-            exercise: selectedExercises.map(exercise => exercise.name).join(','),
+            exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
             comment: comment
         };
         const { data, error } = await supabase
             .from('aktywności')
             .update({
                 data: activity.date,
-                czas_trwania: activity.duration,
                 rodzaj_aktywności: activity.activity_type,
                 zadania: activity.exercise,
                 czas_rozpoczęcia: activity.start_time,
@@ -260,6 +272,54 @@ const EditingActivity = () => {
             setSelectedExercises([{name: 'https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/' + data.path, id: 0}]);
         }
     }
+
+    const Activity = ({ exercise }) => {
+        const [duration, setDuration] = useState(exercise?.duration||'');
+        const [repeats, setRepeats] = useState(exercise?.repeats||'');
+        // Funkcja do aktualizacji liczby powtórzeń
+        const updateExercise = () => {
+            if(duration){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, duration: duration } // Zaktualizuj tylko czas trwania
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+            if(repeats){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, repeats: repeats } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+        };
+    
+        return (
+            <div>
+                <div>{exercise.name}</div>
+                <div className={styles.exercise_details}>
+                    <input
+                        type="number"
+                        placeholder='Czas trwania'
+                        value={duration}
+                        onChange={(e)=>setDuration(e.target.value)}
+                    />
+                    
+                    <input
+                        type="number"
+                        placeholder='Liczba powtórzeń'
+                        value={repeats}
+                        onChange={(e)=>setRepeats(e.target.value)}
+                    />
+                    <MdOutlineDone onClick={updateExercise} className={styles.add_button}/>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className={styles.background}>
@@ -313,6 +373,7 @@ const EditingActivity = () => {
                         placeholder='Wybierz ćwiczenia'
                         style={sharedStyles}
                     />
+                    {selectedExercises.map(exercise => <Activity exercise={exercise}/>)}
                 </div> ): selectedTrenings[0]?.name=== "Motoryczny" ? 
                     (
                         <>
@@ -336,11 +397,11 @@ const EditingActivity = () => {
                 </div>
                 :null}
                 
-                <div className={styles.input_container}>
+                {/* <div className={styles.input_container}>
                     Podaj czas trwania aktywności
                     <Calendar value={time} onChange={(e) => setTime(e.value)}  
                         stepMinute={5} timeOnly />
-                </div>
+                </div> */}
                 <div className={styles.input_container}>
                     <div>Komentarz</div>
                     <textarea

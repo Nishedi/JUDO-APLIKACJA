@@ -172,38 +172,40 @@ useEffect(() => {
 
                 {/* Lista spotkań */}
                 <div className={styles.matchList}>
-                    {notes.length > 0 ? (
-                            notes.map((note) => (
-                                <div 
-                                    key={note.id_notatki}
-                                    className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
-                                    onClick={() => toggleNote(note.id_notatki)}
-                                >
-                                    <div className={styles.matchHeader}>
-                                        <p>{new Date(note.data).toLocaleDateString()} r.</p>
-                                        
-                                        {/* Strzałka zależna od wyniku walki */}
-                                        {note.wynik === "wygrana" ? (
-                                            <span className={styles.resultEmoji} role="img" aria-label="wygrana">🏆</span> // Emoji pucharu dla wygranej
-                                        ) : note.wynik === "przegrana" ? (
-                                            <span className={styles.resultEmoji} role="img" aria-label="przegrana">❌</span> // Emoji krzyżyka dla przegranej /> //* Strzałka w dół dla przegranej */}
-                                        ) : (
-                                            <span>Brak wyniku</span>  //* W razie braku wyniku */}
-                                        )}
-                                        <button onClick={() => editButton(note)} className={styles.editbutton}>Edytuj</button>
-
-                                    </div>
-                                    {expandedNotes.includes(note.id_notatki) && (
-                                        <div className={styles.matchDetails}>
-                                            <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
-                                            <div className={styles.noteText}>{note.tresc}</div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))
-                        ) : (
-                            <p>Brak notatek dla tego wątku.</p>
+                {notes.length > 0 ? (
+    notes
+        .sort((a, b) => new Date(b.data) - new Date(a.data)) // Sortowanie od najmłodszej do najstarszej
+        .map((note) => (
+            <div 
+                key={note.id_notatki}
+                className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
+                onClick={() => toggleNote(note.id_notatki)}
+            >
+                <div className={styles.matchHeader}>
+                    <p>{new Date(note.data).toLocaleDateString()} r.</p>
+                    
+                    {/* Strzałka zależna od wyniku walki */}
+                    {note.wynik === "wygrana" ? (
+                        <span className={styles.resultEmoji} role="img" aria-label="wygrana">🏆</span>
+                    ) : note.wynik === "przegrana" ? (
+                        <span className={styles.resultEmoji} role="img" aria-label="przegrana">❌</span>
+                    ) : (
+                        <span> </span>
                     )}
+                    <button onClick={() => editButton(note)} className={styles.editbutton}>Edytuj</button>
+                </div>
+                {expandedNotes.includes(note.id_notatki) && (
+                    <div className={styles.matchDetails}>
+                        <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
+                        <div className={styles.noteText}>{note.tresc}</div>
+                    </div>
+                )}
+            </div>
+        ))
+) : (
+    <p>Brak notatek dla tego wątku.</p>
+)}
+
                 </div>
             </div>
         </div>

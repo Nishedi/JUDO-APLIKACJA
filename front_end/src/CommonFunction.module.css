@@ -6,3 +6,17 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  @media (max-width: 400px) {
+    .feelingsText {
+        display: none; /* Ukrywa span na ekranach mniejszych niż 400px */
+    }
+}
+
+@media (max-width: 400px) {
+  .feelingsEmoticon {
+    
+      font-size: 20px;
+  }
+}
+

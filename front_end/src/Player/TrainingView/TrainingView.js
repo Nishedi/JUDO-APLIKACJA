@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
-import { Calendar } from 'primereact/calendar';
 import { pickEmoticon, setMoodFromEmoticon } from '../../CommonFunction';
 import BackButton from '../../BackButton';
 
@@ -15,13 +14,6 @@ const TrainingView = () => {
   const [comment, setComment] = useState('');
   const { id } = useParams();
   const [activity, setActivity] = useState(null); 
-
-  const [time, setTime] = useState(() => {
-    const initialTime = new Date();
-    initialTime.setHours(0, 0, 0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
-    return initialTime;
-  });
-
   const navigate = useNavigate();
   
   // Pobieranie aktywności z bazy danych
@@ -50,15 +42,6 @@ const TrainingView = () => {
     fetchActivityFromDatabase(id);
   }, [id]);
 
-
-
-    const getTimeString = (time) => {
-      if (!time) return '';
-      const hours = time.getHours().toString().padStart(2, '0');
-      const minutes = time.getMinutes().toString().padStart(2, '0');
-      return `${hours}:${minutes}`;
-    };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
@@ -69,7 +52,6 @@ const TrainingView = () => {
           odczucia: selectedMood,
           komentarz_zawodnika: comment,
           status: trainingStatus,
-          czas_trwania: getTimeString(time),
         })
         .eq('id', activity.id);  // Warunek aktualizacji
 
@@ -98,7 +80,7 @@ const TrainingView = () => {
         <div className={styles.profilDiv}>
           <div>
             Trening 
-            <div style={{textTransform: 'uppercase'}}>{activity.rodzaj_aktywności}</div>
+            <div style={{textTransform: 'uppercase', whiteSpace: 'nowrap'}}>{activity.rodzaj_aktywności}</div>
           </div>
         </div>
       </div>
@@ -187,14 +169,6 @@ const TrainingView = () => {
             ))}
           </div>
         </div>
-        <div className={styles.line}></div>        
-        <div className={styles.input_container}>
-
-                    <p><strong>Czas trwania treningu</strong></p>
-                    <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
-        </div>
-
-        <div className={styles.line}></div>        
 
         <div className={styles.commentSection}>
           <label>Komentarz</label>

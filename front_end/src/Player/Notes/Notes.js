@@ -97,7 +97,7 @@ const Notes = () => {
                                     {thread.nazwa_watku}
                                 </div>
                                 <div className={styles.opponentDetails}>
-                                    Ostatnie spotkanie: <br />
+                                    {/* Ostatnie spotkanie: <br /> */}
                                     Bilans: {thread.liczba_wygranych + "/" + thread.liczba_przegranych}
                                 </div>
                             </div>

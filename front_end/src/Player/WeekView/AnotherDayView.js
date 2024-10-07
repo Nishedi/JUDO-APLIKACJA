@@ -65,7 +65,7 @@ const AnotherDayView = () => {
                     <h3>{activity.rodzaj_aktywności}</h3>
                     <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
                     <p>Status: <div><strong>{activity.status}</strong></div></p>
-                    <p>Czas trwania treningu: <div><strong>{activity.czas_trwania}</strong></div></p>
+                    {/* <p>Czas trwania treningu: <div><strong>{activity.czas_trwania}</strong></div></p> */}
                     <p >Odczucia: 
                         <GetFeelingsEmoticon
                             feelingsAfter={activity.odczucia}

@@ -36,8 +36,11 @@ const TrenerTrainingView = () => {
 
     useEffect(() => {
         getCurrentActivity();
-        splitThingsToDo();
+        
     }, []);
+    useEffect(() => {
+        splitThingsToDo();
+    }, [activity]);
 
     const deleteActivity = async () => {
         const { error } = await supabase
@@ -57,19 +60,12 @@ const TrenerTrainingView = () => {
     const editActivity = () => {
         navigate('/trener/editingactivity');
     }
-
-    const formatTime = (time) => {
-        const hour = time.split(":")[0];
-        const minute = time.split(":")[1];
-        return `${hour} godz. ${minute} min.`;
-    };
-
     return (
         <div className = {styles.background}>
             <div>
                 <div className={styles.navbar}>
                     <div className={styles.burger}>
-                        <BackButton/>
+                        <BackButton path={"/trener/singleplayersingleday"}/>
                     </div>
                     <div className={styles.profilDiv}>
                         <div  >
@@ -96,7 +92,7 @@ const TrenerTrainingView = () => {
                             <button 
                                 className={styles.buttonRozwin}
                                 onClick={() => {
-                                window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+                                window.open(activity.zadania);  // Przekierowanie
                             }}>Wyświetl szczegóły</button>
                             : (
                                 <ul>
@@ -149,8 +145,6 @@ const TrenerTrainingView = () => {
                             <FeelingsAfter  feelingsAfter={activity.odczucia} />
                         </div>
                         <div className={styles.line}></div>
-                        <p className={styles.oneline}><strong>Czas trwania:</strong> {formatTime(activity.czas_trwania)}</p>
-                            <div className={styles.line}></div>
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz zawodnika:</strong>
                                         <br/>

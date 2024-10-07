@@ -149,6 +149,12 @@ input, select{
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
+.trening {
+  white-space: nowrap; /* Zapobiega łamaniu tekstu */
+  overflow: hidden;    /* Ukrywa tekst, który nie mieści się w elemencie */
+  text-overflow: ellipsis; /* Dodaje wielokropek (...) na końcu, gdy tekst jest dłuższy */
+}
+
 .buttoncenter {
     display: flex;
     justify-content: center;

@@ -111,6 +111,7 @@
     font-size: 15px;
     font-family: 'Montserrat-Regular';
     margin: 5px;
+    gap: 10px;
   }
 
 .activity h3 {
@@ -146,10 +147,12 @@
 }
 
 .weekDayData{
-    font-size: 16px;
-    font-family: 'Montserrat-SemiBold';
+  font-size: clamp(12px, 2vw, 16px); /* Dynamiczna zmiana rozmiaru czcionki */
+  font-family: 'Montserrat-SemiBold';
+  text-overflow: ellipsis;
+  width: fit-content;
+  white-space: nowrap;
 }
-
 .name{
     display: flex;
     justify-content: flex-end;
@@ -174,4 +177,10 @@
   color: #103476; 
   font-size: 24px;
   padding-right: 5%;
+}
+
+.comment {
+  text-align: right; /* Wyrównuje tekst komentarza do prawej */
+  flex-grow: 1; /* Zapełnia przestrzeń po lewej stronie */
+  white-space: pre-wrap; /* Zachowuje spacje i nowe linie */
 }
