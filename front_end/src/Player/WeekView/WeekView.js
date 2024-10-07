@@ -139,17 +139,21 @@ const WeekView = () => {
                             })
                             .map((activity, index) => (
                                 <div className={styles.singleActivityInfo} key={index}>
-                                    <div>
+                                    <div >
                                         {activity.rodzaj_aktywności}
                                     </div>
                                     <div className={styles.singleActivity}>
-                                        <div>
-                                            {activity.czas_rozpoczęcia}
+                                        <div className={styles.emojiAndTime}>
+                                            <div className={styles.emojiContainer}>
+                                                <TreningStatusAndFeelingsAfter 
+                                                    treningStatus={activity.status}
+                                                    feelingsAfter={activity.odczucia}
+                                                />
+                                            </div>
+                                            <div className={styles.timeText}>
+                                                {activity.czas_rozpoczęcia}
+                                            </div>
                                         </div>
-                                        <TreningStatusAndFeelingsAfter 
-                                            treningStatus={activity.status}
-                                            feelingsAfter={activity.odczucia}
-                                        />
                                     </div>
                                 </div>
                             ))

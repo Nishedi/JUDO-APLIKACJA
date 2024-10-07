@@ -3,6 +3,7 @@ import React, { useContext, useState} from 'react';
 import styles from './AddingPlayer.module.css';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
+
 const AddingPlayerSecondPage = () => {
     const { newPlayer, globalVariable, supabase } = useContext(GlobalContext);
     const [login, setLogin] = useState("");

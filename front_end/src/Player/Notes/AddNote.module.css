@@ -83,6 +83,8 @@
     display: flex;
     gap: 10px;
     margin: 10px;
+    align-items: center;
+    position: relative;
 }
 
 .dateButton, .timeButton {
@@ -205,6 +207,7 @@
     display: flex;
     gap: 10px; /* Odstęp między pickerami daty i czasu */
     align-items: center;
+    position: relative; /* Dodane, aby kalendarz był wewnątrz kontenera */
 }
 
 .customDatePicker, .customTimePicker {
@@ -237,51 +240,62 @@
 }
 
 /* Zmiana stylu dla kalendarza */
-.react-datepicker {
-    border: 2px solid #103476;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+:global(.react-datepicker) {
+    border: 1px solid #103476 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    position: absolute !important; /* Dodano pozycjonowanie absolutne */
+    z-index: 1000 !important;
+    left: 0 !important;
+    transform: translateX(-68%) !important;
+    color: #D7DFEE !important;
 }
 
-.react-datepicker__header {
-    background-color: #103476;
+:global(.react-datepicker__header) {
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     border-bottom: none;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-family: 'Montserrat-SemiBold';
 }
 
-.react-datepicker__day {
-    font-family: 'Montserrat-Regular';
-    color: #103476;
-}
-
-.react-datepicker__day:hover {
-    background-color: #D7DFEE;
-}
-
-.react-datepicker__day--selected {
-    background-color: #103476;
-    color: white;
-}
-
-.react-datepicker__current-month {
-    font-family: 'Montserrat-SemiBold';
-}
-
-.react-datepicker__navigation {
-    top: 15px;
-}
-
-.react-datepicker__time-container .react-datepicker__time {
-    background-color: #F0F4F8;
-}
-
-.react-datepicker__time-list-item {
+:global(.react-datepicker__day) {
     font-family: 'Montserrat-Medium';
     color: #103476;
 }
 
-.react-datepicker__time-list-item--selected {
+:global(.react-datepicker__day:hover) {
+    background-color: #D7DFEE;
+}
+
+:global(.react-datepicker__day--selected) {
+    background-color: #103476;
+    color: white;
+}
+
+:global(.react-datepicker__current-month) {
+    font-family: 'Montserrat-Medium';
+    color: #fff;
+}
+
+:global(.react-datepicker__day-name) {
+    font-family: 'Montserrat-Medium';
+    color: #fff;
+}
+
+:global(.react-datepicker__navigation) {
+    top: 2px;
+}
+
+:global(.react-datepicker__time-container .react-datepicker__time) {
+    background-color: #F0F4F8;
+}
+
+:global(.react-datepicker__time-list-item) {
+    font-family: 'Montserrat-Medium';
+    color: #103476;
+}
+
+:global(.react-datepicker__time-list-item--selected) {
     background-color: #1D61DC;
     color: #FFFFFF;
 }
@@ -313,4 +327,14 @@
 .react-datepicker__time-list-item--selected {
     background-color: #1D61DC;
     color: white;
+}
+
+/* Media Queries dla małych ekranów */
+@media (max-width: 768px) {
+    .react-datepicker {
+        left: 0;
+        transform: none; /* Wyłączenie translate dla mniejszych ekranów */
+        width: 100%; /* Szerokość kalendarza na pełny ekran */
+        top: 40px;
+    }
 }

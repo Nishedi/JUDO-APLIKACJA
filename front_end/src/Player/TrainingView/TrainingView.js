@@ -79,7 +79,8 @@ const TrainingView = () => {
         </div>
         <div className={styles.profilDiv}>
           <div>
-            Trening <div className={styles.trening}>{activity.rodzaj_aktywności}</div>
+            Trening 
+            <div style={{textTransform: 'uppercase'}}>{activity.rodzaj_aktywności}</div>
           </div>
         </div>
       </div>
@@ -91,38 +92,39 @@ const TrainingView = () => {
             { activity.zadania ? (
               activity.rodzaj_aktywności === 'Motoryczny' ?
               <button 
-                className={styles.buttonRozwin}
-                onClick={() => {
-                window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
-              }}>Wyświetl szczegóły
+                  className={styles.buttonRozwin}
+                  onClick={() => {
+                  window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
+              }}>
+                  Wyświetl szczegóły
               </button>
               :
               <ul>
-              {activity.zadania.split(',').map((task, index) => {
-                  // Podziel zadanie na części na podstawie dwukropka ":"
-                  const parts = task.split(":");
-          
-                  return (
-                      <li key={index}>
-                          {parts.length === 1 && (
-                              // Jeśli jest tylko jedna część
-                              <strong>{parts[0]}</strong>
-                          )}
-                          {parts.length === 2 && (
-                              // Jeśli są dwie części, wyświetl je z dwukropkiem pomiędzy
-                              <>
-                                  <strong>{parts[0]}</strong>: {parts[1]}
-                              </>
-                          )}
-                          {parts.length === 3 && (
-                              // Jeśli są trzy części, wyświetl każdą część
-                              <>
-                                  <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
-                              </>
-                          )}
-                      </li>
-                  );
-              })}
+                {activity.zadania.split(',').map((task, index) => {
+                    // Podziel zadanie na części na podstawie dwukropka ":"
+                    const parts = task.split(":");
+            
+                    return (
+                        <li key={index}>
+                            {parts.length === 1 && (
+                                // Jeśli jest tylko jedna część
+                                <strong>{parts[0]}</strong>
+                            )}
+                            {parts.length === 2 && (
+                                // Jeśli są dwie części, wyświetl je z dwukropkiem pomiędzy
+                                <>
+                                    <strong>{parts[0]}</strong>: {parts[1]}
+                                </>
+                            )}
+                            {parts.length === 3 && (
+                                // Jeśli są trzy części, wyświetl każdą część
+                                <>
+                                    <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                                </>
+                            )}
+                        </li>
+                    );
+                })}
           </ul>
           
             ) : (

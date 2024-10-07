@@ -134,13 +134,18 @@ const SinglePlayerWeekView = () => {
                             <div className={styles.singleActivityInfo} key={index}>
                                 <div>{activity.rodzaj_aktywności}</div>
                                 <div className={styles.singleActivity}>
-                                <TreningStatusAndFeelingsAfter
-                                        treningStatus={activity.status}
-                                        feelingsAfter={activity.odczucia}
-                                    />
-                                    <div>{activity.czas_rozpoczęcia}</div>
-                                    
-                                </div>
+                                        <div className={styles.emojiAndTime}>
+                                            <div className={styles.emojiContainer}>
+                                                <TreningStatusAndFeelingsAfter 
+                                                    treningStatus={activity.status}
+                                                    feelingsAfter={activity.odczucia}
+                                                />
+                                            </div>
+                                            <div className={styles.timeText}>
+                                                {activity.czas_rozpoczęcia}
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         ))}
                     </div>
@@ -228,8 +233,11 @@ const SinglePlayerWeekView = () => {
                             </div>
                         </div>
                         <div className={styles.optionalStats}>
-                            <div>Kwas mlekowy:</div>
-                            <div className={styles.singleActivity}>
+                            <div 
+                                style={{whiteSpace: 'nowrap'}}>
+                                    Kwas mlekowy:
+                            </div>
+                            <div className={styles.singleActivityInfo}>
                                 <div><strong>{viewedPlayer.kwas_mlekowy}</strong></div>
                             </div>
                         </div>

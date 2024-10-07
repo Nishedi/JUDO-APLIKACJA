@@ -59,7 +59,7 @@ function App() {
           <Route path = "trener/playerprofileedition" element = {<PlayerProfileEdition />} />
           <Route path = "player/anotherdayview" element = {<AnotherDayView />} />
           <Route path = "trener/playerpass" element = {<PlayerPass />} />
-          <Route path = "createtrener" element = {<CreateTrener />} />
+          <Route path = "trener/createtrener" element = {<CreateTrener />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

@@ -70,7 +70,7 @@ const SimpleInfo = ({ player, onClick }) => {
                 {player.imie} {player.nazwisko}
             </div>
             <div className={styles2.subString}>
-            Stran treningów:
+            Stan treningów:
                 <div className={styles2.emoticones}>
                 {currentDayActivities?.length !== 0 ? (
                     currentDayActivities?.map((activity, index) => (
