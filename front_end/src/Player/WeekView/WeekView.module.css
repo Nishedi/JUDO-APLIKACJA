@@ -221,14 +221,20 @@
     column-gap: auto;
 } */
 
+.activityType {
+    display: flex;
+    justify-content: flex-start;
+    width: 75%;
+    font-family: 'Roboto-Regular';
+}
+
 .singleActivity {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     text-align: right;
-    justify-content: flex-end;
 
 }
 
@@ -238,11 +244,13 @@
     /* justify-content: space-between; Równomierne rozłożenie aktywności */
     width: 100%;
     font-size: 14px;
-    font-family: 'Montserrat-Medium';
-    text-transform: lowercase;
+    font-family: 'Roboto-Regular';
+    /* text-transform: lowercase; */
     white-space: nowrap; /* Nie przerywać tekstu */
     text-align: right;
+    gap: 5px; /* Dystans między elementami */
 }
+
 
 /* .singleActivityInfo{
     display: flex;
@@ -259,16 +267,17 @@
     justify-content: flex-end; /* Wyrównuje wszystko do prawej */
     align-items: center;
     gap: 10px; /* Dystans między emotką a godziną */
+    width: 25%;
 }
 
 .emojiContainer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 30px; /* Ustalona szerokość kontenera dla emotek */
+    width: 40%; /* Ustalona szerokość kontenera dla emotek */
 }
 .timeText {
     font-size: 16px;
-    text-align: right;
+    text-align: left;
     width: 40px; /* Ustalona szerokość kontenera dla godzin */
 }
