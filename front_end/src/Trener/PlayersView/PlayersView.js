@@ -18,7 +18,7 @@ const PlayersView = () => {
             .from('zawodnicy')
             .select('*')
             .eq('id_trenera', globalVariable.id)
-            .order('nazwisko', {ascending: true});
+            .order('imie', {ascending: true});
         if(zawodnicy && zawodnicy.length!==0){
             setPlayers(zawodnicy);
         }

@@ -4,6 +4,7 @@ import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
+import {TreningStatusAndFeelingsAfter} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const SinglePlayerWeekView = () => {
@@ -102,34 +103,6 @@ const SinglePlayerWeekView = () => {
         return weeklyActivities.filter(activity => activity.data === formatedDate);
     };
 
-    const TreningStatusAndFeelingsAfter = ({ treningStatus, feelingsAfter }) => {
-        const getStatusEmoticon = (treningStatus) => {
-            switch (treningStatus) {
-                case 'Nierozpoczęty': return '⏳';
-                case 'Zrealizowany': return '✅';
-                case 'Niezrealizowany': return '❌';
-                default: return '🤷';
-            }
-        };
-        const getFeelingsEmoticon = (feelingsAfter) => {
-            switch (feelingsAfter) {
-                case 'Bardzo źle': return '😢';
-                case 'Źle': return '😕';
-                case 'Neutralnie': return '😐';
-                case 'Dobrze': return '🙂';
-                case 'Bardzo dobrze': return '😁';
-                default: return null;
-            }
-        };
-
-        return (
-            <div>
-                {feelingsAfter ? <span> {getFeelingsEmoticon(feelingsAfter)}</span> : null}
-                <span>{getStatusEmoticon(treningStatus)}</span>
-            </div>
-        );
-    };
-
     const goToSinglePlayerSingleDay = (date) => {
         setViewedPlayer({ ...viewedPlayer, currentDate: date });
         navigate('/trener/singleplayersingleday');
@@ -151,7 +124,7 @@ const SinglePlayerWeekView = () => {
             className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
             >
                 <div>
-                    <p>{day}, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
+                <p><span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
                 <div>
                         {activities.sort((a, b) => {
                             const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);

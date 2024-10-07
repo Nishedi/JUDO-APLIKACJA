@@ -99,7 +99,7 @@ export const TreningStatusAndFeelingsAfter = ({ treningStatus, feelingsAfter }) 
             case 'Dobrze':
                 return '🙂';  // Dobrze
             case 'Bardzo dobrze':
-                return '😁';  // Bardzo dobrze
+                return '😊';  // Bardzo dobrze
             default:
                 return '';  // Brak emotikony, jeśli nie ma odczuć
         }
@@ -166,7 +166,7 @@ export const setMoodFromEmoticon = (feelingsAfter, setSelectedMood) => {
             case 'Dobrze':
                 return '🙂';  // Dobrze
             case 'Bardzo dobrze':
-                return '😁';  // Bardzo dobrze
+                return '😊';  // Bardzo dobrze
             default:
                 return '';  // Brak emotikony, jeśli nie ma odczuć
         }
@@ -174,8 +174,8 @@ export const setMoodFromEmoticon = (feelingsAfter, setSelectedMood) => {
 
     return (
         <div className={styles.emotki}>
-            <span style={{ marginRight: '10px' }}> {feelingsAfter} </span>
-            <span style={{ verticalAlign: 'middle' }}> {getFeelingsEmoticon(feelingsAfter)} </span> 
+            <span className={styles.feelingsText} style={{ marginRight: '10px' }}> {feelingsAfter} </span>
+            <span className={styles.feelingsEmoticon} style={{ verticalAlign: 'middle' }}> {getFeelingsEmoticon(feelingsAfter)} </span>
         </div>
     );
 };

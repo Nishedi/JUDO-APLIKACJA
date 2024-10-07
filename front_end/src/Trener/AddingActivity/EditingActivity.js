@@ -336,11 +336,11 @@ const EditingActivity = () => {
                 </div>
                 :null}
                 
-                <div className={styles.input_container}>
+                {/* <div className={styles.input_container}>
                     Podaj czas trwania aktywności
                     <Calendar value={time} onChange={(e) => setTime(e.value)}  
                         stepMinute={5} timeOnly />
-                </div>
+                </div> */}
                 <div className={styles.input_container}>
                     <div>Komentarz</div>
                     <textarea

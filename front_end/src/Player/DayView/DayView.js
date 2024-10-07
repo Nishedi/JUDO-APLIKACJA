@@ -145,14 +145,13 @@ const DayView = () => {
                 <div>
                     <h3>{activity.rodzaj_aktywności}</h3>
                     <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
-                    <p>Czas trwania treningu: <div><strong>{activity.czas_trwania}</strong></div> </p>
                     <p>Status: <div><strong>{activity.status}</strong></div></p>
                     <p >Odczucia: 
                         <GetFeelingsEmoticon
                             feelingsAfter={activity.odczucia}
                         />
                     </p>
-                    <p>Komentarz: <div>{activity.komentarz_zawodnika}</div></p>
+                    <p>Komentarz: <div className={styles.comment}>{activity.komentarz_trenera}</div></p>
                 </div>
                 <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
             </div>

@@ -57,13 +57,6 @@ const TrenerTrainingView = () => {
     const editActivity = () => {
         navigate('/trener/editingactivity');
     }
-
-    const formatTime = (time) => {
-        const hour = time.split(":")[0];
-        const minute = time.split(":")[1];
-        return `${hour} godz. ${minute} min.`;
-    };
-
     return (
         <div className = {styles.background}>
             <div>
@@ -149,8 +142,6 @@ const TrenerTrainingView = () => {
                             <FeelingsAfter  feelingsAfter={activity.odczucia} />
                         </div>
                         <div className={styles.line}></div>
-                        <p className={styles.oneline}><strong>Czas trwania:</strong> {formatTime(activity.czas_trwania)}</p>
-                            <div className={styles.line}></div>
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz zawodnika:</strong>
                                         <br/>

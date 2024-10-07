@@ -18,11 +18,6 @@ const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
     const { globalVariable, supabase } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
-    const [time] = useState(() => {
-        const initialTime = new Date();
-        initialTime.setHours(0, 0, 0, 0); // Ustawiamy godziny, minuty, sekundy i milisekundy na 0
-        return initialTime;
-      });
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrenings, setSelectedTrenings] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -264,9 +259,8 @@ const AddingActivityFirstPage = () => {
                     id_athlete: athlete.id,
                     date: getDateString(date),
                     start_time: getTimeString(date),
-                    duration: getTimeString(time),
                     activity_type: selectedTrenings[0]?.name,
-                    exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
+                    exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
                     comment: comment
                 };
                 const { data, error } = await supabase
@@ -332,6 +326,7 @@ const AddingActivityFirstPage = () => {
                         value={duration}
                         onChange={(e)=>setDuration(e.target.value)}
                     />
+                    
                     <input
                         type="number"
                         placeholder='Liczba powtórzeń'
@@ -377,7 +372,7 @@ const AddingActivityFirstPage = () => {
         <div className={styles.background}>
                 <div className={styles.navbar}>
                     <div className={styles.toLeft}><BackButton/></div>
-                    <div>Nowa Aktywność</div>
+                    <div>Nowa aktywność</div>
                 </div>
                 <div className={styles.white_container}>
                       {/* Sekcja z błędem głównym */}
@@ -468,7 +463,7 @@ const AddingActivityFirstPage = () => {
                                     }
                                 }}
                             />
-                                {selectedExercises.map(exercise => <div key={exercise.id}>{exercise.name}</div>)}
+                                {selectedExercises.map(exercise => <Activity exercise={exercise}/>)}
                                 {errors.selectedExercises && <div className={styles.error_message}>{errors.selectedExercises}</div>}
                             </div>
                         ) : selectedTrenings[0]?.name=== "Motoryczny" ? 
@@ -510,7 +505,7 @@ const AddingActivityFirstPage = () => {
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz komentarz"
                             />
-                            <button onClick={addHeaders}>Dodaj nagłówki aktywności do komentarza</button>
+                            <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
                         </div>
                         <button onClick={addActivities} className={styles.button}>Dodaj</button>
                 </div>

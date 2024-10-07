@@ -114,7 +114,7 @@
 
 .weekDay p{
     font-family: 'Montserrat-Medium';
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 15px;
     color: #000000;
     margin: 0;
@@ -265,3 +265,4 @@
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }
+

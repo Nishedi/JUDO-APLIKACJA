@@ -44,6 +44,18 @@
   width: fit-content; /* Dopasowuje szerokość do treści */
 }
 
+.commentContainer {
+  display: flex;
+  justify-content: space-between; /* Rozstawia elementy po przeciwnych stronach */
+  align-items: center; /* Wyrównuje elementy pionowo na środku (opcjonalne) */
+}
+
+.comment {
+  text-align: right; /* Wyrównuje tekst komentarza do prawej */
+  flex-grow: 1; /* Zapełnia przestrzeń po lewej stronie */
+  white-space: pre-wrap; /* Zachowuje spacje i nowe linie */
+}
+
  .text p {
     color: #000000;
     font-size: 15px;
@@ -97,6 +109,7 @@
   font-size: 15px;
   font-family: 'Montserrat-Regular';
   margin: 5px;
+  gap: 10px;
 }
 
 .activity h3 {
