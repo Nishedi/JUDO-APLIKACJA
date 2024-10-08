@@ -87,52 +87,56 @@ const TrainingView = () => {
       <div className={styles.trainingDetails}>
         <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
         <div className={styles.line}></div>        
-      <div>
-          <p><strong>Zadania do wykonania:</strong></p>
-          <ul>
-            { activity.zadania ? (
-              activity.rodzaj_aktywności === 'Motoryczny' ?
-              <button 
-                  className={styles.buttonRozwin}
-                  onClick={() => {
-                  window.open("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/trening2482024183939795.pdf");  // Przekierowanie
-              }}>
-                  Wyświetl szczegóły
-              </button>
-              :
-              <ul>
-                {activity.zadania.split(',').map((task, index) => {
-                    // Podziel zadanie na części na podstawie dwukropka ":"
-                    const parts = task.split(":");
+      {activity.rodzaj_aktywności === 'Fizjoterapia' ? 
+        <div> Fizjoterapia </div>
+        :
+        <div>
+            <p><strong>Zadania do wykonania:</strong></p>
+            <ul>
+              { activity.zadania ? (
+                activity.rodzaj_aktywności === 'Motoryczny' ?
+                <button 
+                    className={styles.buttonRozwin}
+                    onClick={() => {
+                    window.open(activity.zadania);  // Przekierowanie
+                }}>
+                    Wyświetl szczegóły
+                </button>
+                :
+                <ul>
+                  {activity.zadania.split(',').map((task, index) => {
+                      // Podziel zadanie na części na podstawie dwukropka ":"
+                      const parts = task.split(":");
+              
+                      return (
+                          <li key={index}>
+                              {parts.length === 1 && (
+                                  // Jeśli jest tylko jedna część
+                                  <strong>{parts[0]}</strong>
+                              )}
+                              {parts.length === 2 && (
+                                  // Jeśli są dwie części, wyświetl je z dwukropkiem pomiędzy
+                                  <>
+                                      <strong>{parts[0]}</strong>: {parts[1]}
+                                  </>
+                              )}
+                              {parts.length === 3 && (
+                                  // Jeśli są trzy części, wyświetl każdą część
+                                  <>
+                                      <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                                  </>
+                              )}
+                          </li>
+                      );
+                  })}
+            </ul>
             
-                    return (
-                        <li key={index}>
-                            {parts.length === 1 && (
-                                // Jeśli jest tylko jedna część
-                                <strong>{parts[0]}</strong>
-                            )}
-                            {parts.length === 2 && (
-                                // Jeśli są dwie części, wyświetl je z dwukropkiem pomiędzy
-                                <>
-                                    <strong>{parts[0]}</strong>: {parts[1]}
-                                </>
-                            )}
-                            {parts.length === 3 && (
-                                // Jeśli są trzy części, wyświetl każdą część
-                                <>
-                                    <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
-                                </>
-                            )}
-                        </li>
-                    );
-                })}
-          </ul>
-          
-            ) : (
-              <li>Brak zadań do wykonania</li>
-            )}
-          </ul>
-        </div>
+              ) : (
+                <li>Brak zadań do wykonania</li>
+              )}
+            </ul>
+          </div>
+        }
 
         <div className={styles.line}></div>        
         <div className={styles.trainerComment}>

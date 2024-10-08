@@ -14,6 +14,7 @@ const EditNote = () => {
     const [selectedDate, setSelectedDate] = useState(globalVariable.notatka.data);
     const [activeStatus, setActiveStatus] = useState(globalVariable.notatka.wynik);
     const [noteText, setNoteText] = useState(globalVariable.notatka.tresc);
+    const [firstStatus] = useState(globalVariable.notatka.wynik);
     const navigate = useNavigate();
 
     // Funkcje zmieniające datę i czas
@@ -32,8 +33,6 @@ const EditNote = () => {
     
     const addNote = async () => {
         const watek = globalVariable.watek
-        const notatka = globalVariable.notatka
-        console.log(globalVariable.notatka, globalVariable.watek)
         const { error } = await supabase
         .from('notatki')
         .update([
@@ -49,6 +48,29 @@ const EditNote = () => {
             console.log('error', error)
             return;
         }
+        if(firstStatus === 'wygrana'){
+            const { error } = await supabase
+            .from('watki_notatki')
+            .update({ liczba_wygranych: watek.liczba_wygranych-1 })
+            .eq('id_watku', watek.id_watku)
+            .select()
+            if(error){
+                console.log('error', error)
+                return;
+            }
+        }
+        if(firstStatus === 'przegrana'){
+            const { error } = await supabase
+            .from('watki_notatki')
+            .update({ liczba_przegranych: watek.liczba_przegranych-1 })
+            .eq('id_watku', watek.id_watku)
+            .select()
+            if(error){
+                console.log('error', error)
+                return;
+            }
+        }
+
         if (activeStatus === 'wygrana') {
             const { error } = await supabase
                 .from('watki_notatki')
@@ -72,7 +94,6 @@ const EditNote = () => {
 
     const deleteNote = async () => {
         const watek = globalVariable.watek
-        console.log(globalVariable.notatka.id_notatki)
         const { error } = await supabase
         .from('notatki')
         .delete()
@@ -83,6 +104,31 @@ const EditNote = () => {
             alert('Nie udało się usunąć notatki')
             return;
         }
+        if(activeStatus === 'wygrana'){
+            const { error } = await supabase
+            .from('watki_notatki')
+            .update({ liczba_wygranych: watek.liczba_wygranych-1 })
+            .eq('id_watku', watek.id_watku)
+            .select()
+            if(error){
+                console.log('error', error)
+                alert('Nie udało się ustawić poprawnego statusu walk')
+                return;
+            }
+        }
+        if(activeStatus === 'przegrana'){
+            const { error } = await supabase
+            .from('watki_notatki')
+            .update({ liczba_przegranych: watek.liczba_przegranych-1 })
+            .eq('id_watku', watek.id_watku)
+            .select()
+            if(error){
+                console.log('error', error)
+                alert('Nie udało się ustawić poprawnego statusu walk')
+                return;
+            }
+        }
+
         navigate(`/player/notesopponent/${watek.id_watku}`);
     }
 

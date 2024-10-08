@@ -16,6 +16,7 @@ import 'primeicons/primeicons.css';                        // Ikony
 
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
+    const [isUploading, setIsUploading] = useState(false);
     const { globalVariable, supabase } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -245,7 +246,7 @@ const AddingActivityFirstPage = () => {
     };
 
     const addActivities = async () => {
-
+        if (isUploading) return;
         const formErrors = validateForm();
         console.log(formErrors);
 
@@ -342,6 +343,7 @@ const AddingActivityFirstPage = () => {
     
 
     const addPDF = async (e) => {
+        setIsUploading(true);
         let file = e.target.files[0];
         const suffix =new Date().getDate()+""+new Date().getMonth()+""+new Date().getFullYear()+""+
         new Date().getHours()+""+new Date().getMinutes()+""+ new Date().getSeconds()
@@ -356,6 +358,7 @@ const AddingActivityFirstPage = () => {
         if (data) {
             setSelectedExercises([{name: 'https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/treningipdf/' + data.path, id: 0}]);
         }
+        setIsUploading(false);
     }
 
     const addHeaders = () => {
@@ -470,9 +473,9 @@ const AddingActivityFirstPage = () => {
                             </div>
                         ) : selectedTrenings[0]?.name=== "Motoryczny" ? 
                             (
-                                <>
-                                <input type="file" onChange={addPDF} accept="application/pdf"/>
-                                </> 
+                                <div className={styles.input_container}>
+                                <input className={styles.pickPDF} type="file" onChange={addPDF} accept="application/pdf"/>
+                                </div> 
                             ) 
                             : null
                         }
@@ -509,7 +512,9 @@ const AddingActivityFirstPage = () => {
                             />
                             <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
                         </div>
-                        <button onClick={addActivities} className={styles.button}>Dodaj</button>
+                        <button onClick={addActivities} className={styles.button} disabled={isUploading}>
+                            {isUploading ? 'Przesyłanie pliku...' : 'Dodaj'}
+                        </button>
                 </div>
             </div>
         </div>

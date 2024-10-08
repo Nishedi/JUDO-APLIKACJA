@@ -85,6 +85,8 @@ const TrenerTrainingView = () => {
                             <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
                             <div className={styles.line}></div>
 
+                        {activity.rodzaj_aktywności === 'Fizjoterapia' 
+                        ? <div>Fizjoterapia</div>   :
                         <div>
                             <p><strong>Zadania do wykonania:</strong></p>
                             {/* Tutaj połączone z bazą - to co trener wskaże! */}
@@ -120,7 +122,8 @@ const TrenerTrainingView = () => {
                                 </ul>
 
                             )}
-                        </div>                  
+                        </div> 
+                        }                 
                         <div className={styles.line}></div>
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz trenera:</strong>

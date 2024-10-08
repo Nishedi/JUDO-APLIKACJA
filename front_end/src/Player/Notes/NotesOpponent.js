@@ -1,9 +1,10 @@
 import styles from './NotesOpponent.module.css';
 import React, {useContext, useEffect, useState} from 'react';
-import { FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { FaPlus, FaRegEdit, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../GlobalContext';
 import BackButton from '../../BackButton';
+import EditingModal from './EditingModal';
 
 const NotesOpponent = () => {
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
@@ -12,6 +13,7 @@ const NotesOpponent = () => {
     const [threadDetails, setThreadDetails] = useState(null); // Stan do przechowywania szczegółów wątku
     const [expandedNotes, setExpandedNotes] = useState([]); // Dodaj stan do przechowywania ID rozwiniętej notatki
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     // Pobieranie notatek z Supabase przy montowaniu komponentu
     useEffect(() => {
@@ -127,6 +129,27 @@ useEffect(() => {
             navigate('/player/notes');
         }
     }
+
+    const handleEditThread = async () => {
+        const { nazwa_watku, liczba_wygranych, liczba_przegranych } = threadDetails;
+        if (!nazwa_watku) {
+            alert('Proszę wypełnić pole z nazwą wątku');
+            return;
+        }
+        const { data, error } = await supabase
+            .from('watki_notatki')
+            .update({
+                nazwa_watku: nazwa_watku,
+                liczba_wygranych: liczba_wygranych,
+                liczba_przegranych: liczba_przegranych
+            })
+            .eq('id_watku', id_watku)
+            .select();
+
+        if (error) {
+            console.error('Błąd podczas edytowania wątku: HANDLETHREAD ', error);
+        }
+    };
         
 
     return (
@@ -155,6 +178,7 @@ useEffect(() => {
                 </div>
                 <div className={styles.clickers}> 
                     <button onClick={handleEditClick} className={styles.addNoteButton}><FaPlus/></button>
+                    <button onClick={()=>setIsEditModalOpen(true)} className={styles.addNoteButton}><FaRegEdit/></button>
                     <button onClick={()=>setIsModalOpen(true)} className={styles.addNoteButton}><FaTrashAlt/></button>
                 </div>
                 </div>
@@ -168,6 +192,15 @@ useEffect(() => {
                             </div>
                         </div>
                     </div>
+                )}
+                
+                {isEditModalOpen && (
+                        <EditingModal
+                            newThread={threadDetails}
+                            setNewThread={setThreadDetails}
+                            handleEditThread={handleEditThread}
+                            onClose={() => setIsEditModalOpen(false)}
+                        />
                 )}
 
                 {/* Lista spotkań */}

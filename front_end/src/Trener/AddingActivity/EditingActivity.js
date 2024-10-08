@@ -16,7 +16,7 @@ import 'primeicons/primeicons.css';                        // Ikony
 
 const EditingActivity = () => {
     const navigate = useNavigate();
-    const { supabase, viewedPlayer } = useContext(GlobalContext);
+    const { supabase, viewedPlayer, setViewedPlayer } = useContext(GlobalContext);
     const actualDate = new Date();
     actualDate.setDate(viewedPlayer.currentActivity.data.split('.')[0]);
     actualDate.setMonth(viewedPlayer.currentActivity.data.split('.')[1]-1);
@@ -81,7 +81,7 @@ const EditingActivity = () => {
     useEffect(() => {
         const selectedExercisesToSplit = viewedPlayer.currentActivity.zadania;
         const selectedExercisesArray = selectedExercisesToSplit?.split(",");
-        setSelectedExercises(selectedExercisesArray.map(exercise => {
+        setSelectedExercises(selectedExercisesArray.map((exercise, index) => {
             const parts = exercise.split(":"); 
             const name = parts[0]; 
             let duration = null;
@@ -100,7 +100,7 @@ const EditingActivity = () => {
                 name,
                 duration,
                 repeats,
-                id: 0
+                id: index
             };
         }));
     }, []);
@@ -251,6 +251,14 @@ const EditingActivity = () => {
             return;
         }
         if(data && data.length !== 0){
+            setViewedPlayer(prevState => {
+                return {
+                    ...prevState,
+                    currentActivity: data[0]
+                }
+            });
+
+
             navigate('/trener/trainingview');
         };
         
@@ -278,7 +286,7 @@ const EditingActivity = () => {
         const [repeats, setRepeats] = useState(exercise?.repeats||'');
         // Funkcja do aktualizacji liczby powtórzeń
         const updateExercise = () => {
-            if(duration){
+            if(duration||duration===''){
                 setSelectedExercises((prevExercises) =>
                     prevExercises.map((item) =>
                         item.id === exercise.id
@@ -287,7 +295,7 @@ const EditingActivity = () => {
                     )
                 );
             }
-            if(repeats){
+            if(repeats||repeats===''){
                 setSelectedExercises((prevExercises) =>
                     prevExercises.map((item) =>
                         item.id === exercise.id
@@ -306,7 +314,7 @@ const EditingActivity = () => {
                         type="number"
                         placeholder='Czas trwania'
                         value={duration}
-                        onChange={(e)=>setDuration(e.target.value)}
+                        onChange={(e)=>{setDuration(e.target.value);console.log(e.target.value)}}
                     />
                     
                     <input

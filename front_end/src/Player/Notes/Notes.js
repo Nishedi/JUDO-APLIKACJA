@@ -57,7 +57,7 @@ const Notes = () => {
         if (error) {
             console.error('Błąd podczas dodawania przeciwnika: HANDLETHREAD ', error);
         } else {
-            setThreads([data[0], ...threads]);
+            setThreads([data[0],...threads]);
             setNewThread({ nazwa_watku: '', id_zawodnika: '', liczba_wygranych: 0, liczba_przegranych: 0});
             setIsModalVisible(false); // Zamykanie modala po dodaniu wątku
         }
@@ -97,7 +97,7 @@ const Notes = () => {
                                     {thread.nazwa_watku}
                                 </div>
                                 <div className={styles.opponentDetails}>
-                                    {/* Ostatnie spotkanie: <br /> */}
+                                    Ostatnie spotkanie: <br />
                                     Bilans: {thread.liczba_wygranych + "/" + thread.liczba_przegranych}
                                 </div>
                             </div>
