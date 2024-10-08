@@ -87,7 +87,7 @@ const SimpleInfo = ({ player, onClick }) => {
                 Samopoczucie: <GetFeelingsEmoticon feelingsAfter={stats?.samopoczucie}/>
             </div>
             <div className={styles2.subString}>
-                Waga: <div>{stats?.waga || "----" }</div>
+                Waga: <div><strong>{stats && stats.waga ? `${stats.waga} kg` : "----"}</strong></div>
             </div>
         </div>
     );

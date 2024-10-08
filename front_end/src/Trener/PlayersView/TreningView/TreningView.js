@@ -12,6 +12,7 @@ const TrenerTrainingView = () => {
     const { viewedPlayer } = useContext(GlobalContext);
     const [activity, setActivity] = useState(viewedPlayer.currentActivity);
     const [thingsToDo, setThingsToDo] = useState(["bład","błąd"]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const splitThingsToDo = () => {
@@ -86,7 +87,7 @@ const TrenerTrainingView = () => {
                             <div className={styles.line}></div>
 
                         {activity.rodzaj_aktywności === 'Fizjoterapia' 
-                        ? <div>Fizjoterapia</div>   :
+                        ? <div className={styles.physioterapy}>Fizjoterapia</div>   :
                         <div>
                             <p><strong>Zadania do wykonania:</strong></p>
                             {/* Tutaj połączone z bazą - to co trener wskaże! */}
@@ -159,12 +160,23 @@ const TrenerTrainingView = () => {
                     
                 </div>
             </div>
+            {isModalOpen && (
+                    <div className={styles.modal_overlay}>
+                        <div className={styles.modal_content}>
+                            <h2>Czy na pewno chcesz usunąć tą aktywność?</h2>
+                            <div className={styles.modal_buttons}>
+                                <button onClick={deleteActivity}>Tak</button>
+                                <button onClick={()=>setIsModalOpen(false)}>Nie</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
       <div className={styles.buttons}>
       <div className={styles.buttoncenter}>
             <button className={styles.buttonTrening} onClick={editActivity} >Edytuj</button>
         </div>
         <div className={styles.buttoncenter}>
-            <button className={styles.buttonTrening} onClick={deleteActivity} >Usuń</button>
+            <button className={styles.buttonTrening} onClick={()=>setIsModalOpen(true)} >Usuń</button>
         </div>
         </div>
     </div>

@@ -158,13 +158,13 @@ const SinglePlayerSingleDayView = () => {
                         {/* <StatsInput onSubmit={handleStatsSubmit} initialData={stats} /> */}
                             <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
                             <div className = {styles.text}>
-                                <p>Tętno: <div><strong>{stats?.tętno || ""}</strong></div></p>
+                                <p>Tętno: <div><strong>{stats && stats.tętno ? `${stats.tętno} PRbmp` : ""}</strong></div></p>
                                 <p className={styles.oneline}>Samopoczucie: 
                                 <GetFeelingsEmoticon 
                                     feelingsAfter={stats?.samopoczucie || ""} 
                                         />
                                 </p> 
-                                <p>Waga: <div><strong>{stats?.waga || ""}</strong></div></p>
+                                <p>Waga: <div><strong>{stats && stats.waga ? `${stats.waga} kg` : "----"}</strong></div></p>
                             </div>
                             
                         </div>

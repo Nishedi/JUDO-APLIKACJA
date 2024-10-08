@@ -7,7 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
-import { getActivityColor, getBorderColor, GetFeelingsEmoticon } from "../../CommonFunction";
+import { getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon } from "../../CommonFunction";
 
 const DayView = () => {
     const hasFetched = useRef(false);  // zeby nie wysylac statystyk dwukrotnie
@@ -317,9 +317,9 @@ const DayView = () => {
                             <>
                                 <p className={styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
                                 <div className={styles.text}>
-                                    <p>Tętno: {stats?.tętno || "Proszę podać"}</p>
-                                    <p>Samopoczucie: {stats?.samopoczucie || "Proszę podać"}</p>
-                                    <p>Waga: {stats?.waga || "Proszę podać"}</p>
+                                    <p>Tętno: <strong>{stats && stats.tętno ? `${stats.tętno} PRbmp` : "Proszę podać"}</strong> </p>
+                                    <p>Samopoczucie: <strong>{stats && stats.samopoczucie?  stats.samopoczucie+" "+pickEmoticon(stats.samopoczucie):"Proszę podać"}</strong></p>
+                                    <p>Waga: <strong>{stats && stats.waga ? `${stats.waga} kg` : "----"}</strong> </p>
                                 </div>
                                 <div className={styles.center}>
                                     <button onClick={() => setIsEditing(true)} className={styles.submitButton}>Edytuj</button>

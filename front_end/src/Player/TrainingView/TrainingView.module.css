@@ -57,6 +57,8 @@
     font-family: 'Montserrat-Medium';
     font-size: 14px;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .trainingDetails label {
@@ -282,4 +284,15 @@ input, select{
 .emoji:hover {
     transform: scale(1.1); /* Enlarge emoji on hover */
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2)); /* Add a subtle shadow */
+}
+
+.physioterapy{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  font-family: 'Kodchasan-SemiBold';
+  font-size: 20px;
+  text-align: center;
 }

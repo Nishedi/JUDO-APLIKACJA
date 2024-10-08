@@ -88,7 +88,7 @@ const TrainingView = () => {
         <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
         <div className={styles.line}></div>        
       {activity.rodzaj_aktywności === 'Fizjoterapia' ? 
-        <div> Fizjoterapia </div>
+        <div className={styles.physioterapy}> Fizjoterapia </div>
         :
         <div>
             <p><strong>Zadania do wykonania:</strong></p>
@@ -145,8 +145,8 @@ const TrainingView = () => {
             {activity.komentarz_trenera}
           </div>
         </div>
-</div>
-<div className={styles.trainingDetails}>
+      </div>
+      <div className={styles.trainingDetails}>
         <div className={styles.switchContainer}>
           <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
           <label className={styles.switch}>
