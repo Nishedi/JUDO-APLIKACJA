@@ -510,7 +510,11 @@ const AddingActivityFirstPage = () => {
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz komentarz"
                             />
-                            <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
+                            {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
+                                <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
+                                :
+                                null
+                            }
                         </div>
                         <button onClick={addActivities} className={styles.button} disabled={isUploading}>
                             {isUploading ? 'Przesyłanie pliku...' : 'Dodaj'}

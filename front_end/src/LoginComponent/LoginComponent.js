@@ -76,6 +76,7 @@ const LoginComponent = () => {
                     <button onClick={tryLogin} className="button">Zaloguj</button>
                     {isLogged === false && <p className="error">Niepoprawne dane logowania</p>}
                 </div>
+                <div className={"club_name"}>Klub Sportowy POHL JUDO Przemęt</div> 
             </div>                                 
         </div>
     );

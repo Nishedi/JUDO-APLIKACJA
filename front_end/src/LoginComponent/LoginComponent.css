@@ -34,6 +34,14 @@
     font-family: "Kodchasan-Medium";
 }
 
+.club_name {
+   
+    text-align: center; /* Centruje tekst w poziomie */
+    font-size: 16px;
+    margin: 0; /* Usuń zbędne marginesy */
+    padding-bottom: 10px; /* Dodaj mały odstęp od dołu */
+    color: #FFFFFF;
+}
 
 
 .custom_input_correct, .custom_input_incorrect {
@@ -115,9 +123,10 @@
  .test2 {
     position: relative;
     z-index: 0; 
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    padding: 100px 0 100px 0;
+    display: flex; /* Zmień na flexbox */
+    flex-direction: column; /* Elementy w kolumnie */
+    justify-content: space-between; /* Rozciągnij elementy */
+    padding: 100px 0 20px 0;
     background-image: linear-gradient(45deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     background-color: #FFFFFF;
     border-top-left-radius: 50px;  
