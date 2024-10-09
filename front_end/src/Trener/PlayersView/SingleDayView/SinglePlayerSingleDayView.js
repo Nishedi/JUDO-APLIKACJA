@@ -192,7 +192,7 @@ const SinglePlayerSingleDayView = () => {
                     </div>
                     <div className={styles.buttonContainer}>
                             
-                        <button className={styles.button}>Dodaj aktywność</button>
+                        <button onClick={()=>navigate('/trener/addingactivityfirstpage')} className={styles.button}>Dodaj aktywność</button>
                     </div>
             </div>
         </div>
