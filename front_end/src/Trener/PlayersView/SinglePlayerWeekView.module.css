@@ -166,11 +166,18 @@
   .optionalStats {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
     justify-content: space-between;
     align-items: center;
     padding: 5px 0px;
     font-family: 'Roboto-Regular';
+    font-size: 14px;
+  }
+
+  .makeCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .buttonTrening {
@@ -261,7 +268,7 @@
 
 .singleActivityInfo {
     display: flex;
-    /* justify-content: space-between; Równomierne rozłożenie aktywności */
+    align-items: center;
     width: 100%;
     font-size: 14px;
     font-family: 'Roboto-Regular';

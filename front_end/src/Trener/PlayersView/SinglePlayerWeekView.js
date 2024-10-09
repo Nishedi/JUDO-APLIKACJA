@@ -231,7 +231,7 @@ const SinglePlayerWeekView = () => {
                         <div className={styles.optionalStats}>
                             <div>Kinaza:</div>
                             <div className={styles.singleActivityInfo}>
-                                <div><strong>{viewedPlayer.kinaza} </strong></div>
+                                <strong>{viewedPlayer.kinaza} </strong>
                                 {viewedPlayer.ostatnia_aktualizacja_kinazy &&
                                 <div>({viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[1]})</div>
         }
