@@ -171,7 +171,7 @@ const SinglePlayerSingleDayView = () => {
                     </div>
                    
                     <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
-                    <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
+                        <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
                         <div>
                             {activity
                                 ?.sort((a, b) => {
@@ -189,6 +189,10 @@ const SinglePlayerSingleDayView = () => {
                                 ))
                             }
                         </div>
+                    </div>
+                    <div className={styles.buttonContainer}>
+                            
+                        <button className={styles.button}>Dodaj aktywność</button>
                     </div>
             </div>
         </div>
