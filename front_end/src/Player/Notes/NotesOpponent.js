@@ -108,7 +108,7 @@ useEffect(() => {
 
     // Funkcja do zmiany wyniku na tekst
     const getWynikText = (wynik) => {
-        return wynik === 'wygrana' ? 'wygrana' : wynik === 'przegrana' ? 'przegrana': 'brak danych';
+        return wynik === 'wygrana' ? 'wygrana' : wynik === 'przegrana' ? 'przegrana': null;
     };
 
     const deleteThread = async () => {
@@ -229,7 +229,9 @@ useEffect(() => {
                 </div>
                 {expandedNotes.includes(note.id_notatki) && (
                     <div className={styles.matchDetails}>
-                        <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
+                        {getWynikText(note.wynik) && (
+                            <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
+                        )}
                         <div className={styles.noteText}>{note.tresc}</div>
                     </div>
                 )}

@@ -60,7 +60,13 @@ const SimpleInfo = ({ player, onClick }) => {
             return;
         }
         if (activities) {
-            setCurrentDayActivities(activities);
+            const sortedActivities = activities.sort((a, b) => {
+                // Zamieniamy godziny z formatu string na obiekty Date, aby móc je porównać
+                const timeA = new Date(`${currentDate} ${a.czas_rozpoczęcia}`);
+                const timeB = new Date(`${currentDate} ${b.czas_rozpoczęcia}`);
+                return timeA - timeB;  // Sortowanie rosnące
+            });
+            setCurrentDayActivities(sortedActivities);
         }
     }
 
