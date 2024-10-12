@@ -92,7 +92,7 @@ const AddingPlayerSecondPage = () => {
                     <div className={styles.input_container}>
                         <div>LOGIN</div>
                         <input type="text" 
-                        id = "login"
+                        id = "input1"
                         className={styles.input} 
                         placeholder={'Podaj login'} 
                         value={login} 
@@ -100,8 +100,8 @@ const AddingPlayerSecondPage = () => {
                     </div>
                     <div className={styles.input_container}>
                         <div>HASŁO</div>
-                        <input type="password" 
-                        id = "password"
+                        <input type="text" 
+                        id = "input2"
                         className={styles.input} 
                         placeholder={'Podaj hasło'} 
                         value={password} 
@@ -109,8 +109,8 @@ const AddingPlayerSecondPage = () => {
                     </div>
                     <div className={styles.input_container}>
                         <div>POWTÓRZ HASŁO</div>
-                        <input type="password" 
-                        id = "confirmPassword"
+                        <input type="text" 
+                        id = "input3"
                         className={styles.input} 
                         placeholder={'Podaj hasło'} 
                         value={confirmPassword} 
