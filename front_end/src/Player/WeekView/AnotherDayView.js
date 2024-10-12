@@ -71,7 +71,14 @@ const AnotherDayView = () => {
                             feelingsAfter={activity.odczucia}
                         />
                     </p>
-                    <p>Komentarz: <div>{activity.komentarz_zawodnika}</div></p>
+                    <p>Komentarz: <div className={styles.comment}>
+                        {activity.komentarz_trenera.length > 10 
+                            ? `${activity.komentarz_trenera.substring(0, 20)}...`  // Ogranicz do 100 znaków i dodaj "..."
+                            : activity.komentarz_trenera  // Jeśli jest krótszy niż 100 znaków, wyświetl pełen tekst
+                        }
+                        </div>
+                    </p>
+                    
                 </div>
                 <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
             </div>

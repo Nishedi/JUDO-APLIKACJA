@@ -55,7 +55,7 @@
 .comment {
   text-align: right; /* Wyrównuje tekst komentarza do prawej */
   flex-grow: 1; /* Zapełnia przestrzeń po lewej stronie */
-  white-space: pre-wrap; /* Zachowuje spacje i nowe linie */
+  white-space: pre-line; /* Zachowuje spacje i nowe linie */
 }
 
  .text p {
