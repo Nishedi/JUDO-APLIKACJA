@@ -48,6 +48,10 @@ const EditNote = () => {
             console.log('error', error)
             return;
         }
+        if(firstStatus === activeStatus){
+            navigate(`/player/notesopponent/${watek.id_watku}`);
+            return;
+        }
         if(firstStatus === 'wygrana'){
             const { error } = await supabase
             .from('watki_notatki')

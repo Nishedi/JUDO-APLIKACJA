@@ -35,7 +35,7 @@ const EditingModal = ({ onClose, handleEditThread, newThread, setNewThread }) =>
         <div className={styles.modalOverlay}>
             <div className={styles.modalContainer}>
                 <div>
-                    <h3>Dodaj nowy wątek przeciwnika</h3>
+                    <h3>Edytuj wątek przeciwnika</h3>
                     <input
                         type="text"
                         placeholder="Imię i nazwisko przeciwnika"
