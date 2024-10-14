@@ -100,9 +100,18 @@
     font-family: 'Montserrat-Regular';
     margin-bottom: 15px;
     line-height: 1.5;
-    text-align: justify;
+    /* text-align: justify; */
     margin-top: 5px;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    word-break: normal;
+    white-space: pre-line; 
 }
+.commentLine {
+  display: block;  /* Ustawia każdy wiersz jako blok, co łamie linię */
+  margin-bottom: 5px;  /* Opcjonalnie: dodaje odstęp między wierszami */
+}
+
 
 .uppercase{
     text-transform: uppercase;

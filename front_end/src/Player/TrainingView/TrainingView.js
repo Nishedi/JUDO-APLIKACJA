@@ -42,6 +42,20 @@ const TrainingView = () => {
     fetchActivityFromDatabase(id);
   }, [id]);
 
+  function parseTextWithLinks(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.split(urlRegex).map((part, index) => {
+        if (part.match(urlRegex)) {
+        return (
+            <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+            {part}
+            </a>
+        );
+        }
+        return part;
+    });
+    }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
@@ -142,7 +156,7 @@ const TrainingView = () => {
         <div className={styles.trainerComment}>
           <p><strong>Komentarz trenera:</strong></p>
           <div className={styles.commentSection}>
-            {activity.komentarz_trenera}
+            {parseTextWithLinks(activity.komentarz_trenera)}
           </div>
         </div>
       </div>

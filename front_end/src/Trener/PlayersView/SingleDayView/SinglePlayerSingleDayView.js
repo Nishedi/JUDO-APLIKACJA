@@ -130,7 +130,14 @@ const SinglePlayerSingleDayView = () => {
                             feelingsAfter={activity.odczucia}
                         />
                     </p>
-                    <p>Komentarz: <div className={styles.comment}>{activity.komentarz_zawodnika}</div></p>
+                    <p>Komentarz: <div className={styles.comment}>
+                        {activity.komentarz_zawodnika.length > 10 
+                            ? `${activity.komentarz_zawodnika.substring(0, 20)}...`  
+                            : activity.komentarz_zawodnika  
+                        }
+                        </div>
+                    </p>
+                    
                 </div>
                 <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
             </div>

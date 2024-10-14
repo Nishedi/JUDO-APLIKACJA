@@ -79,7 +79,7 @@
     font-family: 'Montserrat-Regular';
     margin-bottom: 15px;
     line-height: 1.5;
-    text-align: justify;
+    /* text-align: justify; */
     margin-top: 5px;
     white-space: pre-line; /* Dodane, aby zachować nowe linie */
 

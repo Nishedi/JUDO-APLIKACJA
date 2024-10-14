@@ -61,6 +61,23 @@ const TrenerTrainingView = () => {
     const editActivity = () => {
         navigate('/trener/editingactivity');
     }
+
+
+    function parseTextWithLinks(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.split(urlRegex).map((part, index) => {
+        if (part.match(urlRegex)) {
+        return (
+            <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+            {part}
+            </a>
+        );
+        }
+        return part;
+    });
+    }
+
+
     return (
         <div className = {styles.background}>
             <div>
@@ -128,18 +145,17 @@ const TrenerTrainingView = () => {
                         <div className={styles.line}></div>
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz trenera:</strong>
-                                        <br/>
-                                        <div className={styles.commentSection}>
-                                        {activity.komentarz_trenera 
-                                            ? activity.komentarz_trenera.split('\n').map((line, index, arr) => (
-                                                <span key={index}>
-                                                {line}
-                                                {index < arr.length - 1 && <br />} {/* Dodaje <br /> tylko jeśli to nie jest ostatni element */}
-                                                </span>
-                                            ))
-                                            : 'Brak komentarza'}
-                                        </div>
-
+                                <br/>
+                                <div className={styles.commentSection}>
+                                    {activity.komentarz_trenera 
+                                        ? activity.komentarz_trenera.split('\n').map((line, index) => (
+                                            <span key={index} className={styles.commentLine}>
+                                            {parseTextWithLinks(line)}
+                                            {index < activity.komentarz_trenera.split('\n').length - 1 && <br />} 
+                                            </span>
+                                        ))
+                                        : 'Brak komentarza'}
+                                </div>
                             </p>    
                         </div>
                     </div>

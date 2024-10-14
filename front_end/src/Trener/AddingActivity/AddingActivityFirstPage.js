@@ -248,8 +248,6 @@ const AddingActivityFirstPage = () => {
     const addActivities = async () => {
         if (isUploading) return;
         const formErrors = validateForm();
-        console.log(formErrors);
-
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
             return;
