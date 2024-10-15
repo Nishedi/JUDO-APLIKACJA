@@ -3,17 +3,17 @@
   "name": "Aplikacja wspierająca JUDOków",
   "icons": [
     {
-      "src": "ikona2.ico",
+      "src": "ikona3.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "ikonapng192.png",
+      "src": "ikonapng2192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "ikonapng512.png",
+      "src": "ikonapng2512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
