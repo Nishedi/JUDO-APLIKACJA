@@ -84,7 +84,10 @@
     white-space: pre-line; /* Dodane, aby zachować nowe linie */
 
 }
-
+.commentSection textarea {
+  font-family: inherit; /* Dziedziczy czcionkę z elementu nadrzędnego */
+  font-size: inherit;   /* Dziedziczy rozmiar czcionki z elementu nadrzędnego */
+}
 .uppercase{
     text-transform: uppercase;
 }
