@@ -131,7 +131,7 @@ const SinglePlayerSingleDayView = () => {
                         />
                     </p>
                     <p>Komentarz: <div className={styles.comment}>
-                        {activity.komentarz_zawodnika.length > 10 
+                        {activity.komentarz_zawodnika?.length > 10 
                             ? `${activity.komentarz_zawodnika.substring(0, 20)}...`  
                             : activity.komentarz_zawodnika  
                         }
