@@ -29,6 +29,7 @@ const EditingActivity = () => {
     const [isAnotherExercise, setIsAnotherExercise] = useState(false);
     const [comment, setComment] = useState(viewedPlayer.currentActivity.komentarz_trenera);
     const [newActivity, setNewActivity] = useState('');
+    const [anotherActivityName, setAnotherActivityName] = useState(viewedPlayer.currentActivity?.zadania);
 
     const sharedStyles = {
         chips: {
@@ -281,6 +282,11 @@ const EditingActivity = () => {
         }
     }
 
+    const setAnotherActivity = (e) => {
+        setAnotherActivityName(e.target.value);
+        setSelectedExercises([{name: e.target.value, id: 0}]);
+    }
+
     const Activity = ({ exercise }) => {
         const [duration, setDuration] = useState(exercise?.duration||'');
         const [repeats, setRepeats] = useState(exercise?.repeats||'');
@@ -388,6 +394,17 @@ const EditingActivity = () => {
                         <input type="file" onChange={addPDF} accept="application/pdf"/>
                         </> 
                     ) 
+                    : selectedTrenings[0]?.name=== "Inny" ? (
+                        <div className={styles.input_container}>
+                            <input 
+                                className={styles.input} 
+                                type="text"
+                                placeholder='Podaj nazwę aktywności'
+                                value={anotherActivityName}
+                                onChange={(e)=>setAnotherActivity(e)}
+                                />
+                        </div>
+                    )
                     : null
                 }
                 {isAnotherExercise ? 

@@ -118,7 +118,12 @@ const SinglePlayerSingleDayView = () => {
                 }}
             >
                 <div>
-                    <h3>{activity.rodzaj_aktywności}</h3>
+                    {activity.rodzaj_aktywności === "Inny" ?
+                        <h3>{activity.rodzaj_aktywności} ({activity?.zadania})</h3>
+                        :
+                        <h3>{activity.rodzaj_aktywności}</h3>
+                    }
+                    
                     <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
                     {activity.rodzaj_aktywności !== "Inny" ? 
                         <>
@@ -131,8 +136,6 @@ const SinglePlayerSingleDayView = () => {
                         </>
                         : null
                     }
-                    
-                    
                     <p>Komentarz: <div className={styles.comment}>
                         {activity.komentarz_zawodnika?.length > 10 
                             ? `${activity.komentarz_zawodnika.substring(0, 20)}...`  
