@@ -25,6 +25,7 @@ const AddingActivityFirstPage = () => {
     const [isAnotherExercise, setIsAnotherExercise] = useState(false);
     const [comment, setComment] = useState('');
     const [newActivity, setNewActivity] = useState('');
+    const [anotherActivityName, setAnotherActivityName] = useState('');
 
       // Stan na przechowywanie błędów
     const [errorMessage, setErrorMessage] = useState('');
@@ -79,7 +80,8 @@ const AddingActivityFirstPage = () => {
         { name: 'Biegowy', id: 1 },
         { name: 'Motoryczny', id: 2 },
         { name: 'Na macie', id: 3 },
-        { name: 'Fizjoterapia', id: 4}
+        { name: 'Fizjoterapia', id: 4},
+        { name: 'Inny', id: 5 }
     ]);
 
     const [exercises, setExercises] = useState([
@@ -359,6 +361,11 @@ const AddingActivityFirstPage = () => {
         setIsUploading(false);
     }
 
+    const setAnotherActivity = (e) => {
+        setAnotherActivityName(e.target.value);
+        setSelectedExercises([{name: e.target.value, id: 0}]);
+    }
+
     const addHeaders = () => {
         if(selectedTrenings[0]?.name === 'Biegowy' || selectedTrenings[0]?.name === 'Na macie'){
             const actualListOfActivities = [...selectedExercises];
@@ -475,6 +482,17 @@ const AddingActivityFirstPage = () => {
                                 <input className={styles.pickPDF} type="file" onChange={addPDF} accept="application/pdf"/>
                                 </div> 
                             ) 
+                            : selectedTrenings[0]?.name=== "Inny" ? (
+                                <div className={styles.input_container}>
+                                    <input 
+                                        className={styles.input} 
+                                        type="text"
+                                        placeholder='Podaj nazwę aktywności'
+                                        value={anotherActivityName}
+                                        onChange={(e)=>setAnotherActivity(e)}
+                                        />
+                                </div>
+                            )
                             : null
                         }
                         {isAnotherExercise ? 
@@ -493,11 +511,6 @@ const AddingActivityFirstPage = () => {
                             </div>
                         </div>
                         :null}
-                        
-                        {/* <div className={styles.input_container}>
-                            Podaj długość trwania aktywności
-                            <Calendar value={time} onChange={(e) => setTime(e.value)} timeOnly />
-                        </div> */}
                         <div className={styles.input_container}>
                             <div>Komentarz</div>
                             <textarea
