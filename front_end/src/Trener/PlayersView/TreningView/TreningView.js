@@ -93,19 +93,29 @@ const TrenerTrainingView = () => {
                     </div>
                 </div>
                 {/* Body */}
-                <div className={styles.trainingDetails}>
-                        <div className={styles.switchContainer}>
-                            <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
-                            <TreningStatus treningStatus={activity.status} />    
-                        </div>
-                </div>
+                {activity.rodzaj_aktywności !== 'Inny' ? 
+                    <div className={styles.trainingDetails}>
+                            <div className={styles.switchContainer}>
+                                <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
+                                <TreningStatus treningStatus={activity.status} />    
+                            </div>
+                    </div>
+                    :null
+                }
                 <div className={styles.trainingDetails}>
                             <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
                             <div className={styles.line}></div>
 
-                        {activity.rodzaj_aktywności === 'Fizjoterapia' 
-                        ? <div className={styles.physioterapy}>Fizjoterapia</div>   :
+                        {activity.rodzaj_aktywności === 'Fizjoterapia' || activity.rodzaj_aktywności === 'Inny' 
+                        ? (
+                            activity.rodzaj_aktywności === 'Fizjoterapia' ?
+                            <div className={styles.physioterapy}>Fizjoterapia</div> 
+                            :
+                            <div className={styles.physioterapy}>{activity.zadania}</div>
+
+                         ) :
                         <div>
+                            {activity.rodzaj_aktywności !== 'Inny'}
                             <p><strong>Zadania do wykonania:</strong></p>
                             {/* Tutaj połączone z bazą - to co trener wskaże! */}
                             {activity.rodzaj_aktywności==='Motoryczny' ? 
@@ -160,11 +170,16 @@ const TrenerTrainingView = () => {
                         </div>
                     </div>
                     <div className={styles.trainingDetails}>
-                        <div className={styles.switchContainer}>
-                            <strong>Odczucia po treningu:</strong>
-                            <FeelingsAfter  feelingsAfter={activity.odczucia} />
-                        </div>
-                        <div className={styles.line}></div>
+                        {activity.rodzaj_aktywności !== 'Inny' ?
+                            <>
+                                <div className={styles.switchContainer}>
+                                    <strong>Odczucia po treningu:</strong>
+                                    <FeelingsAfter  feelingsAfter={activity.odczucia} />
+                                </div>
+                                <div className={styles.line}></div>
+                            </>:null
+                        }
+                        
                         <div className={styles.trainerComment}>
                             <p><strong>Komentarz zawodnika:</strong>
                                         <br/>

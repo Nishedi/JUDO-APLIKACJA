@@ -143,14 +143,23 @@ const DayView = () => {
                 }}
             >
                 <div>
-                    <h3>{activity.rodzaj_aktywności}</h3>
+                    {activity.rodzaj_aktywności === "Inny" ?
+                        <h3>{activity.rodzaj_aktywności} ({activity?.zadania})</h3>
+                        :
+                        <h3>{activity.rodzaj_aktywności}</h3>
+                    }
                     <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
-                    <p>Status: <div><strong>{activity.status}</strong></div></p>
-                    <p >Odczucia: 
-                        <GetFeelingsEmoticon
-                            feelingsAfter={activity.odczucia}
-                        />
-                    </p>
+                    {activity.rodzaj_aktywności !== "Inny" ? 
+                        <>
+                            <p>Status: <div><strong>{activity.status}</strong></div></p>
+                            <p >Odczucia: 
+                                <GetFeelingsEmoticon
+                                    feelingsAfter={activity.odczucia}
+                                />
+                            </p>
+                        </>
+                        : null
+                    }
                     <p>Komentarz: <div className={styles.comment}>
                         {activity.komentarz_trenera?.length > 10 
                             ? `${activity.komentarz_trenera.substring(0, 20)}...`  // Ogranicz do 100 znaków i dodaj "..."
@@ -209,7 +218,7 @@ const DayView = () => {
         setIsEditing(false);
         await supabase
             .from('statystyki_zawodników')
-            .update({ tętno: stats.tętno, samopoczucie: stats.samopoczucie, waga: stats.waga ? stats.waga : null })
+            .update({ tętno: stats.tętno, samopoczucie: stats.samopoczucie ? stats.samopoczucie : "Neutralnie", waga: stats.waga ? stats.waga : null })
             .eq('id', stats?.id)
             .eq('id_trenera', globalVariable.id_trenera)
             .eq('id_zawodnika', globalVariable.id)

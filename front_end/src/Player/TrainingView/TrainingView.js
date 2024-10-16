@@ -101,8 +101,14 @@ const TrainingView = () => {
       <div className={styles.trainingDetails}>
         <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
         <div className={styles.line}></div>        
-      {activity.rodzaj_aktywności === 'Fizjoterapia' ? 
-        <div className={styles.physioterapy}> Fizjoterapia </div>
+      {activity.rodzaj_aktywności === 'Fizjoterapia' || activity.rodzaj_aktywności === 'Inny'  ? 
+        (
+          activity.rodzaj_aktywności === 'Fizjoterapia' ?
+          <div className={styles.physioterapy}>Fizjoterapia</div> 
+          :
+          <div className={styles.physioterapy}>{activity.zadania}</div>
+
+       )
         :
         <div>
             <p><strong>Zadania do wykonania:</strong></p>
@@ -161,33 +167,36 @@ const TrainingView = () => {
         </div>
       </div>
       <div className={styles.trainingDetails}>
-        <div className={styles.switchContainer}>
-          <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
-          <label className={styles.switch}>
-            <input
-              type="checkbox"
-              checked={isTrainingCompleted}
-              onChange={() => setIsTrainingCompleted(!isTrainingCompleted)}
-            />
-            <span className={styles.slider}></span>
-          </label>
-        </div>
-        <div className={styles.line}></div>
-        <p><strong>Odczucia po treningu</strong></p>
-        <div className={styles.moodContainer}>
-          <div className={styles.moods}>
-            {['😢','🙁', '😐', '🙂','😊'].map((mood, index) => (
-              <span
-                key={index}
-                className={`${styles.mood} ${pickEmoticon(selectedMood) === mood ? styles.selected : ''}`}
-                onClick={() => setMoodFromEmoticon(mood, setSelectedMood)}
-              >
-                {mood}
-              </span>
-            ))}
+        {activity.rodzaj_aktywności === 'Inny' ? null : (
+          <>
+          <div className={styles.switchContainer}>
+            <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
+            <label className={styles.switch}>
+              <input
+                type="checkbox"
+                checked={isTrainingCompleted}
+                onChange={() => setIsTrainingCompleted(!isTrainingCompleted)}
+              />
+              <span className={styles.slider}></span>
+            </label>
           </div>
-        </div>
-
+          <div className={styles.line}></div>
+          <p><strong>Odczucia po treningu</strong></p>
+          <div className={styles.moodContainer}>
+            <div className={styles.moods}>
+              {['😢','🙁', '😐', '🙂','😊'].map((mood, index) => (
+                <span
+                  key={index}
+                  className={`${styles.mood} ${pickEmoticon(selectedMood) === mood ? styles.selected : ''}`}
+                  onClick={() => setMoodFromEmoticon(mood, setSelectedMood)}
+                >
+                  {mood}
+                </span>
+              ))}
+            </div>
+          </div>
+          </>
+        )}       
         <div className={styles.commentSection}>
           <label>Komentarz</label>
           <textarea

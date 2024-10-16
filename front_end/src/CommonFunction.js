@@ -47,7 +47,7 @@ export const TreningStatus = ({ treningStatus}) => {
 
 export const getActivityColor = (activity_type) => {
     switch (activity_type) {
-        case 'Trening motoryczny':
+        case 'Motoryczny':
             return '#FF7A68';
         case 'Biegowy':
             return '#95C6FF';
@@ -55,14 +55,15 @@ export const getActivityColor = (activity_type) => {
             return '#FFF281';
         case 'Fizjoterapia':
             return '#83FF8F';
+        
         default:
-            return '#FF7A68';
+            return '#E6E6FA';
     }
 }
 
 export const getBorderColor = (activity_type) => {
     switch (activity_type) {
-        case 'Trening motoryczny':
+        case 'Motoryczny':
             return '#BE0000';
         case 'Biegowy':
             return '#0056BA';
@@ -71,7 +72,7 @@ export const getBorderColor = (activity_type) => {
         case 'Fizjoterapia':
             return '#00C514';
         default:
-            return '#BE0000';
+            return '#B1B1EF';
     } 
 }
 
