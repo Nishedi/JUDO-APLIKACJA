@@ -218,7 +218,7 @@ const DayView = () => {
         setIsEditing(false);
         await supabase
             .from('statystyki_zawodników')
-            .update({ tętno: stats.tętno, samopoczucie: stats.samopoczucie, waga: stats.waga ? stats.waga : null })
+            .update({ tętno: stats.tętno, samopoczucie: stats.samopoczucie ? stats.samopoczucie : "Neutralnie", waga: stats.waga ? stats.waga : null })
             .eq('id', stats?.id)
             .eq('id_trenera', globalVariable.id_trenera)
             .eq('id_zawodnika', globalVariable.id)

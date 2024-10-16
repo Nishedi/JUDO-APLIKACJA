@@ -29,7 +29,10 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
     };
 
     const collectAndSubmit = () => {
-       
+        setStats(prevStats => ({
+            ...prevStats,
+            samopoczucie: "Neutralnie"
+        }));
         onConfirmClick();
     };
 
