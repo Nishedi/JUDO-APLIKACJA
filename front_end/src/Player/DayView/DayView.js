@@ -144,7 +144,14 @@ const DayView = () => {
             >
                 <div>
                     {activity.rodzaj_aktywności === "Inny" ?
-                        <h3>{activity.rodzaj_aktywności} ({activity?.zadania})</h3>
+                        <h3>  
+                            {activity?.zadania} 
+                            <span   style={{ color: getBorderColor(activity.rodzaj_aktywności) }}>
+                                    {" → "}
+                                    {activity.rodzaj_aktywności}
+                            </span>
+                            
+                        </h3>
                         :
                         <h3>{activity.rodzaj_aktywności}</h3>
                     }

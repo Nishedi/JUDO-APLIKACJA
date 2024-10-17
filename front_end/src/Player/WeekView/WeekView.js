@@ -140,7 +140,18 @@ const WeekView = () => {
                             .map((activity, index) => (
                                 <div className={styles.singleActivityInfo} key={index}>
                                     <div className={styles.activityType}>
-                                        {activity.rodzaj_aktywności}
+                                        {activity.rodzaj_aktywności === "Inny" ?
+                                            <span> {activity.rodzaj_aktywności}
+                                                <span>
+                                                    {" → "}
+                                                    {activity?.zadania}
+                                                    
+                                                        
+                                                </span>
+                                            </span>
+                                            :
+                                            <span> {activity.rodzaj_aktywności} </span>
+                                        }
                                     </div>
                                     <div className={styles.singleActivity}>
                                             <div className={styles.timeText}>
