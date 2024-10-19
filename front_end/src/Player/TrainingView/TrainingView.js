@@ -203,6 +203,7 @@ const TrainingView = () => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Dodaj komentarz"
+            rows={10}
           ></textarea>
         </div>
        
