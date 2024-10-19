@@ -29,9 +29,14 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
     };
 
     const collectAndSubmit = () => {
+        let samopoczucie = "Neutralnie";
+        if (stats?.samopoczucie){
+            samopoczucie = stats.samopoczucie;
+        }
+        console.log(samopoczucie);
         setStats(prevStats => ({
             ...prevStats,
-            samopoczucie: "Neutralnie"
+            samopoczucie: samopoczucie
         }));
         onConfirmClick();
     };

@@ -136,21 +136,14 @@ const SinglePlayerWeekView = () => {
                                     {/* {activity.rodzaj_aktywności} */}
 
                                     {activity.rodzaj_aktywności === "Inny" ?
-                                        <> {activity.zadania}
-                                            <span   className={styles.todayText}>
-                                                    &nbsp;→&nbsp;
-                                                    {activity.rodzaj_aktywności}
-                                            </span>
-                                        </>
+                                        <div>{activity.zadania}</div> 
                                         :
                                         <span> {activity.rodzaj_aktywności} </span>
                                     }
 
                                 </div>
                                 <div className={styles.singleActivity}>
-                                        <div className={styles.timeText}>
-                                                {activity.czas_rozpoczęcia}
-                                        </div>
+                                    {activity.rodzaj_aktywności!=="Inny" &&
                                         <div className={styles.emojiAndTime}>
                                             <div className={styles.emojiContainer}>
                                                 <TreningStatusAndFeelingsAfter 
@@ -159,7 +152,10 @@ const SinglePlayerWeekView = () => {
                                                 />
                                             </div>
                                         </div>
+                                    }                                           <div className={styles.timeText}>
+                                        {activity.czas_rozpoczęcia}
                                     </div>
+                                </div>
                             </div>
                         ))}
                     </div>
