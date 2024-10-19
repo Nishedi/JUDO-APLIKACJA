@@ -373,7 +373,7 @@ const AddingActivityFirstPage = () => {
             for(let exercise of actualListOfActivities){
                 headers += exercise.name + ": \n";
             }
-            setComment(headers);
+            setComment(comment+'\n'+headers);   
         }
     }
 

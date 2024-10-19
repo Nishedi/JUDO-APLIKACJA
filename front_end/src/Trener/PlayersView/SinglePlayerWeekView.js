@@ -4,7 +4,7 @@ import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
-import {TreningStatusAndFeelingsAfter} from '../../CommonFunction';
+import {TreningStatusAndFeelingsAfter, getBorderColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const SinglePlayerWeekView = () => {
@@ -136,14 +136,12 @@ const SinglePlayerWeekView = () => {
                                     {/* {activity.rodzaj_aktywności} */}
 
                                     {activity.rodzaj_aktywności === "Inny" ?
-                                        <span> {activity.rodzaj_aktywności}
-                                            <span>
-                                                {" → "}
-                                                {activity?.zadania}
-                                                
-                                                    
+                                        <> {activity.zadania}
+                                            <span   className={styles.todayText}>
+                                                    &nbsp;→&nbsp;
+                                                    {activity.rodzaj_aktywności}
                                             </span>
-                                        </span>
+                                        </>
                                         :
                                         <span> {activity.rodzaj_aktywności} </span>
                                     }

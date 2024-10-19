@@ -141,14 +141,12 @@ const WeekView = () => {
                                 <div className={styles.singleActivityInfo} key={index}>
                                     <div className={styles.activityType}>
                                         {activity.rodzaj_aktywności === "Inny" ?
-                                            <span> {activity.rodzaj_aktywności}
-                                                <span>
-                                                    {" → "}
-                                                    {activity?.zadania}
-                                                    
-                                                        
+                                            <> {activity.zadania}
+                                                <span   className={styles.todayText}>
+                                                        &nbsp;→&nbsp;
+                                                        {activity.rodzaj_aktywności}
                                                 </span>
-                                            </span>
+                                            </>
                                             :
                                             <span> {activity.rodzaj_aktywności} </span>
                                         }

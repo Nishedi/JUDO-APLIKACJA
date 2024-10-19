@@ -175,8 +175,7 @@ const SinglePlayerSingleDayView = () => {
                     {/* Prostokąt statystyk dnia */}
                     <div className = {styles.rectangleStats} onClick={toggleStats}> {/* Statystyki dnia */}
                         <div style={{width:"100%"}}>
-                        {/* <StatsInput onSubmit={handleStatsSubmit} initialData={stats} /> */}
-                            <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
+                           <p className = {styles.dayHeader}>STATYSTYKI DNIA</p> {/*tu sobie sprawdzę headery*/}
                             <div className = {styles.text}>
                                 <p>Tętno: <div><strong>{stats && stats.tętno ? `${stats.tętno} PRbmp` : ""}</strong></div></p>
                                 <p className={styles.oneline}>Samopoczucie: 
