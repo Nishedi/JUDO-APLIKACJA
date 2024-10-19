@@ -138,6 +138,22 @@ export const setMoodFromEmoticon = (feelingsAfter, setSelectedMood) => {
     }
   };
 
+  export const getMoodFromEmoticon = (feelingsAfter, setSelectedMood) => {
+    switch (feelingsAfter) {
+        case '😢':
+            return 'Bardzo źle';
+        case '🙁':
+            return 'Źle';
+        case '😐':
+            return 'Neutralnie';
+        case '🙂':
+            return 'Dobrze';
+        case '😊':
+            return 'Bardzo dobrze';
+        default:
+            return '';
+    }
+  };
   export const pickEmoticon = (feelingsAfter) => {
     switch (feelingsAfter) {
         case 'Bardzo źle':

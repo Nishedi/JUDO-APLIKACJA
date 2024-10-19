@@ -173,9 +173,12 @@ const SinglePlayerSingleDayView = () => {
                             <div className = {styles.text}>
                                 <p>Tętno: <div><strong>{stats && stats.tętno ? `${stats.tętno} PRbmp` : ""}</strong></div></p>
                                 <p className={styles.oneline}>Samopoczucie: 
+                                <strong style={{display: 'flex', flexDirection:'row'}}>{stats?.samopoczucie}
                                 <GetFeelingsEmoticon 
                                     feelingsAfter={stats?.samopoczucie || ""} 
                                         />
+                                </strong>
+                                
                                 </p> 
                                 <p>Waga: <div><strong>{stats && stats.waga ? `${stats.waga} kg` : "----"}</strong></div></p>
                             </div>

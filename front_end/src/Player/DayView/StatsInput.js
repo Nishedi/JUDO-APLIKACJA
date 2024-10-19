@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./StatsInput.module.css";
-import {GetFeelingsEmoticon} from "../../CommonFunction"
+import {getMoodFromEmoticon} from "../../CommonFunction"
 
 const StatsInput = ({ onConfirmClick, stats, setStats }) => {
     const pickEmoticon = (feelingsAfter) => {
@@ -123,7 +123,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                 <div>
                     {/* Samopoczucie */}
                     <div className={styles.statsInputContentElement}>
-                        <p>Samopoczucie</p>
+                        <p style={{display: 'flex', justifyContent: 'center'}}>Samopoczucie</p>
                         <div className={styles.emojiContainer}>
                             {['😢', '🙁', '😐', '🙂', '😊'].map((emoji, index) => (
                                 <label key={index} className={styles.emojiLabel}>
@@ -139,6 +139,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                                 </label>
                             ))}
                         </div>
+                        <p style={{paddingTop: '10px', display: 'flex', justifyContent: 'center'}}>{stats?.samopoczucie ? stats.samopoczucie : 'Neutralnie' }</p>
                     </div>
                 </div>
             <button onClick={collectAndSubmit} className={styles.submitButton}>Zatwierdź</button>
