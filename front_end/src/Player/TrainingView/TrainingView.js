@@ -195,7 +195,7 @@ const TrainingView = () => {
               ))}
               
             </div>
-            <p style={{ display: 'flex', justifyContent: 'center'}}>{activity?.odczucia ? activity.odczucia : selectedMood }</p>
+            <p style={{ display: 'flex', justifyContent: 'center'}}>{selectedMood ? selectedMood : activity?.odczucia ? activity.odczucia : null }</p>
           </div>
           </>
         )}       

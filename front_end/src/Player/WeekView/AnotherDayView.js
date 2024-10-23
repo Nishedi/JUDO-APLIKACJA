@@ -80,7 +80,7 @@ const AnotherDayView = () => {
                             <p>Status: <div><strong>{activity.status}</strong></div></p>
                             <p> Odczucia: 
                                 <strong style={{display: 'flex', flexDirection: 'row'}}>
-                                    {activity.odczucia}
+                                    {activity.odczucia} &nbsp;
                                     <GetFeelingsEmoticon
                                         feelingsAfter={activity.odczucia}
                                     />
