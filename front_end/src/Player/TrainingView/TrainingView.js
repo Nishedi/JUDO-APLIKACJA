@@ -193,7 +193,9 @@ const TrainingView = () => {
                   {mood}
                 </span>
               ))}
+              
             </div>
+            <p style={{ display: 'flex', justifyContent: 'center'}}>{activity?.odczucia ? activity.odczucia : selectedMood }</p>
           </div>
           </>
         )}       

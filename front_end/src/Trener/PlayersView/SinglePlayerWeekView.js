@@ -152,7 +152,8 @@ const SinglePlayerWeekView = () => {
                                                 />
                                             </div>
                                         </div>
-                                    }                                           <div className={styles.timeText}>
+                                    }                                           
+                                    <div className={styles.timeText}>
                                         {activity.czas_rozpoczęcia}
                                     </div>
                                 </div>

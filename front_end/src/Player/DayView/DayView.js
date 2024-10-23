@@ -150,7 +150,6 @@ const DayView = () => {
                                     {" → "}
                                     {activity.rodzaj_aktywności}
                             </span>
-                            
                         </h3>
                         :
                         <h3>{activity.rodzaj_aktywności}</h3>
@@ -159,10 +158,13 @@ const DayView = () => {
                     {activity.rodzaj_aktywności !== "Inny" ? 
                         <>
                             <p>Status: <div><strong>{activity.status}</strong></div></p>
-                            <p >Odczucia: 
-                                <GetFeelingsEmoticon
-                                    feelingsAfter={activity.odczucia}
-                                />
+                            <p> Odczucia: 
+                                <strong style={{display: 'flex', flexDirection: 'row'}}>
+                                    {activity.odczucia}
+                                    <GetFeelingsEmoticon
+                                        feelingsAfter={activity.odczucia}
+                                    />
+                                </strong>
                             </p>
                         </>
                         : null

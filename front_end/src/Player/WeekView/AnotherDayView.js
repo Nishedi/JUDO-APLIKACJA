@@ -78,10 +78,13 @@ const AnotherDayView = () => {
                     {activity.rodzaj_aktywności !== "Inny" ? 
                         <>
                             <p>Status: <div><strong>{activity.status}</strong></div></p>
-                            <p >Odczucia: 
-                                <GetFeelingsEmoticon
-                                    feelingsAfter={activity.odczucia}
-                                />
+                            <p> Odczucia: 
+                                <strong style={{display: 'flex', flexDirection: 'row'}}>
+                                    {activity.odczucia}
+                                    <GetFeelingsEmoticon
+                                        feelingsAfter={activity.odczucia}
+                                    />
+                                </strong>
                             </p>
                         </>
                         : null

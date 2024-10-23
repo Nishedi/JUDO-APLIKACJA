@@ -136,9 +136,11 @@ const SinglePlayerSingleDayView = () => {
                         <>
                             <p>Status: <div><strong>{activity.status}</strong></div></p>
                             <p >Odczucia: 
-                                <GetFeelingsEmoticon
-                                    feelingsAfter={activity.odczucia}
-                                />
+                            <strong style={{display: 'flex', flexDirection:'row', alignItems: 'flex-start'}}>{activity?.odczucia} &nbsp;
+                                <GetFeelingsEmoticon 
+                                    feelingsAfter={activity?.odczucia || ""} 
+                                        />
+                                </strong>
                             </p>
                         </>
                         : null

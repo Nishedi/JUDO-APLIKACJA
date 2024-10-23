@@ -48,7 +48,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                     ...prevStats,
                     samopoczucie: 'Bardzo źle'
                 }));
-                break; // Dodaj break, aby uniknąć "fall-through"
+                break; 
             case '🙁':
                 setStats(prevStats => ({
                     ...prevStats,
