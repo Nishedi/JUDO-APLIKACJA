@@ -4,7 +4,7 @@ import StatsInput from "./StatsInput";
 import React, {useState, useContext, useEffect, useRef, useLayoutEffect} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 //import { useState, useContext } from "react";
-import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon } from "../../CommonFunction";
@@ -277,8 +277,14 @@ const DayView = () => {
                     <div>
                         {dayNames[now.getDay()]}
                     </div>
-                    <div className={styles.date}>
+                    <div className={styles.date_div}>
+                        {/* <button  className={styles.arrowButton}>
+                            <IoIosArrowBack />
+                        </button> */}
                         {now.getDate()+" "+monthNames[now.getMonth()]}
+                        {/* <button  className={styles.arrowButton}>
+                            <IoIosArrowForward />
+                        </button> */}
                     </div>
                 </div>
                 <div className={styles.name}> {globalVariable.imie} <br/> {globalVariable.nazwisko} </div>

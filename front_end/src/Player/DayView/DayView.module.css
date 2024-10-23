@@ -46,6 +46,16 @@
   width: fit-content; /* Dopasowuje szerokość do treści */
 }
 
+.date_div{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-family: 'Montserrat-SemiBold';
+  font-size: 14px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
 .commentContainer {
   display: flex;
   justify-content: space-between; /* Rozstawia elementy po przeciwnych stronach */
@@ -136,6 +146,19 @@
   
 }
 
+.arrowButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 24px; /* lub inny rozmiar */
+  /* margin: 0 10px;  */
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
 .weekDay{
     padding: 5px 0px;
     display: flex;

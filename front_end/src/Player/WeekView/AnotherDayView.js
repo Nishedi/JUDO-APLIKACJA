@@ -2,7 +2,7 @@ import styles from "../DayView/DayView.module.css";
 import SideBarCalendar from "../DayView/SideBarCalendar";
 import React, {useState, useContext, useEffect} from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { getActivityColor, getBorderColor, GetFeelingsEmoticon } from "../../CommonFunction";
@@ -125,8 +125,14 @@ const AnotherDayView = () => {
                     <div>
                         {dayNames[now.getDay()]}
                     </div>
-                    <div className={styles.date}>
+                    <div className={styles.date_div}>
+                        {/* <button className={styles.arrowButton}>
+                            <IoIosArrowBack />
+                        </button> */}
                         {now.getDate()+" "+monthNames[now.getMonth()]}
+                        {/* <button className={styles.arrowButton}>
+                            <IoIosArrowForward />
+                        </button> */}
                     </div>
                 </div>
                 <div className={styles.name}> {globalVariable.imie} <br/> {globalVariable.nazwisko} </div>
