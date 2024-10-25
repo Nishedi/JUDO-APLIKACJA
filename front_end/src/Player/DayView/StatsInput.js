@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./StatsInput.module.css";
 import {getMoodFromEmoticon} from "../../CommonFunction"
 
@@ -33,7 +33,6 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
         if (stats?.samopoczucie){
             samopoczucie = stats.samopoczucie;
         }
-        console.log(samopoczucie);
         setStats(prevStats => ({
             ...prevStats,
             samopoczucie: samopoczucie
@@ -87,7 +86,6 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                 <p>Statystyki dnia</p>
                 <p>Edycja</p>
             </div>
-        
                 <div  className={styles.rows}>
                     {/* Tętno */}
                     <div className={styles.statsInputContentElement}>
@@ -98,14 +96,13 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                             onChange={handleChange}
                             className={styles.selectElement}
                         >
-                            {Array.from({ length: 151 }, (_, i) => (
-                                <option key={i} value={i + 50}>
-                                    {i + 50}
+                            {Array.from({ length: 181 }, (_, i) => (
+                                <option key={i} value={i + 30}>
+                                    {i + 30}
                                 </option>
                             ))}
                         </select>
                     </div>
-                    
                     <div className={styles.statsInputContentElement2}>
                         <p>Waga</p>
                         <input 
@@ -115,16 +112,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                             onChange={handleChange} 
                         />
                     </div>
-                        {/* <input 
-                            type="number" 
-                            name="waga" 
-                            value={stats?.waga} 
-                            onChange={handleChange} 
-                        />
-                    </div> */}
                 </div>
-                
-                
                 <div>
                     {/* Samopoczucie */}
                     <div className={styles.statsInputContentElement}>

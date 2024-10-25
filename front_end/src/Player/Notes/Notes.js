@@ -26,7 +26,7 @@ const Notes = () => {
                 .from('watki_notatki') // Używamy tabeli 'watki_notatki'
                 .select('*')
                 .eq('id_zawodnika', globalVariable.id)
-                .order('id_watku', { ascending: false });; // Pobieranie wątków tylko dla aktualnie zalogowanego zawodnika
+                .order('nazwa_watku', { ascending: true });; 
             if (error) {
                 console.error('Błąd podczas pobierania przeciwników USEEFFECT:', error);
             } else {

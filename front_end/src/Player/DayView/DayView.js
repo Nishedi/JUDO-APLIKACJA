@@ -37,10 +37,6 @@ const DayView = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
 
-    const hideSidebar = () => {
-        setIsSidebarOpen(false);
-    }
-
     const toggleStats = () => {
         setIsStatsOpen(!isStatsOpen);
     }
