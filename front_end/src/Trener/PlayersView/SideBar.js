@@ -3,7 +3,7 @@ import styles from './SideBar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 
 
-const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile }) => {
+const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile, onReportErrorClick }) => {
 
     
 // DODAC ZEBY SIE ZAMYKALO PO KLIKNIECIU NA NAVBAR SIDEBARU
@@ -38,7 +38,16 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                         Wyloguj
                         {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                     </div>
+                    <div className={styles.emptyElement}></div>
+                    <div
+                        onClick={onReportErrorClick}
+                        className={styles.singleClickableElemement}>
+                        Zgłoś błąd
+                        {/* <IoIosArrowForward className={styles.right_arrow} /> */}
+                    </div>
+
                 </div>
+                
         </div>
     );
 }

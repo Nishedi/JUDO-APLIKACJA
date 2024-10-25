@@ -41,10 +41,9 @@ const DayView = () => {
         setIsStatsOpen(!isStatsOpen);
     }
 
-    const handleStatsSubmit = (newStats) => {
-        setStats(newStats);
-        setIsStatsOpen(false); // Zamyka panel po zatwierdzeniu
-    };
+    const onReportErrorClick = () => {
+        navigate('/reporterror');
+    }
 
     const handleKinazaSubmit = async () => {       
         const { data, error } = await supabase
@@ -264,7 +263,7 @@ const DayView = () => {
 
     return (
         <div onClick={closeSidebar} className={styles.background}>
-            <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
                     <RxHamburgerMenu/>

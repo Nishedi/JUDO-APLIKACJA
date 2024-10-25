@@ -1,0 +1,117 @@
+
+.background{
+    display: grid;
+    grid-template-rows: flex; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Poppins-Medium";
+    font-size: 20px;
+    height: 80px;
+    min-height: 80px;
+}
+
+.left_navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.date_div, .writing_div{
+    display: flex;
+    justify-content: right;
+}
+
+.pickPDF{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding: 20px; */
+    margin-bottom: 10px;
+}
+
+.writing_div{
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 20px;
+}
+
+.date_div{
+    font-family: 'Montserrat-SemiBold';
+    font-size: 16px;
+}
+
+.burger{
+    color: #FFFFFF; 
+    font-size: 24px;
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.button:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.burger:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
+}
+
+.input_container{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: 'Montserrat-Medium';
+    color: #103476;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px;
+}
+
+.input_container Multiselect {
+    height: fit-content;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #fff;
+    border-color: #D7DFEE;
+    border-radius: 5px;
+    font-family: 'Montserrat-Semibold';
+    font-size: 12px;
+    padding: 10px;
+    width: 50%;
+    border: 0px;
+}
+
+.multiLineInput{
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    overflow-wrap: break-word;
+    font-family: 'Roboto-Regular';
+    border-radius: 4px;
+    border-color: #CCC;
+}
