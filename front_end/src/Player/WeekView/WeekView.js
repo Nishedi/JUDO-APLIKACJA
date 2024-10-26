@@ -206,9 +206,13 @@ const WeekView = () => {
         }
     }
 
+    const onReportErrorClick = () => {
+        navigate('/reporterror');
+    }
+
     return (
         <div onClick={closeSidebar} className={styles.background}>
-            <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
                 <div className={styles.navbar}>
                     <div className={styles.burgerAndDate}>
                             <RxHamburgerMenu onClick={toggleSidebar}/>
