@@ -1,10 +1,84 @@
-import styles from "./ReportError.module.css";
 import { useState, useContext } from "react";
 import { GlobalContext } from '../GlobalContext';
-import { useEffect } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../BackButton';
+
+const style = {
+    background: {
+        display: "flex", // Używamy flexa, więc usuwamy grid
+        flexDirection: "column",
+        minHeight: "100vh",
+        backgroundColor: "#D7DFEE",
+    },
+    navbar: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "0 20px 0 20px",
+        backgroundImage: "linear-gradient(90deg, #1D61DC 0%, #103476 47%)",
+        color: "#FFFFFF",
+        fontFamily: "Poppins-Medium",
+        fontSize: "20px",
+        height: "80px",
+        minHeight: "80px",
+    },
+    input_container: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+        fontFamily: "Montserrat-Medium",
+        color: "#103476",
+        fontSize: "14px",
+        width: "100%",
+        padding: "10px",
+    },
+    writing_div: {
+        display: "flex",
+        justifyContent: "right",
+        fontFamily: "Kodchasan-SemiBold",
+        fontSize: "20px",
+    },
+    multiLineInput: {
+        width: "100%",
+        padding: "10px",
+        fontSize: "1rem",
+        lineHeight: "1.5",
+        resize: "vertical",
+        overflowWrap: "break-word",
+        fontFamily: "Roboto-Regular",
+        borderRadius: "4px",
+        borderColor: "#CCC",
+    },
+    pickPDF: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "10px",
+    },
+    buttonContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "10px",
+        marginTop: "20px",
+    },
+    button: {
+        backgroundImage: "linear-gradient(90deg, #1D61DC 0%, #103476 47%)",
+        color: "#fff",
+        borderColor: "#D7DFEE",
+        borderRadius: "5px",
+        fontFamily: "Montserrat-Semibold",
+        fontSize: "12px",
+        padding: "10px",
+        width: "50%",
+        border: "0px",
+    },
+
+
+
+    
+};
 
 const ReportError = () => {
     const {supabase} = useContext(GlobalContext);
@@ -57,34 +131,32 @@ const ReportError = () => {
     }
         
     return (
-        <div className={styles.background}>
-            <div className={styles.navbar}>
+        <div style={style.background}>
+            <div style={style.navbar}>
                 <div >
                     <BackButton />
                 </div>
-                <div className="left_navbar">
-                    <div className={styles.writing_div}>
-                        Zgłaszanie błędu
-                    </div>
-                </div>  
+                <div style={style.writing_div}>
+                    Zgłaszanie błędu
+                </div>
                 <div></div>
             </div>
             <div>
-                <div className={styles.input_container}>
+                <div style={style.input_container}>
                     <div>Opis błędu</div>
                     <textarea
                         id="multiline-input"
                         value={comment}
                         onChange={onCommentChange}
                         rows={5}  // Ustaw liczbę widocznych wierszy
-                        className={styles.multiLineInput}
+                        style={style.multiLineInput}
                         placeholder="Opisz błąd"
                     />
-                    <input className={styles.pickPDF} type="file" onChange={setFile}/>
+                    <input style={style.pickPDF} type="file" onChange={setFile}/>
                     
                 </div>
-                <div className={styles.buttonContainer}>
-                    <button onClick={handleUploadClick}>Wyślij</button>
+                <div style={style.buttonContainer}>
+                    <button style={style.button} onClick={handleUploadClick}>Wyślij</button>
                 </div>
             </div>
         </div>

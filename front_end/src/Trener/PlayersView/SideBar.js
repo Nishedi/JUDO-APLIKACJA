@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                     <div className={styles.emptyElement}></div>
                     <div
                         onClick={onReportErrorClick}
-                        className={styles.singleClickableElemement}>
+                        className={styles.singleClickableElemementv3}>
                         Zgłoś błąd
                         {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                     </div>

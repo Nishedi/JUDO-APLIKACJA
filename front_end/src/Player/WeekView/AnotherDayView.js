@@ -35,6 +35,10 @@ const AnotherDayView = () => {
         navigate('/');
     }
 
+    const onReportErrorClick = () => {
+        navigate('/reporterror');
+    }
+
     const getActivity = async () => {
         const { data: aktywnosc, error } = await supabase
                 .from('aktywności')
@@ -116,7 +120,7 @@ const AnotherDayView = () => {
 
     return (
         <div onClick={closeSidebar} className={styles.background}>
-            <SideBarCalendar onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
                     <RxHamburgerMenu/>

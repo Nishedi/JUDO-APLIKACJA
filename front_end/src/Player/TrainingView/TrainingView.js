@@ -115,13 +115,17 @@ const TrainingView = () => {
             <ul>
               { activity.zadania ? (
                 activity.rodzaj_aktywności === 'Motoryczny' ?
-                <button 
-                    className={styles.buttonRozwin}
-                    onClick={() => {
-                    window.open(activity.zadania);  // Przekierowanie
-                }}>
-                    Wyświetl szczegóły
-                </button>
+                <> {activity?.zadania ? 
+                  <button 
+                      className={styles.buttonRozwin}
+                      onClick={() => {
+                      window.open(activity.zadania);  // Przekierowanie
+                  }}>
+                      Wyświetl szczegóły
+                  </button>
+                  : null} 
+                </>
+                
                 :
                 <ul>
                   {activity.zadania.split(',').map((task, index) => {

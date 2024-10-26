@@ -63,7 +63,7 @@ const SideBarCalendar = ({ isOpen, onLogOutClick,  onAddActivityClick, onAddPlay
                     </div>
                     <div className={styles.emptyElement}></div>  
                     <div onClick = {onReportClick}
-                    className={styles.singleClickableElemement}>
+                    className={styles.singleClickableElemementv3}>
                         Zgłoś błąd
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
