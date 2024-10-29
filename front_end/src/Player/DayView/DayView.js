@@ -196,7 +196,7 @@ const DayView = () => {
         if (stats) {
             if(stats.length > 0) {
                 setStats(stats[0]);
-                if(stats[0]?.tętno && stats[0]?.samopoczucie && stats[0]?.waga){
+                if(stats[0]?.tętno || stats[0]?.samopoczucie || stats[0]?.waga){
                     setIsEditing(false);
                 }else{
                     setIsEditing(true);
