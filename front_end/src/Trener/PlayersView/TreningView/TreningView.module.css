@@ -75,6 +75,10 @@
     flex-direction: row;
     justify-content: space-between; */
 }
+ul{
+    padding-inline-start: 20px;
+}
+
 
 .oneline {
     display: flex;

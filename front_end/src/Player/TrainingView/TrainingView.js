@@ -137,7 +137,8 @@ const TrainingView = () => {
                             <strong>{thing?.name+" "}</strong>
                             {thing?.duration ? thing.duration + " min. " : ""} 
                             {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
-                            {thing?.repeats ? thing.repeats + " powtórzeń " : ""}
+                            {thing?.repeats ? "x"+thing.repeats + " " : ""}
+                            {thing?.goldenScore ? "+"+thing.goldenScore + " min. " : ""}
                           </li>
                         );
                       })}

@@ -80,30 +80,6 @@ const EditingActivity = () => {
     ]);
 
     useEffect(() => {
-        // const selectedExercisesToSplit = viewedPlayer.currentActivity.zadania;
-        // const selectedExercisesArray = selectedExercisesToSplit?.split(",");
-        // setSelectedExercises(selectedExercisesArray.map((exercise, index) => {
-        //     const parts = exercise.split(":"); 
-        //     const name = parts[0]; 
-        //     let duration = null;
-        //     let repeats = null;
-        //     if (parts[1]) {
-        //         if (parts[1].includes('min.')) {
-        //             duration = parts[1].replace(' min.', '');
-        //         } else if (parts[1].includes('x')) {
-        //             repeats = parts[1].replace('x', '');
-        //         }
-        //     }
-        //     if (parts[2] && parts[2].includes('x')) {
-        //         repeats = parts[2].replace('x', '');
-        //     }
-        //     return {
-        //         name,
-        //         duration,
-        //         repeats,
-        //         id: index
-        //     };
-        // }));
         const selectedExercises = viewedPlayer.currentActivity?.szczegoly;
         if(selectedExercises)
             setSelectedExercises(selectedExercises);
@@ -297,6 +273,7 @@ const EditingActivity = () => {
         const [duration, setDuration] = useState(exercise?.duration||'');
         const [repeats, setRepeats] = useState(exercise?.repeats||'');
         const [durationSecond, setDurationSecond] = useState(exercise?.durationSecond||'');
+        const [goldenScore, setGoldenScore] = useState(exercise?.goldenScore||'');
         // Funkcja do aktualizacji liczby powtórzeń
         const updateExercise = () => {
             if(duration||duration===''){
@@ -326,31 +303,53 @@ const EditingActivity = () => {
                     )
                 );
             }
+            if(goldenScore && selectedTrenings[0]?.name === 'Na macie'){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item, index1) =>
+                        index1 === index
+                            ? { ...item, goldenScore: goldenScore } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
         };
     
         return (
             <div>
-                <div>{exercise.name}</div>
-                <div className={styles.exercise_details}>
-                    <input
-                        type="number"
-                        placeholder='Czas trwania'
-                        value={duration}
-                        onChange={(e)=>{setDuration(e.target.value)}}
-                    />
-                    <input
-                        type="number"
-                        placeholder='Czas trwania w sekundach'
-                        value={durationSecond}
-                        onChange={(e)=>setDurationSecond(e.target.value)}
-                    />
-                    <input
-                        type="number"
-                        placeholder='Liczba powtórzeń'
-                        value={repeats}
-                        onChange={(e)=>setRepeats(e.target.value)}
-                    />
-                    <MdOutlineDone onClick={updateExercise} className={styles.add_button}/>
+               <div style={{marginBottom: '5px'}}>{exercise.name}</div>
+               <div className={styles.exercise_details} style={selectedTrenings[0].name==="Na macie"? {flexDirection: "column"}:{flexDirection: "row"}}>
+                    <div>
+                        <input
+                            type="number"
+                            placeholder='Czas trwania'
+                            value={duration}
+                            onChange={(e)=>{setDuration(e.target.value)}}
+                        />
+                        <input
+                            type="number"
+                            placeholder='Czas trwania w sekundach'
+                            value={durationSecond}
+                            onChange={(e)=>setDurationSecond(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="number"
+                            placeholder='Liczba powtórzeń'
+                            value={repeats||exercise?.repeats}
+                            onChange={(e)=>setRepeats(e.target.value)}
+                            style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
+                        />
+                        {selectedTrenings[0]?.name === 'Na macie' ? 
+                         <input
+                            type="number"
+                            placeholder='GS'
+                            value={goldenScore||exercise?.goldenScore}
+                            onChange={(e)=>setGoldenScore(e.target.value)}
+                        />
+                         : null}
+                    </div>
+                    <MdOutlineDone onClick={updateExercise} className={styles.add_button} style={selectedTrenings[0].name==="Na macie"? {width: "100%", margin:'4px'}:{minWidth: '40px'}}/>
                 </div>
             </div>
         );

@@ -21,7 +21,6 @@
   height: fit-content;
 }
 
-
 .navbar{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -69,11 +68,7 @@
     padding: 0;
 }
 
-.trainingDetails li {
-    font-family: 'Montserrat-Regular';
-    font-size: 12px;
-    margin-bottom: 10px;
-}
+
 .commentSection {
     font-size: 12px;
     font-family: 'Montserrat-Regular';
@@ -108,8 +103,22 @@
 
 .trainingDetails ul {
     list-style-type: disc;
-    padding: 0 20px;
+    /* padding: 0 20px; */
     align-items: flex-start;
+}
+
+.trainingDetails li {
+  font-family: 'Montserrat-Regular';
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+ul{
+    padding-inline-start: 20px;
+}
+
+li{
+    margin-bottom: 10px;
 }
 
 input, select{
