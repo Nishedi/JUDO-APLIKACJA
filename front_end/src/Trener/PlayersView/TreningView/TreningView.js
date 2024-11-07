@@ -31,6 +31,7 @@ const TrenerTrainingView = () => {
             console.error("Błąd pobierania aktywności", error);
             return;
         }
+        console.log(data[0]);
         setActivity(data[0]);
     };
 
@@ -115,7 +116,6 @@ const TrenerTrainingView = () => {
 
                          ) :
                         <div>
-                            {activity.rodzaj_aktywności !== 'Inny'}
                             <p><strong>Zadania do wykonania:</strong></p>
                             {/* Tutaj połączone z bazą - to co trener wskaże! */}
                             {activity.rodzaj_aktywności==='Motoryczny' ? 
@@ -125,29 +125,44 @@ const TrenerTrainingView = () => {
                                 window.open(activity.zadania);  // Przekierowanie
                             }}>Wyświetl szczegóły</button>
                             : (
-                                <ul>
-                                    {thingsToDo.map((thing, index) => {
-                                        const parts = thing.split(":");
+                                
+                                activity.szczegoly ?
+                                    <ul>
+                                         {activity.szczegoly.map((thing, index) => {
+                                            return(
+                                                <li key={index}>
+                                                    <strong>{thing?.name+" "}</strong>
+                                                    {thing?.duration ? thing.duration + " min. " : ""} 
+                                                    {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
+                                                    {thing?.repeats ? thing.repeats + " powtórzeń " : ""}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul> 
+                                    :
+                                    <ul>
+                                        {thingsToDo.map((thing, index) => {
+                                            const parts = thing.split(":");
 
-                                        return (
-                                            <li key={index}>
-                                                {parts.length === 1 && (
-                                                    <strong>{parts[0]}</strong>
-                                                )}
-                                                {parts.length === 2 && (
-                                                    <>
-                                                        <strong>{parts[0]}</strong>: {parts[1]}
-                                                    </>
-                                                )}
-                                                {parts.length === 3 && (
-                                                     <>
-                                                        <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
-                                                    </>
-                                                )}
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
+                                            return (
+                                                <li key={index}>
+                                                    {parts.length === 1 && (
+                                                        <strong>{parts[0]}</strong>
+                                                    )}
+                                                    {parts.length === 2 && (
+                                                        <>
+                                                            <strong>{parts[0]}</strong>: {parts[1]}
+                                                        </>
+                                                    )}
+                                                    {parts.length === 3 && (
+                                                        <>
+                                                            <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                                                        </>
+                                                    )}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
 
                             )}
                         </div> 

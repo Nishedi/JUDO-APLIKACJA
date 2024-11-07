@@ -256,6 +256,15 @@ const AddingActivityFirstPage = () => {
         }
         for (const athlete of selectedOptions) {
             for (const date of dates) {
+                const exercises2 = [];
+                for (const exercise of selectedExercises) {
+                    exercises2.push({
+                        name: exercise.name,
+                        duration: exercise.duration,
+                        repeats: exercise.repeats,
+                        durationSecond: exercise.durationSecond
+                    });
+                }
                 const activity = {
                     id_trainer: globalVariable.id,
                     id_athlete: athlete.id,
@@ -263,6 +272,7 @@ const AddingActivityFirstPage = () => {
                     start_time: getTimeString(date),
                     activity_type: selectedTrenings[0]?.name,
                     exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
+                    exercises_details: exercises2,
                     comment: comment
                 };
                 const { data, error } = await supabase
@@ -276,7 +286,8 @@ const AddingActivityFirstPage = () => {
                             rodzaj_aktywności: activity.activity_type,
                             zadania: activity.exercise,
                             czas_rozpoczęcia: activity.start_time,
-                            komentarz_trenera: activity.comment
+                            komentarz_trenera: activity.comment,
+                            szczegoly: activity.exercises_details
                         },
                     ])
                     .select()
@@ -296,6 +307,7 @@ const AddingActivityFirstPage = () => {
     const Activity = ({ exercise }) => {
         const [duration, setDuration] = useState(exercise?.duration||'');
         const [repeats, setRepeats] = useState(exercise?.repeats||'');
+        const [durationSeconds, setDurationSeconds] = useState(exercise?.durationSecond||'');
         // Funkcja do aktualizacji liczby powtórzeń
         const updateExercise = () => {
             if(duration){
@@ -316,7 +328,15 @@ const AddingActivityFirstPage = () => {
                     )
                 );
             }
-        };
+            if(durationSeconds)
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, durationSecond: durationSeconds } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            };
     
         return (
             <div>
@@ -324,11 +344,16 @@ const AddingActivityFirstPage = () => {
                 <div className={styles.exercise_details}>
                     <input
                         type="number"
-                        placeholder='Czas trwania'
+                        placeholder='Minuty'
                         value={duration}
                         onChange={(e)=>setDuration(e.target.value)}
                     />
-                    
+                    <input
+                        type="number"
+                        placeholder='Sekundy'
+                        value={durationSeconds}
+                        onChange={(e)=>setDurationSeconds(e.target.value)}
+                    />
                     <input
                         type="number"
                         placeholder='Liczba powtórzeń'
@@ -412,26 +437,33 @@ const AddingActivityFirstPage = () => {
 
                         <div className={styles.input_container}>
                             <div>Wybierz datę oraz godzinę treningu</div>
-                                <Calendar
-                                    value={dates}
-                                    onChange={(e) => setDates(e.value)}
-                                    selectionMode="multiple"
-                                    readOnlyInput = {false}
-                                    className="custom-calendar"
-                                    locale='pl'
-                                    dateFormat='dd/mm/yy'
-                                    showTime 
-                                    hourFormat="24" 
-                                    placeholder='Wybierz datę i godzinę'
-                                    stepMinute={10}
-                                    style={{
-                                        width: '100%',  // Ustawia pełną szerokość
-                                        border: errors.dates ? '2px solid red' : '1px solid #ccc',  // Obramowanie zależne od błędu
-                                        padding: '0px',  // Padding dla lepszego wyglądu
-                                        borderRadius: '5px'  // Zaokrąglone rogi
-                                    }}
-                                />
-                                {errors.dates && <div className={styles.error_message}>{errors.dates}</div>}
+                            <Calendar
+                                value={dates}
+                                onChange={(e) => setDates(e.value)}
+                                selectionMode="multiple"
+                                readOnlyInput={false}
+                                className="custom-calendar"
+                                locale='pl'
+                                dateFormat='dd/mm/yy'
+                                showTime 
+                                hourFormat="24" 
+                                placeholder='Wybierz datę i godzinę'
+                                stepMinute={10}
+                                inputStyle={{
+                                    border: 'none',  // Removes the inner border
+                                    boxShadow: 'none',
+                                    outline: 'none',
+                                }}
+                                style={{
+                                    width: '100%',
+                                    border: errors.dates ? '2px solid red' : '1px solid #ccc',
+                                    padding: '10px',
+                                    borderRadius: '3px',
+                                    backgroundColor: '#fff',
+                                }}
+                            />
+
+                            {errors.dates && <div className={styles.error_message}>{errors.dates}</div>}
                         </div>
                         <div className={styles.input_container}>
                             Wybierz rodzaj treningu

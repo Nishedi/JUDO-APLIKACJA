@@ -127,34 +127,45 @@ const TrainingView = () => {
                 </>
                 
                 :
-                <ul>
-                  {activity.zadania.split(',').map((task, index) => {
-                      // Podziel zadanie na części na podstawie dwukropka ":"
-                      const parts = task.split(":");
-              
-                      return (
+                <>
+                {activity.szczegoly ?
+                
+                  <ul>
+                      {activity.szczegoly.map((thing, index) => {
+                        return(
                           <li key={index}>
-                              {parts.length === 1 && (
-                                  // Jeśli jest tylko jedna część
-                                  <strong>{parts[0]}</strong>
-                              )}
-                              {parts.length === 2 && (
-                                  // Jeśli są dwie części, wyświetl je z dwukropkiem pomiędzy
-                                  <>
-                                      <strong>{parts[0]}</strong>: {parts[1]}
-                                  </>
-                              )}
-                              {parts.length === 3 && (
-                                  // Jeśli są trzy części, wyświetl każdą część
-                                  <>
-                                      <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
-                                  </>
-                              )}
+                            <strong>{thing?.name+" "}</strong>
+                            {thing?.duration ? thing.duration + " min. " : ""} 
+                            {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
+                            {thing?.repeats ? thing.repeats + " powtórzeń " : ""}
                           </li>
+                        );
+                      })}
+                    </ul> 
+                    :
+                    <ul>
+                    {activity.zadania.split(',').map((thing, index) => {
+                      const parts = thing.split(":");
+                      return (
+                        <li key={index}>
+                          {parts.length === 1 && (
+                            <strong>{parts[0]}</strong>
+                           )}
+                          {parts.length === 2 && (
+                             <>
+                                <strong>{parts[0]}</strong>: {parts[1]}
+                              </>
+                           )}
+                          {parts.length === 3 && (
+                            <>
+                              <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                            </>
+                          )}
+                        </li>
                       );
-                  })}
-            </ul>
-            
+                    })}
+                  </ul>}                                    
+                </>
               ) : (
                 <li>Brak zadań do wykonania</li>
               )}

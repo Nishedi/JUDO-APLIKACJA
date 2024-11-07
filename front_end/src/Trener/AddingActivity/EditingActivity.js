@@ -80,30 +80,34 @@ const EditingActivity = () => {
     ]);
 
     useEffect(() => {
-        const selectedExercisesToSplit = viewedPlayer.currentActivity.zadania;
-        const selectedExercisesArray = selectedExercisesToSplit?.split(",");
-        setSelectedExercises(selectedExercisesArray.map((exercise, index) => {
-            const parts = exercise.split(":"); 
-            const name = parts[0]; 
-            let duration = null;
-            let repeats = null;
-            if (parts[1]) {
-                if (parts[1].includes('min.')) {
-                    duration = parts[1].replace(' min.', '');
-                } else if (parts[1].includes('x')) {
-                    repeats = parts[1].replace('x', '');
-                }
-            }
-            if (parts[2] && parts[2].includes('x')) {
-                repeats = parts[2].replace('x', '');
-            }
-            return {
-                name,
-                duration,
-                repeats,
-                id: index
-            };
-        }));
+        // const selectedExercisesToSplit = viewedPlayer.currentActivity.zadania;
+        // const selectedExercisesArray = selectedExercisesToSplit?.split(",");
+        // setSelectedExercises(selectedExercisesArray.map((exercise, index) => {
+        //     const parts = exercise.split(":"); 
+        //     const name = parts[0]; 
+        //     let duration = null;
+        //     let repeats = null;
+        //     if (parts[1]) {
+        //         if (parts[1].includes('min.')) {
+        //             duration = parts[1].replace(' min.', '');
+        //         } else if (parts[1].includes('x')) {
+        //             repeats = parts[1].replace('x', '');
+        //         }
+        //     }
+        //     if (parts[2] && parts[2].includes('x')) {
+        //         repeats = parts[2].replace('x', '');
+        //     }
+        //     return {
+        //         name,
+        //         duration,
+        //         repeats,
+        //         id: index
+        //     };
+        // }));
+        const selectedExercises = viewedPlayer.currentActivity?.szczegoly;
+        if(selectedExercises)
+            setSelectedExercises(selectedExercises);
+        
     }, []);
 
 
@@ -233,7 +237,8 @@ const EditingActivity = () => {
             start_time: getTimeString(dates),
             activity_type: selectedTrenings[0]?.name,
             exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
-            comment: comment
+            comment: comment,
+            details: selectedExercises
         };
         const { data, error } = await supabase
             .from('aktywności')
@@ -242,7 +247,8 @@ const EditingActivity = () => {
                 rodzaj_aktywności: activity.activity_type,
                 zadania: activity.exercise,
                 czas_rozpoczęcia: activity.start_time,
-                komentarz_trenera: activity.comment
+                komentarz_trenera: activity.comment,
+                szczegoly: activity.details
             })
             .eq('id', viewedPlayer.currentActivity.id)
             .select()
@@ -287,25 +293,35 @@ const EditingActivity = () => {
         setSelectedExercises([{name: e.target.value, id: 0}]);
     }
 
-    const Activity = ({ exercise }) => {
+    const Activity = ({ exercise, index }) => {
         const [duration, setDuration] = useState(exercise?.duration||'');
         const [repeats, setRepeats] = useState(exercise?.repeats||'');
+        const [durationSecond, setDurationSecond] = useState(exercise?.durationSecond||'');
         // Funkcja do aktualizacji liczby powtórzeń
         const updateExercise = () => {
             if(duration||duration===''){
                 setSelectedExercises((prevExercises) =>
-                    prevExercises.map((item) =>
-                        item.id === exercise.id
+                    prevExercises.map((item, index1) =>
+                        index1 === index
                             ? { ...item, duration: duration } // Zaktualizuj tylko czas trwania
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+            if(durationSecond||durationSecond===''){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item, index1) =>
+                        index1 === index
+                            ? { ...item, durationSecond: durationSecond } // Zaktualizuj tylko czas trwania
                             : item // Zwróć niezmienione elementy
                     )
                 );
             }
             if(repeats||repeats===''){
                 setSelectedExercises((prevExercises) =>
-                    prevExercises.map((item) =>
-                        item.id === exercise.id
-                            ? { ...item, repeats: repeats } // Zaktualizuj tylko liczbę powtórzeń
+                    prevExercises.map((item, index1) =>
+                        index1 === index
+                            ? { ...item, repeats: repeats } // Zaktualizuj tylko czas trwania
                             : item // Zwróć niezmienione elementy
                     )
                 );
@@ -320,9 +336,14 @@ const EditingActivity = () => {
                         type="number"
                         placeholder='Czas trwania'
                         value={duration}
-                        onChange={(e)=>{setDuration(e.target.value);console.log(e.target.value)}}
+                        onChange={(e)=>{setDuration(e.target.value)}}
                     />
-                    
+                    <input
+                        type="number"
+                        placeholder='Czas trwania w sekundach'
+                        value={durationSecond}
+                        onChange={(e)=>setDurationSecond(e.target.value)}
+                    />
                     <input
                         type="number"
                         placeholder='Liczba powtórzeń'
@@ -387,7 +408,9 @@ const EditingActivity = () => {
                         placeholder='Wybierz ćwiczenia'
                         style={sharedStyles}
                     />
-                    {selectedExercises.map(exercise => <Activity exercise={exercise}/>)}
+                    {selectedExercises.map((exercise, index) => {
+                        return(<Activity index={index} exercise={exercise} />);})}
+
                 </div> ): selectedTrenings[0]?.name=== "Motoryczny" ? 
                     (
                         <>

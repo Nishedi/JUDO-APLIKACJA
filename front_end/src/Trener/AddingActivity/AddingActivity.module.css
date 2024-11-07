@@ -87,6 +87,11 @@
     padding: 20px;
     background-color: #FFFFFF;
 }
+.custom-calendar .p-calendar input {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
 
 .input{
     border-radius: 4px;
