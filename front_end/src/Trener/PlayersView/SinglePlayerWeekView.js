@@ -242,8 +242,7 @@ const SinglePlayerWeekView = () => {
                             <div className={styles.singleActivityInfo}>
                                 <strong>{viewedPlayer.kinaza} </strong>
                                 {viewedPlayer.ostatnia_aktualizacja_kinazy &&
-                                <div>({viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[1]})</div>
-        }
+                                <div>({viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[1]})</div>}
                             </div>
                             <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kinaze')}>
                                 Aktualizuj
@@ -263,6 +262,11 @@ const SinglePlayerWeekView = () => {
                             <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
                                 Aktualizuj
                             </button>
+                        </div>
+                        <div className={styles.buttonStatsOpacity}>
+                        <button className={styles.buttonStats} onClick={() => navigate("/trener/playerstats")}>
+                                Statystyki
+                        </button>
                         </div>
                     </div>
                 </div>

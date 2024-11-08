@@ -28,6 +28,7 @@ import AnotherDayView from './Player/WeekView/AnotherDayView';
 import PlayerPass from './Trener/TrenerProfile/PlayerProfile/PlayerPass';
 import CreateTrener from './LoginComponent/CreateTrener';
 import ReportError from './ReportSide/ReportError';
+import PlayerStats from './Trener/PlayersView/PlayerStats/PlayerStats';
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
           <Route path = "trener/playerpass" element = {<PlayerPass />} />
           <Route path = "trener/createtrener" element = {<CreateTrener />} />
           <Route path = "/reporterror" element = {<ReportError />} />
+          <Route path = 'trener/playerstats' element = {<PlayerStats />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

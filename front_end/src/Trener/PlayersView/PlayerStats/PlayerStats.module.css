@@ -1,0 +1,71 @@
+.background{
+    display: grid;
+    grid-template-rows: flex; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Poppins-Medium";
+    font-size: 20px;
+    height: 80px;
+    min-height: 80px;
+}
+
+.left_navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.player_info_div, .writing_div{
+    display: flex;
+    justify-content: right;
+}
+
+.writing_div{
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 20px;
+}
+
+.player_info_div{
+    font-family: 'Montserrat-SemiBold';
+    font-size: 16px;
+}
+
+.rotatePhoneText{
+    display: 'flex';
+    justify-content: 'center';
+    text-align: 'center';
+}
+
+h1{
+    font-family: 'Montserrat-SemiBold';
+    font-size: 32px;
+}
+
+.burger{
+    color: #FFFFFF; 
+    font-size: 24px;
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.button:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.burger:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
+}
