@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import DatePicker from 'react-datepicker';
 
 
 const PlayerStats = () => {
@@ -15,6 +16,7 @@ const PlayerStats = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [playerStats, setPlayerStats] = useState([]);
     const today = new Date();
+    const [scrolableChart, setScrolableChart] = useState(false);
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 2); 
     firstDayOfMonth.setDate(firstDayOfMonth.getDate()); // Ostatni dzień poprzedniego miesiąca
     const [firstDate, setFirstDate] = useState(firstDayOfMonth.toISOString().split('T')[0]);
@@ -24,6 +26,8 @@ const PlayerStats = () => {
     const [minWeight, setMinWeight] = useState(0);
     const [maxPulse, setMaxPulse] = useState(0);
     const [minPulse, setMinPulse] = useState(0);
+    const [selectedFilter, setSelectedFilter] = useState('all');
+    const [accurancy, setAccurancy] = useState(10);
     const getPlayerStats = async () => {
         const dates = generateDateArray(firstDate, secondDate);
         let { data: statystyki, error } = await supabase
@@ -41,21 +45,35 @@ const PlayerStats = () => {
     }
 
     const generateDateArray = (startDateStr, endDateStr) => {
-        const startDate = new Date(startDateStr); // Miesiące są zero-indeksowane
+        const startDate = new Date(startDateStr); 
         const endDate = new Date(endDateStr);
         const dates = [];
         while (startDate <= endDate) {
             const formattedDate = `${String(startDate.getDate()).padStart(2, '0')}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()}`;
             dates.push(formattedDate);
-            startDate.setDate(startDate.getDate() + 1); // Przejdź do następnego dnia
+            startDate.setDate(startDate.getDate() + 1); 
         }
         
         return dates;
     };
 
+    const changeAccurancy = (incOrDec) => {
+        // console.log(accurancy)
+        // let change = 1;
+        // if(accurancy >= 100 && incOrDec == 1) return;
+        // if(accurancy <= 0.15 && incOrDec == -1) return;
+        // if(accurancy >= 20 && incOrDec == -1) change = 10;
+        // if(accurancy >= 10 && incOrDec == 1) change = 10;
+        
+        // if(accurancy <= 10 && incOrDec == 1) change = 1;
+        // if(accurancy <= 1 && incOrDec == -1) change = 0.1;
+        // setAccurancy(accurancy + change*incOrDec);
+    }
+
+
     useEffect(() => {
         getPlayerStats();
-      }, []);
+      }, [firstDate, secondDate]);
 
     useEffect(() => {
         if(playerStats.length === 0) return;   
@@ -66,22 +84,22 @@ const PlayerStats = () => {
             let feelingValue;
             switch (entry.samopoczucie) {
                 case 'Bardzo źle':
-                    feelingValue = 20;
+                    feelingValue = 0;
                     break;
                 case 'Źle':
-                    feelingValue = 40;
+                    feelingValue = 25;
                     break;
                 case 'Neutralnie':
-                    feelingValue = 60;
+                    feelingValue = 50;
                     break;
                 case 'Dobrze':
-                    feelingValue = 80;
+                    feelingValue = 75;
                     break;
                 case 'Bardzo dobrze':
                     feelingValue = 100;
                     break;
                 default:
-                    feelingValue = 60; // Domyślna wartość na wypadek nieznanego stanu
+                    feelingValue = null; 
                     break;
             }
         
@@ -98,7 +116,7 @@ const PlayerStats = () => {
         const endDate = new Date(secondDate);
         const validPulses = data.filter(entry => typeof entry.pulse === 'number');
         const avgPulse = validPulses.reduce((acc, entry) => acc + entry.pulse, 0) / (validPulses.length || 1);
-        const validWeights = data.filter(entry => typeof entry.weight === 'number');
+        const validWeights = data.filter(entry => typeof entry.weight === 'number' && entry.weight >= 10);
         const avgWeight = validWeights.reduce((acc, entry) => acc + entry.weight, 0) / (validWeights.length || 1);
         const validFeelings = data.filter(entry => typeof entry.feeling === 'number');
         const avgFeeling = validFeelings.reduce((acc, entry) => acc + entry.feeling, 0) / (validFeelings.length || 1);
@@ -131,8 +149,8 @@ const PlayerStats = () => {
             .map(entry => entry.pulse));
         let maxPulse = Math.max(...fullDateRange.map(entry => entry.pulse));
         const diffrencePulse = maxPulse - minPulse;
-        minPulse = minPulse - diffrencePulse/10;
-        maxPulse = maxPulse + diffrencePulse/10;
+        minPulse = minPulse - diffrencePulse/accurancy;
+        maxPulse = maxPulse + diffrencePulse/accurancy;
         setMinPulse(minPulse);
         setMaxPulse(maxPulse);
         setMinWeight(minWeight);
@@ -148,7 +166,7 @@ const PlayerStats = () => {
         });
 
         setProcessedPlayerStats(dx);
-    }, [firstDate, secondDate, playerStats]);
+    }, [firstDate, secondDate, playerStats, accurancy]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -191,6 +209,18 @@ const PlayerStats = () => {
         return date.toLocaleString('default', { month: 'long' }); 
     };
 
+    const handleFirstDateChange = (date) => {
+        setFirstDate(date.toISOString().split('T')[0]);
+    };
+
+    const handleSecondDateChange = (date) => {
+        setSecondDate(date.toISOString().split('T')[0]);
+    };
+
+    const handleSelectChange = (event) => {
+        setSelectedFilter(event.target.value);
+      };
+
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -218,10 +248,56 @@ const PlayerStats = () => {
                 </div>
                  
             </div>
+            
+            {windowWidth > 550 ?
+            <div className={styles.buttonsFrame}>
+                <div className={styles.dateFrame}>
+                    <div className={styles.noteSection}>
+                    <p>Data początkowa: </p>
+                        <div className={styles.pickerWrapper}>
+                            {/* DatePicker - wybór daty */}
+                            <DatePicker
+                                selected={firstDate}
+                                onChange={handleFirstDateChange}
+                                dateFormat="dd.MM.yyyy"
+                                className={styles.customDatePicker} // Klasa CSS dla daty
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.noteSection}>
+                    <p>Data początkowa: </p>
+                        <div className={styles.pickerWrapper}>
+                            {/* DatePicker - wybór daty */}
+                            <DatePicker
+                                selected={secondDate}
+                                onChange={handleSecondDateChange}
+                                dateFormat="dd.MM.yyyy"
+                                className={styles.customDatePicker} // Klasa CSS dla daty
+                            />
+                        </div>
+                    </div>
+                </div>
+                {/* <div className={styles.dateFrame}>
+                    <button className={styles.buttonStats} onClick={()=>{changeAccurancy(1)}}>Zwiększ szczegółowość</button>
+                    <button className={styles.buttonStats} onClick={()=>{changeAccurancy(-1)}}>Zmniejsz szczegółowość</button>
+                </div> */}
+                <button className={styles.buttonStats} onClick={()=>{setScrolableChart(!scrolableChart)}}>Przesuwny wykres</button>
+                <select className={styles.selectButton} value={selectedFilter} onChange={(e)=>{handleSelectChange(e)}}>
+                    <option value="feeling">Samopoczucie</option>
+                    <option value="pulse">Tętno</option>
+                    <option value="weight">Waga</option>
+                    <option value="all">Wszystkie</option>
+                </select>
+               
+                
+            </div>
+            
+            : null}
             <div className={styles.chartSection}>
             {windowWidth > 550 ?
+            <div className={!scrolableChart? styles.scrollableChartContainer: null}>
                 <LineChart 
-                    width={windowWidth} 
+                    width={!scrolableChart?windowWidth:processedPlayerStats.length*25} 
                     height={400} 
                     data={processedPlayerStats} 
                     margin={windowWidth > 550 
@@ -230,48 +306,47 @@ const PlayerStats = () => {
                     }
                     >
                     <CartesianGrid strokeDasharray="5 5" />
-                    <XAxis dataKey="date" label={{ value: `Data (${monthName()})`, position: 'bottom', offset: 0 }} minTickGap={15} tickFormatter={(date) => {
+                    <XAxis dataKey="date" label={{ value: `Data (${monthName()})`, position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/3 }} minTickGap={15} tickFormatter={(date) => {
                         const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
                         return `${day}`; // Zwracamy tylko miesiąc i dzień
                     }} />
                     {window.innerWidth > 550 ?
-                        
+                     
                         <YAxis 
                             label={{ 
-                                value: `Tętno/Samopoczucie/Waga`, 
+                                value: `Tętno/Samopoczucie/Waga[kg]`, 
                                 angle: -90, // Obrót o 90 stopni w kierunku przeciwnym do ruchu wskazówek zegara
                                 position: 'insideLeft', 
                                 offset: -5 ,
                                 dy: 100
                             }} 
-                            ticks={[0,10,20,30, 40,50, 60,70, 80, 90, 100]}  
+                            ticks={[0,25,50,75, 100]}  
                             tickFormatter={(value) => {
                                 switch(value) {
-                                    // case 0: return "Bardzo źle\n0";
-                                    // case 20: return "Źle\n20";
-                                    // case 40: return "Neutralnie\n40";
-                                    // case 60: return "Dobrze\n60";
-                                    // case 80: return "Bardzo dobrze\n80";
-                                    case 0: return (minWeight+" "+minPulse+"\n0");
-                                    case 20: return (
-                                        `${(0.2 * (minPulse - minWeight) + minWeight).toFixed(0)}😢\n` +
-                                        `${(0.2 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0` 
+                                    case 0: return (
+                                        `${selectedFilter==='all' || selectedFilter === 'pulse'?(0 * (minPulse - minWeight) + minWeight).toFixed(0):""}
+                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"😢\n":""}` +
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
                                     );
-                                    case 40: return (
-                                        `${(0.4 * (maxPulse - minPulse) + minPulse).toFixed(0)}🙁\n` +
-                                        `${(0.4 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    case 25: return (
+                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.25 * (minPulse - minWeight) + minWeight).toFixed(0):""}
+                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"🙁\n":""}` +
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
                                     );
-                                    case 60: return (
-                                        `${(0.6 * (maxPulse - minPulse) + minPulse).toFixed(0)}😐\n`+
-                                        `${(0.6 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    case 50: return (
+                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.5 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
+                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"😐\n":""}`+
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
-                                    case 80: return (
-                                        `${(0.8 * (maxPulse - minPulse) + minPulse).toFixed(0)}🙂\n`+
-                                        `${(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    case 75: return (
+                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.75 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
+                                         ${selectedFilter==='all' || selectedFilter === 'feeling'?"🙂\n":""}`+
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     case 100: return (
-                                        `${(1 * (maxPulse - minPulse) + minPulse).toFixed(0)}😊\n`+
-                                        `${(1 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.8 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
+                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"😊\n":""}`+
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     default: return value;
                                 }
@@ -292,18 +367,25 @@ const PlayerStats = () => {
                             }}
                             style={{ whiteSpace: 'pre-line', wordWrap: 'normal', overflowWrap: 'normal' }} 
                         />
-                        }    
-                    <Line type="monotone" dataKey="pulse" stroke={'#77AEFF'} dot={false} name="Tętno" />
-                    <Line type="monotone" dataKey="feeling" stroke={'#11BBAE'} dot={false} name="Samopoczucie" />
-                    <Line type="monotone" dataKey="weight" stroke={'#FF77AE'} dot={false} name="Waga" />
-                    <Legend verticalAlign="top" height={36} />
-                </LineChart>:
+                        }   
+                    {selectedFilter === 'all' || selectedFilter === 'pulse' ? <Line type="monotone" dataKey="pulse" stroke={'#77AEFF'} dot={false} name="Tętno" /> : null}
+                    {selectedFilter === 'all' || selectedFilter === 'feeling' ? <Line type="monotone" dataKey="feeling" stroke={'#11BBAE'} dot={false} name="Samopoczucie" /> : null}
+                    {selectedFilter === 'all' || selectedFilter === 'weight' ? <Line type="monotone" dataKey="weight" stroke={'#FF77AE'} dot={false} name="Waga" /> : null}
+                    <Legend verticalAlign="top" height={36} wrapperStyle={{
+                        marginLeft: !scrolableChart?0:-processedPlayerStats.length*25/3, // Przesunięcie legendy w lewo o 50px
+                    }} />
+                </LineChart>
+                </div>:
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center', // Centrowanie w poziomie
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    flexDirection: 'column',
                 }}>
                     <h1>Obróć telefon aby wyświetlić wykresy</h1>
+                    <h1>Uwaga! Sekcja w fazie produkcji!</h1>
+                    <h2>Mogą wystąpić niespodziewane błędy</h2>
+                
                 </div>}
 
                 </div> 

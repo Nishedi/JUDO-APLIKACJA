@@ -69,3 +69,122 @@ h1{
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }
+
+.noteSection {
+    padding: 0px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    /* justify-content: space-between; */
+}
+
+.noteSection p {
+    font-family: 'Montserrat-Regular';
+    font-size: 20px;
+    color: black;
+    
+}
+
+.pickerWrapper {
+    display: flex;
+    gap: 10px; 
+    align-items: center;
+    position: relative; 
+}
+
+.customDatePicker, .customTimePicker {
+    background-color: #E5EBF5;
+    border: 1px solid #A7B7D6;
+    border-radius: 10px;
+    padding: 5px;
+    font-family: 'Montserrat-Medium';
+    font-size: 16px;
+    color: #103476;
+    width: 120px;; /* Szerokość */
+    text-align: center;
+    white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+    cursor: pointer;
+
+}
+
+.customDatePicker input {
+    background: transparent;
+    border: none;
+    font-family: 'Montserrat-Medium';
+    font-size: 16px;
+    text-align: center;
+     /* Dynamiczna szerokość */
+}
+
+/* Picker na hover */
+.customDatePicker:hover {
+    background-color: #D7DFEE;
+}
+
+.dateFrame{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.buttonsFrame{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.selectButton {
+    /* background-color: #E5EBF5; */
+    border: 1px solid #A7B7D6;
+    border-radius: 10px;
+    padding: 5px;
+    font-family: 'Montserrat-Regular';
+    font-size: 16px;
+    cursor: pointer;
+    color: #103476;
+    
+}
+
+.buttonTrening, .buttonStats {
+    justify-self: center;
+    background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+    color: #FFFFFF;
+    /* width: 42%; */
+    padding: 10px;
+    border-radius: 10px;
+    border-width: 0px;
+    font-family: 'Kodchasan-SemiBold';
+    padding: 5px 10px;
+    font-size: 12px; cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buttonStats {
+    padding: 10px 20px;
+}
+
+.buttonStatsOpacity{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttonStats:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+    transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.buttonStats:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
+}
+.scrollableChartContainer {
+    overflow-x: auto; /* Umożliwia przewijanie w poziomie */
+    overflow-y: hidden; /* Ukrywa przewijanie w pionie */
+    width: 100%; /* Ustawia szerokość kontenera */
+    padding-bottom: 10px; /* Opcjonalne odstępy, aby uniknąć nakładania */
+    margin-bottom: 20px; /* Dodatkowe odstępy poniżej */
+}
