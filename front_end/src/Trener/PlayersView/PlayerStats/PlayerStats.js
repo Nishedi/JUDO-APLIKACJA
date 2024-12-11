@@ -20,6 +20,10 @@ const PlayerStats = () => {
     const [firstDate, setFirstDate] = useState(firstDayOfMonth.toISOString().split('T')[0]);
     const [secondDate, setSecondDate] = useState(new Date().toISOString().split('T')[0]);
     const [processedPlayerStats, setProcessedPlayerStats] = useState([]);
+    const [maxWeight, setMaxWeight] = useState(0);
+    const [minWeight, setMinWeight] = useState(0);
+    const [maxPulse, setMaxPulse] = useState(0);
+    const [minPulse, setMinPulse] = useState(0);
     const getPlayerStats = async () => {
         const dates = generateDateArray(firstDate, secondDate);
         let { data: statystyki, error } = await supabase
@@ -54,9 +58,11 @@ const PlayerStats = () => {
       }, []);
 
     useEffect(() => {
-        if(playerStats.length === 0) return;    
+        if(playerStats.length === 0) return;   
+         
         const data = playerStats.map(entry => {
             // Mapowanie samopoczucia na wartości
+            
             let feelingValue;
             switch (entry.samopoczucie) {
                 case 'Bardzo źle':
@@ -85,7 +91,7 @@ const PlayerStats = () => {
                 pulse: entry.tętno,
                 weight: entry.waga
             };
-        });
+        });       
         
         const fullDateRange = [];
         const startDate = new Date(firstDate);
@@ -113,7 +119,35 @@ const PlayerStats = () => {
                 weight: entry?.weight ? entry.weight : avgWeight
             });
         }
-        setProcessedPlayerStats(fullDateRange);
+        let minWeight = Math.min(...fullDateRange
+            .filter(entry => entry.weight !== null && entry.weight !== 0) // Pomiń wiersze z brakującymi danymi
+            .map(entry => entry.weight));
+        let maxWeight = Math.max(...fullDateRange.map(entry => entry.weight));
+        const diffrence = maxWeight - minWeight;
+        minWeight = minWeight - diffrence/10;
+        maxWeight = maxWeight + diffrence/10;
+        let minPulse = Math.min(...fullDateRange 
+            .filter(entry => entry.pulse !== null && entry.pulse !== 0) // Pomiń wiersze z brakującymi danymi
+            .map(entry => entry.pulse));
+        let maxPulse = Math.max(...fullDateRange.map(entry => entry.pulse));
+        const diffrencePulse = maxPulse - minPulse;
+        minPulse = minPulse - diffrencePulse/10;
+        maxPulse = maxPulse + diffrencePulse/10;
+        setMinPulse(minPulse);
+        setMaxPulse(maxPulse);
+        setMinWeight(minWeight);
+        setMaxWeight(maxWeight);
+        const dx = fullDateRange.map(entry => {
+            const weight = ((entry.weight-minWeight)/(maxWeight-minWeight))*100;
+            const pulse = ((entry.pulse-minPulse)/(maxPulse-minPulse))*100;
+            return {
+                ...entry,
+                weight: weight,
+                pulse: pulse
+            };
+        });
+
+        setProcessedPlayerStats(dx);
     }, [firstDate, secondDate, playerStats]);
 
     const toggleSidebar = () => {
@@ -146,6 +180,16 @@ const PlayerStats = () => {
             setIsSidebarOpen(false);
         }
     }
+
+    const monthName = () => {
+        
+        const formattedItemDate = firstDate
+                    ? firstDate.split('.').reverse().join('-')  // Przekształca "DD.MM.YYYY" na "YYYY-MM-DD"
+                    : null;
+        const [year, month, day] = formattedItemDate.split('-');
+        const date = new Date(year, month - 1, day); 
+        return date.toLocaleString('default', { month: 'long' }); 
+    };
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -186,21 +230,53 @@ const PlayerStats = () => {
                     }
                     >
                     <CartesianGrid strokeDasharray="5 5" />
-                    <XAxis dataKey="date" label={{ value: 'Data', position: 'bottom', offset: 0 }} minTickGap={15} />
+                    <XAxis dataKey="date" label={{ value: `Data (${monthName()})`, position: 'bottom', offset: 0 }} minTickGap={15} tickFormatter={(date) => {
+                        const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
+                        return `${day}`; // Zwracamy tylko miesiąc i dzień
+                    }} />
                     {window.innerWidth > 550 ?
+                        
                         <YAxis 
-                            ticks={[20, 40, 60, 80, 100]}  
+                            label={{ 
+                                value: `Tętno/Samopoczucie/Waga`, 
+                                angle: -90, // Obrót o 90 stopni w kierunku przeciwnym do ruchu wskazówek zegara
+                                position: 'insideLeft', 
+                                offset: -5 ,
+                                dy: 100
+                            }} 
+                            ticks={[0,10,20,30, 40,50, 60,70, 80, 90, 100]}  
                             tickFormatter={(value) => {
                                 switch(value) {
-                                    case 20: return "Bardzo źle\n20";
-                                    case 40: return "Źle\n40";
-                                    case 60: return "Neutralnie\n60";
-                                    case 80: return "Dobrze\n80";
-                                    case 100: return "Bardzo dobrze\n100";
+                                    // case 0: return "Bardzo źle\n0";
+                                    // case 20: return "Źle\n20";
+                                    // case 40: return "Neutralnie\n40";
+                                    // case 60: return "Dobrze\n60";
+                                    // case 80: return "Bardzo dobrze\n80";
+                                    case 0: return (minWeight+" "+minPulse+"\n0");
+                                    case 20: return (
+                                        `${(0.2 * (minPulse - minWeight) + minWeight).toFixed(0)}😢\n` +
+                                        `${(0.2 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0` 
+                                    );
+                                    case 40: return (
+                                        `${(0.4 * (maxPulse - minPulse) + minPulse).toFixed(0)}🙁\n` +
+                                        `${(0.4 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    );
+                                    case 60: return (
+                                        `${(0.6 * (maxPulse - minPulse) + minPulse).toFixed(0)}😐\n`+
+                                        `${(0.6 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    );
+                                    case 80: return (
+                                        `${(0.8 * (maxPulse - minPulse) + minPulse).toFixed(0)}🙂\n`+
+                                        `${(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    );
+                                    case 100: return (
+                                        `${(1 * (maxPulse - minPulse) + minPulse).toFixed(0)}😊\n`+
+                                        `${(1 * (maxWeight - minWeight) + minWeight).toFixed(1)}\u00A0`
+                                    );
                                     default: return value;
                                 }
                             }}
-                            style={{ whiteSpace: 'pre-line', wordWrap: 'normal', overflowWrap: 'normal' }} 
+                            style={{ whiteSpace: 'nowrap', wordWrap: 'normal', overflowWrap: 'normal' }} 
                         /> : 
                         <YAxis 
                             ticks={[20, 40, 60, 80, 100]}  
@@ -218,8 +294,8 @@ const PlayerStats = () => {
                         />
                         }    
                     <Line type="monotone" dataKey="pulse" stroke={'#77AEFF'} dot={false} name="Tętno" />
-                    <Line type="monotone" dataKey="weight" stroke={'#FF77AE'} dot={false} name="Waga" />
                     <Line type="monotone" dataKey="feeling" stroke={'#11BBAE'} dot={false} name="Samopoczucie" />
+                    <Line type="monotone" dataKey="weight" stroke={'#FF77AE'} dot={false} name="Waga" />
                     <Legend verticalAlign="top" height={36} />
                 </LineChart>:
                 <div style={{
