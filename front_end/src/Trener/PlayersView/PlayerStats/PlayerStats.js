@@ -395,6 +395,7 @@ const PlayerStats = () => {
                     <h1>Obróć telefon aby wyświetlić wykresy</h1>
                     <h1>Uwaga! Sekcja w fazie testów!</h1>
                     <h2>Mogą wystąpić niespodziewane błędy</h2>
+                    <h3>Generowanie pdf działa tylko dla wykresów nieprzesuwnych</h3>
                 
                 </div>}
 
