@@ -191,7 +191,8 @@ h1{
 
 .x {
     position: relative;
-    overflow: auto;
+     overflow-x: auto; /* Scrollowanie w poziomie */
+    overflow-y: hidden;
 }
 
 .x::after {
