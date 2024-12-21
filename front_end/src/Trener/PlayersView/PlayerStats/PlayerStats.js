@@ -194,9 +194,9 @@ const PlayerStats = () => {
                 const pdf = new jsPDF('landscape', 'mm', 'a4'); // Utworzenie poziomego PDF
                 const imgWidth = 297; // A4 width in mm (landscape)
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    
+                const fileName = viewedPlayer.imie +"-"+ viewedPlayer.nazwisko + '-' + firstDate + '-' + secondDate+'.pdf';
                 pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                pdf.save('player-stats.pdf'); // Zapis pliku PDF
+                pdf.save(fileName); // Zapis pliku PDF
             })
             .catch((error) => {
                 console.error('Błąd eksportu wykresu do PDF:', error);
