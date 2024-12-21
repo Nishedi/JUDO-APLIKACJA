@@ -7,7 +7,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import DatePicker from 'react-datepicker';
-
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const PlayerStats = () => {
     const {setViewedPlayer, supabase} = useContext(GlobalContext);
@@ -56,21 +57,6 @@ const PlayerStats = () => {
         
         return dates;
     };
-
-    const changeAccurancy = (incOrDec) => {
-        // console.log(accurancy)
-        // let change = 1;
-        // if(accurancy >= 100 && incOrDec == 1) return;
-        // if(accurancy <= 0.15 && incOrDec == -1) return;
-        // if(accurancy >= 20 && incOrDec == -1) change = 10;
-        // if(accurancy >= 10 && incOrDec == 1) change = 10;
-        
-        // if(accurancy <= 10 && incOrDec == 1) change = 1;
-        // if(accurancy <= 1 && incOrDec == -1) change = 0.1;
-        // setAccurancy(accurancy + change*incOrDec);
-    }
-
-
     useEffect(() => {
         getPlayerStats();
       }, [firstDate, secondDate]);
@@ -199,6 +185,24 @@ const PlayerStats = () => {
         }
     }
 
+    const exportChartToPDF = () => {
+        const input = document.getElementById('chart-container'); // ID kontenera wykresu
+    
+        html2canvas(input, { scale: 2 }) // Skaluje jakość obrazu
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('landscape', 'mm', 'a4'); // Utworzenie poziomego PDF
+                const imgWidth = 297; // A4 width in mm (landscape)
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save('player-stats.pdf'); // Zapis pliku PDF
+            })
+            .catch((error) => {
+                console.error('Błąd eksportu wykresu do PDF:', error);
+            });
+    };
+
     const monthName = () => {
         
         const formattedItemDate = firstDate
@@ -251,51 +255,53 @@ const PlayerStats = () => {
             
             {windowWidth > 550 ?
             <div className={styles.buttonsFrame}>
-                <div className={styles.dateFrame}>
-                    <div className={styles.noteSection}>
-                    <p>Data początkowa: </p>
-                        <div className={styles.pickerWrapper}>
-                            {/* DatePicker - wybór daty */}
-                            <DatePicker
-                                selected={firstDate}
-                                onChange={handleFirstDateChange}
-                                dateFormat="dd.MM.yyyy"
-                                className={styles.customDatePicker} // Klasa CSS dla daty
-                            />
+                {scrolableChart?
+                    <div className={styles.dateFrame}>
+                        <div className={styles.noteSection}>
+                        <p>Data początkowa: </p>
+                            <div className={styles.pickerWrapper}>
+                                {/* DatePicker - wybór daty */}
+                                <DatePicker
+                                    selected={firstDate}
+                                    onChange={handleFirstDateChange}
+                                    dateFormat="dd.MM.yyyy"
+                                    className={styles.customDatePicker} // Klasa CSS dla daty
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.noteSection}>
-                    <p>Data początkowa: </p>
-                        <div className={styles.pickerWrapper}>
-                            {/* DatePicker - wybór daty */}
-                            <DatePicker
-                                selected={secondDate}
-                                onChange={handleSecondDateChange}
-                                dateFormat="dd.MM.yyyy"
-                                className={styles.customDatePicker} // Klasa CSS dla daty
-                            />
+                        <div className={styles.noteSection}>
+                        <p>Data końcowa: </p>
+                            <div className={styles.pickerWrapper}>
+                                {/* DatePicker - wybór daty */}
+                                <DatePicker
+                                    selected={secondDate}
+                                    onChange={handleSecondDateChange}
+                                    dateFormat="dd.MM.yyyy"
+                                    className={styles.customDatePicker} // Klasa CSS dla daty
+                                />
+                            </div>
                         </div>
-                    </div>
-                </div>
-                {/* <div className={styles.dateFrame}>
-                    <button className={styles.buttonStats} onClick={()=>{changeAccurancy(1)}}>Zwiększ szczegółowość</button>
-                    <button className={styles.buttonStats} onClick={()=>{changeAccurancy(-1)}}>Zmniejsz szczegółowość</button>
-                </div> */}
-                <button className={styles.buttonStats} onClick={()=>{setScrolableChart(!scrolableChart)}}>Przesuwny wykres</button>
+                    </div>:null
+                }
+                <button className={styles.buttonStats} 
+                    onClick={()=>{setScrolableChart(!scrolableChart); setFirstDate(firstDayOfMonth.toISOString().split('T')[0]); setSecondDate(new Date().toISOString().split('T')[0])}}>
+                        {!scrolableChart?"Przesuwny wykres":"Miesięczny wykres"}
+                </button>
+                <button onClick={exportChartToPDF} className={styles.buttonStats}>
+                    Eksportuj jako PDF
+                </button>
                 <select className={styles.selectButton} value={selectedFilter} onChange={(e)=>{handleSelectChange(e)}}>
                     <option value="feeling">Samopoczucie</option>
                     <option value="pulse">Tętno</option>
                     <option value="weight">Waga</option>
                     <option value="all">Wszystkie</option>
-                </select>
-               
-                
+                </select>    
             </div>
             
             : null}
             <div className={styles.chartSection}>
             {windowWidth > 550 ?
-            <div className={!scrolableChart? styles.scrollableChartContainer: null}>
+            <div id="chart-container" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
                 <LineChart 
                     width={!scrolableChart?windowWidth:processedPlayerStats.length*25} 
                     height={400} 
@@ -306,7 +312,10 @@ const PlayerStats = () => {
                     }
                     >
                     <CartesianGrid strokeDasharray="5 5" />
-                    <XAxis dataKey="date" label={{ value: `Data (${monthName()})`, position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/3 }} minTickGap={15} tickFormatter={(date) => {
+                    <XAxis dataKey="date" label={{ value: `Data
+                    (${!scrolableChart? monthName(): firstDate.split('-')[2]+"."+firstDate.split('-')[1]+'-'+secondDate.split('-')[2]+"."+secondDate.split('-')[1]})`, 
+                    position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/4 }} minTickGap={15} 
+                    tickFormatter={(date) => {
                         const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
                         return `${day}`; // Zwracamy tylko miesiąc i dzień
                     }} />
@@ -324,29 +333,29 @@ const PlayerStats = () => {
                             tickFormatter={(value) => {
                                 switch(value) {
                                     case 0: return (
-                                        `${selectedFilter==='all' || selectedFilter === 'pulse'?(0 * (minPulse - minWeight) + minWeight).toFixed(0):""}
+                                        `${selectedFilter==='all' || selectedFilter === 'pulse'?(0 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
                                         ${selectedFilter==='all' || selectedFilter === 'feeling'?"😢\n":""}` +
-                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
                                     );
                                     case 25: return (
-                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.25 * (minPulse - minWeight) + minWeight).toFixed(0):""}
+                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.25 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
                                         ${selectedFilter==='all' || selectedFilter === 'feeling'?"🙁\n":""}` +
-                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.25 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
                                     );
                                     case 50: return (
                                         `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.5 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
                                         ${selectedFilter==='all' || selectedFilter === 'feeling'?"😐\n":""}`+
-                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.5 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     case 75: return (
                                         `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.75 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
                                          ${selectedFilter==='all' || selectedFilter === 'feeling'?"🙂\n":""}`+
-                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.75 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     case 100: return (
-                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.8 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
+                                        `${selectedFilter==='all'||selectedFilter === 'pulse'?(1 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
                                         ${selectedFilter==='all' || selectedFilter === 'feeling'?"😊\n":""}`+
-                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(0.8 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
+                                        `${selectedFilter==='all' || selectedFilter === 'weight'?(1 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     default: return value;
                                 }
@@ -372,9 +381,10 @@ const PlayerStats = () => {
                     {selectedFilter === 'all' || selectedFilter === 'feeling' ? <Line type="monotone" dataKey="feeling" stroke={'#11BBAE'} dot={false} name="Samopoczucie" /> : null}
                     {selectedFilter === 'all' || selectedFilter === 'weight' ? <Line type="monotone" dataKey="weight" stroke={'#FF77AE'} dot={false} name="Waga" /> : null}
                     <Legend verticalAlign="top" height={36} wrapperStyle={{
-                        marginLeft: !scrolableChart?0:-processedPlayerStats.length*25/3, // Przesunięcie legendy w lewo o 50px
+                        marginLeft: !scrolableChart?0:-processedPlayerStats.length*25/4, // Przesunięcie legendy w lewo o 50px
                     }} />
                 </LineChart>
+                
                 </div>:
                 <div style={{
                     display: 'flex',
@@ -383,7 +393,7 @@ const PlayerStats = () => {
                     flexDirection: 'column',
                 }}>
                     <h1>Obróć telefon aby wyświetlić wykresy</h1>
-                    <h1>Uwaga! Sekcja w fazie produkcji!</h1>
+                    <h1>Uwaga! Sekcja w fazie testów!</h1>
                     <h2>Mogą wystąpić niespodziewane błędy</h2>
                 
                 </div>}

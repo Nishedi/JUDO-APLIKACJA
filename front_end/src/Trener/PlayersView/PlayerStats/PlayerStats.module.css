@@ -72,7 +72,6 @@ h1{
 
 .noteSection {
     padding: 0px 20px;
-    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -165,6 +164,7 @@ h1{
 
 .buttonStats {
     padding: 10px 20px;
+    margin-top: 10px;
 }
 
 .buttonStatsOpacity{
@@ -187,4 +187,20 @@ h1{
     width: 100%; /* Ustawia szerokość kontenera */
     padding-bottom: 10px; /* Opcjonalne odstępy, aby uniknąć nakładania */
     margin-bottom: 20px; /* Dodatkowe odstępy poniżej */
+}
+
+.x {
+    position: relative;
+    overflow: auto;
+}
+
+.x::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    zoom: 0.5;
 }
