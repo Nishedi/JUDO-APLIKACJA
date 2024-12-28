@@ -23,6 +23,7 @@ const DayView = () => {
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
     const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
     const [activity, setActivity] = useState(null);
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -44,6 +45,21 @@ const DayView = () => {
     const onReportErrorClick = () => {
         navigate('/reporterror');
     }
+
+    const onPreviousDayClick = () => {
+        const prevDate = new Date(currentDate);
+        prevDate.setDate(currentDate.getDate() - 1); // Odejmowanie jednego dnia
+        //console.log(prevDate);
+        setCurrentDate(prevDate); // Ustawianie nowej daty w stanie
+        console.log(currentDate);
+    };    
+
+    const onNextDayClick = () => {
+        const nextDate = new Date(currentDate);
+        nextDate.setDate(currentDate.getDate() + 1); // Dodawanie jednego dnia
+        console.log(nextDate);
+        setCurrentDate(nextDate); // Ustawianie nowej daty
+    };
 
     const handleKinazaSubmit = async () => {       
         const { data, error } = await supabase
@@ -111,6 +127,8 @@ const DayView = () => {
     }
 
     const getActivity = async () => {
+        const formatedDate = `${String(currentDate?.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
+
         const { data: aktywnosc, error } = await supabase
                 .from('aktywności')
                 .select("*")
@@ -179,13 +197,15 @@ const DayView = () => {
     }
 
     const getStatsDay = async () => {
-        if (hasFetched.current) return; 
-        hasFetched.current = true; 
-        const currentDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
+        // if (hasFetched.current) return; 
+        // hasFetched.current = true;
+        console.log("Pobieranie statystyk dnia");
+        const formatedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
+        
         let { data: stats, error } = await supabase
             .from('statystyki_zawodników')
             .select("*")
-            .eq('data', currentDate)
+            .eq('data', formatedDate)
             .eq('id_trenera', globalVariable.id_trenera)
             .eq('id_zawodnika', globalVariable.id);
 
@@ -252,14 +272,21 @@ const DayView = () => {
         }
     }
 
-    useLayoutEffect(() => {
-        getStatsDay();
+    useEffect(() => {
+        getStatsDay(); // Pobieranie statystyk dnia
     }, []);
 
     useEffect(() => {
         getActivity(); 
         getKinazaAndKwasMlekowyNeeds();
     }, []);
+
+    useEffect(() => {
+        // Zaktualizowane wywołanie funkcji po zmianie dnia
+        getActivity(); 
+        getKinazaAndKwasMlekowyNeeds();
+        getStatsDay();
+    }, [currentDate]);
 
     return (
         <div onClick={closeSidebar} className={styles.background}>
@@ -269,17 +296,15 @@ const DayView = () => {
                     <RxHamburgerMenu/>
                 </div>
                 <div className = {styles.weekDay}> 
-                    <div>
-                        {dayNames[now.getDay()]}
-                    </div>
+                    <div>{dayNames[currentDate.getDay()]}</div>
                     <div className={styles.date_div}>
-                        {/* <button  className={styles.arrowButton}>
+                        <button onClick={onPreviousDayClick} className={styles.arrowButton}>
                             <IoIosArrowBack />
-                        </button> */}
-                        {now.getDate()+" "+monthNames[now.getMonth()]}
-                        {/* <button  className={styles.arrowButton}>
+                        </button>
+                            {`${currentDate.getDate()} ${monthNames[currentDate.getMonth()]}`}
+                        <button onClick={onNextDayClick} className={styles.arrowButton}>
                             <IoIosArrowForward />
-                        </button> */}
+                        </button>
                     </div>
                 </div>
                 <div className={styles.name}> {globalVariable.imie} <br/> {globalVariable.nazwisko} </div>

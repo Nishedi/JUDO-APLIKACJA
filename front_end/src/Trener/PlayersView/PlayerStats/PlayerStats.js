@@ -9,6 +9,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import DatePicker from 'react-datepicker';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import BackButton from "../../../BackButton";
 
 const PlayerStats = () => {
     const {setViewedPlayer, supabase} = useContext(GlobalContext);
@@ -240,7 +241,8 @@ const PlayerStats = () => {
             <Sidebar onReportErrorClick={onReportErrorClick} isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar}>
-                    <RxHamburgerMenu className={styles.burger}/>
+                    {/* <RxHamburgerMenu className={styles.burger}/> */}
+                    <BackButton/>
                 </div>
                 <div className="left_navbar" onClick={() => setIsSidebarOpen(false)}>
                     <div className={styles.writing_div}>
@@ -255,6 +257,21 @@ const PlayerStats = () => {
             
             {windowWidth > 550 ?
             <div className={styles.buttonsFrame}>
+                <div className={styles.dateFrame}>
+                    <select className={styles.selectButton} value={selectedFilter} onChange={(e)=>{handleSelectChange(e)}}>
+                        <option value="feeling">Samopoczucie</option>
+                        <option value="pulse">Tętno</option>
+                        <option value="weight">Waga</option>
+                        <option value="all">Wszystkie</option>
+                    </select> 
+                    <button className={styles.buttonStats} 
+                        onClick={()=>{setScrolableChart(!scrolableChart); setFirstDate(firstDayOfMonth.toISOString().split('T')[0]); setSecondDate(new Date().toISOString().split('T')[0])}}>
+                            {!scrolableChart?"Przesuwny wykres":"Miesięczny wykres"}
+                    </button>
+                    <button onClick={exportChartToPDF} className={styles.buttonStats}>
+                        Eksportuj jako PDF
+                    </button>  
+                </div>
                 {scrolableChart?
                     <div className={styles.dateFrame}>
                         <div className={styles.noteSection}>
@@ -283,19 +300,7 @@ const PlayerStats = () => {
                         </div>
                     </div>:null
                 }
-                <button className={styles.buttonStats} 
-                    onClick={()=>{setScrolableChart(!scrolableChart); setFirstDate(firstDayOfMonth.toISOString().split('T')[0]); setSecondDate(new Date().toISOString().split('T')[0])}}>
-                        {!scrolableChart?"Przesuwny wykres":"Miesięczny wykres"}
-                </button>
-                <button onClick={exportChartToPDF} className={styles.buttonStats}>
-                    Eksportuj jako PDF
-                </button>
-                <select className={styles.selectButton} value={selectedFilter} onChange={(e)=>{handleSelectChange(e)}}>
-                    <option value="feeling">Samopoczucie</option>
-                    <option value="pulse">Tętno</option>
-                    <option value="weight">Waga</option>
-                    <option value="all">Wszystkie</option>
-                </select>    
+           
             </div>
             
             : null}
@@ -303,7 +308,7 @@ const PlayerStats = () => {
             {windowWidth > 550 ?
             <div id="chart-container" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
                 <LineChart 
-                    width={!scrolableChart?windowWidth:processedPlayerStats.length*25} 
+                    width={!scrolableChart?windowWidth:processedPlayerStats.length*20} 
                     height={400} 
                     data={processedPlayerStats} 
                     margin={windowWidth > 550 
@@ -377,9 +382,39 @@ const PlayerStats = () => {
                             style={{ whiteSpace: 'pre-line', wordWrap: 'normal', overflowWrap: 'normal' }} 
                         />
                         }   
-                    {selectedFilter === 'all' || selectedFilter === 'pulse' ? <Line type="monotone" dataKey="pulse" stroke={'#77AEFF'} dot={false} name="Tętno" /> : null}
-                    {selectedFilter === 'all' || selectedFilter === 'feeling' ? <Line type="monotone" dataKey="feeling" stroke={'#11BBAE'} dot={false} name="Samopoczucie" /> : null}
-                    {selectedFilter === 'all' || selectedFilter === 'weight' ? <Line type="monotone" dataKey="weight" stroke={'#FF77AE'} dot={false} name="Waga" /> : null}
+                    {selectedFilter === 'all' || selectedFilter === 'pulse' ? 
+                        <Line 
+                            type="monotone" 
+                            dataKey="pulse" 
+                            stroke={'#103476'}
+                            strokeWidth={2} // Pogrubienie linii
+                            dot={false} 
+                            name="Tętno" 
+                        />
+                        : null
+                    }
+                    {selectedFilter === 'all' || selectedFilter === 'feeling' ? 
+                        <Line 
+                            type="monotone" 
+                            dataKey="feeling" 
+                            stroke={'#E0140E'}
+                            strokeWidth={2} // Pogrubienie linii 
+                            dot={false} 
+                            name="Samopoczucie" 
+                        /> 
+                        : null
+                    }
+                    {selectedFilter === 'all' || selectedFilter === 'weight' ? 
+                        <Line 
+                            type="monotone" 
+                            dataKey="weight" 
+                            stroke={'#FFC62E'}
+                            strokeWidth={2} // Pogrubienie linii
+                            dot={false} 
+                            name="Waga"
+                        /> 
+                        : null
+                    }
                     <Legend verticalAlign="top" height={36} wrapperStyle={{
                         marginLeft: !scrolableChart?0:-processedPlayerStats.length*25/4, // Przesunięcie legendy w lewo o 50px
                     }} />
