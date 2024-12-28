@@ -1,0 +1,301 @@
+.background{
+  display: grid;
+  grid-template-rows: 1fr 10fr; 
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #D7DFEE;
+}
+
+.navbar{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 10px;
+  background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+  color: #FFFFFF;
+  font-family: "Montserrat-SemiBold";
+  font-size: 10px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.clickers{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.burger{
+  color: #FFFFFF; 
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.navbarText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Kodchasan-SemiBold';
+  font-size: 20px;
+}
+
+.navbarButton {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.addButton {
+  background-color: #FFFFFF; /* Biały przycisk */;
+  border: none;
+  width: 40%; /* Szerokość kwadratu */
+  height: 80%; /* Wysokość kwadratu */  border-radius: 10px; /* Zaokrąglony przycisk */
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.addButton svg {
+  color: #103476; /* Niebieski plus */
+  font-size: 24px; /* Rozmiar ikony */
+  stroke-width: 1;
+}
+
+/* Rozwinięcie */
+.mainContent {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  
+}
+
+.opponentDetails {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.opponentDetails h3 {
+  margin: 0;
+  font-family: "Montserrat-SemiBold";
+  font-size: 18px;
+}
+
+.opponentDetails p {
+  margin: 0;
+  font-family: "Montserrat-Regular";
+}
+
+.addNoteButton {
+  background-color: white;
+  color: #103476;
+  border: 0px solid #103476;
+  border-radius: 10px;
+  padding: 5px 15px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  font-size: 12px;
+  font-family: 'Montserrat-Medium';
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.addNoteButton:hover {
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.addNoteButton:active {
+background-color: #D7DFEE;
+box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+transform: translateY(0); /* Powrót do normalnej pozycji */
+}
+
+.matchList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.editbutton {
+  font-family: 'Kodchasan-Medium';
+  font-size: 10px;
+  color: #103476;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  padding: 5px;
+  margin: 0 5px;
+  /* background-color: #A7B7D6; */
+  background-image:radial-gradient(circle, #d7dfee 0%, #a7b7d6 100%);
+  /* background-image: linear-gradient(90deg, #d7dfee 9%, #a7b7d6 47%, #d7dfee 100%); */
+  border: 0.5px solid #A7B7D6;
+  border-radius: 5px;
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.editbutton:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+  transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.editbutton:active {
+  color: #103476;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+  transform: translateY(0); /* Powrót do normalnej pozycji */
+}
+.match {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
+  width: 100%;
+  background-color: #D7DFEE;
+  border:1px solid #A7B7D6;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.match:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
+  transform: translateY(-2px); /* Lekko unosi przy najechaniu */
+}
+
+.match:active {
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+  transform: translateY(0); /* Powrót do normalnej pozycji */
+}
+
+.match p {
+  margin: 0;
+  font-family: "Montserrat-Regular";
+  font-size: 20px;
+}
+
+.matchHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.matchHeader svg {
+  color: #A7B7D6;
+  font-size: 28px;
+}
+
+.matchDetails {
+  margin-top: 10px;
+  background-color: #ffffff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Montserrat-Regular';
+  font-size: 14px;
+  
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 0; /* Domyślnie ukryte */
+  overflow: hidden; /* Ukrywa zawartość, gdy jest zwinięte */
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Animacja rozwijania */
+  opacity: 0; /* Domyślnie niewidoczne */
+}
+
+.match.open .matchDetails {
+  max-height: 500px; /* Duża wartość pozwala na rozwinięcie */
+  opacity: 1; /* Zwiększa widoczność */
+}
+
+.matchDetails p {
+  text-transform: uppercase;
+}
+
+.wynik {
+font-size: 12px;
+color: #021840;
+text-shadow: 0 1px 1px rgba(112, 111, 111, 0.5);
+margin-bottom: 20px;
+}
+
+.noteText {
+  line-height: 1.5;
+  white-space: pre-line; /* Dodane, aby zachować nowe linie */
+
+}
+.arrowUp {
+  color: green;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.arrowDown {
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+}
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Wyższy z-index, aby modal był nad resztą */
+}
+
+/* Stylowanie dla zawartości modala */
+.modal_content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.modal_buttons{
+display: flex;
+flex-direction: row;
+justify-content: center;
+gap: 30px;
+}
+
+.modal_content button {
+font-family: 'Kodchasan-SemiBold';
+font-size: 12px;
+text-shadow: 0 1px 1px rgba(112, 111, 111, 0.5);
+color: #ffffff;
+box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+text-transform: uppercase;
+padding: 10px 25px;
+margin: 0 5px;
+background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+border: 0.5px solid #A7B7D6;
+border-radius: 5px;
+cursor: pointer; /* Kursor zmienia się na wskazujący */
+transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}

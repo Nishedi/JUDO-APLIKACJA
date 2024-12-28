@@ -29,6 +29,8 @@ import PlayerPass from './Trener/TrenerProfile/PlayerProfile/PlayerPass';
 import CreateTrener from './LoginComponent/CreateTrener';
 import ReportError from './ReportSide/ReportError';
 import PlayerStats from './Trener/PlayersView/PlayerStats/PlayerStats';
+import PlayerNotes from './Trener/PlayersView/Notes/PlayerNotes';
+import PlayerNotesOpponent from './Trener/PlayersView/Notes/PlayerNotesOpponent';
 
 function App() {
   return (
@@ -64,6 +66,8 @@ function App() {
           <Route path = "trener/createtrener" element = {<CreateTrener />} />
           <Route path = "/reporterror" element = {<ReportError />} />
           <Route path = 'trener/playerstats' element = {<PlayerStats />} />
+          <Route path = 'trener/playernotes' element = {<PlayerNotes />} />
+          <Route path = 'trener/playernotesopponent/:id_watku' element = {<PlayerNotesOpponent />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>
