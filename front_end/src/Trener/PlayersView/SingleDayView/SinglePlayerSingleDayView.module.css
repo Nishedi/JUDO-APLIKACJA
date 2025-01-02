@@ -141,9 +141,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     justify-content: center;
     font-family: "Kodchasan-SemiBold";
     font-size: 20px;
+}
+
+.date_div{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-family: 'Montserrat-SemiBold';
+  font-size: 14px;
+  color: #FFFFFF;
+  white-space: nowrap;
 }
 
 .weekDayData{
@@ -177,6 +188,20 @@
   color: #103476; 
   font-size: 24px;
   padding-right: 5%;
+}
+
+.arrowButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 24px; /* lub inny rozmiar */
+  /* margin: 0 10px;  */
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
 
 .comment {
