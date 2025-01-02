@@ -13,8 +13,8 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    padding: 10px;
-    padding-right: 10px;
+    padding: 20px;
+    /* padding-right: 10px; */
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #FFFFFF;
     font-family: "Poppins-Medium";
@@ -29,6 +29,18 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
+}
+
+.burger{
+    color: #FFFFFF; 
+    font-size: 24px;
+    cursor: pointer; /* Kursor zmienia się na wskazujący */
+    transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.burger:active {
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
+    transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
 .right_navbar{

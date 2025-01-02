@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
 import {TreningStatusAndFeelingsAfter, getBorderColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { RxHamburgerMenu } from "react-icons/rx";
+import SidebarPlayer from '../PlayersView/SidebarPlayer';
 
 const SinglePlayerWeekView = () => {
     const { viewedPlayer, setViewedPlayer, supabase, globalVariable } = useContext(GlobalContext);
@@ -13,6 +15,8 @@ const SinglePlayerWeekView = () => {
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
@@ -211,27 +215,56 @@ const SinglePlayerWeekView = () => {
             }
         }
     }
+// -------------------------------------------------------------------
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    }
+
+    const onStatsClick = () => {
+        setViewedPlayer({ ...viewedPlayer });
+        navigate('/trener/playerstats');
+    }
+
+    const onNotesClick = () => {
+        setViewedPlayer({ ...viewedPlayer });
+        navigate('/trener/playernotes');
+    }
+
+    const closeSidebar = () => {
+        if(isSidebarOpen){
+            setIsSidebarOpen(false);
+        }
+    }
 
     return (
-        <div className={styles.background}>
+        <div onClick={closeSidebar} className={styles.background}>
+            <SidebarPlayer 
+                isOpen={isSidebarOpen} 
+                onProfileClick={goToPlayerProfile} 
+               // onClose={toggleSidebar} 
+                name={viewedPlayer.imie} 
+                surname={viewedPlayer.nazwisko} 
+                onStatsClick={onStatsClick} 
+                onNotesClick={onNotesClick}
+            />
             <div className={styles.navbar}>
-                <div className={styles.backAndDate}>
-                    <BackButton path="/trener/playerview"/>
-                    <div onClick={goToPlayerProfile} className={styles.writing_div}>
-                        {viewedPlayer.imie} {viewedPlayer.nazwisko}
-                    </div>
-                    <div style={{margin:"0px 20px"}}></div>
+            <div className={styles.backAndDate}>
+                <BackButton path="/trener/playerview" />
+                <div >
+                    {viewedPlayer.imie} {viewedPlayer.nazwisko}
                 </div>
-                <div className={styles.date_div}>
-                        <button onClick={() => updateWeek('prev')} className={styles.arrowButton}>
-                            <IoIosArrowBack />
-                        </button>
-                        {currentWeek}
-                        <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
-                            <IoIosArrowForward />
-                        </button>
-                    </div>
-               
+                <RxHamburgerMenu onClick={toggleSidebar} className={styles.burger} />
+            </div>
+            <div className={styles.date_div}>
+                    <button onClick={() => updateWeek('prev')} className={styles.arrowButton}>
+                        <IoIosArrowBack />
+                    </button>
+                    {currentWeek}
+                    <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
+                        <IoIosArrowForward />
+                    </button>
+                </div>
             </div>
             <div className={styles.weekDay}>
                 <div>
