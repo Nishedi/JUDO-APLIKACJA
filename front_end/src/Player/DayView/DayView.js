@@ -21,9 +21,9 @@ const DayView = () => {
     const [kwas_mlekowy_needs, setKwas_mlekowy_needs] = useState(globalVariable.prosba_o_kwas_mlekowy);
     const [kinaza, setKinaza] = useState('');
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
-    const formatedDate = `${String(new Date().getDate()).padStart(2, '0')}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${new Date().getFullYear()}`;
     const [activity, setActivity] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
+    const formatedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -51,14 +51,18 @@ const DayView = () => {
         prevDate.setDate(currentDate.getDate() - 1); // Odejmowanie jednego dnia
         //console.log(prevDate);
         setCurrentDate(prevDate); // Ustawianie nowej daty w stanie
-        console.log(currentDate);
+      //  console.log(currentDate);
+        console.log(formatedDate);
+
     };    
 
     const onNextDayClick = () => {
         const nextDate = new Date(currentDate);
         nextDate.setDate(currentDate.getDate() + 1); // Dodawanie jednego dnia
-        console.log(nextDate);
+        //console.log(nextDate);
         setCurrentDate(nextDate); // Ustawianie nowej daty
+        console.log(formatedDate);
+
     };
 
     const handleKinazaSubmit = async () => {       
@@ -224,8 +228,12 @@ const DayView = () => {
             }else{
                 const { data, error } = await supabase
                     .from('statystyki_zawodników')
-                    .insert([
-                        { id_trenera: globalVariable.id_trenera, id_zawodnika: globalVariable.id, data: currentDate },
+                    .upsert([
+                        { 
+                            id_trenera: globalVariable.id_trenera, 
+                            id_zawodnika: globalVariable.id,
+                            data: formatedDate 
+                        },
                     ])
                     .select();
                 if (error) {
@@ -234,6 +242,7 @@ const DayView = () => {
                 }
                 setStats(data[0]);
                 setIsEditing(true);
+                console.log(formatedDate);
             }
         }
     };
@@ -282,11 +291,10 @@ const DayView = () => {
     }, []);
 
     useEffect(() => {
-        // Zaktualizowane wywołanie funkcji po zmianie dnia
         getActivity(); 
         getKinazaAndKwasMlekowyNeeds();
         getStatsDay();
-    }, [currentDate]);
+    }, [currentDate]); // Pobieranie danych po zmianie daty
 
     return (
         <div onClick={closeSidebar} className={styles.background}>
