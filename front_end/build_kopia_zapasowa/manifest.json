@@ -1,0 +1,25 @@
+{
+  "short_name": "JUDO tracker",
+  "name": "Aplikacja wspierająca JUDOków",
+  "icons": [
+    {
+      "src": "ikona3.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "ikonapng2192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "ikonapng2512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
