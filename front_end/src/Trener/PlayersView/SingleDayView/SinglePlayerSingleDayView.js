@@ -73,6 +73,10 @@ const SinglePlayerSingleDayView = () => {
         getActivity();
     }, [viewedPlayer.currentDate]);            
 
+    useLayoutEffect(() => {
+        setIsSidebarOpen(false); // Upewniamy się, że SideBar jest zamknięty po załadowaniu widoku.
+    }, []);
+
     const handleActivityClick = (activity) => {
         setViewedPlayer({...viewedPlayer, currentActivity: activity});
         navigate(`/trener/trainingview`);
@@ -168,7 +172,7 @@ const SinglePlayerSingleDayView = () => {
         <div className={styles.background}>
             <SideBarCalendar isOpen={isSidebarOpen}/>
             <div className={styles.navbar}>
-                <div onClick={toggleSidebar} className={styles.burger}>
+                <div className={styles.burger}>
                     <BackButton path="/trener/singleplayerweekview"/>
                 </div>
                 <div className = {styles.weekDay}>
