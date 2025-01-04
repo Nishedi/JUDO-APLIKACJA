@@ -13,13 +13,15 @@ const PlayersView = () => {
     const navigate = useNavigate();
     const [players, setPlayers] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
     const getPlayers = async () => {
         let { data: zawodnicy, error } = await supabase
             .from('zawodnicy')
             .select('*')
             .eq('id_trenera', globalVariable.id)
             .order('imie', {ascending: true});
-        if(zawodnicy && zawodnicy.length!==0){
+        
+            if(zawodnicy && zawodnicy.length!==0){
             setPlayers(zawodnicy);
         }
     }
