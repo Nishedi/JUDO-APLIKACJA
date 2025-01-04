@@ -93,6 +93,30 @@ const DayView = () => {
         }else {
             console.log("Nie udało się zaktualizować kinazy");
         }
+
+        const { data2, error2,status } = await supabase
+        .from('niecodzienne_statystyki')
+        .insert({ kinaza: kinaza,
+                data: formatedDate,
+                id_trenera: globalVariable.id_trenera,
+                id_zawodnika: globalVariable.id,
+         })
+         .select()
+        if(status===409) {
+            const { data, error } = await supabase
+                .from('niecodzienne_statystyki')
+                .update({ kinaza: kinaza })
+                .eq('data', formatedDate)
+                .eq('id_trenera', globalVariable.id_trenera)
+                .eq('id_zawodnika', globalVariable.id)
+                .select()
+            if(error) {
+                console.log(error);
+            }
+            if(data ){
+                console.log(data);
+            }
+        }
     }
 
     const handleKwasMlekowySubmit = async () => {
@@ -121,7 +145,30 @@ const DayView = () => {
                 prosba_o_kwas_mlekowy: false
             });
         }else {
-            console.log("Nie udało się zaktualizować kinazy");
+            console.log("Nie udało się zaktualizować kwasu mlekowego");
+        }
+        const { data2, error2,status } = await supabase
+        .from('niecodzienne_statystyki')
+        .insert({ kwas_mlekowy: kwas_mlekowy,
+                data: formatedDate,
+                id_trenera: globalVariable.id_trenera,
+                id_zawodnika: globalVariable.id,
+         })
+         .select()
+        if(status===409) {
+            const { data, error } = await supabase
+                .from('niecodzienne_statystyki')
+                .update({ kwas_mlekowy: kwas_mlekowy })
+                .eq('data', formatedDate)
+                .eq('id_trenera', globalVariable.id_trenera)
+                .eq('id_zawodnika', globalVariable.id)
+                .select()
+            if(error) {
+                console.log(error);
+            }
+            if(data ){
+                console.log(data);
+            }
         }
     }
 
@@ -203,9 +250,6 @@ const DayView = () => {
     }
 
     const getStatsDay = async () => {
-        // if (hasFetched.current) return; 
-        // hasFetched.current = true;
-        console.log("Pobieranie statystyk dnia");
         const formatedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
         
         let { data: stats, error } = await supabase

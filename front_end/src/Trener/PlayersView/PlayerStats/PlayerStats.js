@@ -24,12 +24,18 @@ const PlayerStats = () => {
     const [firstDate, setFirstDate] = useState(firstDayOfMonth.toISOString().split('T')[0]);
     const [secondDate, setSecondDate] = useState(new Date().toISOString().split('T')[0]);
     const [processedPlayerStats, setProcessedPlayerStats] = useState([]);
+    const [processedPlayerStats2, setProcessedPlayerStats2] = useState([]);
     const [maxWeight, setMaxWeight] = useState(0);
     const [minWeight, setMinWeight] = useState(0);
     const [maxPulse, setMaxPulse] = useState(0);
     const [minPulse, setMinPulse] = useState(0);
     const [selectedFilter, setSelectedFilter] = useState('all');
     const [accurancy, setAccurancy] = useState(10);
+    const [playerNotDailyStats, setPlayerNotDailyStats] = useState([]);
+    const [minKinaza, setMinKinaza] = useState(0);
+    const [maxKinaza, setMaxKinaza] = useState(0);
+    const [minKwasMlekowy, setMinKwasMlekowy] = useState(0);
+    const [maxKwasMlekowy, setMaxKwasMlekowy] = useState(0);
     const getPlayerStats = async () => {
         const dates = generateDateArray(firstDate, secondDate);
         let { data: statystyki, error } = await supabase
@@ -43,6 +49,23 @@ const PlayerStats = () => {
         }
         if(statystyki){
             setPlayerStats(statystyki);
+        }
+    }
+
+    const getPlayersNotDailyStats = async () => {
+        const dates = generateDateArray(firstDate, secondDate);
+        let { data, error } = await supabase
+            .from('niecodzienne_statystyki')
+            .select('*')
+            .in('data',dates)
+            .eq('id_trenera', globalVariable.id)
+            .eq('id_zawodnika', viewedPlayer.id);
+
+        if(error){
+            alert("Błąd podczas pobierania danych dotyczących kinazy i kwasu mlekowego");
+        }
+        if(data){
+            setPlayerNotDailyStats(data);
         }
     }
 
@@ -60,6 +83,7 @@ const PlayerStats = () => {
     };
     useEffect(() => {
         getPlayerStats();
+        getPlayersNotDailyStats();
       }, [firstDate, secondDate]);
 
     useEffect(() => {
@@ -99,6 +123,7 @@ const PlayerStats = () => {
         });       
         
         const fullDateRange = [];
+        const fullDateRange2 = [];
         const startDate = new Date(firstDate);
         const endDate = new Date(secondDate);
         const validPulses = data.filter(entry => typeof entry.pulse === 'number');
@@ -107,6 +132,10 @@ const PlayerStats = () => {
         const avgWeight = validWeights.reduce((acc, entry) => acc + entry.weight, 0) / (validWeights.length || 1);
         const validFeelings = data.filter(entry => typeof entry.feeling === 'number');
         const avgFeeling = validFeelings.reduce((acc, entry) => acc + entry.feeling, 0) / (validFeelings.length || 1);
+        const validKinaza = playerNotDailyStats.filter(entry => typeof entry.kinaza === 'number');
+        const avgKinaza = validKinaza.reduce((acc, entry) => acc + entry.kinaza, 0) / (validKinaza.length || 1);
+        const validKwasMlekowy = playerNotDailyStats.filter(entry => typeof entry.kwas_mlekowy === 'number');
+        const avgKwasMlekowy = validKwasMlekowy.reduce((acc, entry) => acc + entry.kwas_mlekowy, 0) / (validKwasMlekowy.length || 1);
 
         // Użyj pętli do utworzenia zakresu dat
         for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -117,12 +146,24 @@ const PlayerStats = () => {
                     : null;
                 return formattedItemDate === formattedDate;
             });
+            const entry2 = playerNotDailyStats.find(item => {
+                const formattedItemDate = item.data
+                    ? item.data.split('.').reverse().join('-')  // Przekształca "DD.MM.YYYY" na "YYYY-MM-DD"
+                    : null;
+                return formattedItemDate === formattedDate;
+            });
             fullDateRange.push({
                 date: formattedDate,
                 feeling: entry?.feeling ? entry.feeling : avgFeeling,
                 pulse: entry?.pulse ? entry.pulse : avgPulse,
                 weight: entry?.weight ? entry.weight : avgWeight
             });
+            fullDateRange2.push({
+                date: formattedDate,
+                kinaza: entry2?.kinaza ? entry2.kinaza : avgKinaza,
+                kwas_mlekowy: entry2?.kwas_mlekowy ? entry2.kwas_mlekowy : avgKwasMlekowy
+            });
+            
         }
         let minWeight = Math.min(...fullDateRange
             .filter(entry => entry.weight !== null && entry.weight !== 0) // Pomiń wiersze z brakującymi danymi
@@ -137,7 +178,26 @@ const PlayerStats = () => {
         let maxPulse = Math.max(...fullDateRange.map(entry => entry.pulse));
         const diffrencePulse = maxPulse - minPulse;
         minPulse = minPulse - diffrencePulse/accurancy;
-        maxPulse = maxPulse + diffrencePulse/accurancy;
+        maxPulse = maxPulse + diffrencePulse/accurancy;   
+        let minKinaza = Math.min(...fullDateRange2
+            .filter(entry => entry.kinaza !== null && entry.kinaza !== 0) // Pomiń wiersze z brakującymi danymi
+            .map(entry => entry.kinaza));
+        let maxKinaza = Math.max(...fullDateRange2.map(entry => entry.kinaza));
+        const diffrenceKinaza = maxKinaza - minKinaza;
+        minKinaza = Math.max(minKinaza - diffrenceKinaza / 10, 0);
+        maxKinaza = maxKinaza + diffrenceKinaza/10;
+        let minKwasMlekowy = Math.min(...fullDateRange2
+            .filter(entry => entry.kwas_mlekowy !== null && entry.kwas_mlekowy !== 0) // Pomiń wiersze z brakującymi danymi
+            .map(entry => entry.kwas_mlekowy));
+        let maxKwasMlekowy = Math.max(...fullDateRange2.map(entry => entry.kwas_mlekowy));
+        const diffrenceKwasMlekowy = maxKwasMlekowy - minKwasMlekowy;
+        
+        minKwasMlekowy = Math.max(minKwasMlekowy - diffrenceKwasMlekowy / 10, 0);
+        maxKwasMlekowy = maxKwasMlekowy + diffrenceKwasMlekowy/10;
+        setMinKinaza(minKinaza);
+        setMaxKinaza(maxKinaza);
+        setMinKwasMlekowy(minKwasMlekowy);
+        setMaxKwasMlekowy(maxKwasMlekowy);
         setMinPulse(minPulse);
         setMaxPulse(maxPulse);
         setMinWeight(minWeight);
@@ -145,14 +205,31 @@ const PlayerStats = () => {
         const dx = fullDateRange.map(entry => {
             const weight = ((entry.weight-minWeight)/(maxWeight-minWeight))*100;
             const pulse = ((entry.pulse-minPulse)/(maxPulse-minPulse))*100;
+            const kinaza = ((entry.kinaza-minKinaza)/(maxKinaza-minKinaza))*100;
+            const kwasMlekowy = ((entry.kwas_mlekowy-minKwasMlekowy)/(maxKwasMlekowy-minKwasMlekowy))*100;
+
             return {
                 ...entry,
                 weight: weight,
-                pulse: pulse
+                pulse: pulse,
+                kinaza: kinaza,
+                kwas_mlekowy: kwasMlekowy
+            };
+        });
+
+        const dx2 = fullDateRange2.map(entry => {
+            const kinaza = ((entry.kinaza-minKinaza)/(maxKinaza-minKinaza))*100;
+            const kwasMlekowy = ((entry.kwas_mlekowy-minKwasMlekowy)/(maxKwasMlekowy-minKwasMlekowy))*100;
+
+            return {
+                ...entry,
+                kinaza: kinaza,
+                kwas_mlekowy: kwasMlekowy
             };
         });
 
         setProcessedPlayerStats(dx);
+        setProcessedPlayerStats2(dx2);
     }, [firstDate, secondDate, playerStats, accurancy]);
 
     const toggleSidebar = () => {
@@ -306,9 +383,10 @@ const PlayerStats = () => {
             : null}
             <div className={styles.chartSection}>
             {windowWidth > 550 ?
+            <>
             <div id="chart-container" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
                 <LineChart 
-                    width={!scrolableChart?windowWidth:processedPlayerStats.length*20} 
+                    width={!scrolableChart?windowWidth-50:processedPlayerStats.length*20} 
                     height={400} 
                     data={processedPlayerStats} 
                     margin={windowWidth > 550 
@@ -420,7 +498,115 @@ const PlayerStats = () => {
                     }} />
                 </LineChart>
                 
-                </div>:
+
+                {/* Sekcja statystyk niecodziennych */}
+                </div>
+                <div id="chart-container2" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
+                <LineChart 
+                    width={!scrolableChart?windowWidth-50:processedPlayerStats.length*20} 
+                    height={400} 
+                    data={processedPlayerStats2} 
+                    margin={windowWidth > 550 
+                        ? { top: 20, right: 10, left: 30, bottom: 40 } 
+                        : { top: 20, right: 10, left: 10, bottom: 40 }
+                    }
+                    >
+                    <CartesianGrid strokeDasharray="5 5" />
+                    <XAxis dataKey="date" label={{ value: `Data
+                    (${!scrolableChart? monthName(): firstDate.split('-')[2]+"."+firstDate.split('-')[1]+'-'+secondDate.split('-')[2]+"."+secondDate.split('-')[1]})`, 
+                    position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/4 }} minTickGap={15} 
+                    tickFormatter={(date) => {
+                        const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
+                        return `${day}`; // Zwracamy tylko miesiąc i dzień
+                    }} />
+                    {window.innerWidth > 550 ?
+                        
+                        <YAxis 
+                            label={{ 
+                                value: `Kinaza/Kwas Mlekowy`, 
+                                angle: -90, // Obrót o 90 stopni w kierunku przeciwnym do ruchu wskazówek zegara
+                                position: 'insideLeft', 
+                                offset: -5 ,
+                                dy: 100
+                            }} 
+                            ticks={[0,25,50,75, 100]}  
+                            tickFormatter={(value) => {
+                                switch(value) {
+                                    case 0: return (
+                                        `${true? (0 * (maxKinaza - minKinaza) + minKinaza).toFixed(0):""}\u00A0
+                                        ${true?(0 * (maxKwasMlekowy - minKwasMlekowy) + minKwasMlekowy).toFixed(0) :""}\u00A0` 
+                                    );
+                                    case 25: return (
+                                        `${true? (0.25 * (maxKinaza - minKinaza) + minKinaza).toFixed(0):""}\u00A0
+                                        ${true?(0.25 * (maxKwasMlekowy - minKwasMlekowy) + minKwasMlekowy).toFixed(0) :""}\u00A0`
+                                    );
+                                    case 50: return (
+                                        `${true? (0.5 * (maxKinaza - minKinaza) + minKinaza).toFixed(0):""}\u00A0
+                                        ${true?(0.5 * (maxKwasMlekowy - minKwasMlekowy) + minKwasMlekowy).toFixed(0) :""}\u00A0`
+                                    );
+                                    case 75: return (
+                                        `${true? (0.75 * (maxKinaza - minKinaza) + minKinaza).toFixed(0):""}\u00A0
+                                        ${true?(0.75 * (maxKwasMlekowy - minKwasMlekowy) + minKwasMlekowy).toFixed(0) :""}\u00A0`
+                                    );
+                                    case 100: return (
+                                        `${true ?(1 * (maxKinaza - minKinaza) + minKinaza).toFixed(0):""}\u00A0
+                                        ${true?(1 * (maxKwasMlekowy - minKwasMlekowy) + minKwasMlekowy).toFixed(0) :""}\u00A0`
+                                    );
+                                    default: return value;
+                                }
+                            }}
+                            style={{ whiteSpace: 'nowrap', wordWrap: 'normal', overflowWrap: 'normal' }} 
+                        /> : 
+                        <YAxis 
+                            ticks={[20, 40, 60, 80, 100]}  
+                            tickFormatter={(value) => {
+                                switch(value) {
+                                    case 20: return "😢\n20";
+                                    case 40: return "🙁\n40";
+                                    case 60: return "😐\n60";
+                                    case 80: return "🙂\n80";
+                                    case 100: return "😊\n100";
+                                    default: return value;
+                                }
+                            }}
+                            style={{ whiteSpace: 'pre-line', wordWrap: 'normal', overflowWrap: 'normal' }} 
+                        />
+                        }   
+                    {selectedFilter === 'all' || selectedFilter === 'pulse' ? 
+                        <Line 
+                            type="monotone" 
+                            dataKey="kinaza" 
+                            stroke={'#103476'}
+                            strokeWidth={2} // Pogrubienie linii
+                            dot={false} 
+                            name="Kinaza" 
+                        />
+                        : null
+                    }
+                    {selectedFilter === 'all' || selectedFilter === 'feeling' ? 
+                        <Line 
+                            type="monotone" 
+                            dataKey="kwas_mlekowy" 
+                            stroke={'#E0140E'}
+                            strokeWidth={2} // Pogrubienie linii 
+                            dot={false} 
+                            name="Kwas Mlekowy" 
+                        /> 
+                        : null
+                    }
+                    
+                    <Legend verticalAlign="top" height={36} wrapperStyle={{
+                        marginLeft: !scrolableChart?0:-processedPlayerStats.length*25/4, // Przesunięcie legendy w lewo o 50px
+                    }} />
+                </LineChart>
+                
+                </div>
+            
+            
+            </>
+            
+            
+            :
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center', // Centrowanie w poziomie
