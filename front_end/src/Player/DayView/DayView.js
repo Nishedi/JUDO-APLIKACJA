@@ -102,6 +102,9 @@ const DayView = () => {
                 id_zawodnika: globalVariable.id,
          })
          .select()
+        if(error2) {
+            console.log(error2);
+        }
         if(status===409) {
             const { data, error } = await supabase
                 .from('niecodzienne_statystyki')
