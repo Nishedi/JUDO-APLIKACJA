@@ -92,7 +92,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                         <p>Tętno</p>
                         <select 
                             name="tętno"
-                            value={stats?.tętno} 
+                            value={stats?.tętno || ""} // Upewniamy się, że value nie jest null
                             onChange={handleChange}
                             className={styles.selectElement}
                         >
@@ -108,7 +108,7 @@ const StatsInput = ({ onConfirmClick, stats, setStats }) => {
                         <input 
                             type="number" 
                             name="waga" 
-                            value={stats?.waga} 
+                            value={stats?.waga || ""} // Dodajemy domyślną wartość dla wagi
                             onChange={handleChange} 
                         />
                     </div>

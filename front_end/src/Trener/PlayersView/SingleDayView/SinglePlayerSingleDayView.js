@@ -1,7 +1,7 @@
 import styles from "./SinglePlayerSingleDayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
 import React, {useLayoutEffect, useState} from "react";
-import {IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
@@ -15,26 +15,30 @@ const SinglePlayerSingleDayView = () => {
     const [isStatsOpen, setIsStatsOpen] = useState(false);
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
+    const [activity, setActivity] = useState(null);
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
     
-        const formatDate = (date) => {
-            let day, month;  // Zdefiniowanie zmiennych przed blokiem if
-        
-            if(date){
-                day = date.getDate();  // Przypisanie wartości do zmiennych
-                month = monthNames[date.getMonth()];
-            } else {
-                return null;  // Jeśli date jest undefined lub null, zwracamy null
-            }
-        
-            return `${day} ${month}`;  // Użycie zmiennych poza blokiem if
-        };
+    const formatDate = (date) => {
+        let day, month;  // Zdefiniowanie zmiennych przed blokiem if
+    
+        if(date){
+            day = date.getDate();  // Przypisanie wartości do zmiennych
+            month = monthNames[date.getMonth()];
+        } else {
+            return null;  // Jeśli date jest undefined lub null, zwracamy null
+        }
+    
+        return `${day} ${month}`;  // Użycie zmiennych poza blokiem if
+    };
 
-
-    const [activity, setActivity] = useState(null);
+    const changeDate = (direction) => {
+        const updatedDate = new Date(viewedPlayer.currentDate);
+        updatedDate.setDate(updatedDate.getDate() + direction);
+        setViewedPlayer({ ...viewedPlayer, currentDate: updatedDate });
+    };
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -60,13 +64,14 @@ const SinglePlayerSingleDayView = () => {
 
         if(aktywnosc && aktywnosc.length > 0) {
             setActivity(aktywnosc);
-        }
+        }else
+            setActivity([]);
     }
 
     useLayoutEffect(() => {
         getStatsDay();
         getActivity();
-    }, []);                
+    }, [viewedPlayer.currentDate]);            
 
     const handleActivityClick = (activity) => {
         setViewedPlayer({...viewedPlayer, currentActivity: activity});
@@ -166,11 +171,30 @@ const SinglePlayerSingleDayView = () => {
                 <div onClick={toggleSidebar} className={styles.burger}>
                     <BackButton path="/trener/singleplayerweekview"/>
                 </div>
-                <div className = {styles.weekDay}> 
-                    <div> {dayNames[viewedPlayer.currentDate?.getDay()]}</div>
-                    <div className={styles.weekDayData}> {formatDate(viewedPlayer.currentDate)} </div>
+                <div className = {styles.weekDay}>
+                    <div>{dayNames[viewedPlayer.currentDate?.getDay()]}</div>
+
+                    {/* <IoIosArrowBack 
+                            className={styles.arrow} 
+                            onClick={() => changeDate(-1)} 
+                        /> */}
+                    <div className={styles.date_div}>
+                        <button onClick={() => changeDate(-1)} className={styles.arrowButton}>
+                                <IoIosArrowBack />
+                        </button>
+                        <div className={styles.weekDayData}>{formatDate(viewedPlayer.currentDate)}</div>
+                        <button onClick={() => changeDate(1)} className={styles.arrowButton}>
+                            <IoIosArrowForward />
+                        </button>
+
+                    </div>
+                    {/* <IoIosArrowForward 
+                        className={styles.arrow} 
+                        onClick={() => changeDate(1)} 
+                    /> */}
                 </div>
                 <div className={styles.name}> {viewedPlayer.imie} {viewedPlayer.nazwisko} </div>
+
             </div>
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
