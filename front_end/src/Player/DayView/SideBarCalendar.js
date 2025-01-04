@@ -50,6 +50,7 @@ const SideBarCalendar = ({ isOpen, onLogOutClick,  onAddActivityClick, onAddPlay
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
                     <div className={styles.line}></div>
+                    
                     <div onClick={handleProfileClick} className={styles.singleClickableElemement}>
                         Twój profil
                         <IoIosArrowForward className={styles.right_arrow} />
@@ -57,7 +58,7 @@ const SideBarCalendar = ({ isOpen, onLogOutClick,  onAddActivityClick, onAddPlay
                     <div className={styles.line}></div>
                     
                     <div onClick = {onLogOutClick}
-                    className={styles.singleClickableElemementv2}>
+                        className={styles.singleClickableElemementv2}>
                         Wyloguj
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>

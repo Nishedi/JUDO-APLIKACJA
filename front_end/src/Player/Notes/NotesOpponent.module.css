@@ -19,6 +19,19 @@
     white-space: nowrap;
 }
 
+.commentText {
+    line-height: 1.5;
+    white-space: pre-line; /* Dodane, aby zachować nowe linie */
+}
+
+.line{
+    margin-bottom: 10px;
+    padding: 0px;
+    height: 0.5px;
+    width: 100%;
+    background-color: #d7dfee;
+}
+
 .clickers{
     display: flex;
     flex-direction: row;
@@ -240,6 +253,7 @@
   .noteText {
     line-height: 1.5;
     white-space: pre-line; /* Dodane, aby zachować nowe linie */
+    margin: 10px 0;
 
   }
   .arrowUp {

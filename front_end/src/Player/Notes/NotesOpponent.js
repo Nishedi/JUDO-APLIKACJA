@@ -233,6 +233,13 @@ useEffect(() => {
                             <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
                         )}
                         <div className={styles.noteText}>{note.tresc}</div>
+                        <div className={styles.line}></div>
+                        {note.komentarz_trenera && (
+                            <div className={styles.commentText}>
+                                <strong>Komentarz trenera:</strong><br/>
+                                {note.komentarz_trenera}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

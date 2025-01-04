@@ -15,6 +15,10 @@ const PlayerNotesOpponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+    const [editCommentId, setEditCommentId] = useState(null);
+    const [commentText, setCommentText] = useState(''); // tekst komentarza
+    
+
     // Pobieranie notatek z Supabase przy montowaniu komponentu
     useEffect(() => {
         const fetchThreadsDetails = async () => {
@@ -81,6 +85,37 @@ useEffect(() => {
 
     fetchNotes();
 }, [id_watku]);
+
+    const saveComment = async (noteId) => {
+        try {
+            const { error } = await supabase
+                .from('notatki')
+                .update({ komentarz_trenera: commentText })
+                .eq('id_notatki', noteId);
+
+            if (error) {
+                console.error('Błąd podczas zapisywania komentarza:', error);
+            } else {
+                // Odśwież notatki po zapisaniu komentarza
+                const { data: updatedNotes, error: fetchError } = await supabase
+                    .from('notatki')
+                    .select('*')
+                    .eq('id_watku', id_watku)
+                    .order('id_notatki', { ascending: false });
+
+                if (fetchError) {
+                    console.error('Błąd podczas odświeżania notatek:', fetchError);
+                } else {
+                    setNotes(updatedNotes);
+                }
+
+                setEditCommentId(null);
+                setCommentText('');
+            }
+        } catch (error) {
+            console.error('Błąd podczas zapisywania komentarza w try-catch:', error);
+        }
+    };
 
     const editButton = (note) => {
         setGlobalVariable({ ...globalVariable, watek: threadDetails, notatka: note });
@@ -205,15 +240,14 @@ useEffect(() => {
 
                 {/* Lista spotkań */}
                 <div className={styles.matchList}>
-                {notes.length > 0 ? (
-    notes
-        .sort((a, b) => new Date(b.data) - new Date(a.data)) // Sortowanie od najmłodszej do najstarszej
-        .map((note) => (
-            <div 
-                key={note.id_notatki}
-                className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
-                onClick={() => toggleNote(note.id_notatki)}
-            >
+                {notes.length > 0 ? ( notes
+                    .sort((a, b) => new Date(b.data) - new Date(a.data)) // Sortowanie od najmłodszej do najstarszej
+                    .map((note) => (
+                    <div 
+                        key={note.id_notatki}
+                        className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
+                        onClick={() => toggleNote(note.id_notatki)}
+                    >
                 <div className={styles.matchHeader}>
                     <p>{new Date(note.data).toLocaleDateString()} r.</p>
                     
@@ -225,14 +259,57 @@ useEffect(() => {
                     ) : (
                         <span> </span>
                     )}
-                    {/* <button onClick={() => editButton(note)} className={styles.editbutton}>Edytuj</button> */}
+                    
                 </div>
                 {expandedNotes.includes(note.id_notatki) && (
                     <div className={styles.matchDetails}>
                         {getWynikText(note.wynik) && (
                             <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
                         )}
+                        
                         <div className={styles.noteText}>{note.tresc}</div>
+                        <div className={styles2.line}></div>
+                        {note.komentarz_trenera && (
+                            <div className={styles2.commentText}>
+                                <strong>Komentarz trenera:</strong><br/> 
+                                {note.komentarz_trenera}
+                            </div>
+                        )}
+                        <div 
+                            className={styles2.commentButtonContainer}
+                            onClick={(e) => e.stopPropagation()} // Zatrzymanie propagacji kliknięcia
+                        >
+                            {editCommentId === note.id_notatki ? (
+                                <div className={styles2.commentEditor}>
+                                    <textarea
+                                        value={commentText}
+                                        onChange={(e) => setCommentText(e.target.value)}
+                                        placeholder="Wpisz komentarz..."
+                                        className={styles2.commentInput}
+                                    />
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            saveComment(note.id_notatki);
+                                        }}
+                                        className={styles2.commentbutton}
+                                    >
+                                        Zapisz
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setEditCommentId(note.id_notatki);
+                                        setCommentText(note.komentarz_trenera || "");
+                                    }}
+                                    className={styles2.commentbutton}
+                                >
+                                    Dodaj komentarz
+                                </button>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>

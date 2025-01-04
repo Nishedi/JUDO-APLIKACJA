@@ -19,6 +19,14 @@
   white-space: nowrap;
 }
 
+.line{
+  margin-bottom: 10px;
+  padding: 0px;
+  height: 0.5px;
+  width: 100%;
+  background-color: #d7dfee;
+}
+
 .clickers{
   display: flex;
   flex-direction: row;
@@ -150,6 +158,59 @@ transform: translateY(0); /* Powrót do normalnej pozycji */
   transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
 
+.commentButtonContainer {
+  display: flex; 
+  justify-content: center; /* Wyśrodkowanie w poziomie */
+  align-items: center; /*  Wyśrodkowanie w pionie */
+  margin-top: 10px; /*  Opcjonalne - odstęp od treści */
+}
+
+.commentbutton {
+  font-family: 'Kodchasan-Medium';
+  font-size: 10px;
+  color: #103476;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  padding: 5px;
+  margin: 15px;
+  background-color: #D7DFEE;
+  padding: 5px 20px;
+
+  /* background-image: linear-gradient(90deg, #d7dfee 9%, #a7b7d6 47%, #d7dfee 100%); */
+  border: 0.5px solid #A7B7D6;
+  border-radius: 5px;
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
+}
+
+.commentEditor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.commentInput {
+  /* width: 10vh; Pole wypełnia całą dostępność szerokości */
+  font-family: 'Montserrat-Regular';
+  padding: 10px; /* Margines wewnętrzny dla tekstu */
+  font-size: 14px; /* Rozmiar czcionki */
+  border: 1px solid #ccc; /* Lekki obrys dla wyraźności */
+  border-radius: 4px; /* Zaokrąglenie rogów */
+  resize: horizontal; /* Możliwość zmiany wysokości */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtelny cień dla efektu wklęsłości */
+  outline: none; /* Usunięcie niebieskiego obramowania w focus */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Płynne przejścia dla interakcji */
+  margin: 0;
+}
+
+.commentInput:focus {
+  border-color: #4caf50; /* Kolor obramowania po najechaniu */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Efekt podświetlenia */
+}
+
+
 .editbutton:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
   transform: translateY(-2px); /* Lekko unosi przy najechaniu */
@@ -241,8 +302,13 @@ margin-bottom: 20px;
 .noteText {
   line-height: 1.5;
   white-space: pre-line; /* Dodane, aby zachować nowe linie */
-
 }
+
+.commentText{
+  line-height: 1.5;
+  white-space: pre-line; /* Dodane, aby zachować nowe linie */
+}
+
 .arrowUp {
   color: green;
   font-size: 20px;
