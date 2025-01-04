@@ -147,7 +147,9 @@ const DayView = () => {
             
             if(aktywnosc && aktywnosc.length > 0) {
                 setActivity(aktywnosc);
-            }    
+            } else {
+                setActivity([]);
+            }
     }
     
     const Activity = ({activity}) => {
