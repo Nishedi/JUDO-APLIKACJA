@@ -1,3 +1,10 @@
+# Błędy:
+- Brak klikaczy zmiany dnia w anotherdayview, jest tylko w dayview
+
+- Dodać przycisk usuń komentarz trenera w notatce. Jeśli jakiś komentarz jest to zmień napis dodaj komentarz na edytuj komentarz
+
+- Dodać napis brak notatek, w widoku wątków notatek, żeby było wiadomo czy się nie ładowało czy ich nie ma
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

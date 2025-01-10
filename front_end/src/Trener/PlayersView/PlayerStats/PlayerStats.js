@@ -218,9 +218,9 @@ const PlayerStats = () => {
         });
 
         const dx2 = fullDateRange2.map(entry => {
-            const kinaza = ((entry.kinaza-minKinaza)/(maxKinaza-minKinaza))*100;
-            const kwasMlekowy = ((entry.kwas_mlekowy-minKwasMlekowy)/(maxKwasMlekowy-minKwasMlekowy))*100;
-
+            const kinaza = ((entry.kinaza-minKinaza)/(Math.max(maxKinaza-minKinaza,1)))*100;
+            const kwasMlekowy = ((entry.kwas_mlekowy-minKwasMlekowy)/(Math.max(maxKwasMlekowy-minKwasMlekowy, 1)))*100;
+            
             return {
                 ...entry,
                 kinaza: kinaza,
@@ -519,6 +519,7 @@ const PlayerStats = () => {
                         const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
                         return `${day}`; // Zwracamy tylko miesiąc i dzień
                     }} />
+                    
                     {window.innerWidth > 550 ?
                         
                         <YAxis 
@@ -572,28 +573,22 @@ const PlayerStats = () => {
                             style={{ whiteSpace: 'pre-line', wordWrap: 'normal', overflowWrap: 'normal' }} 
                         />
                         }   
-                    {selectedFilter === 'all' || selectedFilter === 'pulse' ? 
-                        <Line 
-                            type="monotone" 
-                            dataKey="kinaza" 
-                            stroke={'#103476'}
-                            strokeWidth={2} // Pogrubienie linii
-                            dot={false} 
-                            name="Kinaza" 
+                    <Line 
+                        type="monotone" 
+                        dataKey="kinaza" 
+                        stroke={'#103476'}
+                        strokeWidth={2} // Pogrubienie linii
+                        dot={false} 
+                        name="Kinaza" 
                         />
-                        : null
-                    }
-                    {selectedFilter === 'all' || selectedFilter === 'feeling' ? 
-                        <Line 
-                            type="monotone" 
-                            dataKey="kwas_mlekowy" 
-                            stroke={'#E0140E'}
-                            strokeWidth={2} // Pogrubienie linii 
-                            dot={false} 
-                            name="Kwas Mlekowy" 
-                        /> 
-                        : null
-                    }
+                    <Line 
+                        type="monotone" 
+                        dataKey="kwas_mlekowy" 
+                        stroke={'#E0140E'}
+                        strokeWidth={2} // Pogrubienie linii 
+                        dot={false} 
+                        name="Kwas Mlekowy" 
+                    /> 
                     
                     <Legend verticalAlign="top" height={36} wrapperStyle={{
                         marginLeft: !scrolableChart?0:-processedPlayerStats.length*25/4, // Przesunięcie legendy w lewo o 50px
