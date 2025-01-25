@@ -1,77 +1,17 @@
-# Błędy:
-- Brak klikaczy zmiany dnia w anotherdayview, jest tylko w dayview
+## :construction_worker: Todo
 
-- Dodać przycisk usuń komentarz trenera w notatce. Jeśli jakiś komentarz jest to zmień napis dodaj komentarz na edytuj komentarz
-
-- Dodać napis brak notatek, w widoku wątków notatek, żeby było wiadomo czy się nie ładowało czy ich nie ma
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [x] Poprawić statystyki, tak żeby drobne zmiany wagi nie były tak widoczne
+- [] Dodać podsumowanie tygodnia/miesiąca/roku w postaci liczby rodzajów treningów
+- [] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności
+- [] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
+- [] Kolory dla nazw rodzajów aktywności do wyboru przy tworzeniu aktywności (Niebieski - taktyczny, czerwony - motoryczny, zielony - mentalny)
+- [] Notatki - cztery pola tekstowe (1. Jak walczy, 2. Co można na niej zrobić, 3. Na co uważać, 4. Mocne strony w parterze)
+- [] Pomyśleć o powiadomieniach
+- [] Pomyśleć o powiadomieniach sms czy coś takiego
+- [] Metry dla aktywności biegowych
+- [] Możliwość ręcznej zmiany kolejności aktywności
+- [] GS - minuty i sekundy
+- [X] Opis emotek na wykresach
+- [] Osobne wykresy dla statystyk
+- [] Kilka takich samych aktywności w ramach jednego treningu
+- [] Ćwiczenia mają różny czas serii

@@ -170,8 +170,8 @@ const PlayerStats = () => {
             .map(entry => entry.weight));
         let maxWeight = Math.max(...fullDateRange.map(entry => entry.weight));
         const diffrence = maxWeight - minWeight;
-        minWeight = minWeight - diffrence/10;
-        maxWeight = maxWeight + diffrence/10;
+        minWeight = minWeight - 2.5;
+        maxWeight = maxWeight + 2.5;
         let minPulse = Math.min(...fullDateRange 
             .filter(entry => entry.pulse !== null && entry.pulse !== 0) // Pomiń wiersze z brakującymi danymi
             .map(entry => entry.pulse));
@@ -390,7 +390,7 @@ const PlayerStats = () => {
                     height={400} 
                     data={processedPlayerStats} 
                     margin={windowWidth > 550 
-                        ? { top: 20, right: 10, left: 30, bottom: 40 } 
+                        ? { top: 20, right: 10, left: 45, bottom: 40 } 
                         : { top: 20, right: 10, left: 10, bottom: 40 }
                     }
                     >
@@ -409,7 +409,7 @@ const PlayerStats = () => {
                                 value: `Tętno/Samopoczucie/Waga[kg]`, 
                                 angle: -90, // Obrót o 90 stopni w kierunku przeciwnym do ruchu wskazówek zegara
                                 position: 'insideLeft', 
-                                offset: -5 ,
+                                offset: -35 ,
                                 dy: 100
                             }} 
                             ticks={[0,25,50,75, 100]}  
@@ -417,27 +417,32 @@ const PlayerStats = () => {
                                 switch(value) {
                                     case 0: return (
                                         `${selectedFilter==='all' || selectedFilter === 'pulse'?(0 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
-                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"😢\n":""}` +
+                                        ${selectedFilter==='all' ?"😢\n":""}` +
+                                        `${selectedFilter!=='all' && selectedFilter === 'feeling'?"Bardzo źle😢":""}`+
                                         `${selectedFilter==='all' || selectedFilter === 'weight'?(0 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
                                     );
                                     case 25: return (
                                         `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.25 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
-                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"🙁\n":""}` +
+                                        ${selectedFilter==='all' ?"🙁\n":""}` +
+                                        `${selectedFilter!=='all' && selectedFilter === 'feeling'?"Źle 🙁":""}`+
                                         `${selectedFilter==='all' || selectedFilter === 'weight'?(0.25 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0` 
                                     );
                                     case 50: return (
                                         `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.5 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
-                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"😐\n":""}`+
+                                        ${selectedFilter==='all' ?"😐\n":""}`+
+                                        `${selectedFilter!=='all' && selectedFilter === 'feeling'?"Neutralnie 😐":""}`+
                                         `${selectedFilter==='all' || selectedFilter === 'weight'?(0.5 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     case 75: return (
                                         `${selectedFilter==='all'||selectedFilter === 'pulse'?(0.75 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
-                                         ${selectedFilter==='all' || selectedFilter === 'feeling'?"🙂\n":""}`+
+                                         ${selectedFilter==='all' ?"🙂\n":""}`+
+                                         `${selectedFilter!=='all' && selectedFilter === 'feeling'?"Dobrze🙂":""}`+
                                         `${selectedFilter==='all' || selectedFilter === 'weight'?(0.75 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     case 100: return (
                                         `${selectedFilter==='all'||selectedFilter === 'pulse'?(1 * (maxPulse - minPulse) + minPulse).toFixed(0):""}
-                                        ${selectedFilter==='all' || selectedFilter === 'feeling'?"😊\n":""}`+
+                                         ${selectedFilter==='all' ?"😊\n":""}`+
+                                         `${selectedFilter!=='all' && selectedFilter === 'feeling'?"Bardzo dobrze 😊":""}`+
                                         `${selectedFilter==='all' || selectedFilter === 'weight'?(1 * (maxWeight - minWeight) + minWeight).toFixed(1):""}\u00A0`
                                     );
                                     default: return value;
@@ -558,20 +563,7 @@ const PlayerStats = () => {
                             }}
                             style={{ whiteSpace: 'nowrap', wordWrap: 'normal', overflowWrap: 'normal' }} 
                         /> : 
-                        <YAxis 
-                            ticks={[20, 40, 60, 80, 100]}  
-                            tickFormatter={(value) => {
-                                switch(value) {
-                                    case 20: return "😢\n20";
-                                    case 40: return "🙁\n40";
-                                    case 60: return "😐\n60";
-                                    case 80: return "🙂\n80";
-                                    case 100: return "😊\n100";
-                                    default: return value;
-                                }
-                            }}
-                            style={{ whiteSpace: 'pre-line', wordWrap: 'normal', overflowWrap: 'normal' }} 
-                        />
+                        null
                         }   
                     <Line 
                         type="monotone" 
