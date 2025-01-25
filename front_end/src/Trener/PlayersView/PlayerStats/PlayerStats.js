@@ -177,8 +177,8 @@ const PlayerStats = () => {
             .map(entry => entry.pulse));
         let maxPulse = Math.max(...fullDateRange.map(entry => entry.pulse));
         const diffrencePulse = maxPulse - minPulse;
-        minPulse = minPulse - 5;
-        maxPulse = maxPulse + 5;
+        minPulse = minPulse - 10;
+        maxPulse = maxPulse + 10;
         let minKinaza = Math.min(...fullDateRange2
             .filter(entry => entry.kinaza !== null && entry.kinaza !== 0) // Pomiń wiersze z brakującymi danymi
             .map(entry => entry.kinaza));
