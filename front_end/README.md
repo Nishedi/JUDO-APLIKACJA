@@ -1,6 +1,7 @@
 ## :construction_worker: Todo
 
 - [x] Poprawić statystyki, tak żeby drobne zmiany wagi nie były tak widoczne
+- [ ] Nazwy etykiet kolorem
 - [] Dodać podsumowanie tygodnia/miesiąca/roku w postaci liczby rodzajów treningów
 - [] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności
 - [] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
