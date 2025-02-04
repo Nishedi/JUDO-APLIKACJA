@@ -3,7 +3,7 @@ import styles from './SideBar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 
 
-const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile, onReportErrorClick }) => {
+const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile, onReportErrorClick, onTestowaniePowiadomienClick }) => {
 
     
 // DODAC ZEBY SIE ZAMYKALO PO KLIKNIECIU NA NAVBAR SIDEBARU
@@ -25,9 +25,7 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                         Dodaj zawodnika
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
-{/* ------------------------------------------------------------------- */}
                     <div className={styles.emptyElement}></div>
-{/* ------------------------------------------------------------------- */}
                     <div onClick={goToProfile} className={styles.singleClickableElemement}>
                         Twój profil
                         <IoIosArrowForward className={styles.right_arrow} />    
@@ -45,6 +43,17 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                         Zgłoś błąd
                         {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                     </div>
+                    {name === "konradekAdmin" &&
+                    <>
+                     <div className={styles.line}></div>
+                        <div
+                            onClick={onTestowaniePowiadomienClick}
+                            className={styles.singleClickableElemementv3}>
+                            Sekcja testowa powiadomień
+                            {/* <IoIosArrowForward className={styles.right_arrow} /> */}
+                        </div>
+                    </>
+                    }
 
                 </div>
                 

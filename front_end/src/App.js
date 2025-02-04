@@ -31,6 +31,7 @@ import ReportError from './ReportSide/ReportError';
 import PlayerStats from './Trener/PlayersView/PlayerStats/PlayerStats';
 import PlayerNotes from './Trener/PlayersView/Notes/PlayerNotes';
 import PlayerNotesOpponent from './Trener/PlayersView/Notes/PlayerNotesOpponent';
+import TestowaniePowiadomien from './Trener/PlayersView/TestowaniePowiadomien';
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
           <Route path = 'trener/playerstats' element = {<PlayerStats />} />
           <Route path = 'trener/playernotes' element = {<PlayerNotes />} />
           <Route path = 'trener/playernotesopponent/:id_watku' element = {<PlayerNotesOpponent />} />
+          <Route path = "trener/testowaniepowiadomien" element = {<TestowaniePowiadomien />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>
