@@ -16,6 +16,7 @@ const SinglePlayerWeekView = () => {
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
 
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -137,8 +138,6 @@ const SinglePlayerWeekView = () => {
                         }).map((activity, index) => (
                             <div className={styles.singleActivityInfo} key={index}>
                                 <div className={styles.activityType}>
-                                    {/* {activity.rodzaj_aktywności} */}
-
                                     {activity.rodzaj_aktywności === "Inny" ?
                                         <div>{activity.zadania}</div> 
                                         :

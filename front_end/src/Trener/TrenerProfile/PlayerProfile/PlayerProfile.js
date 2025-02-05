@@ -17,7 +17,7 @@ const PlayerProfile = () => {
         {/* Navbar */}
         <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <BackButton path="/trener/singleplayerweekview"/>
+                    <BackButton path="/trener/playermonthview/week"/>
                 </div>
                 <div className={styles.profilDiv}>
                     <div className={styles.end} >

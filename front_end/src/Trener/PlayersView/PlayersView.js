@@ -53,7 +53,7 @@ const PlayersView = () => {
 
     const pickPlayer = (player) => {
         setViewedPlayer(player);
-        navigate('/trener/singleplayerweekview');
+        navigate('/trener/playermonthview/week');
     }
 
     const goToProfile = () => {

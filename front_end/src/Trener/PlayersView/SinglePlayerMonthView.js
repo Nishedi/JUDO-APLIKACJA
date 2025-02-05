@@ -18,6 +18,10 @@ const SinglePlayerMonthView = () => {
     const [weeklyActivities, setWeeklyActivities] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const viewType = useParams().viewtype;
+    const [runningTreningsCounter, setRunningTreningsCounter] = useState(0);
+    const [motorTreningsCounter, setMotorTreningsCounter] = useState(0);
+    const [strengthTreningsCounter, setStrengthTreningsCounter] = useState(0);
+    const [otherTreningsCounter, setOtherTreningsCounter] = useState(0);
 
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -32,7 +36,8 @@ const SinglePlayerMonthView = () => {
 
     const getMonthDateRange = (date) => {
         const startOfWeek = new Date(date);
-        startOfWeek.setDate(1);
+        if(viewType !== 'week')
+            startOfWeek.setDate(1);
         const endOfWeek = new Date(startOfWeek);
         if(viewType === 'month') 
             endOfWeek.setDate(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
@@ -41,6 +46,12 @@ const SinglePlayerMonthView = () => {
             startOfWeek.setDate(1);
             endOfWeek.setMonth(11);
             endOfWeek.setDate(31);
+        }
+        else if(viewType === 'week'){
+            const dayOfWeek = startOfWeek.getDay();
+            const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+            startOfWeek.setDate(diff);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
         }
         return { startOfWeek, endOfWeek };
     };
@@ -51,6 +62,8 @@ const SinglePlayerMonthView = () => {
             newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
         else if(viewType === 'year')
             newDate.setFullYear(currentDate.getFullYear() + (direction === 'next' ? 1 : -1));
+        else if(viewType === 'week')
+            newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
         setCurrentDate(newDate);
     }
 
@@ -59,6 +72,13 @@ const SinglePlayerMonthView = () => {
     };
 
     const getMonthRanges = (currentDate) => {
+        const { startOfWeek: currentWeekStart, endOfWeek: currentWeekEnd } = getMonthDateRange(currentDate);
+        return {
+            currentMonth: formatDateRange(currentWeekStart, currentWeekEnd),
+        };
+    };
+
+    const getWeekRanges = (currentDate) => {
         const { startOfWeek: currentWeekStart, endOfWeek: currentWeekEnd } = getMonthDateRange(currentDate);
         return {
             currentWeek: formatDateRange(currentWeekStart, currentWeekEnd),
@@ -94,7 +114,7 @@ const SinglePlayerMonthView = () => {
 
     const getMonthDays = async () => {
         const { startOfWeek } = getRangeToDatabase(currentDate);
-        const { endOfWeek } = getRangeToDatabase(currentDate);
+        const { endOfWeek } =   getRangeToDatabase(currentDate);
         const dates = generateDateArray(startOfWeek, endOfWeek);
        
         let { data: aktywnosci, error } = await supabase
@@ -107,7 +127,32 @@ const SinglePlayerMonthView = () => {
        
         if (aktywnosci && aktywnosci.length !== 0) {
             setWeeklyActivities(aktywnosci);
+            let runningTreningsCounter = 0;
+            let motorTreningsCounter = 0;
+            let strengthTreningsCounter = 0;
+            let otherTreningsCounter = 0;
+            aktywnosci.forEach(activity => {
+                if(activity.rodzaj_aktywności === "Biegowy"){
+                    runningTreningsCounter++;
+                }
+                else if(activity.rodzaj_aktywności === "Motoryczny"){
+                    motorTreningsCounter++;
+                }
+                else if(activity.rodzaj_aktywności === "Na macie"){
+                    strengthTreningsCounter++;
+                }
+               
+                else{
+                    otherTreningsCounter++;
+                }
+            }
+            );
+            setRunningTreningsCounter(runningTreningsCounter);
+            setMotorTreningsCounter(motorTreningsCounter);
+            setStrengthTreningsCounter(strengthTreningsCounter);
+            setOtherTreningsCounter(otherTreningsCounter);
         }
+        
     }
 
     const getActivitiesForThatDay = (date) => {
@@ -130,7 +175,7 @@ const SinglePlayerMonthView = () => {
         const isToday = date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
         return (
            <>
-           {activities.length !== 0 && (
+           {(activities.length !== 0 || viewType ===  "week")&& (
                  <div onClick={() => goToSinglePlayerSingleDay(date)}
                  className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
                  >
@@ -143,6 +188,7 @@ const SinglePlayerMonthView = () => {
                                  return (hoursA - hoursB) || (minutesA - minutesB);
                              }).map((activity, index) => (
                                  <div className={styles.singleActivityInfo} key={index}>
+                                    
                                      <div className={styles.activityType}>
                                          {activity.rodzaj_aktywności === "Inny" ?
                                              <div>{activity.zadania}</div> 
@@ -206,18 +252,50 @@ const SinglePlayerMonthView = () => {
         setCurrentDate(now);
     }, [viewType]);
 
-    const { currentWeek } = getMonthRanges(currentDate);
+    const { currentMonth } = getMonthRanges(currentDate);
+    const { currentWeek } = getWeekRanges(currentDate);
 
-    const daysOfWeek = Array.from({ length: (new Date(currentDate.getFullYear(), 11, 31) - new Date(currentDate.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24) + 1 }, 
-        (_, i) => {
-            const date = new Date(currentDate.getFullYear(), 0, 1); // Pierwszy dzień roku
-            date.setDate(date.getDate() + i); // Dodajemy kolejne dni
-            
-            return date;
-        });
+    let daysOfWeek;
+
+    switch (viewType) {
+        case "week":
+            daysOfWeek = Array.from({ length: 7 }, (_, i) => {
+                const date = new Date(currentDate);
+                const startOfWeek = getMonthDateRange(date).startOfWeek;
+                startOfWeek.setDate(startOfWeek.getDate() + i);
+                return new Date(startOfWeek);
+            });
+            break;
+
+        default:
+            daysOfWeek = Array.from(
+                { length: (new Date(currentDate.getFullYear(), 11, 31) - new Date(currentDate.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24) + 1 },
+                (_, i) => {
+                    const date = new Date(currentDate.getFullYear(), 0, 1);
+                    date.setDate(date.getDate() + i);
+                    return date;
+                }
+            );
+            break;
+    }
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
+    }
+
+    const requestForStat = async (whatToGet) => {
+        const updates = { prosba_o_kinaze: "TRUE", prosba_o_kwas_mlekowy: "TRUE" };
+        if (updates[whatToGet]) {
+            const { data, error } = await supabase
+                .from('zawodnicy')
+                .update({ [whatToGet]: updates[whatToGet] })
+                .eq('id', viewedPlayer.id)
+                .eq('id_trenera', globalVariable.id)
+                .select();
+            if (error) {
+                console.log(error);
+            }
+        }
     }
 
     const onStatsClick = () => {
@@ -230,9 +308,7 @@ const SinglePlayerMonthView = () => {
         navigate('/trener/playernotes');
     }
 
-    const onMonthViewClick = () => {
-        navigate('/trener/singleplayerweekview');
-    }
+    
 
     const closeSidebar = () => {
         if(isSidebarOpen){
@@ -249,8 +325,6 @@ const SinglePlayerMonthView = () => {
                 surname={viewedPlayer.nazwisko} 
                 onStatsClick={onStatsClick} 
                 onNotesClick={onNotesClick}
-                onMonthViewClick={onMonthViewClick}
-                isMonthView={true}
                 viewType={viewType}
                 navigate={navigate}
             />
@@ -266,12 +340,98 @@ const SinglePlayerMonthView = () => {
                     <button onClick={() => updateMonth('prev')} className={styles.arrowButton}>
                         <IoIosArrowBack />
                     </button>
-                    {viewType === 'month' ? currentWeek : viewType === 'year' ? currentDate.getFullYear() : ''}
+                    {viewType === 'month' ? currentMonth : viewType === 'year' ? currentDate.getFullYear() : viewType === 'week' ? currentWeek : null}
                     <button onClick={() => updateMonth('next')} className={styles.arrowButton}>
                         <IoIosArrowForward />
                     </button>
                 </div>
             </div>
+            {
+                
+                <div className={styles.weekDay}>
+                    <div>
+                        <div>
+                            {viewType === 'week' &&
+                            <>
+                            <p>Ostatnia aktualizacja</p>
+                            <div className={styles.optionalStats}>
+                                <div>Kinaza:</div>
+                                <div className={styles.singleActivityInfo}>
+                                    <strong>{viewedPlayer.kinaza} </strong>
+                                    {viewedPlayer.ostatnia_aktualizacja_kinazy &&
+                                    <div>({viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kinazy.split(".")[1]})</div>}
+                                </div>
+                                <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kinaze')}>
+                                    Aktualizuj
+                                </button>
+                            </div>
+                            <div className={styles.optionalStats}>
+                                <div 
+                                    style={{whiteSpace: 'nowrap'}}>
+                                    Kwas mlekowy:
+                                </div>
+                                <div className={styles.singleActivityInfo}>
+                                    <div><strong>{viewedPlayer.kwas_mlekowy}</strong></div>
+                                    {viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego &&
+                                        <div>({viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego.split(".")[0]}.{viewedPlayer.ostatnia_aktualizacja_kwasu_mlekowego.split(".")[1]})</div>
+                                            }
+                                </div>
+                                <button className={styles.buttonTrening} onClick={() => requestForStat('prosba_o_kwas_mlekowy')}>
+                                    Aktualizuj
+                                </button>
+                            </div>
+                            </>
+                            
+                            }
+                            <div className={styles.optionalStats}>
+                                <div 
+                                    style={{whiteSpace: 'nowrap'}}>
+                                    Liczba treningów biegowych:
+                                </div>
+                                <div className={styles.singleActivityInfo}>
+                                    <div><strong>{runningTreningsCounter}</strong></div>
+                                </div>
+                                
+                            </div>
+                            <div className={styles.optionalStats}>
+                                <div
+                                    style={{whiteSpace: 'nowrap'}}>
+                                    Liczba treningów motorycznych:
+                                </div>
+                                <div className={styles.singleActivityInfo}>
+                                    <div><strong>{motorTreningsCounter}</strong></div>
+                                </div>
+                            </div>
+                            <div className={styles.optionalStats}>
+                                <div
+
+                                    style={{whiteSpace: 'nowrap'}}>
+                                    Liczba treningów na macie:
+                                </div>
+                                <div className={styles.singleActivityInfo}>
+                                    <div><strong>{strengthTreningsCounter}</strong></div>
+                                </div>
+                            </div>
+                            
+                            <div className={styles.optionalStats}>
+                                <div
+                                    style={{whiteSpace: 'nowrap'}}>
+                                    Liczba innych treningów:
+                                </div>
+                                <div className={styles.singleActivityInfo}>
+                                    <div><strong>{otherTreningsCounter}</strong></div>
+                                </div>
+                            </div>
+                            <div className={styles.buttonStatsOpacity}>
+                                <button className={styles.buttonStats} onClick={() => navigate("/trener/playerstats")}>
+                                    Statystyki
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
             <div className={styles.weeklist}>
                 {daysOfWeek.map((date, index) => (
                     <WeekDay

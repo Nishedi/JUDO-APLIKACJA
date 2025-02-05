@@ -74,7 +74,7 @@ const PlayerNotes = () => {
             {/* Navbar */}
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                        <BackButton path="/trener/singleplayerweekview"/>
+                        <BackButton path="/trener/playermonthview/week"/>
                 </div>
                 <div className={styles.navbarText}>
                         Notatnik <br/> Przeciwnicy

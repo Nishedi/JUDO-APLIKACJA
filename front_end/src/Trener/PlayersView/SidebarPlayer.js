@@ -3,7 +3,7 @@ import styles from './SideBar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 
 
-const SidebarPlayer = ({ isOpen, onProfileClick, name, surname, onStatsClick, onNotesClick, onMonthViewClick, viewType, navigate}) => {
+const SidebarPlayer = ({ isOpen, onProfileClick, name, surname, onStatsClick, onNotesClick, viewType, navigate}) => {
     
 // DODAC ZEBY SIE ZAMYKALO PO KLIKNIECIU NA NAVBAR SIDEBARU
     return (
@@ -21,7 +21,7 @@ const SidebarPlayer = ({ isOpen, onProfileClick, name, surname, onStatsClick, on
                     </div> */}
                     {viewType!=="week" &&
                     <>
-                        <div onClick={onMonthViewClick} className={styles.singleClickableElemement}>
+                        <div onClick={()=>navigate("/trener/playermonthview/week")} className={styles.singleClickableElemement}>
                             {"Widok tygodniowy"}
                             <IoIosArrowForward className={styles.right_arrow} />
                         </div>

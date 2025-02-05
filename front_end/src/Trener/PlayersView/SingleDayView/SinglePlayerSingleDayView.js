@@ -173,7 +173,7 @@ const SinglePlayerSingleDayView = () => {
             <SideBarCalendar isOpen={isSidebarOpen}/>
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <BackButton path="/trener/singleplayerweekview"/>
+                    <BackButton path="/trener/playermonthview/week"/>
                 </div>
                 <div className = {styles.weekDay}>
                     <div>{dayNames[viewedPlayer.currentDate?.getDay()]}</div>
