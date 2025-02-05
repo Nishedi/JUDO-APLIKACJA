@@ -68,7 +68,7 @@ function App() {
           <Route path = 'trener/playerstats' element = {<PlayerStats />} />
           <Route path = 'trener/playernotes' element = {<PlayerNotes />} />
           <Route path = 'trener/playernotesopponent/:id_watku' element = {<PlayerNotesOpponent />} />
-          <Route path = 'trener/playermonthview' element = {<SinglePlayerMonthView />} />
+          <Route path = 'trener/playermonthview/:viewtype' element = {<SinglePlayerMonthView />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

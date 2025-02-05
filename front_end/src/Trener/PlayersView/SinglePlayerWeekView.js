@@ -232,7 +232,7 @@ const SinglePlayerWeekView = () => {
     }
 
     const onMonthViewClick = () => {
-        navigate('/trener/playermonthview');
+        navigate('/trener/playermonthview/month');
     }
 
     const closeSidebar = () => {

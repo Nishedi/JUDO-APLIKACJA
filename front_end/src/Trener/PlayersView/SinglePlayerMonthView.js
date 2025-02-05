@@ -2,12 +2,13 @@ import styles from './SinglePlayerWeekView.module.css';
 import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../BackButton';
 import {TreningStatusAndFeelingsAfter, getBorderColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import SidebarPlayer from '../PlayersView/SidebarPlayer';
+import { use } from 'react';
 
 const SinglePlayerMonthView = () => {
     const { viewedPlayer, setViewedPlayer, supabase, globalVariable } = useContext(GlobalContext);
@@ -16,6 +17,7 @@ const SinglePlayerMonthView = () => {
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const viewType = useParams().viewtype;
 
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -31,15 +33,24 @@ const SinglePlayerMonthView = () => {
     const getMonthDateRange = (date) => {
         const startOfWeek = new Date(date);
         startOfWeek.setDate(1);
-
         const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
+        if(viewType === 'month') 
+            endOfWeek.setDate(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
+        else if(viewType === 'year'){
+            startOfWeek.setMonth(0);
+            startOfWeek.setDate(1);
+            endOfWeek.setMonth(11);
+            endOfWeek.setDate(31);
+        }
         return { startOfWeek, endOfWeek };
     };
 
     const updateMonth = (direction) => {
         const newDate = new Date(currentDate);
-        newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
+        if(viewType === 'month')
+            newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
+        else if(viewType === 'year')
+            newDate.setFullYear(currentDate.getFullYear() + (direction === 'next' ? 1 : -1));
         setCurrentDate(newDate);
     }
 
@@ -85,8 +96,7 @@ const SinglePlayerMonthView = () => {
         const { startOfWeek } = getRangeToDatabase(currentDate);
         const { endOfWeek } = getRangeToDatabase(currentDate);
         const dates = generateDateArray(startOfWeek, endOfWeek);
-    
-    
+       
         let { data: aktywnosci, error } = await supabase
             .from('aktywności')
             .select('*')
@@ -94,6 +104,7 @@ const SinglePlayerMonthView = () => {
             .eq('id_zawodnika', viewedPlayer.id)
             .eq('id_trenera', globalVariable.id)
             .order('data', { ascending: true });
+       
         if (aktywnosci && aktywnosci.length !== 0) {
             setWeeklyActivities(aktywnosci);
         }
@@ -191,17 +202,19 @@ const SinglePlayerMonthView = () => {
         getMonthDays();
     }, [currentDate]);
 
+    useEffect(() => {
+        setCurrentDate(now);
+    }, [viewType]);
+
     const { currentWeek } = getMonthRanges(currentDate);
 
-    const daysOfWeek = Array.from({ length: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate() }, (_, i) => {
-        const date = new Date(currentDate);
-        const startOfWeek = getMonthDateRange(date).startOfWeek;
-        startOfWeek.setDate(startOfWeek.getDate() + i);
-        return startOfWeek;
-    });
-
-    
-// -------------------------------------------------------------------
+    const daysOfWeek = Array.from({ length: (new Date(currentDate.getFullYear(), 11, 31) - new Date(currentDate.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24) + 1 }, 
+        (_, i) => {
+            const date = new Date(currentDate.getFullYear(), 0, 1); // Pierwszy dzień roku
+            date.setDate(date.getDate() + i); // Dodajemy kolejne dni
+            
+            return date;
+        });
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -238,6 +251,8 @@ const SinglePlayerMonthView = () => {
                 onNotesClick={onNotesClick}
                 onMonthViewClick={onMonthViewClick}
                 isMonthView={true}
+                viewType={viewType}
+                navigate={navigate}
             />
             <div className={styles.navbar}>
             <div className={styles.backAndDate}>
@@ -251,13 +266,12 @@ const SinglePlayerMonthView = () => {
                     <button onClick={() => updateMonth('prev')} className={styles.arrowButton}>
                         <IoIosArrowBack />
                     </button>
-                    {currentWeek}
+                    {viewType === 'month' ? currentWeek : viewType === 'year' ? currentDate.getFullYear() : ''}
                     <button onClick={() => updateMonth('next')} className={styles.arrowButton}>
                         <IoIosArrowForward />
                     </button>
                 </div>
             </div>
-            
             <div className={styles.weeklist}>
                 {daysOfWeek.map((date, index) => (
                     <WeekDay
