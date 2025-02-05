@@ -31,7 +31,12 @@ import ReportError from './ReportSide/ReportError';
 import PlayerStats from './Trener/PlayersView/PlayerStats/PlayerStats';
 import PlayerNotes from './Trener/PlayersView/Notes/PlayerNotes';
 import PlayerNotesOpponent from './Trener/PlayersView/Notes/PlayerNotesOpponent';
+<<<<<<< HEAD
+import TestowaniePowiadomien from './Trener/PlayersView/TestowaniePowiadomien';
+
+=======
 import SinglePlayerMonthView from './Trener/PlayersView/SinglePlayerMonthView';
+>>>>>>> db4a9f9c3201479dd198599e9e0d7f3ede86fca3
 function App() {
   return (
     <GlobalProvider>
@@ -68,7 +73,15 @@ function App() {
           <Route path = 'trener/playerstats' element = {<PlayerStats />} />
           <Route path = 'trener/playernotes' element = {<PlayerNotes />} />
           <Route path = 'trener/playernotesopponent/:id_watku' element = {<PlayerNotesOpponent />} />
+<<<<<<< HEAD
           <Route path = 'trener/playermonthview/:viewtype' element = {<SinglePlayerMonthView />} />
+=======
+<<<<<<< HEAD
+          <Route path = "trener/testowaniepowiadomien" element = {<TestowaniePowiadomien />} />
+=======
+          <Route path = 'trener/playermonthview' element = {<SinglePlayerMonthView />} />
+>>>>>>> db4a9f9c3201479dd198599e9e0d7f3ede86fca3
+>>>>>>> b91cc7f805a44cca4892596941ca50cd42ea5a95
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

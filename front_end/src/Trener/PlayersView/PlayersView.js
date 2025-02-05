@@ -66,6 +66,10 @@ const PlayersView = () => {
         }
     }
 
+    const goToTestowaniePowiadomien = () => {
+        navigate('/trener/testowaniepowiadomien');
+    }
+
 
     const now = new Date();
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -74,7 +78,7 @@ const PlayersView = () => {
     
         return (
         <div onClick={closeSidebar} className={styles.background}>
-            <Sidebar onReportErrorClick={onReportErrorClick} isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
+            <Sidebar onReportErrorClick={onReportErrorClick} isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile} onTestowaniePowiadomienClick={goToTestowaniePowiadomien}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar}>
                     <RxHamburgerMenu className={styles.burger}/>
