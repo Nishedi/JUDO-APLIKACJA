@@ -134,7 +134,16 @@ const TrenerTrainingView = () => {
                                                     {thing?.duration ? thing.duration + " min. " : ""} 
                                                     {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
                                                     {thing?.repeats ? "x"+thing.repeats + " " : ""}
-                                                    {thing?.goldenScore ? "+"+thing.goldenScore + " min. " : ""}
+                                                    {
+                                                    thing?.goldenScoreMinutes && thing?.goldenScore 
+                                                        ? "+ " + thing.goldenScoreMinutes + ":" + (thing.goldenScore.toString().padStart(2, "0"))
+                                                        : thing?.goldenScoreMinutes 
+                                                        ? "+ " + thing.goldenScoreMinutes + " min. "
+                                                        : thing?.goldenScore 
+                                                        ? "+ " +  thing.goldenScore + " s."
+                                                        : ""
+                                                    }
+
                                                 </li>
                                             );
                                         })}
