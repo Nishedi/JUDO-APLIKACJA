@@ -12,7 +12,7 @@
 - [ ] Pomyśleć o powiadomieniach sms czy coś takiego
 - [ ] Metry dla aktywności biegowych
 - [ ] Możliwość ręcznej zmiany kolejności aktywności
-- [ ] GS - minuty i sekundy
+- [X] GS - minuty i sekundy
 - [X] Opis emotek na wykresach
 - [ ] Osobne wykresy dla statystyk
 - [ ] Kilka takich samych aktywności w ramach jednego treningu
