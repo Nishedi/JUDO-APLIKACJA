@@ -6,7 +6,7 @@
 - [X] Dodać podsumowanie tygodnia/miesiąca/roku w postaci liczby rodzajów treningów
 - [ ] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności
 - [ ] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
-- [ ] Kolory dla nazw rodzajów aktywności do wyboru przy tworzeniu aktywności (Niebieski - taktyczny, czerwony - motoryczny, zielony - mentalny)   A
+- [x] Kolory dla nazw rodzajów aktywności do wyboru przy tworzeniu aktywności (Niebieski - taktyczny, czerwony - motoryczny, zielony - mentalny)  (u trenera) A
 - [ ] Notatki - cztery pola tekstowe (1. Jak walczy, 2. Co można na niej zrobić, 3. Na co uważać, 4. Mocne strony w parterze)                     A
 - [ ] Pomyśleć o powiadomieniach
 - [ ] Pomyśleć o powiadomieniach sms czy coś takiego
