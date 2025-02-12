@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../../BackButton";
-import {getActivityColor, getBorderColor, GetFeelingsEmoticon} from "../../../CommonFunction"
+import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor} from "../../../CommonFunction"
 
 const SinglePlayerSingleDayView = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
@@ -130,14 +130,23 @@ const SinglePlayerSingleDayView = () => {
                     {activity.rodzaj_aktywności === "Inny" ?
                         <h3>  
                             {activity?.zadania} 
-                            <span   style={{ color: getBorderColor(activity.rodzaj_aktywności) }}>
+                            <span   style={{ 
+                                    color: getBorderColor(activity.rodzaj_aktywności) }}
+                                    
+                            >
                                     {" → "}
                                     {activity.rodzaj_aktywności}
                             </span>
                             
                         </h3>
                         :
-                        <h3>{activity.rodzaj_aktywności}</h3>
+                        <h3 style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "25px",
+                            padding: "5px",
+                            width: "fit-content",
+                            border: "1px solid",
+                            color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>{activity.rodzaj_aktywności}</h3>
                     }
                     
                     <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>

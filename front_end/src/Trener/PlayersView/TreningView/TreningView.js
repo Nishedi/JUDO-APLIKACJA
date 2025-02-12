@@ -1,11 +1,12 @@
 import styles from './TreningView.module.css';
 import React, { useEffect } from 'react';
-import { TreningStatus, FeelingsAfter } from '../../../CommonFunction';
+import { TreningStatus, FeelingsAfter, getActivityTypeColor } from '../../../CommonFunction';
 import { GlobalContext } from '../../../GlobalContext';
 import { useContext } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../../BackButton';
+
 
 const TrenerTrainingView = () => {
     const { globalVariable, supabase } = useContext(GlobalContext);
@@ -94,7 +95,7 @@ const TrenerTrainingView = () => {
                 </div>
                 {/* Body */}
                 {activity.rodzaj_aktywności !== 'Inny' ? 
-                    <div className={styles.trainingDetails}>
+                    <div className={styles.trainingDetails} style={{border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>
                             <div className={styles.switchContainer}>
                                 <label className={styles.trainingDetails}>Czy trening został wykonany?</label>
                                 <TreningStatus treningStatus={activity.status} />    
@@ -102,8 +103,8 @@ const TrenerTrainingView = () => {
                     </div>
                     :null
                 }
-                <div className={styles.trainingDetails}>
-                            <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
+                <div className={styles.trainingDetails} style={{border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>
+                    <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
                             <div className={styles.line}></div>
 
                         {activity.rodzaj_aktywności === 'Fizjoterapia' || activity.rodzaj_aktywności === 'Inny' 
@@ -193,7 +194,7 @@ const TrenerTrainingView = () => {
                             </p>    
                         </div>
                     </div>
-                    <div className={styles.trainingDetails}>
+                    <div className={styles.trainingDetails} style={{border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>
                         {activity.rodzaj_aktywności !== 'Inny' ?
                             <>
                                 <div className={styles.switchContainer}>
