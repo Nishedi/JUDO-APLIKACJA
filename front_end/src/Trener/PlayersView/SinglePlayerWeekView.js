@@ -4,7 +4,7 @@ import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
-import {TreningStatusAndFeelingsAfter, getBorderColor} from '../../CommonFunction';
+import {TreningStatusAndFeelingsAfter, getActivityColor, getBorderColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import SidebarPlayer from '../PlayersView/SidebarPlayer';
@@ -16,8 +16,6 @@ const SinglePlayerWeekView = () => {
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    
-
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
@@ -137,7 +135,10 @@ const SinglePlayerWeekView = () => {
                             return (hoursA - hoursB) || (minutesA - minutesB);
                         }).map((activity, index) => (
                             <div className={styles.singleActivityInfo} key={index}>
-                                <div className={styles.activityType}>
+                                <div className={styles.activityType}  style={{
+                                                backgroundColor: getActivityColor(activity.rodzaj_aktywności),
+                                                borderColor: getBorderColor(activity.rodzaj_aktywności)
+                                                }}>
                                     {activity.rodzaj_aktywności === "Inny" ?
                                         <div>{activity.zadania}</div> 
                                         :

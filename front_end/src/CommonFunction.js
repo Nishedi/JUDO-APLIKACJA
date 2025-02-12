@@ -61,6 +61,19 @@ export const getActivityColor = (activity_type) => {
     }
 }
 
+export const getActivityTypeColor = (additional_activity_type) => {
+    switch (additional_activity_type) {
+        case 'taktyczny':
+            return '#0000FF'; // Niebieski
+        case 'motoryczny':
+            return '#B22222'; // Czerwony
+        case 'mentalny':
+            return '#32CD32'; // Zielony
+        default:
+            return '#000'; // Domyślny kolor (np. jasny fiolet)
+    }
+}
+
 export const getBorderColor = (activity_type) => {
     switch (activity_type) {
         case 'Motoryczny':

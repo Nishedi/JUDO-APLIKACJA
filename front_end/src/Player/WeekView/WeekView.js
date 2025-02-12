@@ -106,13 +106,17 @@ const WeekView = () => {
     };
     
     const goToSingleDay = (date) => {
-        if (date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
-            navigate("/player/dayview");
-        } else {
-            const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
-            setGlobalVariable({ ...globalVariable, date: formattedDate });
-            navigate("/player/anotherdayview");
-        }
+        // if (date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
+        //     navigate("/player/dayview");
+        // } else {
+        //     const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
+        //     setGlobalVariable({ ...globalVariable, date: formattedDate });
+        //     navigate("/player/anotherdayview");
+        // }
+
+        const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
+        setGlobalVariable({ ...globalVariable, date: formattedDate });
+        navigate("/player/dayview");
     }
 
     const WeekDay = ({ day, date}) => {

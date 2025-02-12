@@ -254,6 +254,10 @@ const AddingActivityFirstPage = () => {
             setErrors(formErrors);
             return;
         }
+
+        const selectedType = document.getElementById("typeSelect")?.value; // Pobierz wybrany typ (kolor)
+
+
         for (const athlete of selectedOptions) {
             for (const date of dates) {
                 const exercises2 = [];
@@ -275,7 +279,8 @@ const AddingActivityFirstPage = () => {
                     activity_type: selectedTrenings[0]?.name,
                     exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
                     exercises_details: exercises2,
-                    comment: comment
+                    comment: comment,
+                    additional_activity_type: selectedType // Nowe pole!
                 };
                 const { data, error } = await supabase
                     .from('aktywności')
@@ -286,6 +291,7 @@ const AddingActivityFirstPage = () => {
                             data: activity.date,
                             czas_trwania: activity.duration,
                             rodzaj_aktywności: activity.activity_type,
+                            dodatkowy_rodzaj_aktywności: activity.additional_activity_type, // Wstaw do bazy
                             zadania: activity.exercise,
                             czas_rozpoczęcia: activity.start_time,
                             komentarz_trenera: activity.comment,
@@ -532,8 +538,18 @@ const AddingActivityFirstPage = () => {
                             {errors.selectedTrenings && <div className={styles.error_message}>{errors.selectedTrenings}</div>}
                         </div>
                         
+                        <div className={styles.input_container}>
+                            Wybierz typ    
+                            <select id="typeSelect" className={styles.select}>
+                                <option value="taktyczny">🔵 Niebieski - taktyczny</option>
+                                <option value="motoryczny">🔴 Czerwony - motoryczny</option>
+                                <option value="mentalny">🟢 Zielony - mentalny</option>
+                            </select>
+                        </div>
+
                         {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? (
-                            <div className={styles.input_container}>
+
+                        <div className={styles.input_container}>
                             Wybierz ćwiczenia
                             <Multiselect
                                 options={exercises}

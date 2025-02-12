@@ -4,7 +4,7 @@ import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../BackButton';
-import {TreningStatusAndFeelingsAfter, getBorderColor} from '../../CommonFunction';
+import {TreningStatusAndFeelingsAfter, getBorderColor, getActivityColor, getActivityTypeColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import SidebarPlayer from '../PlayersView/SidebarPlayer';
@@ -28,6 +28,8 @@ const SinglePlayerMonthView = () => {
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
     
+    
+
     const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
@@ -189,7 +191,12 @@ const SinglePlayerMonthView = () => {
                              }).map((activity, index) => (
                                  <div className={styles.singleActivityInfo} key={index}>
                                     
-                                     <div className={styles.activityType}>
+                                     <div className={styles.activityType}  style={{
+                                                //backgroundColor: getActivityColor(activity.rodzaj_aktywności),
+                                                color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności),
+                                                borderRadius: '5px',
+                                                fontWeight: 'bold',
+                                                }}>
                                          {activity.rodzaj_aktywności === "Inny" ?
                                              <div>{activity.zadania}</div> 
                                              :
