@@ -8,6 +8,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineDone } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
+import MultiSelectDropdown from './MultiSelectDropdown';
 
 
 import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
@@ -182,6 +183,14 @@ const AddingActivityFirstPage = () => {
         }
     };
 
+    useEffect(() => {
+        selectedExercises.map(exercise => {
+            if (exercise.name === 'Inna aktywność') {
+                setIsAnotherExercise(true);
+            }
+        });  
+    }, [selectedExercises]);
+
     const onCommentChange = (e) => {
         setComment(e.target.value);
     };
@@ -191,7 +200,10 @@ const AddingActivityFirstPage = () => {
     };
 
     const addNewActivityToSelected=()=>{
-        const actualListOfActivities = [...selectedExercises];
+        setIsAnotherExercise(false);
+        setAnotherActivityName('');
+        const actualListOfActivities = selectedExercises.filter(exercise => exercise.name !== 'Inna aktywność');
+        
         actualListOfActivities.push({name: newActivity, id: actualListOfActivities.length});
         setSelectedExercises(actualListOfActivities);
     }
@@ -541,17 +553,19 @@ const AddingActivityFirstPage = () => {
                         <div className={styles.input_container}>
                             Wybierz typ    
                             <select id="typeSelect" className={styles.select}>
-                                <option value="taktyczny">🔵 Niebieski - taktyczny</option>
-                                <option value="motoryczny">🔴 Czerwony - motoryczny</option>
-                                <option value="mentalny">🟢 Zielony - mentalny</option>
+                                <option value="taktyczny">🔵 Taktyczny</option>
+                                <option value="motoryczny">🔴 Motoryczny</option>
+                                <option value="mentalny">🟢 Mentalny</option>
+                                <option value="inny"> Inny</option>
                             </select>
                         </div>
 
                         {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? (
-
+                            
+                           
                         <div className={styles.input_container}>
                             Wybierz ćwiczenia
-                            <Multiselect
+                            {/* <Multiselect
                                 options={exercises}
                                 selectedValues={selectedExercises}
                                 onSelect={onSelectedExercises}
@@ -565,7 +579,8 @@ const AddingActivityFirstPage = () => {
                                         border: errors.selectedExercises ? '1px solid red' : '1px solid #ccc'
                                     }
                                 }}
-                            />
+                            /> */}
+                            <MultiSelectDropdown options={exercises} selectedOptions={selectedExercises} setSelectedOptions={setSelectedExercises}/>
                                 {selectedExercises.map(exercise => <Activity exercise={exercise}/>)}
                                 {errors.selectedExercises && <div className={styles.error_message}>{errors.selectedExercises}</div>}
                             </div>
@@ -614,7 +629,7 @@ const AddingActivityFirstPage = () => {
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz komentarz"
                             />
-                            {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
+                             {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
                                 <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
                                 :
                                 null
