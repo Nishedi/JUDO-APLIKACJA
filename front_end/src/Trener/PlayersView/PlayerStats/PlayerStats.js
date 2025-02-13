@@ -5,7 +5,7 @@ import { GlobalContext } from '../../../GlobalContext';
 import { useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ReferenceLine } from 'recharts';
 import DatePicker from 'react-datepicker';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -51,6 +51,11 @@ const PlayerStats = () => {
             setPlayerStats(statystyki);
         }
     }
+
+    const monthNames = [
+        'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 
+        'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'
+    ];
 
     const getPlayersNotDailyStats = async () => {
         const dates = generateDateArray(firstDate, secondDate);
@@ -395,12 +400,59 @@ const PlayerStats = () => {
                     }
                     >
                     <CartesianGrid strokeDasharray="5 5" />
-                    <XAxis dataKey="date" label={{ value: `Data
+
+                    {/* Add vertical line for month transition */}
+
+                    {processedPlayerStats.map((dataPoint, index) => {
+                        const [year, month, day] = dataPoint.date.split('-'); // Split the date
+                        if (parseInt(day, 10) === 1 && index > 0) {
+                            const previousMonth = monthNames[parseInt(processedPlayerStats[index - 1].date.split('-')[1], 10) - 1];
+                            const currentMonth = monthNames[parseInt(month, 10) - 1];
+                          
+                            return (
+                            <>
+                                <ReferenceLine 
+                                key={index} 
+                                x={processedPlayerStats[index - 1].date} // Position the line before the 1st day of the next month
+                                stroke="black" 
+                                strokeWidth={2} 
+                                label=""
+                                />
+                            <text 
+                                key={`prev-month-${index}`} 
+                                x={processedPlayerStats[index - 1].date}
+                                y={20} // Position the label above the line
+                                textAnchor="middle" 
+                                fill="black">
+                                {previousMonth}
+                            </text>
+                            <text 
+                                key={`next-month-${index}`} 
+                                x={dataPoint.date}
+                                y={20} // Position the label above the line
+                                textAnchor="middle" 
+                                fill="black">
+                                {currentMonth}
+                            </text>
+                        </>
+                        );
+                        }
+                        return null;
+                    })}
+
+                    <XAxis 
+                        dataKey="date" 
+                        label={{ 
+                            value: `Data
                     (${!scrolableChart? monthName(): firstDate.split('-')[2]+"."+firstDate.split('-')[1]+'-'+secondDate.split('-')[2]+"."+secondDate.split('-')[1]})`, 
-                    position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/4 }} minTickGap={15} 
-                    tickFormatter={(date) => {
-                        const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
-                        return `${day}`; // Zwracamy tylko miesiąc i dzień
+                            position: 'bottom', 
+                            offset: 0, 
+                            dx:!scrolableChart?0:-processedPlayerStats.length*25/4 
+                        }} 
+                        minTickGap={15} 
+                        tickFormatter={(date) => {
+                            const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
+                            return `${day}`; // Zwracamy tylko miesiąc i dzień
                     }} />
                     {window.innerWidth > 550 ?
                      

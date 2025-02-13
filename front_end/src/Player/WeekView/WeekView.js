@@ -2,7 +2,7 @@ import styles from './WeekView.module.css';
 import React, {useContext, useEffect, useState} from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate } from 'react-router-dom';
-import {TreningStatusAndFeelingsAfter} from '../../CommonFunction';
+import {TreningStatusAndFeelingsAfter, getActivityTypeColor} from '../../CommonFunction';
 import SideBarCalendar from "./../DayView/SideBarCalendar";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -116,7 +116,7 @@ const WeekView = () => {
 
         const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
         setGlobalVariable({ ...globalVariable, date: formattedDate });
-        navigate("/player/dayview");
+        navigate("/player/anotherdayview");
     }
 
     const WeekDay = ({ day, date}) => {
@@ -143,7 +143,12 @@ const WeekView = () => {
                             })
                             .map((activity, index) => (
                                 <div className={styles.singleActivityInfo} key={index}>
-                                    <div className={styles.activityType}>
+                                    <div className={styles.activityType}  style={{
+                                        //backgroundColor: getActivityColor(activity.rodzaj_aktywności),
+                                        color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności),
+                                        borderRadius: '5px',
+                                        fontWeight: 'bold',
+                                        }}>
                                         {activity.rodzaj_aktywności === "Inny" ?
                                             <span> {activity.zadania}
                                             </span>

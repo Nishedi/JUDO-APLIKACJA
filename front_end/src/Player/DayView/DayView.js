@@ -7,7 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
-import { getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon } from "../../CommonFunction";
+import { getActivityTypeColor, getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon } from "../../CommonFunction";
 
 const DayView = () => {
     const hasFetched = useRef(false);  // zeby nie wysylac statystyk dwukrotnie
@@ -221,7 +221,14 @@ const DayView = () => {
                             </span>
                         </h3>
                         :
-                        <h3>{activity.rodzaj_aktywności}</h3>
+                        <h3 style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "25px",
+                            padding: "5px",
+                            width: "fit-content",
+                            border: "2px solid",
+                            color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>{activity.rodzaj_aktywności}
+                        </h3>
                     }
                     <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
                     {activity.rodzaj_aktywności !== "Inny" ? 
