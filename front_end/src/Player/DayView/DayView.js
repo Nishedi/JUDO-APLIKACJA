@@ -8,6 +8,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
 import { getActivityTypeColor, getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon } from "../../CommonFunction";
+import { useParams } from "react-router-dom";
 
 const DayView = () => {
     const hasFetched = useRef(false);  // zeby nie wysylac statystyk dwukrotnie
@@ -23,6 +24,7 @@ const DayView = () => {
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
     const [activity, setActivity] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
+    const viewType = useParams().viewtype;
     const formatedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
 
     const now = new Date();
@@ -354,7 +356,7 @@ const DayView = () => {
 
     return (
         <div onClick={closeSidebar} className={styles.background}>
-            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick}  isOpen={isSidebarOpen} player={globalVariable} viewType={viewType} navigate={navigate}/>
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar} className={styles.burger}>
                     <RxHamburgerMenu/>

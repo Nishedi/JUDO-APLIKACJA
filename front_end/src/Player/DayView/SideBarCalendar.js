@@ -3,9 +3,9 @@ import styles from './SideBarCalendar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 
-const SideBarCalendar = ({ isOpen, onLogOutClick,  onAddActivityClick, onAddPlayerClick, player, onReportClick }) => {
+const SideBarCalendar = ({ isOpen, onLogOutClick, player, onReportClick, viewType, navigate }) => {
 
-    const navigate = useNavigate(); // Użycie useNavigate do nawigacji
+   // const navigate = useNavigate(); // Użycie useNavigate do nawigacji
 
     // Funkcje do obsługi przekierowania na odpowiednie strony
     const handleDailyViewClick = () => {
@@ -34,15 +34,43 @@ const SideBarCalendar = ({ isOpen, onLogOutClick,  onAddActivityClick, onAddPlay
                     <div className={styles.singleNonClickableElemement}>
                         Kalendarz
                     </div>
-                    <div onClick={handleDailyViewClick} className={styles.singleClickableElemement}>
-                        Widok dzienny
-                        <IoIosArrowForward className={styles.right_arrow} />
-                    </div>
-                    <div className={styles.line}></div>
-                    <div onClick={handleWeeklyViewClick} className={styles.singleClickableElemement}>
-                        Widok tygodniowy
-                        <IoIosArrowForward className={styles.right_arrow} />
-                    </div>
+                    {viewType!==undefined &&
+                        <>
+                            <div onClick={()=>navigate("/player/dayview")} className={styles.singleClickableElemement}>
+                                {"Widok dzienny"}
+                                <IoIosArrowForward className={styles.right_arrow} />
+                            </div>
+                            <div className={styles.line}></div>
+                        </>    
+                        }                    
+                    {viewType!=="week" &&
+                    <>
+                        <div onClick={()=>navigate("/player/weekview/week")} className={styles.singleClickableElemement}>
+                            {"Widok tygodniowy"}
+                            <IoIosArrowForward className={styles.right_arrow} />
+                        </div>
+                        <div className={styles.line}></div>
+                    </>
+                    }
+                    {viewType!=="month" &&
+                    <>
+                        <div onClick={()=>navigate("/player/weekview/month")} className={styles.singleClickableElemement}>
+                            {"Widok miesięczny"}
+                            <IoIosArrowForward className={styles.right_arrow} />
+                        </div>
+                        <div className={styles.line}></div>
+                    </>
+                    }
+
+                    {viewType!=="year" &&
+                    <>
+                        <div onClick={()=>navigate("/player/weekview/year")} className={styles.singleClickableElemement}>
+                            {"Widok roczny"}
+                            <IoIosArrowForward className={styles.right_arrow} />
+                        </div>
+                        <div className={styles.line}></div>
+                    </>
+                    }
                     <div className={styles.emptyElement}></div>   
                     
                     <div onClick={handleNoteClick} className={styles.singleClickableElemement}>

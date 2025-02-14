@@ -1,7 +1,7 @@
 import styles from './WeekView.module.css';
 import React, {useContext, useEffect, useState} from 'react';
 import { GlobalContext } from '../../GlobalContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {TreningStatusAndFeelingsAfter, getActivityTypeColor} from '../../CommonFunction';
 import SideBarCalendar from "./../DayView/SideBarCalendar";
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -16,7 +16,7 @@ const WeekView = () => {
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
    const [weeklyActivities, setWeeklyActivities] = useState([]);
-
+    const  viewType  = useParams().viewtype;
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
@@ -26,14 +26,26 @@ const WeekView = () => {
         const month = monthNames[date.getMonth()];
         return `${day} ${month}`;
     };
-    
     const getWeekDateRange = (date) => {
         const startOfWeek = new Date(date);
-        const dayOfWeek = startOfWeek.getDay();
-        const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-        startOfWeek.setDate(diff);
+        if(viewType !== 'week')
+            startOfWeek.setDate(1);
         const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        if(viewType === 'month') 
+            endOfWeek.setDate(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
+        else if(viewType === 'year'){
+            startOfWeek.setMonth(0);
+            startOfWeek.setDate(1);
+            endOfWeek.setMonth(11);
+            endOfWeek.setDate(31);
+        }
+        else if(viewType === 'week'){
+            const dayOfWeek = startOfWeek.getDay();
+            const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+            startOfWeek.setDate(diff);
+            
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+        }
         return { startOfWeek, endOfWeek };
     };
     
@@ -125,59 +137,66 @@ const WeekView = () => {
         const isToday = date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
         
         return (
-            <div onClick={()=>goToSingleDay(date)} 
-                className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
-            >
-                <div>
-                    <p><span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
-
+            <>
+                    {(activities.length !== 0 || viewType === 'week') &&
+                    <div onClick={()=>goToSingleDay(date)} 
+                    className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
+                >
                     <div>
-                        {activities
-                            .sort((a, b) => {
-                                const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
-                                const [hoursB, minutesB] = b.czas_rozpoczęcia.split(':').map(Number);
-                                if (hoursA !== hoursB) {
-                                    return hoursA - hoursB;
-                                }
-                                return minutesA - minutesB;
-                            })
-                            .map((activity, index) => (
-                                <div className={styles.singleActivityInfo} key={index}>
-                                    <div className={styles.activityType}  style={{
-                                        //backgroundColor: getActivityColor(activity.rodzaj_aktywności),
-                                        color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności),
-                                        borderRadius: '5px',
-                                        fontWeight: 'bold',
-                                        }}>
-                                        {activity.rodzaj_aktywności === "Inny" ?
-                                            <span> {activity.zadania}
-                                            </span>
-                                            :
-                                            <span> {activity.rodzaj_aktywności} </span>
-                                        }
-                                    </div>
-                                    <div className={styles.singleActivity}>
-                                        
-                                        {activity.rodzaj_aktywności!=="Inny" &&
-                                            <div className={styles.emojiAndTime}>
-                                                <div className={styles.emojiContainer}>
-                                                    <TreningStatusAndFeelingsAfter 
-                                                        treningStatus={activity.status}
-                                                        feelingsAfter={activity.odczucia}
-                                                    />
+                        <p><span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
+
+                        <div>
+                            {activities
+                                .sort((a, b) => {
+                                    const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
+                                    const [hoursB, minutesB] = b.czas_rozpoczęcia.split(':').map(Number);
+                                    if (hoursA !== hoursB) {
+                                        return hoursA - hoursB;
+                                    }
+                                    return minutesA - minutesB;
+                                })
+                                .map((activity, index) => (
+                                    <div className={styles.singleActivityInfo} key={index}>
+                                        <div className={styles.activityType}  style={{
+                                            //backgroundColor: getActivityColor(activity.rodzaj_aktywności),
+                                            color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności),
+                                            borderRadius: '5px',
+                                            fontWeight: 'bold',
+                                            }}>
+                                            {activity.rodzaj_aktywności === "Inny" ?
+                                                <span> {activity.zadania}
+                                                </span>
+                                                :
+                                                <span> {activity.rodzaj_aktywności} </span>
+                                            }
+                                        </div>
+                                        <div className={styles.singleActivity}>
+                                            
+                                            {activity.rodzaj_aktywności!=="Inny" &&
+                                                <div className={styles.emojiAndTime}>
+                                                    <div className={styles.emojiContainer}>
+                                                        <TreningStatusAndFeelingsAfter 
+                                                            treningStatus={activity.status}
+                                                            feelingsAfter={activity.odczucia}
+                                                        />
+                                                    </div>
                                                 </div>
+                                            }   
+                                            <div className={styles.timeText}>
+                                                {activity.czas_rozpoczęcia}
                                             </div>
-                                        }   
-                                        <div className={styles.timeText}>
-                                            {activity.czas_rozpoczęcia}
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        }
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+            
+            
+            }
+            
+            </>
         );
     };
     useEffect(() => {
@@ -187,9 +206,14 @@ const WeekView = () => {
 
     const updateWeek = (direction) => {
         const newDate = new Date(currentDate);
-        newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
+        if(viewType === 'month')
+            newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
+        else if(viewType === 'year')
+            newDate.setFullYear(currentDate.getFullYear() + (direction === 'next' ? 1 : -1));
+        else if(viewType === 'week')
+            newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
         setCurrentDate(newDate);
-    };
+    }
 
     useEffect(() => {
         getWeekDays();
@@ -197,12 +221,29 @@ const WeekView = () => {
 
     const { currentWeek } = getWeekRanges(currentDate);
     
-    const daysOfWeek = Array.from({ length: 7 }, (_, i) => {
-        const date = new Date(currentDate);
-        const startOfWeek = getWeekDateRange(date).startOfWeek;
-        startOfWeek.setDate(startOfWeek.getDate() + i);
-        return startOfWeek;
-    });
+    let daysOfWeek;
+
+    switch (viewType) {
+        case "week":
+            daysOfWeek = Array.from({ length: 7 }, (_, i) => {
+                const date = new Date(currentDate);
+                const startOfWeek = getWeekDateRange(date).startOfWeek;
+                startOfWeek.setDate(startOfWeek.getDate() + i);
+                return new Date(startOfWeek);
+            });
+            break;
+
+        default:
+            daysOfWeek = Array.from(
+                { length: (new Date(currentDate.getFullYear(), 11, 31) - new Date(currentDate.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24) + 1 },
+                (_, i) => {
+                    const date = new Date(currentDate.getFullYear(), 0, 1);
+                    date.setDate(date.getDate() + i);
+                    return date;
+                }
+            );
+            break;
+    }
     
     const onLogOutClick = () => {
         setGlobalVariable(null);
@@ -221,7 +262,7 @@ const WeekView = () => {
 
     return (
         <div onClick={closeSidebar} className={styles.background}>
-            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable}/>
+            <SideBarCalendar onReportClick={onReportErrorClick} onLogOutClick={onLogOutClick} name={globalVariable.imie} isOpen={isSidebarOpen} player={globalVariable} viewType={viewType} navigate={navigate}/>
                 <div className={styles.navbar}>
                     <div className={styles.burgerAndDate}>
                             <RxHamburgerMenu onClick={toggleSidebar}/>
@@ -235,7 +276,8 @@ const WeekView = () => {
                             <button  onClick={() => updateWeek('prev')} className={styles.arrowButton}>
                                 <IoIosArrowBack />
                             </button>
-                            {currentWeek}
+                            {viewType === 'month' ? currentWeek : viewType === 'year' ? currentDate.getFullYear() : viewType === 'week' ? currentWeek : null}
+                    
                             <button onClick={() => updateWeek('next')} className={styles.arrowButton}>
                                 <IoIosArrowForward />
                             </button>

@@ -43,8 +43,7 @@ function App() {
           <Route path = "trener/playerView" element={<PlayersView />} />
           <Route path = "trener/addingplayerbaseinfo/" element={<AddingPlayerFirstPage />} />
           <Route path = "trener/addingplayerlogininfo/" element={<AddingPlayerSecondPage />} />
-          <Route path = "player/dayview" element = {<DayView />} />
-          <Route path = "player/weekview" element = {<WeekView />} />
+          <Route path = "player/weekview/:viewtype" element = {<WeekView />} />
           <Route path = "player/userprofileedition" element = {<UserProfileEdition />} />
           <Route path = "trener/addingactivityfirstpage" element = {<AddiActivityFirstPage />} />
           <Route path = "trener/editingactivity" element = {<EditingActivity />} />
