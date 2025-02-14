@@ -202,7 +202,7 @@ const WeekView = () => {
     useEffect(() => {
         getWeekDays();
     }
-    , []);
+    , [viewType]);
 
     const updateWeek = (direction) => {
         const newDate = new Date(currentDate);
