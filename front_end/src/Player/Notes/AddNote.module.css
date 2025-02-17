@@ -145,10 +145,10 @@
 .noteTextArea{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 5px;
+    font-family: 'Montserrat-Regular';
 }
 
 .noteTextArea textarea {
@@ -159,11 +159,30 @@
     padding: 10px;
     font-family: 'Montserrat-Regular';
     font-size: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(33, 7, 7, 0.1);
     resize: none;
     margin: 0;
 }
 
+.noteTextArea p {
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.noteParts {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 5px;
+    font-size: 12px;
+    font-family: 'Montserrat-Regular';
+}
+
+.noteParts textarea {
+    box-shadow: 0 4px 8px rgba(33, 7, 7, 0.1);
+    border: 2px solid #E5EBF5;
+}
 
 .submitButton {
     display: flex;

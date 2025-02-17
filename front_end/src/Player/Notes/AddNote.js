@@ -14,6 +14,10 @@ const AddNote = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [activeStatus, setActiveStatus] = useState(null);
     const [noteText, setNoteText] = useState('');
+    const [jakWalczy, setJakWalczy] = useState('');
+    const [coMoznaZrobic, setCoMoznaZrobic] = useState('');
+    const [naCoUwazac, setNaCoUwazac] = useState('');
+    const [mocneStronyWParterze, setMocneStronyWParterze] = useState('');
     const navigate = useNavigate();
 
     // Funkcje zmieniające datę i czas
@@ -39,7 +43,11 @@ const AddNote = () => {
             id_watku: watek.id_watku,
             data: selectedDate,
             wynik: activeStatus,
-            tresc: noteText
+            tresc: noteText,
+            jak_walczy: jakWalczy,
+            co_można_zrobić: coMoznaZrobic,
+            na_co_uważać: naCoUwazac,
+            mocne_strony_w_parterze: mocneStronyWParterze,
            },
         ])
         .select()
@@ -118,7 +126,40 @@ const AddNote = () => {
                     </div>
                 </div>
 
+                <div className={styles.noteParts}>
+                    <p>Jak walczy:</p>
+                    <textarea 
+                        value={jakWalczy}
+                        onChange={(e) => setJakWalczy(e.target.value)} 
+                        placeholder="Jak walczy przeciwnik?" />
+                </div>
+
+                <div className={styles.noteParts}>
+                    <p>Co można zrobić:</p>
+                    <textarea 
+                        value={coMoznaZrobic}
+                        onChange={(e) => setCoMoznaZrobic(e.target.value)} 
+                        placeholder="Co można zrobić w tej sytuacji?" />
+                </div>
+
+                <div className={styles.noteParts}>
+                    <p>Na co uważać:</p>
+                    <textarea 
+                        value={naCoUwazac}
+                        onChange={(e) => setNaCoUwazac(e.target.value)} 
+                        placeholder="Na co uważać w walce?" />
+                </div>
+
+                <div className={styles.noteParts}>
+                    <p>Mocne strony w parterze:</p>
+                    <textarea 
+                        value={mocneStronyWParterze}
+                        onChange={(e) => setMocneStronyWParterze(e.target.value)} 
+                        placeholder="Mocne strony przeciwnika w parterze?" />
+                </div>
+
                 <div className={styles.noteTextArea}>
+                    <p>Inne:</p>
                     <textarea 
                         onChange={(e) => setNoteText(e.target.value)} 
                         placeholder="Dodaj notatkę...">

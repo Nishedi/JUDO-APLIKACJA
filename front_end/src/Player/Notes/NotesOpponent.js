@@ -206,47 +206,77 @@ useEffect(() => {
                 {/* Lista spotkań */}
                 <div className={styles.matchList}>
                 {notes.length > 0 ? (
-    notes
-        .sort((a, b) => new Date(b.data) - new Date(a.data)) // Sortowanie od najmłodszej do najstarszej
-        .map((note) => (
-            <div 
-                key={note.id_notatki}
-                className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
-                onClick={() => toggleNote(note.id_notatki)}
-            >
-                <div className={styles.matchHeader}>
-                    <p>{new Date(note.data).toLocaleDateString()} r.</p>
-                    
-                    {/* Strzałka zależna od wyniku walki */}
-                    {note.wynik === "wygrana" ? (
-                        <span className={styles.resultEmoji} role="img" aria-label="wygrana">🏆</span>
-                    ) : note.wynik === "przegrana" ? (
-                        <span className={styles.resultEmoji} role="img" aria-label="przegrana">❌</span>
-                    ) : (
-                        <span> </span>
-                    )}
-                    <button onClick={() => editButton(note)} className={styles.editbutton}>Edytuj</button>
-                </div>
-                {expandedNotes.includes(note.id_notatki) && (
-                    <div className={styles.matchDetails}>
-                        {getWynikText(note.wynik) && (
-                            <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
-                        )}
-                        <div className={styles.noteText}>{note.tresc}</div>
-                        <div className={styles.line}></div>
-                        {note.komentarz_trenera && (
-                            <div className={styles.commentText}>
-                                <strong>Komentarz trenera:</strong><br/>
-                                {note.komentarz_trenera}
+                    notes
+                        .sort((a, b) => new Date(b.data) - new Date(a.data)) // Sortowanie od najmłodszej do najstarszej
+                        .map((note) => (
+                            <div 
+                                key={note.id_notatki}
+                                className={`${styles.match} ${expandedNotes.includes(note.id_notatki) ? styles.open : ''}`}
+                                onClick={() => toggleNote(note.id_notatki)}
+                            >
+                                <div className={styles.matchHeader}>
+                                    <p>{new Date(note.data).toLocaleDateString()} r.</p>
+                                    
+                                    {/* Strzałka zależna od wyniku walki */}
+                                    {note.wynik === "wygrana" ? (
+                                        <span className={styles.resultEmoji} role="img" aria-label="wygrana">🏆</span>
+                                    ) : note.wynik === "przegrana" ? (
+                                        <span className={styles.resultEmoji} role="img" aria-label="przegrana">❌</span>
+                                    ) : (
+                                        <span> </span>
+                                    )}
+                                    <button onClick={() => editButton(note)} className={styles.editbutton}>Edytuj</button>
+                                </div>
+                                {expandedNotes.includes(note.id_notatki) && (
+                                    <div className={styles.matchDetails}>
+                                        {getWynikText(note.wynik) && (
+                                            <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
+                                        )}
+                                        
+                                        <div className={styles.line}></div>
+
+                                        <div className={styles.noteText}>
+                                            <a>Jak walczy?</a><br/>
+                                            {note.jak_walczy}
+                                        </div>
+                                        <div className={styles.line}></div>
+
+                                        <div className={styles.noteText}>
+                                            <a>Co można zrobić?</a><br/>
+                                            {note.co_można_zrobić}
+                                        </div>
+                                        <div className={styles.line}></div>
+
+                                        <div className={styles.noteText}>
+                                            <a>Na co uważać?</a><br/>
+                                            {note.na_co_uważać}
+                                        </div>
+                                        <div className={styles.line}></div>
+
+                                        <div className={styles.noteText}>
+                                            <a>Mocne strony w parterze:</a><br/>
+                                            {note.mocne_strony_w_parterze}
+                                        </div>
+                                        <div className={styles.line}></div>
+
+                                        <div className={styles.noteText}>
+                                            <a>Inne:</a><br/>
+                                            {note.tresc}
+                                        </div>
+
+                                        {note.komentarz_trenera && (
+                                            <div className={styles.commentText}>
+                                                <strong>Komentarz trenera:</strong><br/>
+                                                {note.komentarz_trenera}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
+                        ))
+                ) : (
+                    <p>Brak notatek dla tego wątku.</p>
                 )}
-            </div>
-        ))
-) : (
-    <p>Brak notatek dla tego wątku.</p>
-)}
 
                 </div>
             </div>

@@ -553,10 +553,10 @@ const AddingActivityFirstPage = () => {
                         <div className={styles.input_container}>
                             Wybierz typ    
                             <select id="typeSelect" className={styles.select}>
+                                <option value="inny"> Domyślny</option>
                                 <option value="taktyczny">🔵 Taktyczny</option>
                                 <option value="motoryczny">🔴 Motoryczny</option>
                                 <option value="mentalny">🟢 Mentalny</option>
-                                <option value="inny"> Inny</option>
                             </select>
                         </div>
 

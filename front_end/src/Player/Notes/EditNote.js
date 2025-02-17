@@ -14,6 +14,10 @@ const EditNote = () => {
     const [selectedDate, setSelectedDate] = useState(globalVariable.notatka.data);
     const [activeStatus, setActiveStatus] = useState(globalVariable.notatka.wynik);
     const [noteText, setNoteText] = useState(globalVariable.notatka.tresc);
+    const [jakWalczy, setJakWalczy] = useState(globalVariable.notatka.jak_walczy || '');
+    const [coMoznaZrobic, setCoMoznaZrobic] = useState(globalVariable.notatka.co_można_zrobić || '');
+    const [naCoUwazac, setNaCoUwazac] = useState(globalVariable.notatka.na_co_uważać || '');
+    const [mocneStronyWParterze, setMocneStronyWParterze] = useState(globalVariable.notatka.mocne_strony_w_parterze || '');
     const [firstStatus] = useState(globalVariable.notatka.wynik);
     const navigate = useNavigate();
 
@@ -39,7 +43,11 @@ const EditNote = () => {
           { 
             data: selectedDate,
             wynik: activeStatus,
-            tresc: noteText
+            tresc: noteText,
+            jak_walczy: jakWalczy,
+            co_można_zrobić: coMoznaZrobic,
+            na_co_uważać: naCoUwazac,
+            mocne_strony_w_parterze: mocneStronyWParterze
            },
         ])
         .eq('id_notatki', globalVariable.notatka.id_notatki)
@@ -186,7 +194,40 @@ const EditNote = () => {
                     </div>
                 </div>
 
+                <div className={styles.noteParts}>
+                    <p>Jak walczy:</p>
+                    <textarea 
+                        value={jakWalczy}
+                        onChange={(e) => setJakWalczy(e.target.value)} 
+                        placeholder="Jak walczy przeciwnik?" />
+                </div>
+
+                <div className={styles.noteParts}>
+                    <p>Co można zrobić:</p>
+                    <textarea 
+                        value={coMoznaZrobic}
+                        onChange={(e) => setCoMoznaZrobic(e.target.value)} 
+                        placeholder="Co można zrobić w tej sytuacji?" />
+                </div>
+
+                <div className={styles.noteParts}>
+                    <p>Na co uważać:</p>
+                    <textarea 
+                        value={naCoUwazac}
+                        onChange={(e) => setNaCoUwazac(e.target.value)} 
+                        placeholder="Na co uważać w walce?" />
+                </div>
+
+                <div className={styles.noteParts}>
+                    <p>Mocne strony w parterze:</p>
+                    <textarea 
+                        value={mocneStronyWParterze}
+                        onChange={(e) => setMocneStronyWParterze(e.target.value)} 
+                        placeholder="Mocne strony przeciwnika w parterze?" />
+                </div>
+
                 <div className={styles.noteTextArea}>
+                    <p>Inne:</p>
                     <textarea 
                         onChange={(e) => setNoteText(e.target.value)} 
                         value={noteText}

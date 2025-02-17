@@ -267,8 +267,40 @@ useEffect(() => {
                             <div className={styles.wynik}> Wynik: {getWynikText(note.wynik)} </div>
                         )}
                         
-                        <div className={styles.noteText}>{note.tresc}</div>
-                        <div className={styles2.line}></div>
+                        <div className={styles.line}></div>
+                        
+                        <div className={styles.noteText}>
+                            <a>Jak walczy?</a><br/>
+                            {note.jak_walczy}
+                        </div>
+                        <div className={styles.line}></div>
+
+                        <div className={styles.noteText}>
+                            <a>Co można zrobić?</a><br/>
+                            {note.co_można_zrobić}
+                        </div>
+                        <div className={styles.line}></div>
+
+                        <div className={styles.noteText}>
+                            <a>Na co uważać?</a><br/>
+                            {note.na_co_uważać}
+                        </div>
+                        <div className={styles.line}></div>
+
+                        <div className={styles.noteText}>
+                            <a>Mocne strony w parterze:</a><br/>
+                            {note.mocne_strony_w_parterze}
+                        </div>
+                        <div className={styles.line}></div>
+
+                        <div className={styles.noteText}>
+                            <a>Inne:</a><br/>
+                            {note.tresc}
+                        </div>
+                        
+                                                
+
+                        
                         {note.komentarz_trenera && (
                             <div className={styles2.commentText}>
                                 <strong>Komentarz trenera:</strong><br/> 

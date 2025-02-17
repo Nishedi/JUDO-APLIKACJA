@@ -254,8 +254,15 @@
     line-height: 1.5;
     white-space: pre-line; /* Dodane, aby zachować nowe linie */
     margin: 10px 0;
+}
 
-  }
+.noteText a {
+    color: #A7B7D6;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 8px;
+}
+
   .arrowUp {
     color: green;
     font-size: 20px;
