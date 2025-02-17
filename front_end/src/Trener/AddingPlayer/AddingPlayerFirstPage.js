@@ -68,10 +68,10 @@ const AddingPlayerFirstPage = () => {
 
         // Walidacja imienia i nazwiska: musi zaczynać się wielką literą i nie zawierać cyfr
         const regex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
-        if (!regex.test(name)) {
+        if (!regex.test(name.trim())) {
             validationErrors.name = "Imię musi zaczynać się wielką literą i nie może zawierać cyfr";
         }
-        if (!regex.test(surname)) {
+        if (!regex.test(surname.trim())) {
             validationErrors.surname = "Nazwisko musi zaczynać się wielką literą i nie może zawierać cyfr";
         }
 
