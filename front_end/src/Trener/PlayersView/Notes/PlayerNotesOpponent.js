@@ -298,9 +298,6 @@ useEffect(() => {
                             {note.tresc}
                         </div>
                         
-                                                
-
-                        
                         {note.komentarz_trenera && (
                             <div className={styles2.commentText}>
                                 <strong>Komentarz trenera:</strong><br/> 
