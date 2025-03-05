@@ -1,7 +1,7 @@
 ## :construction_worker: Todo
 
 - [x] Poprawić statystyki, tak żeby drobne zmiany wagi nie były tak widoczne
-- [X] Nazwy etykiet kolorem  + playera zrobić  
+- [X] Nazwy etykiet kolorem  
 - [x] Oznaczyc miesiące na X  - względnie ok
 - [X] Dodać podsumowanie tygodnia/miesiąca/roku w postaci liczby rodzajów treningów
 - [ ] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności
