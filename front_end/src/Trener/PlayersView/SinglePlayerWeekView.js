@@ -127,7 +127,16 @@ const SinglePlayerWeekView = () => {
             className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
             >
                 <div>
-                <p><span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
+                    <p>
+                        <span style={{ textTransform: 'uppercase' }}>
+                            {day}
+                        </span>, {formatDate(date)} 
+                        {isToday ?  
+                            <span className={styles.todayText}>
+                                dzisiaj
+                            </span> 
+                        : null}
+                    </p>
                 <div>
                         {activities.sort((a, b) => {
                             const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
@@ -142,7 +151,7 @@ const SinglePlayerWeekView = () => {
                                     {activity.rodzaj_aktywności === "Inny" ?
                                         <div>{activity.zadania}</div> 
                                         :
-                                        <span> {activity.rodzaj_aktywności} </span>
+                                        <div> {activity.rodzaj_aktywności} </div>
                                     }
 
                                 </div>

@@ -182,7 +182,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 0px;
-    font-family: 'Roboto-Regular';
+    font-family: 'Montserrat-Regular';
     font-size: 14px;
   }
 
@@ -273,7 +273,7 @@
     display: flex;
     justify-content: flex-start;
     width: 75%;
-    font-family: 'Roboto-Regular';
+    font-family: 'Montserrat-Regular';
     
 }
 
@@ -293,7 +293,7 @@
     align-items: center;
     width: 100%;
     font-size: 14px;
-    font-family: 'Roboto-Regular';
+    font-family: 'Montserrat-Regular';
     /* text-transform: lowercase; */
     white-space: nowrap; /* Nie przerywać tekstu */
     text-align: right;
