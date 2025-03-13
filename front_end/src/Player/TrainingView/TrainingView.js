@@ -138,6 +138,7 @@ const TrainingView = () => {
                             {thing?.duration ? thing.duration + " min. " : ""} 
                             {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
                             {thing?.repeats ? "x"+thing.repeats + " " : ""}
+                            {thing?.meters ? thing.meters + " m. " : ""}
                             {
                             thing?.goldenScoreMinutes && thing?.goldenScore 
                             ? "+ " + thing.goldenScoreMinutes + ":" + (thing.goldenScore.toString().padStart(2, "0"))

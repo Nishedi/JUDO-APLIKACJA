@@ -280,7 +280,8 @@ const AddingActivityFirstPage = () => {
                         repeats: exercise.repeats,
                         durationSecond: exercise.durationSecond,
                         goldenScore: exercise.goldenScore,
-                        goldenScoreMinutes: exercise.goldenScoreMinutes
+                        goldenScoreMinutes: exercise.goldenScoreMinutes,
+                        meters: exercise.meters
                     });
                 }
                 const activity = {
@@ -327,6 +328,7 @@ const AddingActivityFirstPage = () => {
     const Activity = ({ exercise }) => {
         const [duration, setDuration] = useState(exercise?.duration||'');
         const [repeats, setRepeats] = useState(exercise?.repeats||'');
+        const [meters, setMeters] = useState(exercise?.meters||'');
         const [durationSeconds, setDurationSeconds] = useState(exercise?.durationSecond||'');
         const [goldenScore, setGoldenScore] = useState(exercise?.goldenScore||'');
         const [goldenScoreMinutes, setGoldenScoreMinutes] = useState(exercise?.goldenScoreMinutes||'');
@@ -360,6 +362,15 @@ const AddingActivityFirstPage = () => {
                     )
                 );
             }
+            if(meters && selectedTrenings[0]?.name === 'Biegowy'){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, meters: meters } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
             if(goldenScore && selectedTrenings[0]?.name === 'Na macie'){
                 setSelectedExercises((prevExercises) =>
                     prevExercises.map((item) =>
@@ -383,7 +394,7 @@ const AddingActivityFirstPage = () => {
         return (
             <div>
                 <div style={{marginBottom: '5px'}}>{exercise.name}</div>
-                <div className={styles.exercise_details} style={selectedTrenings[0].name==="Na macie"? {flexDirection: "column"}:{flexDirection: "row"}}>
+                <div className={styles.exercise_details} style={true? {flexDirection: "column"}:{flexDirection: "row"}}>
                     <div>
                         <input
                             type="number"
@@ -402,28 +413,37 @@ const AddingActivityFirstPage = () => {
                         <input
                             type="number"
                             placeholder='Liczba powtórzeń'
-                            value={repeats||exercise?.repeats}
+                            value={repeats}
                             onChange={(e)=>setRepeats(e.target.value)}
                             style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
                         />
+                        {selectedTrenings[0]?.name === 'Biegowy' ? 
+                            <input
+                            type="number"
+                            placeholder='Metry'
+                            value={meters}
+                            onChange={(e)=>setMeters(e.target.value)}
+                            style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
+                        />:null
+                            }
                         {selectedTrenings[0]?.name === 'Na macie' ? 
                         <div>
                             <input
                             type="number"
                             placeholder='GS [min]'
-                            value={goldenScoreMinutes||exercise?.goldenScoreMinutes}
+                            value={goldenScoreMinutes}
                             onChange={(e)=>setGoldenScoreMinutes(e.target.value)}
                         />
                         <input
                             type="number"
                             placeholder='GS [s]'
-                            value={goldenScore||exercise?.goldenScore}
+                            value={goldenScore}
                             onChange={(e)=>setGoldenScore(e.target.value)}
                         />
                         </div>
                          : null}
                     </div>
-                    <MdOutlineDone onClick={updateExercise} className={styles.add_button} style={selectedTrenings[0].name==="Na macie"? {width: "100%", margin:'4px'}:{minWidth: '40px'}}/>
+                    <MdOutlineDone onClick={updateExercise} className={styles.add_button} style={true? {width: "100%", margin:'4px'}:{minWidth: '40px'}}/>
                 </div>
             </div>
         );
