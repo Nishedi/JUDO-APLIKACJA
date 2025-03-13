@@ -127,7 +127,7 @@ const SinglePlayerMonthView = () => {
             .eq('id_trenera', globalVariable.id)
             .order('data', { ascending: true });
        
-        if (aktywnosci && aktywnosci.length !== 0) {
+        if (aktywnosci ) {
             setWeeklyActivities(aktywnosci);
             let runningTreningsCounter = 0;
             let motorTreningsCounter = 0;
