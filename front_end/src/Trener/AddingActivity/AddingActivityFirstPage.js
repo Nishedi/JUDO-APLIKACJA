@@ -17,8 +17,10 @@ import 'primeicons/primeicons.css';                        // Ikony
 
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
+    const [isSaved, setIsSaved] = useState(false);
+    const smsToken = "sW578FWEa29075d740204f68bbf397489c569ab2";
     const [isUploading, setIsUploading] = useState(false);
-    const { globalVariable, supabase } = useContext(GlobalContext);
+    const { globalVariable, supabase, sms, setSms } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrenings, setSelectedTrenings] = useState([]);
@@ -27,7 +29,7 @@ const AddingActivityFirstPage = () => {
     const [comment, setComment] = useState('');
     const [newActivity, setNewActivity] = useState('');
     const [anotherActivityName, setAnotherActivityName] = useState('');
-
+    const [smsContent, setSmsContent] = useState('');
       // Stan na przechowywanie błędów
     const [errorMessage, setErrorMessage] = useState('');
     const [errors, setErrors] = useState({}); // New state to track errors
@@ -195,6 +197,10 @@ const AddingActivityFirstPage = () => {
         setComment(e.target.value);
     };
 
+    const onSmsContentChange = (e) => {
+        setSmsContent(e.target.value);
+    };
+
     const handleNewActivityChange = (e) => {
         setNewActivity(e.target.value);
     };
@@ -224,6 +230,38 @@ const AddingActivityFirstPage = () => {
                 console.log(data);
             }
     };
+
+    async function sendSMS() {
+        const params = {
+            from: 'judotracker',
+            to: "533610150",
+            msg: smsContent,
+            test: '0'
+        };
+    
+        try {
+            const response = await fetch('https://judotracker-backend.netlify.app/.netlify/functions/api/send-sms', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            console.log('Odpowiedź z backendu:', data); // Tutaj zobaczysz zwrócone parametry
+    
+            return data;
+        } catch (error) {
+            console.error('Błąd przy wysyłaniu SMS:', error);
+        }
+    }
+    
 
     const getTimeString = (time) => {
         if (!time) return '';
@@ -259,6 +297,95 @@ const AddingActivityFirstPage = () => {
         return newErrors;
     };
 
+    const saveSMS = () => {
+        if(!dates || dates.length === 0) return;
+        setSms(prevSmses => {
+            let newSmses = [...prevSmses]; // Zachowujemy poprzednie wartości
+            let exercises = selectedExercises.map(exercise => exercise.name);
+    
+            dates.forEach(date => {
+                let sms = {
+                    date: date,
+                    allexercises: exercises
+                };
+                newSmses.push(sms);
+            });
+            setIsSaved(true);
+            return newSmses;
+        });
+    };
+
+    const loadSMS = () => {
+        if (sms && sms.length === 0) return;
+       
+        const mergedSmses = sms.reduce((acc, curr) => {
+            const existingSms = acc.find(item => 
+                item.date.getDate() === curr.date.getDate() &&
+                item.date.getMonth() === curr.date.getMonth() &&
+                item.date.getFullYear() === curr.date.getFullYear() &&
+                item.date.getHours() === curr.date.getHours() &&
+                item.date.getMinutes() === curr.date.getMinutes()
+            );
+            if (existingSms) {
+                // Jeśli już mamy tę datę, dodajemy nowe ćwiczenia (bez duplikatów)
+                existingSms.allexercises = [...new Set([...existingSms.allexercises, ...curr.allexercises])];
+            } else {
+                // Jeśli nie ma jeszcze tej daty, dodajemy nowy wpis
+                acc.push({ ...curr });
+            }
+    
+            return acc;
+        }, []);
+        setSms(mergedSmses);
+        console.log(mergedSmses);
+        if (!isSaved) {
+            dates.forEach(date => {
+                const existingSms = mergedSmses.find(sms =>
+                    date.getDate() === sms.date.getDate() &&
+                    date.getMonth() === sms.date.getMonth() &&
+                    date.getFullYear() === sms.date.getFullYear() &&
+                    date.getHours() === sms.date.getHours() &&
+                    date.getMinutes() === sms.date.getMinutes()
+                );
+        
+                if (existingSms) {
+                   existingSms.allexercises = [...new Set([...existingSms.allexercises, ...selectedExercises.map(exercise => exercise.name)])];
+                } else {
+                    mergedSmses.push({
+                        date: date, // Konwersja na format ISO dla porównywania
+                        allexercises: selectedExercises.map(exercise => exercise.name)
+                    });
+                }
+            });
+        }
+        setSmsContent("Dodano nowe aktywności\n" +
+            mergedSmses
+                .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sortowanie według daty
+                .map(sms => {
+                    const date = new Date(sms.date); // Konwersja na obiekt Date
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const year = date.getFullYear();
+                    const hours = date.getHours().toString().padStart(2, '0');
+                    const minutes = date.getMinutes().toString().padStart(2, '0');
+        
+                    return `${day}.${month}.${year} ${hours}:${minutes}: ${sms.allexercises.join(", ")}`;
+                }).join("\n")
+        );
+        
+        
+    };
+    
+
+    const clearSMS = () => {
+        setSms([]);
+    };
+
+    const endAdding = () => {
+        navigate('/trener/playerView');
+    };
+    
+
     const addActivities = async () => {
         if (isUploading) return;
         const formErrors = validateForm();
@@ -268,7 +395,31 @@ const AddingActivityFirstPage = () => {
         }
 
         const selectedType = document.getElementById("typeSelect")?.value; // Pobierz wybrany typ (kolor)
-
+        let datesToSms = [];
+        let exercises=[];
+        dates.map(exercise => {
+            datesToSms.push(exercise);
+        });
+        selectedExercises.map(exercise => {
+            exercises.push(exercise.name);
+        });
+        
+        setSmsContent("Dodano nowe aktywności\n" +
+            dates
+                .sort((a, b) => new Date(a) - new Date(b)) // 📅 Sortowanie dat rosnąco
+                .map(date => {
+                    const formattedDate = new Date(date);
+                    const day = formattedDate.getDate().toString().padStart(2, '0');
+                    const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
+                    const year = formattedDate.getFullYear();
+                    const hours = formattedDate.getHours().toString().padStart(2, '0');
+                    const minutes = formattedDate.getMinutes().toString().padStart(2, '0');
+                   
+                    return `${day}.${month}.${year} ${hours}:${minutes}: ${exercises.join(", ")}`;
+                }).join("\n")
+        );
+        
+        
 
         for (const athlete of selectedOptions) {
             for (const date of dates) {
@@ -295,6 +446,7 @@ const AddingActivityFirstPage = () => {
                     comment: comment,
                     additional_activity_type: selectedType // Nowe pole!
                 };
+                
                 const { data, error } = await supabase
                     .from('aktywności')
                     .insert([
@@ -317,12 +469,10 @@ const AddingActivityFirstPage = () => {
                     console.log(error);
                     return;
                 }
-                if(data && data.length !== 0){
-                    navigate('/trener/playerView');
-                };
             }
         }
     };
+
 
 
     const Activity = ({ exercise }) => {
@@ -657,6 +807,31 @@ const AddingActivityFirstPage = () => {
                         </div>
                         <button onClick={addActivities} className={styles.button} disabled={isUploading}>
                             {isUploading ? 'Przesyłanie pliku...' : 'Dodaj'}
+                        </button>
+                        <textarea
+                                id="multiline-input"
+                                value={smsContent}
+                                onChange={onSmsContentChange}
+                                rows={5}  // Ustaw liczbę widocznych wierszy
+                                className={styles.multiLineInput}
+                                placeholder="Edytuj wiadomość sms"
+                            />
+                        <div className={styles.twoButtons}>
+                            <button onClick={saveSMS}>
+                                Zapisz&nbsp;SMS
+                            </button>
+                            <button onClick={loadSMS}>
+                                Wczytaj&nbsp;SMS
+                            </button>  
+                            <button onClick={clearSMS}>
+                                Wyczyść pamieć
+                            </button>     
+                        </div>    
+                        <button onClick={sendSMS } className={styles.button} >
+                            Wyślij SMS
+                        </button>
+                        <button onClick={endAdding } className={styles.button} >
+                            Zakończ
                         </button>
                 </div>
             </div>
