@@ -232,9 +232,25 @@ const AddingActivityFirstPage = () => {
     };
 
     async function sendSMS() {
+        const phoneNumbers = [];
+        let { data: zawodnicy, error } = await supabase
+            .from('zawodnicy')
+            .select('numer_telefonu')
+            .in('id', selectedOptions.map(option => option.id));
+        if (zawodnicy && zawodnicy.length !== 0) {
+            phoneNumbers.push(zawodnicy.map(zawodnik => zawodnik.numer_telefonu));
+        }
+        
+        else{
+            console.log("Brak zawodników");
+            alert("Nie można wysłać smsa, ponieważ nie wybrano zawodników");
+            return
+        }
+        const phoneQuery = phoneNumbers.flat().join(',');
+
         const params = {
             from: 'judotracker',
-            to: "533610150",
+            to: phoneQuery,
             msg: smsContent,
             test: '0'
         };
