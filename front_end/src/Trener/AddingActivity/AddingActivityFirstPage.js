@@ -316,7 +316,7 @@ const AddingActivityFirstPage = () => {
     const saveSMS = () => {
         if(!dates || dates.length === 0) return;
         setSms(prevSmses => {
-            let newSmses = [...prevSmses]; // Zachowujemy poprzednie wartości
+            let newSmses = [...(prevSmses || [])]; // Zachowujemy poprzednie wartości
             let exercises = selectedExercises.map(exercise => exercise.name);
     
             dates.forEach(date => {
@@ -847,6 +847,7 @@ const AddingActivityFirstPage = () => {
                             Wyślij SMS
                         </button>
                         <button onClick={endAdding } className={styles.button} >
+                            {console.log(sms)}
                             Zakończ
                         </button>
                 </div>
