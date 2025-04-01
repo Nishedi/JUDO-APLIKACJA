@@ -1,16 +1,16 @@
 import styles from "./SinglePlayerSingleDayView.module.css";
 import SideBarCalendar from "./SideBarCalendar";
-import React, {useLayoutEffect, useState} from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../../BackButton";
 import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor} from "../../../CommonFunction"
+import { RxRadiobutton } from "react-icons/rx";
 
 const SinglePlayerSingleDayView = () => {
-    const {viewedPlayer, setViewedPlayer, supabase, globalVariable} = useContext(GlobalContext);
- //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const {viewedPlayer, setViewedPlayer, supabase, globalVariable, smsList, setSmsList} = useContext(GlobalContext);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
     const navigate = useNavigate();
@@ -117,43 +117,67 @@ const SinglePlayerSingleDayView = () => {
         }
     }
 
+    const handleCheckboxClick = (activity) => {
+        setSmsList((prevSmsList) => {
+          const exists = prevSmsList.some((a) => a.id === activity.id);
+      
+          if (exists) {
+            return prevSmsList.filter((a) => a.id !== activity.id);
+          } else {
+            return [...prevSmsList, { ...activity, zadania_wykonane: true }];
+          }
+        });
+      };
+      
+      
+
+    useEffect(() => {
+        console.log("Aktualne aktywności:", smsList);
+    }, [smsList]);
+
     const Activity = ({activity}) => {
         return (
         <div className={styles.activity}
-            onClick={() => handleActivityClick(activity)}
             style={{
                 backgroundColor: getActivityColor(activity.rodzaj_aktywności),
                 borderColor: getBorderColor(activity.rodzaj_aktywności)
                 }}
             >
-                <div>
-                    {activity.rodzaj_aktywności === "Inny" ?
-                        <h3>  
-                            {activity?.zadania} 
-                            <span   style={{ 
-                                    color: getBorderColor(activity.rodzaj_aktywności) }}
-                                    
-                            >
-                                    {" → "}
-                                    {activity.rodzaj_aktywności}
-                            </span>
-                            
-                        </h3>
-                        :
-                        <h3 style={{
-                            backgroundColor: "#fff",
-                            borderRadius: "25px",
-                            padding: "5px",
-                            width: "fit-content",
-                            border: "1px solid",
-                            color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>{activity.rodzaj_aktywności}</h3>
-                    }
-                    
-                    <p>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
+                <div >
+                    <div style={{display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
+                        {activity.rodzaj_aktywności === "Inny" ?
+                            <h3>  
+                                {activity?.zadania} 
+                                <span   style={{ 
+                                        color: getBorderColor(activity.rodzaj_aktywności) }}
+                                        
+                                >
+                                        {" → "}
+                                        {activity.rodzaj_aktywności}
+                                </span>
+                                
+                            </h3>
+                            :
+                            <h3 style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "25px",
+                                padding: "5px",
+                                width: "fit-content",
+                                border: "1px solid",
+                                color: getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>{activity.rodzaj_aktywności}</h3>
+                        }
+                        <input
+                            type="checkbox"
+                            className={styles.checkbox}
+                            checked={smsList.some(item => item.id === activity.id)}
+                            onChange={() => handleCheckboxClick(activity)}
+                            />
+                    </div>
+                    <p onClick={() => handleActivityClick(activity)}>Godzina rozpoczęcia: <div><strong>{activity.czas_rozpoczęcia}</strong></div></p>
                     {activity.rodzaj_aktywności !== "Inny" ? 
                         <>
-                            <p>Status: <div><strong>{activity.status}</strong></div></p>
-                            <p >Odczucia: 
+                            <p onClick={() => handleActivityClick(activity)}>Status: <div><strong>{activity.status}</strong></div></p>
+                            <p  onClick={() => handleActivityClick(activity)}>Odczucia: 
                             <strong style={{display: 'flex', flexDirection:'row', alignItems: 'flex-start'}}>{activity?.odczucia} &nbsp;
                                 <GetFeelingsEmoticon 
                                     feelingsAfter={activity?.odczucia || ""} 
@@ -163,7 +187,7 @@ const SinglePlayerSingleDayView = () => {
                         </>
                         : null
                     }
-                    <p>Komentarz: <div className={styles.comment}>
+                    <p onClick={() => handleActivityClick(activity)}>Komentarz: <div className={styles.comment}>
                         {activity.komentarz_zawodnika?.length > 10 
                             ? `${activity.komentarz_zawodnika.substring(0, 20)}...`  
                             : activity.komentarz_zawodnika  
@@ -172,7 +196,7 @@ const SinglePlayerSingleDayView = () => {
                     </p>
                     
                 </div>
-                <IoIosArrowForward  className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
+                <IoIosArrowForward  onClick={() => handleActivityClick(activity)} className={styles.right_arrow} style={{ color: getBorderColor(activity.rodzaj_aktywności) }}  />
             </div>
         );
     }
