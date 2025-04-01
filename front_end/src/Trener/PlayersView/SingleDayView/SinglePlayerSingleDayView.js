@@ -128,12 +128,6 @@ const SinglePlayerSingleDayView = () => {
           }
         });
       };
-      
-      
-
-    useEffect(() => {
-        console.log("Aktualne aktywności:", smsList);
-    }, [smsList]);
 
     const Activity = ({activity}) => {
         return (
@@ -276,10 +270,11 @@ const SinglePlayerSingleDayView = () => {
                         </div>
                     </div>
                     <div className={styles.buttonContainer}>
-                            
+                         <button onClick={()=>setSmsList([])} className={styles.button}>Wyczyść zaznaczone</button>   
+                        <button onClick={()=>navigate('/trener/smssending')} className={styles.button}>Wyślij sms</button>
                         <button onClick={()=>navigate('/trener/addingactivityfirstpage')} className={styles.button}>Dodaj aktywność</button>
                     </div>
-            </div>
+                </div>
         </div>
     );
 }
