@@ -27,6 +27,19 @@
     margin: 10px; /* Odstęp od brzegów */
   }
 
+.multidayRectangle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: #103476;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 16px; /* Większa czcionka */
+    background-color: #ffffff; /* Biały kolor tła */
+    background-image: linear-gradient(90deg, #b2cdff 0%, #fff 47%, #b2cdff 100%);
+    border-top: 3px solid #103476 ;
+    padding: 10px; /* Wewnętrzne odstępy */
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); /* Delikatny cień */
+}
 
  .dayHeader {
     display: flex;
@@ -237,7 +250,7 @@
 
 .buttonContainer{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;

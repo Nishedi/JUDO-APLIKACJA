@@ -23,6 +23,7 @@ const SinglePlayerMonthView = () => {
     const [strengthTreningsCounter, setStrengthTreningsCounter] = useState(0);
     const [otherTreningsCounter, setOtherTreningsCounter] = useState(0);
 
+    const [multiDayActivities, setMultiDayActivities] = useState([]);
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
@@ -95,6 +96,11 @@ const SinglePlayerMonthView = () => {
         };
     };
 
+    const convertToISO = (dateString) => {
+        const [day, month, year] = dateString.split('.');
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    };    
+
     const generateDateArray = (startDateStr, endDateStr) => {
         const [startDay, startMonth, startYear] = startDateStr.split('.').map(Number);
         const [endDay, endMonth, endYear] = endDateStr.split('.').map(Number);
@@ -162,6 +168,40 @@ const SinglePlayerMonthView = () => {
         return weeklyActivities.filter(activity => activity.data === formatedDate);
     };
 
+
+
+    const getMultiDayActivities = async () => {
+        const { startOfWeek, endOfWeek } = getRangeToDatabase(currentDate);
+    
+        const { data, error } = await supabase
+            .from('aktywnosci_wielodniowe')
+            .select('*')
+            .eq('id_trenera', globalVariable.id)
+            .eq('id_zawodnika', viewedPlayer.id)
+            .lte('poczatek', convertToISO(endOfWeek))
+            .gte('koniec', convertToISO(startOfWeek));
+    
+        if (error) {
+            console.error("Błąd pobierania aktywności wielodniowych:", error);
+            return;
+        }
+    
+        setMultiDayActivities(data || []);
+    };
+
+    const hasMultiDayActivity = (date) => {
+        const isoDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    
+        return multiDayActivities.some(activity => {
+            return (
+                isoDate >= activity.poczatek &&
+                isoDate <= activity.koniec
+            );
+        });
+    };
+    
+    
+
     const goToSinglePlayerSingleDay = (date) => {
         setViewedPlayer({ ...viewedPlayer, currentDate: date });
         navigate('/trener/singleplayersingleday');
@@ -174,16 +214,40 @@ const SinglePlayerMonthView = () => {
 
     const WeekDay = ({ day, date }) => {
         const activities = getActivitiesForThatDay(date);
-        const isToday = date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
+        const isToday = 
+            date.getDate() === new Date().getDate() && 
+            date.getMonth() === new Date().getMonth();
+
+        const isMultiDay = hasMultiDayActivity(date);
         return (
            <>
-           {(activities.length !== 0 || viewType ===  "week")&& (
-                 <div onClick={() => goToSinglePlayerSingleDay(date)}
-                 className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
+           {(activities.length !== 0 || viewType ===  "week" || isMultiDay)&& (
+                 <div 
+                    onClick={() => goToSinglePlayerSingleDay(date)}
+                    className={`
+                        ${styles.weekDay} 
+                        ${isToday ? styles.todayBorder : ''}  // Dodanie klasy ramki dla dzisiejszego dnia
+                        ${isMultiDay ? styles.multiDayBorder : ''}
+                    `}
                  >
-                     <div>
-                     <p><span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
-                     <div>
+                        <div>
+                            {multiDayActivities
+                                .filter(activity => {
+                                    const isoDate = date.toISOString().split('T')[0];
+                                    return isoDate >= activity.poczatek && isoDate <= activity.koniec;
+                                })
+                                .map((activity, idx) => (
+                                    <div key={idx} className={styles.multiDayName}>
+                                    {activity.nazwa}
+                                    </div>
+                                ))}
+
+                                <p>
+                                <span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)}
+                                {isToday && <span className={styles.todayText}>dzisiaj</span>}
+                                </p>
+                                
+                            <div>
                              {activities.sort((a, b) => {
                                  const [hoursA, minutesA] = a.czas_rozpoczęcia.split(':').map(Number);
                                  const [hoursB, minutesB] = b.czas_rozpoczęcia.split(':').map(Number);
@@ -205,6 +269,7 @@ const SinglePlayerMonthView = () => {
      
                                      </div>
                                      <div className={styles.singleActivity}>
+                                        
                                          {activity.rodzaj_aktywności!=="Inny" &&
                                              <div className={styles.emojiAndTime}>
                                                  <div className={styles.emojiContainer}>
@@ -249,10 +314,12 @@ const SinglePlayerMonthView = () => {
     useEffect(() => {
         getPlayer();
         getMonthDays();
+        getMultiDayActivities();
     }, []);
 
     useEffect(() => {
         getMonthDays();
+        getMultiDayActivities();
     }, [currentDate]);
 
     useEffect(() => {

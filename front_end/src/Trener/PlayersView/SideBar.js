@@ -3,7 +3,7 @@ import styles from './SideBar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 
 
-const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, goToProfile, onReportErrorClick, onTestowaniePowiadomienClick }) => {
+const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onAddPlayerClick, onAddMultiDayActivityClick,  goToProfile, onReportErrorClick, onTestowaniePowiadomienClick }) => {
 
     
 // DODAC ZEBY SIE ZAMYKALO PO KLIKNIECIU NA NAVBAR SIDEBARU
@@ -23,6 +23,11 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                     <div className={styles.line}></div>
                     <div onClick={onAddPlayerClick} className={styles.singleClickableElemement}>
                         Dodaj zawodnika
+                        <IoIosArrowForward className={styles.right_arrow} />
+                    </div>
+                    <div className={styles.line}></div>
+                    <div onClick={onAddMultiDayActivityClick} className={styles.singleClickableElemement}>
+                        Dodaj aktywność wielodniową
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
                     <div className={styles.emptyElement}></div>

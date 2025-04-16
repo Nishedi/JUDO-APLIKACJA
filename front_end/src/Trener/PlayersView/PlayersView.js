@@ -51,6 +51,10 @@ const PlayersView = () => {
         navigate('/trener/addingplayerbaseinfo');
     }
 
+    const onAddMultiDayActivityClick = () => {
+        navigate('/trener/addinmultidayactivity');
+    }
+
     const pickPlayer = (player) => {
         setViewedPlayer(player);
         navigate('/trener/playermonthview/week');
@@ -78,7 +82,18 @@ const PlayersView = () => {
     
         return (
         <div onClick={closeSidebar} className={styles.background}>
-            <Sidebar onReportErrorClick={onReportErrorClick} isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile} onTestowaniePowiadomienClick={goToTestowaniePowiadomien}/>
+            <Sidebar onReportErrorClick={onReportErrorClick} 
+                        isOpen={isSidebarOpen}
+                        onLogOutClick={onLogOutClick} 
+                        onClose={toggleSidebar} 
+                        name={globalVariable.imie} 
+                        surname={globalVariable.nazwisko} 
+                        onAddActivityClick={onAddActivityClick} 
+                        onAddPlayerClick={onAddPlayerClick}
+                        onAddMultiDayActivityClick={onAddMultiDayActivityClick}
+                        goToProfile={goToProfile} 
+                        onTestowaniePowiadomienClick={goToTestowaniePowiadomien}
+                        />
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar}>
                     <RxHamburgerMenu className={styles.burger}/>

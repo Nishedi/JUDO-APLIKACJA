@@ -35,6 +35,9 @@ import TestowaniePowiadomien from './Trener/PlayersView/TestowaniePowiadomien';
 import Sms from './SmsSide/Sms';
 import SinglePlayerMonthView from './Trener/PlayersView/SinglePlayerMonthView';
 import Smssending from './SmsSide/Sms';
+
+import AddingMultiDayActivity from './Trener/AddingActivity/AddingMultiDayActivity';
+
 function App() {
   return (
     <GlobalProvider>
@@ -72,7 +75,7 @@ function App() {
           <Route path = 'trener/playernotesopponent/:id_watku' element = {<PlayerNotesOpponent />} />
           <Route path = 'trener/smssending' element ={<Smssending />}/>
           <Route path = 'trener/playermonthview/:viewtype' element = {<SinglePlayerMonthView />} />
-
+          <Route path = 'trener/addinmultidayactivity' element = {<AddingMultiDayActivity />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

@@ -24,8 +24,12 @@ const DayView = () => {
     const [kwas_mlekowy, setKwas_mlekowy] = useState('');
     const [activity, setActivity] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [multiDayActivities, setMultiDayActivities] = useState([]);
+    
     const viewType = useParams().viewtype;
     const formatedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
+
+
 
     const now = new Date();
     const dayNames = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
@@ -204,6 +208,24 @@ const DayView = () => {
             }
     }
     
+    const getMultiDayActivities = async () => {
+        const isoDate = currentDate.toISOString().split("T")[0];
+    
+        const { data, error } = await supabase
+            .from('aktywnosci_wielodniowe')
+            .select('*')
+            .eq('id_trenera', globalVariable.id_trenera)
+            .eq('id_zawodnika', globalVariable.id)
+            .lte('poczatek', isoDate)
+            .gte('koniec', isoDate);
+    
+        if (error) {
+            console.error("Błąd pobierania aktywności wielodniowych", error);
+        } else {
+            setMultiDayActivities(data || []);
+        }
+    };
+
     const Activity = ({activity}) => {
         return (
         <div className={styles.activity}
@@ -352,6 +374,7 @@ const DayView = () => {
         getActivity(); 
         getKinazaAndKwasMlekowyNeeds();
         getStatsDay();
+        getMultiDayActivities(); // Pobieranie aktywności po zmianie daty
     }, [currentDate]); // Pobieranie danych po zmianie daty
 
     return (
@@ -375,6 +398,18 @@ const DayView = () => {
                 </div>
                 <div className={styles.name}> {globalVariable.imie} <br/> {globalVariable.nazwisko} </div>
             </div>
+{/*  Aktywności WIELODNIOWE*/}
+            {multiDayActivities.length > 0 && (
+                <div >
+                    {multiDayActivities.map((item, index) => (
+                        <div key={index} className={styles.multidayRectangle} >
+                            {item.nazwa}
+                        </div>
+                    ))}
+                </div>
+            )}
+
+
             {kinaza_needs ? 
             <div  className={styles.stats}>
                 <div>

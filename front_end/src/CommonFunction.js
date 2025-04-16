@@ -1,4 +1,35 @@
 import styles from './CommonFunction.module.css';
+
+export const getMultiDayActivityColor = (type) => {
+    switch (type) {
+        case 'oboz':
+            return '#4CAF50'; // Zielony
+        case 'turniej':
+            return '#2196F3'; // Niebieski
+        case 'kontuzja':
+            return '#F44336'; // Czerwony
+        case 'inne':
+        default:
+            return '#9E9E9E'; // Szary
+    }
+};
+
+export const getMultiDayActivityEmoji = (type) => {
+    switch (type) {
+        case 'oboz':
+            return '🏕️';
+        case 'turniej':
+            return '🥋';
+        case 'kontuzja':
+            return '🩹';
+        case 'inne':
+        default:
+            return '📁';
+    }
+};
+
+
+
 export const GetFeelingsEmoticon = ({feelingsAfter}) => {
     const pickEmoticon = (feelingsAfter) => {
         switch (feelingsAfter) {

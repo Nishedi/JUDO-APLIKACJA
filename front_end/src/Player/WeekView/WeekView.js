@@ -21,6 +21,8 @@ const WeekView = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
 
+    const [multiDayActivities, setMultiDayActivities] = useState([]);
+
     const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
@@ -116,7 +118,46 @@ const WeekView = () => {
         });
         return activitiesNumber;
     };
+
+    const convertToISO = (dateString) => {
+        const [day, month, year] = dateString.split('.');
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    };
     
+    const getMultiDayActivities = async () => {
+        const { startOfWeek, endOfWeek } = getRangeToDatabase(currentDate);
+    
+        const { data, error } = await supabase
+            .from('aktywnosci_wielodniowe')
+            .select('*')
+            .eq('id_trenera', globalVariable.id_trenera)
+            .eq('id_zawodnika', globalVariable.id)
+            .lte('poczatek', convertToISO(endOfWeek))
+            .gte('koniec', convertToISO(startOfWeek));
+    
+        if (!error && data) {
+            setMultiDayActivities(data);
+        }
+    };
+    
+    const getMultiDayActivityForDate = (date) => {
+        const isoDate = date.toISOString().split('T')[0];
+        return multiDayActivities.filter(activity =>
+            isoDate >= activity.poczatek && isoDate <= activity.koniec
+        );
+    };
+    
+    const hasMultiDayActivity = (date) => {
+        const isoDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    
+        return multiDayActivities.some(activity => {
+            return (
+                isoDate >= activity.poczatek &&
+                isoDate <= activity.koniec
+            );
+        });
+    };
+
     const goToSingleDay = (date) => {
         // if (date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
         //     navigate("/player/dayview");
@@ -136,14 +177,30 @@ const WeekView = () => {
         // Sprawdzenie, czy dzień jest dzisiejszy
         const isToday = date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth();
         
+        const isMultiDay = hasMultiDayActivity(date);
+        
         return (
             <>
-                    {(activities.length !== 0 || viewType === 'week') &&
-                    <div onClick={()=>goToSingleDay(date)} 
-                    className={`${styles.weekDay} ${isToday ? styles.todayBorder : ''}`}  // Dodanie klasy ramki dla dzisiejszego dnia
-                >
+                    {(activities.length !== 0 || viewType === 'week' || isMultiDay) &&
+                    <div 
+                        onClick={()=>goToSingleDay(date)} 
+                        className={`
+                            ${styles.weekDay} 
+                            ${isToday ? styles.todayBorder : ''}  // Dodanie klasy ramki dla dzisiejszego dnia
+                            ${isMultiDay ? styles.multiDayBorder : ''}
+                        `}                
+                    >
                     <div>
-                        <p><span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}</p>
+                        {getMultiDayActivityForDate(date).map((activity, idx) => (
+                            <div key={idx} className={styles.multiDayName}>
+                                {activity.nazwa}
+                            </div>
+                        ))}
+
+                        <p>
+                            <span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} 
+                            {isToday ?  <span className={styles.todayText}>dzisiaj</span> : null}
+                        </p>
 
                         <div>
                             {activities
@@ -217,6 +274,7 @@ const WeekView = () => {
 
     useEffect(() => {
         getWeekDays();
+        getMultiDayActivities();
     }, [currentDate]);
 
     const { currentWeek } = getWeekRanges(currentDate);

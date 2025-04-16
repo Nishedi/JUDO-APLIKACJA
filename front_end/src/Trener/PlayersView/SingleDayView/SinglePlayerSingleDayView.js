@@ -17,6 +17,8 @@ const SinglePlayerSingleDayView = () => {
     const [stats, setStats] = useState(null);
     const [activity, setActivity] = useState(null);
 
+    const [multiDayActivities, setMultiDayActivities] = useState([]);
+
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
@@ -68,9 +70,31 @@ const SinglePlayerSingleDayView = () => {
             setActivity([]);
     }
 
+    const getMultiDayActivity = async () => {
+        const currentDate = viewedPlayer.currentDate.toISOString().split('T')[0]; // "YYYY-MM-DD"
+    
+        const { data, error } = await supabase
+            .from('aktywnosci_wielodniowe')
+            .select('*')
+            .eq('id_trenera', globalVariable.id)
+            .eq('id_zawodnika', viewedPlayer.id)
+            .lte('poczatek', currentDate)
+            .gte('koniec', currentDate);
+    
+        if (error) {
+            console.error("Błąd pobierania aktywności wielodniowych:", error);
+            setMultiDayActivities([]);
+            return;
+        }
+    
+        setMultiDayActivities(data || []);
+    };    
+
+
     useLayoutEffect(() => {
         getStatsDay();
         getActivity();
+        getMultiDayActivity();
     }, [viewedPlayer.currentDate]);            
 
     useLayoutEffect(() => {
@@ -227,6 +251,17 @@ const SinglePlayerSingleDayView = () => {
                 <div className={styles.name}> {viewedPlayer.imie} {viewedPlayer.nazwisko} </div>
 
             </div>
+            {/*  Aktywności WIELODNIOWE*/}
+            {multiDayActivities.length > 0 && (
+                <div >
+                    {multiDayActivities.map((item, index) => (
+                        <div key={index} className={styles.multidayRectangle} >
+                            {item.nazwa}
+                        </div>
+                    ))}
+                </div>
+            )}
+               
 
             <div onClick={() => setIsSidebarOpen(false)} className = {styles.layout}>
                     {/* Prostokąt statystyk dnia */}
@@ -248,7 +283,7 @@ const SinglePlayerSingleDayView = () => {
                             
                         </div>
                     </div>
-                   
+                    
                     <div className = {styles.rectangleSActivities}>  {/*  Aktywności */}
                         <p className = {styles.dayHeader}>  AKTYWNOŚCI </p>
                         <div>

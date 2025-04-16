@@ -69,10 +69,11 @@ const EditingActivity = () => {
     };
 
     const [trenings] = useState([
-        { name: 'Biegowy', id: 1 },
-        { name: 'Motoryczny', id: 2 },
-        { name: 'Na macie', id: 3 },
-        { name: 'Fizjoterapia', id: 4}
+        { name: '🏃‍♂️ Biegowy', id: 1 },
+        { name: '🏋️‍♀️ Motoryczny', id: 2 },
+        { name: '🥋 Na macie', id: 3 },
+        { name: '🧘‍♂️ Fizjoterapia', id: 4},
+        { name: '🌀 Inny', id: 5 }
     ]);
 
     const [exercises, setExercises] = useState([
