@@ -7,7 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
-import { getActivityTypeColor, getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon } from "../../CommonFunction";
+import { getActivityTypeColor, getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon, getMultiDayActivityColor, getMultiDayActivityBorderColor } from "../../CommonFunction";
 import { useParams } from "react-router-dom";
 
 const DayView = () => {
@@ -402,10 +402,19 @@ const DayView = () => {
             {multiDayActivities.length > 0 && (
                 <div >
                     {multiDayActivities.map((item, index) => (
-                        <div key={index} className={styles.multidayRectangle} >
-                            {item.nazwa}
-                        </div>
-                    ))}
+                                        <div
+                                            key={index}
+                                            className={styles.multidayRectangle}
+                                            style={{
+                                            backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
+                                            border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
+                                            fontWeight: 'light',
+                                            color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
+                                            }}
+                                        >
+                                            {item.nazwa}
+                                        </div>
+                                        ))}
                 </div>
             )}
 

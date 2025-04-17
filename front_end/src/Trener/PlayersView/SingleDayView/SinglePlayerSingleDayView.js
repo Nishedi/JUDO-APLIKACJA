@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../../BackButton";
-import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor} from "../../../CommonFunction"
+import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor, getMultiDayActivityColor, getMultiDayActivityBorderColor} from "../../../CommonFunction"
 import { RxRadiobutton } from "react-icons/rx";
 
 const SinglePlayerSingleDayView = () => {
@@ -255,10 +255,20 @@ const SinglePlayerSingleDayView = () => {
             {multiDayActivities.length > 0 && (
                 <div >
                     {multiDayActivities.map((item, index) => (
-                        <div key={index} className={styles.multidayRectangle} >
-                            {item.nazwa}
-                        </div>
+                    <div
+                        key={index}
+                        className={styles.multidayRectangle}
+                        style={{
+                        backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
+                        border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
+                        fontWeight: 'light',
+                        color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
+                        }}
+                    >
+                        {item.nazwa}
+                    </div>
                     ))}
+
                 </div>
             )}
                

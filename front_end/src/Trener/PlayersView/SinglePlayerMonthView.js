@@ -4,11 +4,12 @@ import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../BackButton';
-import {TreningStatusAndFeelingsAfter, getBorderColor, getActivityColor, getActivityTypeColor} from '../../CommonFunction';
+import {TreningStatusAndFeelingsAfter, getBorderColor, getActivityColor, getActivityTypeColor, getMultiDayActivityEmoji, getMultiDayActivityColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import SidebarPlayer from '../PlayersView/SidebarPlayer';
 import { use } from 'react';
+
 
 const SinglePlayerMonthView = () => {
     const { viewedPlayer, setViewedPlayer, supabase, globalVariable } = useContext(GlobalContext);
@@ -163,6 +164,12 @@ const SinglePlayerMonthView = () => {
         
     }
 
+    const getPercent = (count) => {
+        const total = runningTreningsCounter + motorTreningsCounter + strengthTreningsCounter + otherTreningsCounter;
+        return total ? Math.round((count / total) * 100) : 0;
+      };
+      
+
     const getActivitiesForThatDay = (date) => {
         const formatedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
         return weeklyActivities.filter(activity => activity.data === formatedDate);
@@ -227,7 +234,6 @@ const SinglePlayerMonthView = () => {
                     className={`
                         ${styles.weekDay} 
                         ${isToday ? styles.todayBorder : ''}  // Dodanie klasy ramki dla dzisiejszego dnia
-                        ${isMultiDay ? styles.multiDayBorder : ''}
                     `}
                  >
                         <div>
@@ -237,8 +243,14 @@ const SinglePlayerMonthView = () => {
                                     return isoDate >= activity.poczatek && isoDate <= activity.koniec;
                                 })
                                 .map((activity, idx) => (
-                                    <div key={idx} className={styles.multiDayName}>
-                                    {activity.nazwa}
+                                    <div
+                                        key={idx}
+                                        className={styles.multiDayName}
+                                        style={{
+                                            color: '#9E9E9E'
+                                        }}
+                                        >
+                                        {getMultiDayActivityEmoji(activity.rodzaj_aktywnosci)} {activity.nazwa}
                                     </div>
                                 ))}
 
@@ -455,46 +467,41 @@ const SinglePlayerMonthView = () => {
                                 </button>
                             </div>
                             </>
-                            
                             }
-                            <div className={styles.optionalStats}>
-                                <div 
-                                    style={{whiteSpace: 'nowrap'}}>
-                                    Liczba treningów biegowych:
-                                </div>
-                                <div className={styles.singleActivityInfo}>
-                                    <div><strong>{runningTreningsCounter}</strong></div>
-                                </div>
-                                
-                            </div>
-                            <div className={styles.optionalStats}>
-                                <div
-                                    style={{whiteSpace: 'nowrap'}}>
-                                    Liczba treningów motorycznych:
-                                </div>
-                                <div className={styles.singleActivityInfo}>
-                                    <div><strong>{motorTreningsCounter}</strong></div>
-                                </div>
-                            </div>
-                            <div className={styles.optionalStats}>
-                                <div
 
-                                    style={{whiteSpace: 'nowrap'}}>
-                                    Liczba treningów na macie:
-                                </div>
-                                <div className={styles.singleActivityInfo}>
-                                    <div><strong>{strengthTreningsCounter}</strong></div>
+                            <div>
+                                <p>Podsumowanie treningów:</p>
+                            </div>
+                            <div>
+                            <div className={styles.optionalStats}>
+                                <div className={styles.statGroup}>
+                                    <div className={styles.statLabel}>
+                                        🏃 Biegowe:
+                                        <span className={styles.statNumber}>
+                                            {runningTreningsCounter} ({getPercent(runningTreningsCounter)}%)
+                                        </span>
+                                    </div>
+                                    <div className={styles.statLabel}>
+                                        🏋️ Motoryczne:
+                                        <span className={styles.statNumber}>
+                                            {motorTreningsCounter} ({getPercent(motorTreningsCounter)}%)
+                                        </span>
+                                    </div>
+                                    <div className={styles.statLabel}>
+                                        🥋 Na macie:
+                                        <span className={styles.statNumber}>
+                                            {strengthTreningsCounter} ({getPercent(strengthTreningsCounter)}%)
+                                        </span>
+                                    </div>
+                                    <div className={styles.statLabel}>
+                                        ❓ Inne:
+                                        <span className={styles.statNumber}>
+                                            {otherTreningsCounter} ({getPercent(otherTreningsCounter)}%)
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div className={styles.optionalStats}>
-                                <div
-                                    style={{whiteSpace: 'nowrap'}}>
-                                    Liczba innych treningów:
-                                </div>
-                                <div className={styles.singleActivityInfo}>
-                                    <div><strong>{otherTreningsCounter}</strong></div>
-                                </div>
+
                             </div>
                             <div className={styles.buttonStatsOpacity}>
                                 <button className={styles.buttonStats} onClick={() => navigate("/trener/playerstats")}>

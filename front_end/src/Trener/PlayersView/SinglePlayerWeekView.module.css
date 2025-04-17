@@ -207,6 +207,26 @@
     font-size: 14px;
   }
 
+  .optionalStats .statLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  
+  .optionalStats .statNumber {
+    margin-left: auto;
+    font-weight: bold;
+  }
+
+  .statGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 4px;
+  }
+
   .makeCenter {
     display: flex;
     justify-content: center;

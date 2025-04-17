@@ -303,9 +303,9 @@ const AddingMultiDayActivity = () => {
                             onChange={(e) => setActivityType(e.target.value)}
                         >
                             <option value="oboz">🏕️ Obóz</option>
-                            <option value="turniej">🥋 Turniej</option>
+                            <option value="turniej">🏆 Turniej</option>
                             <option value="kontuzja">🩹 Kontuzja</option>
-                            <option value="inne">📁 Inne</option>
+                            <option value="inne">❓ Inne</option>
                         </select>
                     </div>
 
@@ -347,25 +347,26 @@ const AddingMultiDayActivity = () => {
                     </div>
 
                     <div className={styles.input_container}>
-                        <label>Komentarz</label>
+                        {/* <label>Komentarz</label>
                         <textarea
                             className={styles.multiLineInput}
                             rows={4}
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             placeholder="Opcjonalny komentarz"
+                        /> */}
+                    </div>
+                    <div className={styles.input_container}>
+                        <label>SMS</label>
+                        <textarea
+                            id="multiline-input"
+                            value={smsContent}
+                            onChange={onSmsContentChange}
+                            rows={5}  // Ustaw liczbę widocznych wierszy
+                            className={styles.multiLineInput}
+                            placeholder="Edytuj wiadomość sms"
                         />
                     </div>
-
-                    <textarea
-                        id="multiline-input"
-                        value={smsContent}
-                        onChange={onSmsContentChange}
-                        rows={5}  // Ustaw liczbę widocznych wierszy
-                        className={styles.multiLineInput}
-                        placeholder="Edytuj wiadomość sms"
-                    />
-               
                 <button onClick={sendSMS } className={styles.button} >
                     Wyślij SMS
                 </button>

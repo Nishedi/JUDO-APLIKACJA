@@ -2,7 +2,7 @@ import styles from './WeekView.module.css';
 import React, {useContext, useEffect, useState} from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useNavigate, useParams } from 'react-router-dom';
-import {TreningStatusAndFeelingsAfter, getActivityTypeColor} from '../../CommonFunction';
+import {TreningStatusAndFeelingsAfter, getActivityTypeColor, getMultiDayActivityEmoji} from '../../CommonFunction';
 import SideBarCalendar from "./../DayView/SideBarCalendar";
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -166,10 +166,9 @@ const WeekView = () => {
         //     setGlobalVariable({ ...globalVariable, date: formattedDate });
         //     navigate("/player/anotherdayview");
         // }
-
         const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
-        setGlobalVariable({ ...globalVariable, date: formattedDate });
-        navigate("/player/anotherdayview");
+        setGlobalVariable({ ...globalVariable, date, formattedDate }); // oba formaty dostępne
+        navigate("/player/dayview");
     }
 
     const WeekDay = ({ day, date}) => {
@@ -187,15 +186,26 @@ const WeekView = () => {
                         className={`
                             ${styles.weekDay} 
                             ${isToday ? styles.todayBorder : ''}  // Dodanie klasy ramki dla dzisiejszego dnia
-                            ${isMultiDay ? styles.multiDayBorder : ''}
                         `}                
                     >
                     <div>
-                        {getMultiDayActivityForDate(date).map((activity, idx) => (
-                            <div key={idx} className={styles.multiDayName}>
-                                {activity.nazwa}
-                            </div>
-                        ))}
+                        {multiDayActivities
+                            .filter(activity => {
+                                const isoDate = date.toISOString().split('T')[0];
+                                return isoDate >= activity.poczatek && isoDate <= activity.koniec;
+                            })
+                            .map((activity, idx) => (
+                                <div
+                                    key={idx}
+                                    className={styles.multiDayName}
+                                    style={{
+                                        color: '#9E9E9E'
+                                    }}
+                                    >
+                                    {getMultiDayActivityEmoji(activity.rodzaj_aktywnosci)} {activity.nazwa}
+                                </div>
+                            ))}
+                        
 
                         <p>
                             <span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)} 

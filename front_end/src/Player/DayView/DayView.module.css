@@ -30,11 +30,14 @@
   flex-direction: column;
   text-align: center;
   color: #103476;
-  font-family: 'Kodchasan-Medium';
+  border-radius: 10px;
+  margin: 5px ;
+  font-family: 'Kodchasan-SemiBold';
   font-size: 16px; /* Większa czcionka */
   background-color: #ffffff; /* Biały kolor tła */
-  border-top: 1px solid #D7DFEE ;
-  padding: 10px; /* Wewnętrzne odstępy */
+  /* background-image: linear-gradient(90deg, #b2cdff 0%, #fff 47%, #b2cdff 100%); */
+  /* border-top: 3px solid #103476 ; */
+  padding: 15px 10px; /* Wewnętrzne odstępy */
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); /* Delikatny cień */
 }
 

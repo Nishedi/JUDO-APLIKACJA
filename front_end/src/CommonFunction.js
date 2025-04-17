@@ -3,14 +3,28 @@ import styles from './CommonFunction.module.css';
 export const getMultiDayActivityColor = (type) => {
     switch (type) {
         case 'oboz':
-            return '#4CAF50'; // Zielony
+            return '#C2FF70'; // Zielony
         case 'turniej':
-            return '#2196F3'; // Niebieski
+            return '#FFE779'; // złoty
         case 'kontuzja':
-            return '#F44336'; // Czerwony
+            return '#F6090A'; // Czerwony
         case 'inne':
         default:
-            return '#9E9E9E'; // Szary
+            return '#fff'; // Szary
+    }
+};
+
+export const getMultiDayActivityBorderColor = (type) => {
+    switch (type) {
+        case 'oboz':
+            return '#81E000'; // Zielony
+        case 'turniej':
+            return '#CAA600'; // Niebieski
+        case 'kontuzja':
+            return '#A40607'; // Czerwony
+        case 'inne':
+        default:
+            return '#E6E6FA'; // Szary
     }
 };
 
@@ -19,12 +33,12 @@ export const getMultiDayActivityEmoji = (type) => {
         case 'oboz':
             return '🏕️';
         case 'turniej':
-            return '🥋';
+            return '🏆';
         case 'kontuzja':
             return '🩹';
         case 'inne':
         default:
-            return '📁';
+            return '📌';
     }
 };
 
