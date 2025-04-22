@@ -10,6 +10,7 @@ const PlayerNotes = () => {
     const { viewedPlayer, setViewedPlayer, supabase, globalVariable } = useContext(GlobalContext);
     const navigate = useNavigate(); // Hook do nawigacji
     const [threads, setThreads] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const [newThread, setNewThread] = useState({
         nazwa_watku: '',
         id_zawodnika: globalVariable.id_zawodnika,
@@ -85,10 +86,21 @@ const PlayerNotes = () => {
                     </button> */}
                 </div>
             </div>
+             <div className={styles.searchBar}>
+                <input
+                    type="text"
+                    placeholder="Szukaj wątku..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className={styles.searchInput}
+                    />
+                </div>
 
             {/* Wątki */}
             <div className={styles.threadList}>
-                {threads.map((thread, index) => (
+                {threads.filter(thread =>
+                    thread.nazwa_watku.toLowerCase().includes(searchQuery.toLowerCase())
+                    ).map((thread, index) => (
                         <div
                             key={index} 
                             className={styles.opponentCard}
