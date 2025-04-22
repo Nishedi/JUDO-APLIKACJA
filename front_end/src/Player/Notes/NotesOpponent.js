@@ -141,7 +141,8 @@ useEffect(() => {
             .update({
                 nazwa_watku: nazwa_watku,
                 liczba_wygranych: liczba_wygranych,
-                liczba_przegranych: liczba_przegranych
+                liczba_przegranych: liczba_przegranych,
+                ostatnia_aktualizacja: new Date() 
             })
             .eq('id_watku', id_watku)
             .select();

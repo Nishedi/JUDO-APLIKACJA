@@ -101,6 +101,13 @@ const EditNote = () => {
                 console.log('error', error);
             }
         }
+        const { error2} = await supabase
+        .from('watki_notatki')
+        .update({ ostatnia_aktualizacja: new Date() })
+        .eq('id_watku', watek.id_watku);
+        if (error2) {
+            console.log('error', error);
+        }
         navigate(`/player/notesopponent/${watek.id_watku}`);
     }
 

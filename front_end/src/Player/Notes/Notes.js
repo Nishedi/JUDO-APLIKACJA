@@ -52,7 +52,8 @@ const Notes = () => {
                 id_zawodnika: globalVariable.id,
                 nazwa_watku: nazwa_watku,
                 liczba_wygranych: liczba_wygranych,
-                liczba_przegranych: liczba_przegranych
+                liczba_przegranych: liczba_przegranych,
+                ostatnia_aktualizacja: new Date()
             }]).select();
 
         if (error) {
