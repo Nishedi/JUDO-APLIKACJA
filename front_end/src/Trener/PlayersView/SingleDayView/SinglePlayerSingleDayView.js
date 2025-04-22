@@ -6,17 +6,16 @@ import { useContext } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../../BackButton";
+import { IoMdArrowBack } from 'react-icons/io';
 import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor, getMultiDayActivityColor, getMultiDayActivityBorderColor} from "../../../CommonFunction"
-import { RxRadiobutton } from "react-icons/rx";
 
 const SinglePlayerSingleDayView = () => {
-    const {viewedPlayer, setViewedPlayer, supabase, globalVariable, smsList, setSmsList} = useContext(GlobalContext);
+    const {viewedPlayer, setViewedPlayer, supabase, globalVariable, smsList, setSmsList, prevViewType} = useContext(GlobalContext);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const [isStatsOpen, setIsStatsOpen] = useState(false);
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [activity, setActivity] = useState(null);
-
     const [multiDayActivities, setMultiDayActivities] = useState([]);
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -224,7 +223,14 @@ const SinglePlayerSingleDayView = () => {
             <SideBarCalendar isOpen={isSidebarOpen}/>
             <div className={styles.navbar}>
                 <div className={styles.burger}>
-                    <BackButton path="/trener/playermonthview/week"/>
+                    
+                    <div className = {styles.backbutton}
+                        onClick={() => {
+                            navigate(`/trener/playermonthview/${prevViewType}`,{ state: { from: "back" } });
+                        }}
+                    >
+                        <IoMdArrowBack size={30} color="white" />
+                    </div>    
                 </div>
                 <div className = {styles.weekDay}>
                     <div>{dayNames[viewedPlayer.currentDate?.getDay()]}</div>

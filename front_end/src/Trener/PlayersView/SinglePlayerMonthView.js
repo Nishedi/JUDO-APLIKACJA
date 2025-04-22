@@ -2,23 +2,25 @@ import styles from './SinglePlayerWeekView.module.css';
 import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../BackButton';
 import {TreningStatusAndFeelingsAfter, getBorderColor, getActivityColor, getActivityTypeColor, getMultiDayActivityEmoji, getMultiDayActivityColor} from '../../CommonFunction';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RxHamburgerMenu } from "react-icons/rx";
 import SidebarPlayer from '../PlayersView/SidebarPlayer';
-import { use } from 'react';
 
 
 const SinglePlayerMonthView = () => {
-    const { viewedPlayer, setViewedPlayer, supabase, globalVariable } = useContext(GlobalContext);
+    const { viewedPlayer, setViewedPlayer, supabase, globalVariable, setPrevViewType } = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState(now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const viewType = useParams().viewtype;
+    useEffect(() => {
+        setPrevViewType(viewType);
+    }, [viewType]);
     const [runningTreningsCounter, setRunningTreningsCounter] = useState(0);
     const [motorTreningsCounter, setMotorTreningsCounter] = useState(0);
     const [strengthTreningsCounter, setStrengthTreningsCounter] = useState(0);
@@ -30,8 +32,7 @@ const SinglePlayerMonthView = () => {
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
     
-    
-
+    // const location = useLocation();
     const formatDate = (date) => {
         const day = date.getDate();
         const month = monthNames[date.getMonth()];
