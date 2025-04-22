@@ -17,10 +17,8 @@ import 'primeicons/primeicons.css';                        // Ikony
 
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
-    const [isSaved, setIsSaved] = useState(false);
-    const smsToken = "sW578FWEa29075d740204f68bbf397489c569ab2";
     const [isUploading, setIsUploading] = useState(false);
-    const { globalVariable, supabase, sms, setSms } = useContext(GlobalContext);
+    const { globalVariable, supabase } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrenings, setSelectedTrenings] = useState([]);
@@ -30,8 +28,6 @@ const AddingActivityFirstPage = () => {
     const [newActivity, setNewActivity] = useState('');
     const [anotherActivityName, setAnotherActivityName] = useState('');
     const [smsContent, setSmsContent] = useState('');
-      // Stan na przechowywanie błędów
-    const [errorMessage, setErrorMessage] = useState('');
     const [errors, setErrors] = useState({}); // New state to track errors
 
     const sharedStyles = {
@@ -294,8 +290,6 @@ const AddingActivityFirstPage = () => {
         return `${day}.${month}.${year}`;
       };
 
-    
-
       const validateForm = () => {
         const newErrors = {};
         if (selectedOptions.length === 0) {
@@ -311,90 +305,6 @@ const AddingActivityFirstPage = () => {
             newErrors.selectedExercises = 'Proszę wybrać ćwiczenia';
         }
         return newErrors;
-    };
-
-    const saveSMS = () => {
-        if(!dates || dates.length === 0) return;
-        setSms(prevSmses => {
-            let newSmses = [...(prevSmses || [])]; // Zachowujemy poprzednie wartości
-            let exercises = selectedExercises.map(exercise => exercise.name);
-    
-            dates.forEach(date => {
-                let sms = {
-                    date: date,
-                    allexercises: exercises
-                };
-                newSmses.push(sms);
-            });
-            setIsSaved(true);
-            return newSmses;
-        });
-    };
-
-    const loadSMS = () => {
-        if (sms && sms.length === 0) return;
-       
-        const mergedSmses = sms.reduce((acc, curr) => {
-            const existingSms = acc.find(item => 
-                item.date.getDate() === curr.date.getDate() &&
-                item.date.getMonth() === curr.date.getMonth() &&
-                item.date.getFullYear() === curr.date.getFullYear() &&
-                item.date.getHours() === curr.date.getHours() &&
-                item.date.getMinutes() === curr.date.getMinutes()
-            );
-            if (existingSms) {
-                // Jeśli już mamy tę datę, dodajemy nowe ćwiczenia (bez duplikatów)
-                existingSms.allexercises = [...new Set([...existingSms.allexercises, ...curr.allexercises])];
-            } else {
-                // Jeśli nie ma jeszcze tej daty, dodajemy nowy wpis
-                acc.push({ ...curr });
-            }
-    
-            return acc;
-        }, []);
-        setSms(mergedSmses);
-        console.log(mergedSmses);
-        if (!isSaved) {
-            dates.forEach(date => {
-                const existingSms = mergedSmses.find(sms =>
-                    date.getDate() === sms.date.getDate() &&
-                    date.getMonth() === sms.date.getMonth() &&
-                    date.getFullYear() === sms.date.getFullYear() &&
-                    date.getHours() === sms.date.getHours() &&
-                    date.getMinutes() === sms.date.getMinutes()
-                );
-        
-                if (existingSms) {
-                   existingSms.allexercises = [...new Set([...existingSms.allexercises, ...selectedExercises.map(exercise => exercise.name)])];
-                } else {
-                    mergedSmses.push({
-                        date: date, // Konwersja na format ISO dla porównywania
-                        allexercises: selectedExercises.map(exercise => exercise.name)
-                    });
-                }
-            });
-        }
-        setSmsContent("Dodano nowe aktywności\n" +
-            mergedSmses
-                .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sortowanie według daty
-                .map(sms => {
-                    const date = new Date(sms.date); // Konwersja na obiekt Date
-                    const day = date.getDate().toString().padStart(2, '0');
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const year = date.getFullYear();
-                    const hours = date.getHours().toString().padStart(2, '0');
-                    const minutes = date.getMinutes().toString().padStart(2, '0');
-        
-                    return `${day}.${month}.${year} ${hours}:${minutes}: ${sms.allexercises.join(", ")}`;
-                }).join("\n")
-        );
-        
-        
-    };
-    
-
-    const clearSMS = () => {
-        setSms([]);
     };
 
     const endAdding = () => {
@@ -658,7 +568,6 @@ const AddingActivityFirstPage = () => {
                     <div>Nowa aktywność</div>
                 </div>
                 <div className={styles.white_container}>
-                      {/* Sekcja z błędem głównym */}
                     {errors.general && (
                         <div className={styles.error_message}>{errors.general}</div>
                     )}
@@ -751,21 +660,6 @@ const AddingActivityFirstPage = () => {
                            
                         <div className={styles.input_container}>
                             Wybierz ćwiczenia
-                            {/* <Multiselect
-                                options={exercises}
-                                selectedValues={selectedExercises}
-                                onSelect={onSelectedExercises}
-                                onRemove={onRemoveExercises}
-                                displayValue="name"
-                                placeholder='Wybierz ćwiczenia'
-                                style={{
-                                    ...sharedStyles,
-                                    searchBox: {
-                                        ...sharedStyles.searchBox,
-                                        border: errors.selectedExercises ? '1px solid red' : '1px solid #ccc'
-                                    }
-                                }}
-                            /> */}
                             <MultiSelectDropdown options={exercises} selectedOptions={selectedExercises} setSelectedOptions={setSelectedExercises}/>
                                 {selectedExercises.map(exercise => <Activity exercise={exercise}/>)}
                                 {errors.selectedExercises && <div className={styles.error_message}>{errors.selectedExercises}</div>}
@@ -832,22 +726,11 @@ const AddingActivityFirstPage = () => {
                                 className={styles.multiLineInput}
                                 placeholder="Edytuj wiadomość sms"
                             />
-                        <div className={styles.twoButtons}>
-                            <button onClick={saveSMS}>
-                                Zapisz&nbsp;SMS
-                            </button>
-                            <button onClick={loadSMS}>
-                                Wczytaj&nbsp;SMS
-                            </button>  
-                            <button onClick={clearSMS}>
-                                Wyczyść pamieć
-                            </button>     
-                        </div>    
+                        
                         <button onClick={sendSMS } className={styles.button} >
                             Wyślij SMS
                         </button>
                         <button onClick={endAdding } className={styles.button} >
-                            {console.log(sms)}
                             Zakończ
                         </button>
                 </div>

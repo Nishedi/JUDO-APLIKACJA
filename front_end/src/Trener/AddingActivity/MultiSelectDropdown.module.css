@@ -48,6 +48,12 @@
     cursor: pointer;
     text-decoration: underline;
   }
+
+  .selectedOption{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+  }
   
   .addButton:hover {
     color: #0056b3;
@@ -85,12 +91,8 @@
   }
 
   .removeButton {
-        
-    
     all: unset !important;
-    padding: 0px 10px 0px 0px !important;
-   
-      
+    padding: 0px 10px 0px 0px !important;   
   }
   
   .removeButton:hover {

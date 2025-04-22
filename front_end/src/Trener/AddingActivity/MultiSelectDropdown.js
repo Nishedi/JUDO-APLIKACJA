@@ -61,8 +61,9 @@ const MultiSelectDropdown = ({options, selectedOptions, setSelectedOptions}) => 
             {selectedOptions.map((optionId, index) => {
               return (
                 <span key={index} className={styles.selectedOption}>
-                    
+                   <div> 
                   {optionId?.name}{" "}
+                 
                   <button
                     className={styles.removeButton}
                     onClick={(e) => {
@@ -72,19 +73,23 @@ const MultiSelectDropdown = ({options, selectedOptions, setSelectedOptions}) => 
                   >
                     ✕
                   </button>
+                  </div>
+                  <div>
                   <button
-                  className={styles.moveButton}
-                  onClick={(e) => {moveUp(index);e.stopPropagation();}}
-                >
-                  ↑
-                </button>
-                <button
-                  className={styles.moveButton}
-                  onClick={(e) => {moveDown(index);e.stopPropagation();}}
-                >
-                  ↓
-                </button>
+                      className={styles.moveButton}
+                      onClick={(e) => {moveUp(index);e.stopPropagation();}}
+                    >
+                      ↑
+                  </button>
+                  <button
+                    className={styles.moveButton}
+                    onClick={(e) => {moveDown(index);e.stopPropagation();}}
+                  >
+                    ↓
+                  </button>
                   <br/>
+                  </div>
+                 
                 </span>
               );
             })}
