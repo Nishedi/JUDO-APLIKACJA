@@ -19,7 +19,6 @@ const AddNote = () => {
     const [naCoUwazac, setNaCoUwazac] = useState('');
     const [mocneStronyWParterze, setMocneStronyWParterze] = useState('');
     const navigate = useNavigate();
-
     // Funkcje zmieniające datę i czas
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -73,6 +72,14 @@ const AddNote = () => {
                 console.log('error', error);
             }
         }
+        const {data, error2} = await supabase
+        .from('watki_notatki')
+        .update({ ostatnia_aktualizacja: new Date() })
+        .eq('id_watku', watek.id_watku);
+        if (error2) {
+            console.log('error', error);
+        }
+
         navigate(`/player/notesopponent/${watek.id_watku}`);
     }
 

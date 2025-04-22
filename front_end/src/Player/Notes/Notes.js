@@ -100,7 +100,15 @@ const Notes = () => {
                                     Bilans: {thread.liczba_wygranych + "/" + thread.liczba_przegranych}
                                 </div>
                             </div>
-                            <IoIosArrowDown className={styles.arrowIcon} />
+                            <div className={styles.dateandarrow}>
+
+                                {thread?.ostatnia_aktualizacja && (
+                                    <div className={styles.opponentDetails}>
+                                        Ost. akt.: {new Date(thread.ostatnia_aktualizacja).toLocaleDateString()}
+                                    </div>
+                                )}
+                                <IoIosArrowDown className={styles.arrowIcon} />
+                            </div>
                         </div>
                     ))}
             </div>

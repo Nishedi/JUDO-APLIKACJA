@@ -25,6 +25,12 @@
     align-items: center;
 }
 
+.dateandarrow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .navbarText {
     display: flex;
     justify-content: center;
