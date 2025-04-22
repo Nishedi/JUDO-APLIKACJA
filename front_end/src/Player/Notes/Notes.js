@@ -103,6 +103,15 @@ const Notes = () => {
                 .filter(thread =>
                     thread.nazwa_watku.toLowerCase().includes(searchQuery.toLowerCase())
                   )
+                  .sort((a, b) => {
+                    const dateA = new Date(a.ostatnia_aktualizacja);
+                    const dateB = new Date(b.ostatnia_aktualizacja);
+                
+                    if (dateA > dateB) return -1;
+                    if (dateA < dateB) return 1;
+                
+                    return a.nazwa_watku.localeCompare(b.nazwa_watku);
+                  })
                 .map((thread, index) => (
                         <div
                             key={index} 

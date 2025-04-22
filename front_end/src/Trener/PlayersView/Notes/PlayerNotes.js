@@ -100,7 +100,19 @@ const PlayerNotes = () => {
             <div className={styles.threadList}>
                 {threads.filter(thread =>
                     thread.nazwa_watku.toLowerCase().includes(searchQuery.toLowerCase())
-                    ).map((thread, index) => (
+                    )
+                    .sort((a, b) => {
+                        const dateA = new Date(a.ostatnia_aktualizacja);
+                        const dateB = new Date(b.ostatnia_aktualizacja);
+                    
+                        // Najpierw sortujemy po dacie malejąco
+                        if (dateA > dateB) return -1;
+                        if (dateA < dateB) return 1;
+                    
+                        // Jeśli daty są równe, sortujemy alfabetycznie
+                        return a.nazwa_watku.localeCompare(b.nazwa_watku);
+                      })
+                    .map((thread, index) => (
                         <div
                             key={index} 
                             className={styles.opponentCard}
