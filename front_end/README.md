@@ -17,5 +17,5 @@
 - [ ] Osobne wykresy dla statystyk
 - [ ] Kilka takich samych aktywności w ramach jednego treningu
 - [ ] Ćwiczenia mają różny czas serii
-- [ ] Naprawic przechodzenie do wybranego dnia z widoku tygodniowego i miesięcznego (zawodnik)
+- [X] Naprawic przechodzenie do wybranego dnia z widoku tygodniowego i miesięcznego (zawodnik)
 - [ ] Wyszukiwanie notatek
