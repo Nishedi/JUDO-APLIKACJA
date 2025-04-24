@@ -17,14 +17,14 @@ export const getMultiDayActivityColor = (type) => {
 export const getMultiDayActivityBorderColor = (type) => {
     switch (type) {
         case 'oboz':
-            return '#81E000'; // Zielony
+            return '#4b8200'; // Zielony
         case 'turniej':
-            return '#CAA600'; // Niebieski
+            return '#635201'; // Zloty
         case 'kontuzja':
-            return '#A40607'; // Czerwony
+            return '#730203'; // Czerwony
         case 'inne':
         default:
-            return '#E6E6FA'; // Szary
+            return '#030391'; // Szary
     }
 };
 

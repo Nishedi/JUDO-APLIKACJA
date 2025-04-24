@@ -362,6 +362,15 @@ const DayView = () => {
     }
 
     useEffect(() => {
+    if (globalVariable.date && typeof globalVariable.date === "string") {
+        const [day, month, year] = globalVariable.date.split('.');
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        setCurrentDate(parsedDate);
+    }
+}, [globalVariable.date]);
+
+
+    useEffect(() => {
         getStatsDay(); // Pobieranie statystyk dnia
     }, []);
 
