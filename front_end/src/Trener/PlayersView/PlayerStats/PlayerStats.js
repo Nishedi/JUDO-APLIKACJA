@@ -401,52 +401,7 @@ const PlayerStats = () => {
                     >
                     <CartesianGrid strokeDasharray="5 5" />
 
-                    {/* Add vertical line for month transition */}
-
-                    {processedPlayerStats.map((dataPoint, index) => {
-                        const [year, month, day] = dataPoint.date.split('-'); // Split the date
-                        if (parseInt(day, 10) === 1 && index > 0) {
-                            const previousMonth = monthNames[parseInt(processedPlayerStats[index - 1].date.split('-')[1], 10) - 1];
-                            const currentMonth = monthNames[parseInt(month, 10) - 1];
-                          
-                             // Convert date to timestamp for positioning the text
-                            const previousMonthDate = new Date(processedPlayerStats[index - 1].date).getTime();
-                            const currentMonthDate = new Date(dataPoint.date).getTime();
-
-
-                            return (
-                            <>
-                                <ReferenceLine 
-                                key={index} 
-                                x={processedPlayerStats[index - 1].date} // Position the line before the 1st day of the next month
-                                y1="50"
-                                y2="400"
-
-                                stroke="#1D61DC" 
-                                strokeWidth={2} 
-                                label=""
-                                />
-                            {/* <text 
-                                key={`prev-month-${index}`} 
-                                x={processedPlayerStats[index - 1].date}
-                                y={420} // Position the label above the line
-                                textAnchor="middle" 
-                                fill="black">
-                                {previousMonth}
-                            </text>
-                            <text 
-                                key={`next-month-${index}`} 
-                                x={processedPlayerStats[index].date}
-                                y={240} // Position the label above the line
-                                textAnchor="middle" 
-                                fill="black">
-                                {currentMonth}
-                            </text> */}
-                        </>
-                        );
-                        }
-                        return null;
-                    })}
+                    
 
                     <XAxis 
                         dataKey="date" 

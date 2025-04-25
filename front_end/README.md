@@ -12,8 +12,8 @@
 - [X] Notatki - cztery pola tekstowe (1. Jak walczy, 2. Co można na niej zrobić, 3. Na co uważać, 4. Mocne strony w parterze)                     A
 - [X] Pomyśleć o powiadomieniach
 - [X] Pomyśleć o powiadomieniach sms czy coś takiego
-- [ ] Metry dla aktywności biegowych
-- [ ] Możliwość ręcznej zmiany kolejności aktywności
+- [X] Metry dla aktywności biegowych
+- [X] Możliwość ręcznej zmiany kolejności aktywności
 - [X] GS - minuty i sekundy
 - [X] Opis emotek na wykresach
 - [ ] Osobne wykresy dla statystyk
