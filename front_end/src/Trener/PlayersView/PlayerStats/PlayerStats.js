@@ -331,78 +331,11 @@ const PlayerStats = () => {
         return () => window.removeEventListener('resize', handleResize);
     }
     , [window.innerWidth]);
-    return (
-        <div onClick={closeSidebar} className={styles.background}>
-            <Sidebar onReportErrorClick={onReportErrorClick} isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
-            <div className={styles.navbar}>
-                <div onClick={toggleSidebar}>
-                    {/* <RxHamburgerMenu className={styles.burger}/> */}
-                    <BackButton/>
-                </div>
-                <div className="left_navbar" onClick={() => setIsSidebarOpen(false)}>
-                    <div className={styles.writing_div}>
-                        Statystyki zawodnika
-                    </div>
-                    <div className={styles.player_info_div}>
-                        {viewedPlayer.imie} {viewedPlayer.nazwisko}
-                    </div>
-                </div>
-                 
-            </div>
-            
-            {windowWidth > 550 ?
-            <div className={styles.buttonsFrame}>
-                <div className={styles.dateFrame}>
-                    <select className={styles.selectButton} value={selectedFilter} onChange={(e)=>{handleSelectChange(e)}}>
-                        <option value="feeling">Samopoczucie</option>
-                        <option value="pulse">Tętno</option>
-                        <option value="weight">Waga</option>
-                        <option value="all">Wszystkie</option>
-                    </select> 
-                    <button className={styles.buttonStats} 
-                        onClick={()=>{setScrolableChart(!scrolableChart); setFirstDate(firstDayOfMonth.toISOString().split('T')[0]); setSecondDate(new Date().toISOString().split('T')[0])}}>
-                            {!scrolableChart?"Przesuwny wykres":"Miesięczny wykres"}
-                    </button>
-                    <button onClick={exportChartToPDF} className={styles.buttonStats}>
-                        Eksportuj jako PDF
-                    </button>  
-                </div>
-                {scrolableChart?
-                    <div className={styles.dateFrame}>
-                        <div className={styles.noteSection}>
-                        <p>Data początkowa: </p>
-                            <div className={styles.pickerWrapper}>
-                                {/* DatePicker - wybór daty */}
-                                <DatePicker
-                                    selected={firstDate}
-                                    onChange={handleFirstDateChange}
-                                    dateFormat="dd.MM.yyyy"
-                                    className={styles.customDatePicker} // Klasa CSS dla daty
-                                />
-                            </div>
-                        </div>
-                        <div className={styles.noteSection}>
-                        <p>Data końcowa: </p>
-                            <div className={styles.pickerWrapper}>
-                                {/* DatePicker - wybór daty */}
-                                <DatePicker
-                                    selected={secondDate}
-                                    onChange={handleSecondDateChange}
-                                    dateFormat="dd.MM.yyyy"
-                                    className={styles.customDatePicker} // Klasa CSS dla daty
-                                />
-                            </div>
-                        </div>
-                    </div>:null
-                }
-           
-            </div>
-            
-            : null}
-            <div className={styles.chartSection}>
-            {windowWidth > 550 ?
-            <>
-            <div id="chart-container" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
+
+    const Chart = ({selectedFilter}) => {
+            return (
+                <div id="chart-container" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
+                    
                 <LineChart 
                     width={!scrolableChart?windowWidth-50:processedPlayerStats.length*20} 
                     height={400} 
@@ -536,6 +469,85 @@ const PlayerStats = () => {
 
                 {/* Sekcja statystyk niecodziennych */}
                 </div>
+            )    
+    }
+
+
+    return (
+        <div onClick={closeSidebar} className={styles.background}>
+            <Sidebar onReportErrorClick={onReportErrorClick} isOpen={isSidebarOpen} onLogOutClick={onLogOutClick} onClose={toggleSidebar} name={globalVariable.imie} surname={globalVariable.nazwisko} onAddActivityClick={onAddActivityClick} onAddPlayerClick={onAddPlayerClick} goToProfile={goToProfile}/>
+            <div className={styles.navbar}>
+                <div onClick={toggleSidebar}>
+                    {/* <RxHamburgerMenu className={styles.burger}/> */}
+                    <BackButton/>
+                </div>
+                <div className="left_navbar" onClick={() => setIsSidebarOpen(false)}>
+                    <div className={styles.writing_div}>
+                        Statystyki zawodnika
+                    </div>
+                    <div className={styles.player_info_div}>
+                        {viewedPlayer.imie} {viewedPlayer.nazwisko}
+                    </div>
+                </div>
+                 
+            </div>
+            
+            {windowWidth > 550 ?
+            <div className={styles.buttonsFrame}>
+                <div className={styles.dateFrame}>
+                    <select className={styles.selectButton} value={selectedFilter} onChange={(e)=>{handleSelectChange(e)}}>
+                        <option value="feeling">Samopoczucie</option>
+                        <option value="pulse">Tętno</option>
+                        <option value="weight">Waga</option>
+                        <option value="all">Wszystkie</option>
+                    </select> 
+                    <button className={styles.buttonStats} 
+                        onClick={()=>{setScrolableChart(!scrolableChart); setFirstDate(firstDayOfMonth.toISOString().split('T')[0]); setSecondDate(new Date().toISOString().split('T')[0])}}>
+                            {!scrolableChart?"Przesuwny wykres":"Miesięczny wykres"}
+                    </button>
+                    <button onClick={exportChartToPDF} className={styles.buttonStats}>
+                        Eksportuj jako PDF
+                    </button>  
+                </div>
+                {scrolableChart?
+                    <div className={styles.dateFrame}>
+                        <div className={styles.noteSection}>
+                        <p>Data początkowa: </p>
+                            <div className={styles.pickerWrapper}>
+                                {/* DatePicker - wybór daty */}
+                                <DatePicker
+                                    selected={firstDate}
+                                    onChange={handleFirstDateChange}
+                                    dateFormat="dd.MM.yyyy"
+                                    className={styles.customDatePicker} // Klasa CSS dla daty
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.noteSection}>
+                        <p>Data końcowa: </p>
+                            <div className={styles.pickerWrapper}>
+                                {/* DatePicker - wybór daty */}
+                                <DatePicker
+                                    selected={secondDate}
+                                    onChange={handleSecondDateChange}
+                                    dateFormat="dd.MM.yyyy"
+                                    className={styles.customDatePicker} // Klasa CSS dla daty
+                                />
+                            </div>
+                        </div>
+                    </div>:null
+                }
+           
+            </div>
+            
+            : null}
+            <div className={styles.chartSection}>
+            {windowWidth > 550 ?
+            <>
+                <Chart selectedFilter={selectedFilter}/>
+                <Chart selectedFilter={"pulse"}/>
+                <Chart selectedFilter={"feeling"}/>
+                <Chart selectedFilter={"weight"}/>
                 
                 <div id="chart-container2" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
                 <LineChart 

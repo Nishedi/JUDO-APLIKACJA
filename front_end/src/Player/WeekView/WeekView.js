@@ -167,7 +167,7 @@ const WeekView = () => {
         //     navigate("/player/anotherdayview");
         // }
         const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
-        console.log(formattedDate);
+        
         setGlobalVariable({ ...globalVariable, date: formattedDate}); // oba formaty dostępne
         navigate("/player/dayview");
     }
