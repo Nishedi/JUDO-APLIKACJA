@@ -20,5 +20,5 @@
 - [ ] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności (do przemyślenia jak to zrobić bo: możemy ograniczyć zaznaczanie do jednego widoku bez zapamiętywania - wtedy podsumowanie ma sens (liczba poszczególnych aktywności 2) możemy zostawić jak jest ale wtedy troche średnio - do przemyślenia)
 - [ ] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
 - [ ] Ćwiczenia mają różny czas serii
-- [ ] Osobne wykresy dla statystyk
+- [X] Osobne wykresy dla statystyk
 - [ ] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz
