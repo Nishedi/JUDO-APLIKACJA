@@ -29,6 +29,7 @@ const AddingActivityFirstPage = () => {
     const [anotherActivityName, setAnotherActivityName] = useState('');
     const [smsContent, setSmsContent] = useState('');
     const [errors, setErrors] = useState({}); // New state to track errors
+    const [addActivityString, setAddActivityString] = useState('Dodaj');
 
     const sharedStyles = {
         chips: {
@@ -395,6 +396,8 @@ const AddingActivityFirstPage = () => {
                     console.log(error);
                     return;
                 }
+                
+                if(data){setAddActivityString('Dodano');}
             }
         }
     };
@@ -408,9 +411,19 @@ const AddingActivityFirstPage = () => {
         const [durationSeconds, setDurationSeconds] = useState(exercise?.durationSecond||'');
         const [goldenScore, setGoldenScore] = useState(exercise?.goldenScore||'');
         const [goldenScoreMinutes, setGoldenScoreMinutes] = useState(exercise?.goldenScoreMinutes||'');
+        const [isConfirmed, setIsConfirmed] = useState(exercise?.isConfirmed||false);
+        
         
 
         const updateExercise = () => {
+            
+            setSelectedExercises((prevExercises) =>
+                prevExercises.map((item) =>
+                    item.id === exercise.id
+                        ? { ...item, isConfirmed: true } // Zaktualizuj tylko czas trwania
+                        : item // Zwróć niezmienione elementy
+                )
+            );
             if(duration){
                 setSelectedExercises((prevExercises) =>
                     prevExercises.map((item) =>
@@ -476,13 +489,13 @@ const AddingActivityFirstPage = () => {
                             type="number"
                             placeholder='Minuty'
                             value={duration}
-                            onChange={(e)=>setDuration(e.target.value)}
+                            onChange={(e)=>{setDuration(e.target.value);setIsConfirmed(false);}}
                         />
                         <input
                             type="number"
                             placeholder='Sekundy'
                             value={durationSeconds}
-                            onChange={(e)=>setDurationSeconds(e.target.value)}
+                            onChange={(e)=>{setDurationSeconds(e.target.value);setIsConfirmed(false);}}
                         />
                     </div>
                     <div>
@@ -490,7 +503,7 @@ const AddingActivityFirstPage = () => {
                             type="number"
                             placeholder='Liczba powtórzeń'
                             value={repeats}
-                            onChange={(e)=>setRepeats(e.target.value)}
+                            onChange={(e)=>{setRepeats(e.target.value);setIsConfirmed(false);}}
                             style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
                         />
                         {selectedTrenings[0]?.name === 'Biegowy' ? 
@@ -498,7 +511,7 @@ const AddingActivityFirstPage = () => {
                             type="number"
                             placeholder='Metry'
                             value={meters}
-                            onChange={(e)=>setMeters(e.target.value)}
+                            onChange={(e)=>{setMeters(e.target.value);setIsConfirmed(false);}}
                             style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
                         />:null
                             }
@@ -508,18 +521,21 @@ const AddingActivityFirstPage = () => {
                             type="number"
                             placeholder='GS [min]'
                             value={goldenScoreMinutes}
-                            onChange={(e)=>setGoldenScoreMinutes(e.target.value)}
+                            onChange={(e)=>{setGoldenScoreMinutes(e.target.value);setIsConfirmed(false);}}
                         />
                         <input
                             type="number"
                             placeholder='GS [s]'
                             value={goldenScore}
-                            onChange={(e)=>setGoldenScore(e.target.value)}
+                            onChange={(e)=>{setGoldenScore(e.target.value);setIsConfirmed(false);}}
                         />
                         </div>
                          : null}
                     </div>
-                    <MdOutlineDone onClick={updateExercise} className={styles.add_button} style={true? {width: "100%", margin:'4px'}:{minWidth: '40px'}}/>
+                    <MdOutlineDone 
+                        onClick={updateExercise}
+                        className={`${isConfirmed ? styles.add_button_confirmed : styles.add_button}`}
+                        style={true? {width: "100%", margin:'4px'}:{minWidth: '40px'}}/>
                 </div>
             </div>
         );
@@ -716,7 +732,7 @@ const AddingActivityFirstPage = () => {
                             }
                         </div>
                         <button onClick={addActivities} className={styles.button} disabled={isUploading}>
-                            {isUploading ? 'Przesyłanie pliku...' : 'Dodaj'}
+                            {isUploading ? 'Przesyłanie pliku...' : addActivityString}
                         </button>
                         <textarea
                                 id="multiline-input"

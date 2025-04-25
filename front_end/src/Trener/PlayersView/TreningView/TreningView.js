@@ -134,7 +134,7 @@ const TrenerTrainingView = () => {
                                                     <strong>{thing?.name+" "}</strong>
                                                     {thing?.duration ? thing.duration + " min. " : ""} 
                                                     {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
-                                                    {thing?.repeats ? "x"+thing.repeats + " " : ""}
+                                                    {thing?.repeats ? "x"+thing.repeats + "\u00A0\u00A0" : ""}
                                                     {thing?.meters ? thing.meters + " m. " : ""}
                                                     {
                                                     thing?.goldenScoreMinutes && thing?.goldenScore 
