@@ -4,8 +4,6 @@
 - [X] Nazwy etykiet kolorem  
 - [x] Oznaczyc miesiące na X  - względnie ok
 - [X] Dodać podsumowanie tygodnia/miesiąca/roku w postaci liczby rodzajów treningów
-- [ ] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności (do przemyślenia jak to zrobić bo: możemy ograniczyć zaznaczanie do jednego widoku bez zapamiętywania - wtedy podsumowanie ma sens (liczba poszczególnych aktywności 2) możemy zostawić jak jest ale wtedy troche średnio - do przemyślenia)
-- [ ] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
 - [X] Moduł obozów - nowa zakladka, bez mozliwosci edytowania/usuwania
 
 - [x] Kolory dla nazw rodzajów aktywności do wyboru przy tworzeniu aktywności (Niebieski - taktyczny, czerwony - motoryczny, zielony - mentalny)  (u trenera) A
@@ -16,8 +14,11 @@
 - [X] Możliwość ręcznej zmiany kolejności aktywności
 - [X] GS - minuty i sekundy
 - [X] Opis emotek na wykresach
-- [ ] Osobne wykresy dla statystyk
 - [X] Kilka takich samych aktywności w ramach jednego treningu
-- [ ] Ćwiczenia mają różny czas serii
 - [X] Naprawic przechodzenie do wybranego dnia z widoku tygodniowego i miesięcznego (zawodnik)
 - [X] Wyszukiwanie notatek
+- [ ] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności (do przemyślenia jak to zrobić bo: możemy ograniczyć zaznaczanie do jednego widoku bez zapamiętywania - wtedy podsumowanie ma sens (liczba poszczególnych aktywności 2) możemy zostawić jak jest ale wtedy troche średnio - do przemyślenia)
+- [ ] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
+- [ ] Ćwiczenia mają różny czas serii
+- [ ] Osobne wykresy dla statystyk
+- [ ] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz

@@ -36,6 +36,8 @@ const PlayerStats = () => {
     const [maxKinaza, setMaxKinaza] = useState(0);
     const [minKwasMlekowy, setMinKwasMlekowy] = useState(0);
     const [maxKwasMlekowy, setMaxKwasMlekowy] = useState(0);
+    const [monthChangeLines, setMonthChangeLines] = useState([]);
+
     const getPlayerStats = async () => {
         const dates = generateDateArray(firstDate, secondDate);
         let { data: statystyki, error } = await supabase
@@ -235,6 +237,17 @@ const PlayerStats = () => {
 
         setProcessedPlayerStats(dx);
         setProcessedPlayerStats2(dx2);
+        const changes = [];
+        console.log(dx.length);
+        for (let i = 1; i < dx.length; i++) {
+            const prevMonth = new Date(dx[i - 1].date).getMonth();
+            const currMonth = new Date(dx[i].date).getMonth();
+            if (currMonth !== prevMonth) {
+                console.log("zmiana miesiąca", dx[i].date);
+                changes.push(dx[i].date);
+            }
+        }
+        setMonthChangeLines(changes);
     }, [firstDate, secondDate, playerStats, accurancy]);
 
     const toggleSidebar = () => {
@@ -400,11 +413,13 @@ const PlayerStats = () => {
                     }
                     >
                     <CartesianGrid strokeDasharray="5 5" />
-
-                    
-
+                    {scrolableChart && monthChangeLines.map((date, index) => (
+                        <ReferenceLine key={index} x={date} stroke="gray" strokeDasharray="10" />
+                    ))}
                     <XAxis 
                         dataKey="date" 
+                        type="category" 
+                        allowDuplicatedCategory={false}
                         label={{ 
                             value: `Data
                     (${!scrolableChart? monthName(): firstDate.split('-')[2]+"."+firstDate.split('-')[1]+'-'+secondDate.split('-')[2]+"."+secondDate.split('-')[1]})`, 
@@ -533,6 +548,9 @@ const PlayerStats = () => {
                     }
                     >
                     <CartesianGrid strokeDasharray="5 5" />
+                    {scrolableChart && monthChangeLines.map((date, index) => (
+                        <ReferenceLine key={index} x={date} stroke="gray" strokeDasharray="10" />
+                    ))}
                     <XAxis dataKey="date" label={{ value: `Data
                     (${!scrolableChart? monthName(): firstDate.split('-')[2]+"."+firstDate.split('-')[1]+'-'+secondDate.split('-')[2]+"."+secondDate.split('-')[1]})`, 
                     position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/4 }} minTickGap={15} 
@@ -540,6 +558,7 @@ const PlayerStats = () => {
                         const [year, month, day] = date.split('-'); // Rozdzielenie daty na części
                         return `${day}`; // Zwracamy tylko miesiąc i dzień
                     }} />
+                    
                     
                     {window.innerWidth > 550 ?
                         
