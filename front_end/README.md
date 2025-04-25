@@ -2,10 +2,8 @@
 
 - [x] Poprawić statystyki, tak żeby drobne zmiany wagi nie były tak widoczne
 - [X] Nazwy etykiet kolorem  
-- [x] Oznaczyc miesiące na X  - względnie ok
 - [X] Dodać podsumowanie tygodnia/miesiąca/roku w postaci liczby rodzajów treningów
 - [X] Moduł obozów - nowa zakladka, bez mozliwosci edytowania/usuwania
-
 - [x] Kolory dla nazw rodzajów aktywności do wyboru przy tworzeniu aktywności (Niebieski - taktyczny, czerwony - motoryczny, zielony - mentalny)  (u trenera) A
 - [X] Notatki - cztery pola tekstowe (1. Jak walczy, 2. Co można na niej zrobić, 3. Na co uważać, 4. Mocne strony w parterze)                     A
 - [X] Pomyśleć o powiadomieniach
@@ -22,3 +20,5 @@
 - [ ] Ćwiczenia mają różny czas serii
 - [X] Osobne wykresy dla statystyk
 - [ ] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz
+- [x] Oznaczyc miesiące na X  - względnie ok
+- [ ] Te pałki ^ powinny być podpisane bo mozna pomieszać jak jest więcej miesięcy
