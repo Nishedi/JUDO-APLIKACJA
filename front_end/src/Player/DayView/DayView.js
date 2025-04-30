@@ -465,19 +465,19 @@ const DayView = () => {
                             className={`${styles2.multidayDetails} ${isExpanded ? styles2.expanded : styles.collapsed}`}
                         >
                             <div>
-                                <span className={styles2.detailLabel}>Od:</span>{' '}
+                                <span className={styles2.detailLabel}>📅</span>{' '}
                                 <span style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
                                 {formatFullDate(item.poczatek)}
                                 </span>
                             </div>
                             <div>
-                                <span className={styles2.detailLabel}>Do:</span>{' '}
+                                <span className={styles2.detailLabel}>📅</span>{' '}
                                 <span style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
                                 {formatFullDate(item.koniec)}
                                 </span>
                             </div>
                             <div style={{marginTop: "1rem"}}>
-                                <span className={styles2.detailLabel}>Komentarz:</span><br />
+                                <span className={styles2.detailLabel}>✏️ </span><br />
                                 <span className={styles2.multiDayComment} style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
                                 {item.komentarz}
                                 </span>
