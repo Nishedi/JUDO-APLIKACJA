@@ -4,7 +4,7 @@ export const getMultiDayActivityColor = (type) => {
     switch (type) {
         case 'oboz':
             return '#C2FF70'; // Zielony
-        case 'turniej':
+        case 'zawody':
             return '#FFE779'; // złoty
         case 'kontuzja':
             return '#F6090A'; // Czerwony

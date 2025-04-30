@@ -361,31 +361,49 @@ const DayView = () => {
         }
     }
 
-    useEffect(() => {
-    if (globalVariable.date && typeof globalVariable.date === "string") {
-        const [day, month, year] = globalVariable.date.split('.');
-        const parsedDate = new Date(`${year}-${month}-${day}`);
-        setCurrentDate(parsedDate);
-    }
-}, [globalVariable.date]);
+//     useEffect(() => {
+//     if (globalVariable.date && typeof globalVariable.date === "string") {
+//         const [day, month, year] = globalVariable.date.split('.');
+//         const parsedDate = new Date(`${year}-${month}-${day}`);
+//         setCurrentDate(parsedDate);
+//     }
+// }, [globalVariable.date]);
 
 
-    useEffect(() => {
-        getStatsDay(); // Pobieranie statystyk dnia
-    }, []);
-
-    useEffect(() => {
-        getActivity(); 
-        getMultiDayActivities(); // Pobieranie aktywności po zmianie daty
-        getKinazaAndKwasMlekowyNeeds();
-    }, []);
+//     useEffect(() => {
+//         getActivity(); 
+//         getMultiDayActivities(); // Pobieranie aktywności po zmianie daty
+//         getKinazaAndKwasMlekowyNeeds();
+//         getStatsDay(); // Pobieranie statystyk dnia
+//     }, []);
  
+ 
+    useLayoutEffect(() => {
+        if (globalVariable.date && typeof globalVariable.date === "string") {
+            const [day, month, year] = globalVariable.date.split('.');
+            const parsedDate = new Date(`${year}-${month}-${day}`);
+            setCurrentDate(parsedDate);
+        } else {
+            setCurrentDate(new Date());
+        }
+    }, [globalVariable.date]);
+
     useEffect(() => {
+        if (!currentDate) return;
         getActivity(); 
-        getKinazaAndKwasMlekowyNeeds();
+        getMultiDayActivities(); 
         getStatsDay();
-        getMultiDayActivities(); // Pobieranie aktywności po zmianie daty
-    }, [currentDate]); // Pobieranie danych po zmianie daty
+        getKinazaAndKwasMlekowyNeeds();
+    }, [currentDate]);
+
+
+
+    // useEffect(() => {
+    //     getActivity(); 
+    //     getKinazaAndKwasMlekowyNeeds();
+    //     getStatsDay();
+    //     getMultiDayActivities(); // Pobieranie aktywności po zmianie daty
+    // }, [currentDate]); // Pobieranie danych po zmianie daty
 
     return (
         <div onClick={closeSidebar} className={styles.background}>

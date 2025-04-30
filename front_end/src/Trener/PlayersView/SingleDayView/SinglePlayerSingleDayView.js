@@ -50,8 +50,10 @@ const SinglePlayerSingleDayView = () => {
     }
 
     const getActivity = async () => {
-        const currentDate = `${String(viewedPlayer.currentDate.getDate()).padStart(2, '0')}.${String(viewedPlayer.currentDate.getMonth() + 1).padStart(2, '0')}.${viewedPlayer.currentDate.getFullYear()}`;
-        let { data: aktywnosc, error } = await supabase
+        const normalizedDate = new Date(viewedPlayer.currentDate);
+        normalizedDate.setHours(0, 0, 0, 0);
+        const currentDate = `${String(normalizedDate.getDate()).padStart(2, '0')}.${String(normalizedDate.getMonth() + 1).padStart(2, '0')}.${normalizedDate.getFullYear()}`;
+                let { data: aktywnosc, error } = await supabase
             .from('aktywności')
             .select("*")
             .eq('data', currentDate)

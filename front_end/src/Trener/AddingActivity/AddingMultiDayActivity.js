@@ -347,14 +347,14 @@ const AddingMultiDayActivity = () => {
                     </div>
 
                     <div className={styles.input_container}>
-                        {/* <label>Komentarz</label>
+                        <label>Komentarz</label>
                         <textarea
                             className={styles.multiLineInput}
                             rows={4}
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
-                            placeholder="Opcjonalny komentarz"
-                        /> */}
+                            placeholder="Wpisz komentarz"
+                        />
                     </div>
                     <div className={styles.input_container}>
                         <label>SMS</label>
@@ -364,7 +364,7 @@ const AddingMultiDayActivity = () => {
                             onChange={onSmsContentChange}
                             rows={5}  // Ustaw liczbę widocznych wierszy
                             className={styles.multiLineInput}
-                            placeholder="Edytuj wiadomość sms"
+                            placeholder="Wpisz wiadomość sms"
                         />
                     </div>
                 <button onClick={sendSMS } className={styles.button} >

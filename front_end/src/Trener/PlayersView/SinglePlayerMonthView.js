@@ -198,19 +198,22 @@ const SinglePlayerMonthView = () => {
     };
 
     const hasMultiDayActivity = (date) => {
-        const isoDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+        const isoDate = date.toISOString().split('T')[0]; // "YYYY-MM-DD"
+        const current = new Date(isoDate);
     
         return multiDayActivities.some(activity => {
-            return (
-                isoDate >= activity.poczatek &&
-                isoDate <= activity.koniec
-            );
+            const start = new Date(activity.poczatek);
+            const end = new Date(activity.koniec);
+            return current >= start && current <= end;
         });
     };
     
     
+    
 
     const goToSinglePlayerSingleDay = (date) => {
+        const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0); // Zresetuj godzinę
         setViewedPlayer({ ...viewedPlayer, currentDate: date });
         navigate('/trener/singleplayersingleday');
     };
