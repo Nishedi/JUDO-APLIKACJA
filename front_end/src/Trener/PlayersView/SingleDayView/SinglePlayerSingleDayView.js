@@ -7,7 +7,7 @@ import { GlobalContext } from "../../../GlobalContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../../BackButton";
 import { IoMdArrowBack } from 'react-icons/io';
-import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor, getMultiDayActivityColor, getMultiDayActivityBorderColor} from "../../../CommonFunction"
+import {getActivityColor, getBorderColor, GetFeelingsEmoticon, getActivityTypeColor, getMultiDayActivityColor, getMultiDayActivityBorderColor, getMultiDayActivityEmoji} from "../../../CommonFunction"
 
 const SinglePlayerSingleDayView = () => {
     const {viewedPlayer, setViewedPlayer, supabase, globalVariable, smsList, setSmsList, prevViewType} = useContext(GlobalContext);
@@ -270,8 +270,8 @@ const SinglePlayerSingleDayView = () => {
                         fontWeight: 'light',
                         color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
                         }}
-                    >
-                        {item.nazwa}
+                    >   
+                        <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
                     </div>
                     ))}
 

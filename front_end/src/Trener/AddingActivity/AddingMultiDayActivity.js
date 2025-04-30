@@ -284,6 +284,20 @@ const AddingMultiDayActivity = () => {
 
             <div className={styles.white_container}>
                 <div className={styles.content}>
+                <div className={styles.input_container}>
+                        <label>Typ aktywności</label>
+                        <select
+                            className={styles.select}
+                            value={activityType}
+                            onChange={(e) => setActivityType(e.target.value)}
+                        >
+                            <option value="oboz">🏕️ Obóz</option>
+                            <option value="zawody">🏆 Zawody</option>
+                            <option value="kontuzja">🩹 Kontuzja</option>
+                            <option value="inne">❓ Inne</option>
+                        </select>
+                    </div>
+
                     <div className={styles.input_container}>
                         <label>Nazwa aktywności</label>
                         <input
@@ -293,20 +307,6 @@ const AddingMultiDayActivity = () => {
                             onChange={(e) => setActivityName(e.target.value)}
                         />
                         {errors.activityName && <div className={styles.error_message}>{errors.activityName}</div>}
-                    </div>
-
-                    <div className={styles.input_container}>
-                        <label>Typ aktywności</label>
-                        <select
-                            className={styles.select}
-                            value={activityType}
-                            onChange={(e) => setActivityType(e.target.value)}
-                        >
-                            <option value="oboz">🏕️ Obóz</option>
-                            <option value="turniej">🏆 Turniej</option>
-                            <option value="kontuzja">🩹 Kontuzja</option>
-                            <option value="inne">❓ Inne</option>
-                        </select>
                     </div>
 
                     <div className={styles.input_container}>

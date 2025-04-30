@@ -740,7 +740,7 @@ const AddingActivityFirstPage = () => {
                                 onChange={onSmsContentChange}
                                 rows={5}  // Ustaw liczbę widocznych wierszy
                                 className={styles.multiLineInput}
-                                placeholder="Edytuj wiadomość sms"
+                                placeholder="Wpisz wiadomość sms"
                             />
                         
                         <button onClick={sendSMS } className={styles.button} >

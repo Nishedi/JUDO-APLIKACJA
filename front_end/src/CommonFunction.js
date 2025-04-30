@@ -18,7 +18,7 @@ export const getMultiDayActivityBorderColor = (type) => {
     switch (type) {
         case 'oboz':
             return '#4b8200'; // Zielony
-        case 'turniej':
+        case 'zawody':
             return '#635201'; // Zloty
         case 'kontuzja':
             return '#730203'; // Czerwony
@@ -32,7 +32,7 @@ export const getMultiDayActivityEmoji = (type) => {
     switch (type) {
         case 'oboz':
             return '🏕️';
-        case 'turniej':
+        case 'zawody':
             return '🏆';
         case 'kontuzja':
             return '🩹';

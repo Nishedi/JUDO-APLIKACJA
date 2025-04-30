@@ -16,32 +16,38 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                     <div className={styles.singleNonClickableElemement}>
                         Zawodnicy
                     </div>
+
                     <div onClick={onAddActivityClick} className={styles.singleClickableElemement}>
                         Dodaj aktywność
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
                     <div className={styles.line}></div>
-                    <div onClick={onAddPlayerClick} className={styles.singleClickableElemement}>
-                        Dodaj zawodnika
-                        <IoIosArrowForward className={styles.right_arrow} />
-                    </div>
-                    <div className={styles.line}></div>
+                    
                     <div onClick={onAddMultiDayActivityClick} className={styles.singleClickableElemement}>
                         Dodaj aktywność wielodniową
                         <IoIosArrowForward className={styles.right_arrow} />
                     </div>
+                    <div className={styles.line}></div>
+                    
+                    <div onClick={onAddPlayerClick} className={styles.singleClickableElemement}>
+                        Dodaj zawodnika
+                        <IoIosArrowForward className={styles.right_arrow} />
+                    </div>
+
                     <div className={styles.emptyElement}></div>
                     <div onClick={goToProfile} className={styles.singleClickableElemement}>
                         Twój profil
                         <IoIosArrowForward className={styles.right_arrow} />    
                     </div>
                     <div className={styles.line}></div>
+                    
                     <div onClick = {onLogOutClick}
                     className={styles.singleClickableElemementv2}>
                         Wyloguj
                         {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                     </div>
                     <div className={styles.emptyElement}></div>
+                    
                     <div
                         onClick={onReportErrorClick}
                         className={styles.singleClickableElemementv3}>

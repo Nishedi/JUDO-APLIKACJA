@@ -7,7 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import {GlobalContext} from "../../GlobalContext";
 import { useNavigate } from 'react-router-dom';
-import { getActivityTypeColor, getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon, getMultiDayActivityColor, getMultiDayActivityBorderColor } from "../../CommonFunction";
+import { getActivityTypeColor, getActivityColor, getBorderColor, GetFeelingsEmoticon, pickEmoticon, getMultiDayActivityColor, getMultiDayActivityBorderColor, getMultiDayActivityEmoji } from "../../CommonFunction";
 import { useParams } from "react-router-dom";
 
 const DayView = () => {
@@ -376,9 +376,10 @@ const DayView = () => {
 
     useEffect(() => {
         getActivity(); 
+        getMultiDayActivities(); // Pobieranie aktywności po zmianie daty
         getKinazaAndKwasMlekowyNeeds();
     }, []);
-
+ 
     useEffect(() => {
         getActivity(); 
         getKinazaAndKwasMlekowyNeeds();
@@ -421,7 +422,7 @@ const DayView = () => {
                                             color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
                                             }}
                                         >
-                                            {item.nazwa}
+                                            <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
                                         </div>
                                         ))}
                 </div>
