@@ -228,8 +228,8 @@ const AddingMultiDayActivity = () => {
                     rodzaj_aktywnosci: activityType,
                     nazwa: activityName,
                     komentarz: comment,
-                    poczatek: dateRange[0],
-                    koniec: dateRange[1],
+                    poczatek: toLocalDateString(dateRange[0]),
+                    koniec: toLocalDateString(dateRange[1]),
                 });
 
             if (error) {
@@ -250,6 +250,14 @@ const AddingMultiDayActivity = () => {
         const year = time.getFullYear();
         return `${day}.${month}.${year}`;
     };
+
+    const toLocalDateString = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    
 
     useEffect(() => {
         if (dateRange && dateRange[0] && dateRange[1]) {
@@ -343,6 +351,7 @@ const AddingMultiDayActivity = () => {
                             placeholder="Wybierz daty"
                             style={{ width: '100%' }}
                         />
+                        {console.log(dateRange)}
                         {errors.dateRange && <div className={styles.error_message}>{errors.dateRange}</div>}
                     </div>
 

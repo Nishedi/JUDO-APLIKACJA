@@ -17,6 +17,8 @@ const SinglePlayerSingleDayView = () => {
     const [stats, setStats] = useState(null);
     const [activity, setActivity] = useState(null);
     const [multiDayActivities, setMultiDayActivities] = useState([]);
+    const [expandedMultiDayId, setExpandedMultiDayId] = useState([]);
+
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
@@ -91,6 +93,9 @@ const SinglePlayerSingleDayView = () => {
         setMultiDayActivities(data || []);
     };    
 
+    const toggleMultiDayExpand = (id) => {
+        setExpandedMultiDayId(prev => prev === id ? null : id);
+    };
 
     useLayoutEffect(() => {
         getStatsDay();
@@ -262,20 +267,35 @@ const SinglePlayerSingleDayView = () => {
             {/*  Aktywności WIELODNIOWE*/}
             {multiDayActivities.length > 0 && (
                 <div >
-                    {multiDayActivities.map((item, index) => (
+                    {multiDayActivities.map((item, index) => {
+                    const isExpanded = expandedMultiDayId === item.id
+                    
+                    return (
                     <div
                         key={index}
                         className={styles.multidayRectangle}
                         style={{
-                        backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
-                        border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
-                        fontWeight: 'light',
-                        color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
+                            backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
+                            border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
+                            fontWeight: 'light',
+                            color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci),
+                            // boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
+
                         }}
+                        onClick={() => toggleMultiDayExpand(item.id)}
                     >   
                         <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
+                        {isExpanded && (
+                            <div className={styles.multidayDetails}>
+                                <div>Od: {item.poczatek}</div>
+                                <div>Do: {item.koniec}</div>
+                                {/* <p>Rodzaj aktywności: {item.rodzaj_aktywnosci}</p> */}
+                                <div>Komentarz: {item.komentarz}</div>
+                            </div>
+                        )}
                     </div>
-                    ))}
+                    );
+                })}
 
                 </div>
             )}

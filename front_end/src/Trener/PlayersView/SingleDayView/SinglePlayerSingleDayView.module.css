@@ -43,6 +43,15 @@
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); /* Delikatny cień */
   }
 
+  .multiDayExpanded {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+
  .dayHeader {
     display: flex;
     color: #000000; /* Niebieski kolor tekstu */
