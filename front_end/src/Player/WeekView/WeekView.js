@@ -140,21 +140,15 @@ const WeekView = () => {
         }
     };
     
-    const getMultiDayActivityForDate = (date) => {
-        const isoDate = date.toISOString().split('T')[0];
-        return multiDayActivities.filter(activity =>
-            isoDate >= activity.poczatek && isoDate <= activity.koniec
-        );
-    };
+
     
     const hasMultiDayActivity = (date) => {
-        const isoDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+        const getLocalISO = (d) =>
+            `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const localDate = getLocalISO(date);
     
         return multiDayActivities.some(activity => {
-            return (
-                isoDate >= activity.poczatek &&
-                isoDate <= activity.koniec
-            );
+            return localDate >= activity.poczatek && localDate <= activity.koniec;
         });
     };
 
@@ -192,8 +186,11 @@ const WeekView = () => {
                     <div>
                         {multiDayActivities
                             .filter(activity => {
-                                const isoDate = date.toISOString().split('T')[0];
-                                return isoDate >= activity.poczatek && isoDate <= activity.koniec;
+                                const getLocalISO = (d) =>
+                                    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                                const localDate = getLocalISO(date);
+                                return localDate >= activity.poczatek && localDate <= activity.koniec;
+                                
                             })
                             .map((activity, idx) => (
                                 <div
@@ -306,9 +303,11 @@ const WeekView = () => {
             daysOfWeek = Array.from(
                 { length: (new Date(currentDate.getFullYear(), 11, 31) - new Date(currentDate.getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24) + 1 },
                 (_, i) => {
-                    const date = new Date(currentDate.getFullYear(), 0, 1);
-                    date.setDate(date.getDate() + i);
-                    return date;
+                    // const date = new Date(currentDate.getFullYear(), 0, 1);
+                    // date.setDate(date.getDate() + i);
+                    // return date;
+                    return new Date(currentDate.getFullYear(), 0, 1 + i);
+
                 }
             );
             break;

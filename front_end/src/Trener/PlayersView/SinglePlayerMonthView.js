@@ -198,15 +198,15 @@ const SinglePlayerMonthView = () => {
     };
 
     const hasMultiDayActivity = (date) => {
-        const isoDate = date.toISOString().split('T')[0]; // "YYYY-MM-DD"
-        const current = new Date(isoDate);
+        const getLocalISO = (d) =>
+            `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const localDate = getLocalISO(date);
     
         return multiDayActivities.some(activity => {
-            const start = new Date(activity.poczatek);
-            const end = new Date(activity.koniec);
-            return current >= start && current <= end;
+            return localDate >= activity.poczatek && localDate <= activity.koniec;
         });
     };
+    
     
     
     
@@ -243,8 +243,11 @@ const SinglePlayerMonthView = () => {
                         <div>
                             {multiDayActivities
                                 .filter(activity => {
-                                    const isoDate = date.toISOString().split('T')[0];
-                                    return isoDate >= activity.poczatek && isoDate <= activity.koniec;
+                                    const getLocalISO = (d) =>
+                                        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                                    const localDate = getLocalISO(date);
+                                    return localDate >= activity.poczatek && localDate <= activity.koniec;
+                                    
                                 })
                                 .map((activity, idx) => (
                                     <div
