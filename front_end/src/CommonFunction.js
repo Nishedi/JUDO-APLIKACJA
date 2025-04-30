@@ -7,7 +7,7 @@ export const getMultiDayActivityColor = (type) => {
         case 'zawody':
             return '#FFE779'; // złoty
         case 'kontuzja':
-            return '#F6090A'; // Czerwony
+            return '#fa6464'; // Czerwony
         case 'inne':
         default:
             return '#fff'; // Szary
@@ -17,11 +17,11 @@ export const getMultiDayActivityColor = (type) => {
 export const getMultiDayActivityBorderColor = (type) => {
     switch (type) {
         case 'oboz':
-            return '#4b8200'; // Zielony
+            return '#315400'; // Zielony
         case 'zawody':
-            return '#635201'; // Zloty
+            return '#4d3f01'; // Zloty
         case 'kontuzja':
-            return '#730203'; // Czerwony
+            return '#3d0102'; // Czerwony
         case 'inne':
         default:
             return '#030391'; // Szary

@@ -1,4 +1,6 @@
 import styles from "./DayView.module.css";
+import styles2 from "../../Trener/PlayersView/SingleDayView/SinglePlayerSingleDayView.module.css"
+
 import SideBarCalendar from "./SideBarCalendar";
 import StatsInput from "./StatsInput";
 import React, {useState, useContext, useEffect, useRef, useLayoutEffect} from "react";
@@ -25,6 +27,7 @@ const DayView = () => {
     const [activity, setActivity] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [multiDayActivities, setMultiDayActivities] = useState([]);
+    const [expandedMultiDayId, setExpandedMultiDayId] = useState([]);
     
     const viewType = useParams().viewtype;
     const formatedDate = `${String(currentDate.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
@@ -47,6 +50,10 @@ const DayView = () => {
     const toggleStats = () => {
         setIsStatsOpen(!isStatsOpen);
     }
+
+    const toggleMultiDayExpand = (id) => {
+        setExpandedMultiDayId(prev => prev === id ? null : id);
+    };
 
     const onReportErrorClick = () => {
         navigate('/reporterror');
@@ -185,6 +192,14 @@ const DayView = () => {
         setGlobalVariable(null);
         navigate('/');
     }
+
+    const formatFullDate = (isoString) => {
+        const date = new Date(isoString);
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    };
 
     const getActivity = async () => {
         const formatedDate = `${String(currentDate?.getDate()).padStart(2, '0')}.${String(currentDate.getMonth() + 1).padStart(2, '0')}.${currentDate.getFullYear()}`;
@@ -429,20 +444,51 @@ const DayView = () => {
 {/*  Aktywności WIELODNIOWE*/}
             {multiDayActivities.length > 0 && (
                 <div >
-                    {multiDayActivities.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            className={styles.multidayRectangle}
-                                            style={{
-                                            backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
-                                            border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
-                                            fontWeight: 'light',
-                                            color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
-                                            }}
-                                        >
-                                            <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
-                                        </div>
-                                        ))}
+                    {multiDayActivities.map((item, index) => {
+                    const isExpanded = expandedMultiDayId === item.id
+                    
+                    return (
+                        <div className={styles2.multidayWrapper}>
+                        <div
+                          className={styles2.multidayRectangle}
+                          style={{
+                            backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
+                            border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
+                            color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
+                          }}
+                          onClick={() => toggleMultiDayExpand(item.id)}
+                        >
+                          <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
+                        </div>
+                      
+                        <div
+                            className={`${styles2.multidayDetails} ${isExpanded ? styles2.expanded : styles.collapsed}`}
+                        >
+                            <div>
+                                <span className={styles2.detailLabel}>Od:</span>{' '}
+                                <span style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
+                                {formatFullDate(item.poczatek)}
+                                </span>
+                            </div>
+                            <div>
+                                <span className={styles2.detailLabel}>Do:</span>{' '}
+                                <span style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
+                                {formatFullDate(item.koniec)}
+                                </span>
+                            </div>
+                            <div style={{marginTop: "1rem"}}>
+                                <span className={styles2.detailLabel}>Komentarz:</span><br />
+                                <span className={styles2.multiDayComment} style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
+                                {item.komentarz}
+                                </span>
+                            </div>
+                        </div>
+
+                      </div>
+                      
+                    );
+                })}
+
                 </div>
             )}
 

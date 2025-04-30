@@ -43,12 +43,73 @@
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15); /* Delikatny cień */
   }
 
-  .multiDayExpanded {
+  .multidayDetails {
     margin-top: 8px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    font-family: 'Kodchasan-Medium';
     background-color: #fff;
     padding: 8px;
+    text-align: start;
     border-radius: 5px;
+}
+
+.multiDayComment{
+  margin-top: 1rem;
+  white-space: pre-wrap; /* Zachowuje spacje i nowe linie */
+  overflow-wrap: break-word; /* Zawija długie słowa */
+}
+
+.multidayWrapper {
+  position: relative;
+  /* margin-bottom: 20px; */
+}
+
+.multidayRectangle {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.detailLabel {
+  color: #D7DFEE;  
+  font-family: "Montserrat-Semibold";        /* Szary */
+}
+
+.multidayDetails {
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.8s ease;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  margin: 0 10px;
+  margin-top: -15px; /* delikatne zakrycie linii */
+  background-color: white;
+  border-radius: 8px;
+  padding: 0 12px;
+  padding-top: 25px;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1;
+  font-family: "Montserrat-Medium";        /* Szary */
+}
+
+.expanded {
+  max-height: 500px; /* wystarczająco duża wartość */
+  opacity: 1;
+  padding: 12px;
+  padding-top: 20px;
+  transform: translateY(0);
+}
+
+.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding: 0 12px;
+  transform: translateY(-10px);
 }
 
 

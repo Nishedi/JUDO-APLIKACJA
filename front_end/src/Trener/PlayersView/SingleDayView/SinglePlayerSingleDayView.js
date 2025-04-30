@@ -159,6 +159,15 @@ const SinglePlayerSingleDayView = () => {
         });
       };
 
+    const formatFullDate = (isoString) => {
+        const date = new Date(isoString);
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    };
+    
+    
     const Activity = ({activity}) => {
         return (
         <div className={styles.activity}
@@ -271,29 +280,44 @@ const SinglePlayerSingleDayView = () => {
                     const isExpanded = expandedMultiDayId === item.id
                     
                     return (
-                    <div
-                        key={index}
-                        className={styles.multidayRectangle}
-                        style={{
+                        <div className={styles.multidayWrapper}>
+                        <div
+                          className={styles.multidayRectangle}
+                          style={{
                             backgroundColor: getMultiDayActivityColor(item.rodzaj_aktywnosci),
                             border: `2px solid ${getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)}`,
-                            fontWeight: 'light',
-                            color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci),
-                            // boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
-
-                        }}
-                        onClick={() => toggleMultiDayExpand(item.id)}
-                    >   
-                        <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
-                        {isExpanded && (
-                            <div className={styles.multidayDetails}>
-                                <div>Od: {item.poczatek}</div>
-                                <div>Do: {item.koniec}</div>
-                                {/* <p>Rodzaj aktywności: {item.rodzaj_aktywnosci}</p> */}
-                                <div>Komentarz: {item.komentarz}</div>
+                            color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci)
+                          }}
+                          onClick={() => toggleMultiDayExpand(item.id)}
+                        >
+                          <span>{getMultiDayActivityEmoji(item.rodzaj_aktywnosci)} {item.nazwa}</span>
+                        </div>
+                      
+                        <div
+                            className={`${styles.multidayDetails} ${isExpanded ? styles.expanded : styles.collapsed}`}
+                        >
+                            <div>
+                                <span className={styles.detailLabel}>Od:</span>{' '}
+                                <span style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
+                                {formatFullDate(item.poczatek)}
+                                </span>
                             </div>
-                        )}
-                    </div>
+                            <div>
+                                <span className={styles.detailLabel}>Do:</span>{' '}
+                                <span style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
+                                {formatFullDate(item.koniec)}
+                                </span>
+                            </div>
+                            <div style={{marginTop: "1rem"}}>
+                                <span className={styles.detailLabel}>Komentarz:</span><br />
+                                <span className={styles.multiDayComment} style={{ color: getMultiDayActivityBorderColor(item.rodzaj_aktywnosci) }}>
+                                {item.komentarz}
+                                </span>
+                            </div>
+                        </div>
+
+                      </div>
+                      
                     );
                 })}
 
