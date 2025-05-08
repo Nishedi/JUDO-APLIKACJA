@@ -14,7 +14,7 @@ const AddingPlayerFirstPage = () => {
     const [surname, setSurname] = useState("");
     const [yearOfBirth, setYearOfBirth] = useState("");
     const [errors, setErrors] = useState({}); // Obiekt przechowujący błędy
-
+    const [selectedGroup, setSelectedGroup] = useState("Wybierz grupę zawodnika");
     
     const genders = [
         { name: "Mężczyzna", value: "Mężczyzna" },
@@ -26,8 +26,20 @@ const AddingPlayerFirstPage = () => {
         "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]
     };
 
+    const groups = [
+        { name: "Senior", value: "Senior" },
+        { name: "Młodszy senior", value: "Młodszy senior" },
+        { name: "Junior", value: "Junior" },
+        { name: "Młodzik", value: "Młodzik" },
+        { name: "Dzieci", value: "Dzieci" }
+    ];
+
     const handleGenderChange = (e) => {
         setSelectedGender(e.value);
+    };
+
+    const handleGroupChange = (e) => {
+        setSelectedGroup(e.value);
     };
 
     const handleNameChange = (e) => {
@@ -93,7 +105,8 @@ const AddingPlayerFirstPage = () => {
             "surname": surname,
             "gender": selectedGender,
             "weightCategory": selectedWeightCategory,
-            "yearOfBirth": yearOfBirth
+            "yearOfBirth": yearOfBirth,
+            "group": selectedGroup
         });
         navigate('/trener/addingplayerlogininfo');
         };
@@ -195,6 +208,22 @@ const AddingPlayerFirstPage = () => {
                             }}
                         />
                         {errors.yearOfBirth && <div className={styles.error_message}>{errors.yearOfBirth}</div>}
+                    </div>
+                    <div className={styles.input_container}>
+                        <div>GRUPA</div>                        
+                        <Dropdown
+                            value={selectedGroup}
+                            onChange={handleGroupChange}
+                            options={groups}
+                            optionLabel="name"
+                            placeholder="Wybierz grupę"
+                            className={`${styles.customDropdown} p-dropdown`}
+                            panelStyle={{ backgroundColor: '#F8F8F8', borderRadius: '10px', padding: '5px 10px' }}
+                            style={{
+                                borderColor: errors.gender ? 'red' : ''
+                            }}
+                        />
+                        {errors.gender && <div className={styles.error_message}>{errors.gender}</div>}
                     </div>
                 </div>
                 <button onClick={checkDataAndGoFurther} className={styles.button}>Dodaj</button>

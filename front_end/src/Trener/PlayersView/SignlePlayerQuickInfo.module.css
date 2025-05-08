@@ -25,6 +25,8 @@
     font-size: 20px;
     /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);   */
     font-family: 'Montserrat-Medium';
+    display: flex;
+    flex-direction: row;
 }
 
 .subString{

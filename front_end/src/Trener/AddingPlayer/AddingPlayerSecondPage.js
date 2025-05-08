@@ -46,6 +46,7 @@ const AddingPlayerSecondPage = () => {
             "gender": newPlayer.gender, 
             "weightCategory": newPlayer.weightCategory, 
             "yearOfBirth": newPlayer.yearOfBirth,
+            "group": newPlayer.group,
             "login": login,
             "password": password
         }
@@ -61,7 +62,8 @@ const AddingPlayerSecondPage = () => {
                     haslo: `${hashedPassword}`,
                     kategoria_wagowa: `${newUser.weightCategory}`,
                     rocznik: `${newUser.yearOfBirth}`,
-                    plec: `${newUser.gender}`
+                    plec: `${newUser.gender}`,
+                    grupa: `${newUser.group}`,
                 },
             ])
             .select()

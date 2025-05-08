@@ -73,7 +73,7 @@ const SimpleInfo = ({ player, onClick }) => {
     return (
         <div onClick={onClick} className={styles2.element}>
             <div className={styles2.mainString}>
-                {player.imie} {player.nazwisko}
+                {player.imie} {player.nazwisko}&nbsp;{player?.grupa && <div style={{color:"#AAA"}}>{`(${player.grupa})`}</div>}
             </div>
             <div className={styles2.subString}>
             Stan treningów:
