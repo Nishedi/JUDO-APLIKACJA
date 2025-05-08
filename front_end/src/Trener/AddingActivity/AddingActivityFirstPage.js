@@ -268,7 +268,13 @@ const AddingActivityFirstPage = () => {
     
             const data = await response.json();
             console.log('Odpowiedź z backendu:', data); // Tutaj zobaczysz zwrócone parametry
-    
+            if(data.smsResponse.errorCode){
+                if(data.smsResponse.errorCode === 104){
+                    alert("Wiadomość jest zbyt długa");
+                }else {
+                    alert(data.smsResponse.errorMsg);
+                }
+            }
             return data;
         } catch (error) {
             console.error('Błąd przy wysyłaniu SMS:', error);
@@ -331,20 +337,39 @@ const AddingActivityFirstPage = () => {
             exercises.push(exercise.name);
         });
         
-        setSmsContent("Dodano nowe aktywności\n" +
-            dates
-                .sort((a, b) => new Date(a) - new Date(b)) // 📅 Sortowanie dat rosnąco
-                .map(date => {
-                    const formattedDate = new Date(date);
-                    const day = formattedDate.getDate().toString().padStart(2, '0');
-                    const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
-                    const year = formattedDate.getFullYear();
-                    const hours = formattedDate.getHours().toString().padStart(2, '0');
-                    const minutes = formattedDate.getMinutes().toString().padStart(2, '0');
-                   
-                    return `${day}.${month}.${year} ${hours}:${minutes}: ${exercises.join(", ")}`;
-                }).join("\n")
+        const allDates =
+            dates.sort((a, b) => new Date(a) - new Date(b))
+            .map(date => {
+                const formattedDate = new Date(date);
+                const day = formattedDate.getDate().toString().padStart(2, '0');
+                const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
+                const year = formattedDate.getFullYear();
+                const hours = formattedDate.getHours().toString().padStart(2, '0');
+                const minutes = formattedDate.getMinutes().toString().padStart(2, '0');
+               
+                return `${day}.${month}.${year} ${hours}:${minutes}`;
+            }).join(", ");
+        setSmsContent("Dodano nowe aktywności\n" + 
+            allDates + "\n" + 
+            exercises.join(", ")
         );
+        
+        
+        // setSmsContent("Dodano nowe aktywności\n" +
+        //     dates
+        //         .sort((a, b) => new Date(a) - new Date(b)) // 📅 Sortowanie dat rosnąco
+        //         .map(date => {
+        //             const formattedDate = new Date(date);
+        //             const day = formattedDate.getDate().toString().padStart(2, '0');
+        //             const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
+        //             const year = formattedDate.getFullYear();
+        //             const hours = formattedDate.getHours().toString().padStart(2, '0');
+        //             const minutes = formattedDate.getMinutes().toString().padStart(2, '0');
+                   
+        //             return `${day}.${month}.${year} ${hours}:${minutes}: ${exercises.join(", ")}`;
+        //         }).join("\n")
+            
+        // );
         
         
 
@@ -742,7 +767,12 @@ const AddingActivityFirstPage = () => {
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz wiadomość sms"
                             />
-                        
+                        <div style={{width: "100%", textAlign: "right", fontSize: "12px", color: "#667", marginTop: "4px" }}>
+                            Uwaga!<br/> W przypadku dłuższej wiadomości koszt SMS-a wzrośnie.<br/>
+                            Liczba znaków: {smsContent.length}/160<br/>(sugerowane 160,  400 max)
+                            
+                        </div>
+
                         <button onClick={sendSMS } className={styles.button} >
                             Wyślij SMS
                         </button>
