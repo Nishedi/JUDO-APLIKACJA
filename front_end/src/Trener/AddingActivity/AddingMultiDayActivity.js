@@ -100,91 +100,6 @@ const AddingMultiDayActivity = () => {
         }
     }
 
-    const saveSMS = () => {
-        if(!dates || dates.length === 0) return;
-        setSms(prevSmses => {
-            let newSmses = [...(prevSmses || [])]; // Zachowujemy poprzednie wartości
-            let exercises = selectedExercises.map(exercise => exercise.name);
-    
-            dates.forEach(date => {
-                let sms = {
-                    date: date,
-                    allexercises: exercises
-                };
-                newSmses.push(sms);
-            });
-            setIsSaved(true);
-            return newSmses;
-        });
-    };
-
-    const loadSMS = () => {
-        if (sms && sms.length === 0) return;
-       
-        const mergedSmses = sms.reduce((acc, curr) => {
-            const existingSms = acc.find(item => 
-                item.date.getDate() === curr.date.getDate() &&
-                item.date.getMonth() === curr.date.getMonth() &&
-                item.date.getFullYear() === curr.date.getFullYear() &&
-                item.date.getHours() === curr.date.getHours() &&
-                item.date.getMinutes() === curr.date.getMinutes()
-            );
-            if (existingSms) {
-                // Jeśli już mamy tę datę, dodajemy nowe ćwiczenia (bez duplikatów)
-                existingSms.allexercises = [...new Set([...existingSms.allexercises, ...curr.allexercises])];
-            } else {
-                // Jeśli nie ma jeszcze tej daty, dodajemy nowy wpis
-                acc.push({ ...curr });
-            }
-    
-            return acc;
-        }, []);
-        setSms(mergedSmses);
-        console.log(mergedSmses);
-        if (!isSaved) {
-            dates.forEach(date => {
-                const existingSms = mergedSmses.find(sms =>
-                    date.getDate() === sms.date.getDate() &&
-                    date.getMonth() === sms.date.getMonth() &&
-                    date.getFullYear() === sms.date.getFullYear() &&
-                    date.getHours() === sms.date.getHours() &&
-                    date.getMinutes() === sms.date.getMinutes()
-                );
-        
-                if (existingSms) {
-                   existingSms.allexercises = [...new Set([...existingSms.allexercises, ...selectedExercises.map(exercise => exercise.name)])];
-                } else {
-                    mergedSmses.push({
-                        date: date, // Konwersja na format ISO dla porównywania
-                        allexercises: selectedExercises.map(exercise => exercise.name)
-                    });
-                }
-            });
-        }
-        setSmsContent("Dodano nowe aktywności\n" +
-            mergedSmses
-                .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sortowanie według daty
-                .map(sms => {
-                    const date = new Date(sms.date); // Konwersja na obiekt Date
-                    const day = date.getDate().toString().padStart(2, '0');
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const year = date.getFullYear();
-                    const hours = date.getHours().toString().padStart(2, '0');
-                    const minutes = date.getMinutes().toString().padStart(2, '0');
-        
-                    return `${day}.${month}.${year} ${hours}:${minutes}: ${sms.allexercises.join(", ")}`;
-                }).join("\n")
-        );
-        
-        
-    };
-    
-
-    const clearSMS = () => {
-        setSms([]);
-    };
-
-
     useEffect(() => {
         const fetchAthletes = async () => {
             const { data, error } = await supabase
@@ -241,14 +156,6 @@ const AddingMultiDayActivity = () => {
 
         alert('Aktywność dodana!');
         navigate('/trener/playerView');
-    };
-
-    const getDateString = (time) => {
-        if (!time) return '';
-        const day = time.getDate().toString().padStart(2, '0');
-        const month = (time.getMonth() + 1).toString().padStart(2, '0');
-        const year = time.getFullYear();
-        return `${day}.${month}.${year}`;
     };
 
     const toLocalDateString = (date) => {
@@ -351,7 +258,6 @@ const AddingMultiDayActivity = () => {
                             placeholder="Wybierz daty"
                             style={{ width: '100%' }}
                         />
-                        {console.log(dateRange)}
                         {errors.dateRange && <div className={styles.error_message}>{errors.dateRange}</div>}
                     </div>
 
@@ -376,6 +282,11 @@ const AddingMultiDayActivity = () => {
                             placeholder="Wpisz wiadomość sms"
                         />
                     </div>
+                    <div style={{width: "100%", textAlign: "right", fontSize: "12px", color: "#667", marginTop: "4px" }}>
+                            Uwaga!<br/> W przypadku dłuższej wiadomości koszt SMS-a wzrośnie.<br/>
+                            Liczba znaków: {smsContent.length}/160<br/>(sugerowane 160,  400 max)
+                            
+                        </div>
                 <button onClick={sendSMS } className={styles.button} >
                     Wyślij SMS
                 </button>

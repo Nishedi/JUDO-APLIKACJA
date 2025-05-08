@@ -349,7 +349,7 @@ const AddingActivityFirstPage = () => {
                
                 return `${day}.${month}.${year} ${hours}:${minutes}`;
             }).join(", ");
-        setSmsContent("Dodano nowe aktywności\n" + 
+        setSmsContent("Dodano nowe aktywności dla dni:\n" + 
             allDates + "\n" + 
             exercises.join(", ")
         );
