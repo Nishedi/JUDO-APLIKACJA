@@ -10,9 +10,18 @@ const PlayerProfileEdition = () => {
         "Mężczyzna": ["-60kg", "-66kg", "-73kg", "-81kg", "-90kg", "-100kg", "+100kg"],
         "Kobieta": ["-48kg", "-52kg", "-57kg", "-63kg", "-70kg", "-78kg", "+78kg"]
     };
+    const groups = [
+        { name: "Brak grupy", value: "Brak grupy" },
+        { name: "Senior", value: "Senior" },
+        { name: "Młodszy senior", value: "Młodszy senior" },
+        { name: "Junior", value: "Junior" },
+        { name: "Młodzik", value: "Młodzik" },
+        { name: "Dzieci", value: "Dzieci" },
+    ];
+
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
+    const [selectedGroup, setSelectedGroup] = useState();
     const currentYear = new Date().getFullYear();
     const oldestYear = currentYear - 100;
     const years = [];
@@ -36,6 +45,7 @@ const PlayerProfileEdition = () => {
        const { firstname, lastname, gender, year, weight } = e.target;
 
        try {
+        const grupa = selectedGroup === "Brak grupy" ? null : selectedGroup;
            // Zaktualizowanie danych użytkownika w Supabase
            const { data, error } = await supabase
                .from('zawodnicy')
@@ -45,6 +55,7 @@ const PlayerProfileEdition = () => {
                    plec: gender.value,
                    rocznik: year.value,
                    kategoria_wagowa: weight.value,
+                   grupa: grupa
                })
                .eq('id', viewedPlayer.id); // Użyj ID użytkownika do aktualizacji
 
@@ -52,7 +63,7 @@ const PlayerProfileEdition = () => {
                console.error('Błąd podczas aktualizacji danych: UPDATE', error);
                throw error;
             }
-
+            
            // Zaktualizowanie stanu globalnego
            setViewedPlayer({
                ...viewedPlayer,
@@ -61,6 +72,7 @@ const PlayerProfileEdition = () => {
                plec: gender.value,
                rocznik: year.value,
                kategoria_wagowa: weight.value,
+               grupa: grupa
            });
 
            // Zmiana flagi na zakończenie edycji
@@ -128,6 +140,15 @@ const PlayerProfileEdition = () => {
                             )
                         } 
                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                       <label>Grupa:</label>
+                          <select name="group" value={selectedGroup} defaultValue={viewedPlayer?.grupa||"Wybierz grupę zawodnika"} onChange={(e) => setSelectedGroup(e.target.value)} required>
+
+                            {groups.map((group) => (
+                                 <option key={group.value} value={group.value}>
+                                      {group.value}
+                                 </option>
+                            ))}
+                            </select>
                        <div className={styles.buttoncenter}>
                            <button className={styles.buttonEdit} type="submit">Zapisz</button>
                        </div>

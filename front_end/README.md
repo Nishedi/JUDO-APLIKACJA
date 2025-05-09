@@ -30,4 +30,4 @@
 - [ ] Kilku trenerów ma mieć dostęp do tych samych zawodników
 - [ ] Możliwość zapisywania schematów aktywności
 - [ ] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)
-
+- [ ] Poprawić edycje aktywności aby pasowało do aktualnego dodawania aktywności

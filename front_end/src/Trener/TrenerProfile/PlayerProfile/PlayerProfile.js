@@ -51,7 +51,13 @@ const PlayerProfile = () => {
                 <div className={styles.line}></div>
                 
                 <p>Kategoria wagowa: <strong>{viewedPlayer.kategoria_wagowa}</strong></p>
-
+                {viewedPlayer?.grupa && (
+                    <div>
+                        <div className={styles.line}></div>
+                        <p>Grupa: <strong>{viewedPlayer.grupa}</strong></p>
+                    </div>
+                )}
+                    
             </div>
             <div className={styles.buttoncenter}>
                 <button className={styles.buttonUser} onClick={handleEditClick}>
