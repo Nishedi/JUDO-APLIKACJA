@@ -25,8 +25,8 @@
 - [X] Poprawić wysyłanie sms z pozycji dodawania aktywności jedno i wielodniowej (ma być licznik i wartości niepotrzebnie są duplikowane)
 - [ ] Przy dodawaniu ćwiczenia mają być jeszcze trzy pola xd (przerwa między interwałami, przerwa między seriami, licba serii)
 - [ ] Podczas usuwania czy edycji treningu, gdy dotyczy wielu zawodników zmiana dotyczy wszystkich a nie tylko jednego
-- [ ] Dodać grupy dla zawodników i filtrowanie po nich przy dodawaniu aktwności (senior, junior, młodszy senior, młodzik)
-- [ ] Wyszukiwanie ćwiczeń (było ale zniknęło)
+- [X] Dodać grupy dla zawodników i filtrowanie po nich przy dodawaniu aktywności (senior, junior, młodszy senior, młodzik)
+- [X] Wyszukiwanie ćwiczeń (było ale zniknęło)
 - [ ] Kilku trenerów ma mieć dostęp do tych samych zawodników
 - [ ] Możliwość zapisywania schematów aktywności
 - [ ] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)

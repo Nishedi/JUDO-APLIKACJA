@@ -68,6 +68,14 @@
     font-size: 14px;
     color: #333;
   }
+
+  .searchInput {
+    width: 100%;
+    padding: 8px;
+    border: 0px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
   
   .selectedList ul {
     list-style: disc;
