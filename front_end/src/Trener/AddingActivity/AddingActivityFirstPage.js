@@ -14,6 +14,7 @@ import MultiSelectDropdown from './MultiSelectDropdown';
 import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
 import 'primereact/resources/primereact.min.css';          // Podstawowe style komponentów
 import 'primeicons/primeicons.css';                        // Ikony
+import { use } from 'react';
 
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ const AddingActivityFirstPage = () => {
     const { globalVariable, supabase } = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState(null);
     const [selectedTrenings, setSelectedTrenings] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [isAnotherExercise, setIsAnotherExercise] = useState(false);
@@ -76,6 +78,17 @@ const AddingActivityFirstPage = () => {
         { name: 'Option 5', id: 5 }
     ]);
 
+    const [filteredOptions, setFilteredOptions] = useState([]);
+
+    const [playerGroups] = useState([
+        { name: "Brak grupy", value: "Brak grupy" },
+        { name: "Senior", value: "Senior" },
+        { name: "Młodszy senior", value: "Młodszy senior" },
+        { name: "Junior", value: "Junior" },
+        { name: "Młodzik", value: "Młodzik" },
+        { name: "Dzieci", value: "Dzieci" }
+    ]);
+
     const [trenings] = useState([
         { name: 'Biegowy', id: 1 },
         { name: 'Motoryczny', id: 2 },
@@ -108,9 +121,21 @@ const AddingActivityFirstPage = () => {
             .eq('id_trenera', globalVariable.id);
 
         if (zawodnicy && zawodnicy.length !== 0) {
-            setOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, id: zawodnik.id }; }));
+            setOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
+            setFilteredOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
         }
     };
+
+    useEffect(() => {
+        if (selectedGroup && selectedGroup.length > 0 && selectedGroup[0].name !== "Brak grupy") {
+            const filteredZawodnicy = options.filter(zawodnik => zawodnik.grupa === selectedGroup[0].name);
+            options.map(zawodnik => {console.log(zawodnik)})
+            console.log(selectedGroup[0].name);
+            setFilteredOptions(filteredZawodnicy);
+        } else {
+            setFilteredOptions(options);
+        }
+    }, [selectedGroup]);
 
     const initiateExercises = async () => {
             if(selectedTrenings[0]?.name === 'Biegowy' || selectedTrenings[0]?.name === 'Na macie') {
@@ -154,6 +179,14 @@ const AddingActivityFirstPage = () => {
 
     const onRemove = (selectedList) => {
         setSelectedOptions(selectedList);
+    };
+
+    const onSelectGroup = (selectedList) => {
+        setSelectedGroup(selectedList);
+    };
+
+    const onRemoveGroup = (selectedList) => {
+        setSelectedGroup(selectedList);
     };
 
     const onSelectTrening = (selectedList) => {
@@ -353,25 +386,6 @@ const AddingActivityFirstPage = () => {
             allDates + "\n" + 
             exercises.join(", ")
         );
-        
-        
-        // setSmsContent("Dodano nowe aktywności\n" +
-        //     dates
-        //         .sort((a, b) => new Date(a) - new Date(b)) // 📅 Sortowanie dat rosnąco
-        //         .map(date => {
-        //             const formattedDate = new Date(date);
-        //             const day = formattedDate.getDate().toString().padStart(2, '0');
-        //             const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
-        //             const year = formattedDate.getFullYear();
-        //             const hours = formattedDate.getHours().toString().padStart(2, '0');
-        //             const minutes = formattedDate.getMinutes().toString().padStart(2, '0');
-                   
-        //             return `${day}.${month}.${year} ${hours}:${minutes}: ${exercises.join(", ")}`;
-        //         }).join("\n")
-            
-        // );
-        
-        
 
         for (const athlete of selectedOptions) {
             for (const date of dates) {
@@ -614,9 +628,30 @@ const AddingActivityFirstPage = () => {
                     )}
                     <div className={styles.content}>
                     <div className={styles.input_container}>
+                        Wybierz grupę zawodników
+                            <Multiselect
+                                options={playerGroups}
+                                selectedValues={selectedGroup}
+                                onSelect={onSelectGroup}
+                                singleSelect={true}
+                                onRemove={onRemoveGroup}
+                                displayValue="name"
+                                placeholder='Wybierz grupę zawodników'
+                                style={{
+                                    ...sharedStyles,
+                                    searchBox: {
+                                        ...sharedStyles.searchBox,
+                                        border: errors.selectedOptions ? '2px solid red' : '1px solid #ccc',
+                                        height: 'fit-content' 
+                                    }
+                                }}
+                            />
+                            {errors.selectedOptions && <div className={styles.error_message}>{errors.selectedOptions}</div>}
+                        </div>
+                    <div className={styles.input_container}>
                         Wybierz zawodników
                             <Multiselect
-                                options={options}
+                                options={filteredOptions}
                                 selectedValues={selectedOptions}
                                 onSelect={onSelect}
                                 onRemove={onRemove}
