@@ -50,6 +50,7 @@ function App() {
           <Route path = "player/weekview/:viewtype" element = {<WeekView />} />
           <Route path = "player/userprofileedition" element = {<UserProfileEdition />} />
           <Route path = "trener/addingactivityfirstpage" element = {<AddiActivityFirstPage />} />
+          <Route path = "trener/addingactivityfirstpage/:type" element = {<AddiActivityFirstPage />} />
           <Route path = "trener/editingactivity" element = {<EditingActivity />} />
           <Route path = "trener/singleplayerweekview" element = {<SinglePlayerWeekView />} />
           <Route path = "player/userprofile" element = {<UserProfile />} />        

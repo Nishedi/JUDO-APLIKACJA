@@ -29,6 +29,7 @@ const TrenerTrainingView = () => {
         .eq('id', viewedPlayer.currentActivity.id)
         
         if (error) {
+            console.log(viewedPlayer.currentActivity);
             console.error("Błąd pobierania aktywności", error);
             return;
         }
@@ -59,8 +60,13 @@ const TrenerTrainingView = () => {
         
     }
 
+    const duplicateActivity = async () => {
+        navigate(`/trener/addingactivityfirstpage/${"duplicate"}`);
+    }
+
     const editActivity = () => {
-        navigate('/trener/editingactivity');
+        navigate(`/trener/addingactivityfirstpage/${"edit"}`);
+        // navigate('/trener/editingactivity');
     }
 
 
@@ -229,6 +235,9 @@ const TrenerTrainingView = () => {
                     </div>
                 )}
       <div className={styles.buttons}>
+        <div className={styles.buttoncenter}>
+            <button className={styles.buttonTrening} onClick={duplicateActivity} >Duplikuj</button>
+        </div>
       <div className={styles.buttoncenter}>
             <button className={styles.buttonTrening} onClick={editActivity} >Edytuj</button>
         </div>

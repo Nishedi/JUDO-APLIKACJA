@@ -9,15 +9,18 @@ import { MdOutlineDone } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../BackButton';
 import MultiSelectDropdown from './MultiSelectDropdown';
+import { useParams } from 'react-router-dom';
 
 
 import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
 import 'primereact/resources/primereact.min.css';          // Podstawowe style komponentów
 import 'primeicons/primeicons.css';        
+import { UniqueComponentId } from 'primereact/utils';
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
+    const { type } = useParams();
     const [isUploading, setIsUploading] = useState(false);
-    const { globalVariable, supabase } = useContext(GlobalContext);
+    const { globalVariable, supabase, viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
     const [dates, setDates] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -29,7 +32,33 @@ const AddingActivityFirstPage = () => {
     const [anotherActivityName, setAnotherActivityName] = useState('');
     const [smsContent, setSmsContent] = useState('');
     const [errors, setErrors] = useState({}); // New state to track errors
-    const [addActivityString, setAddActivityString] = useState('Dodaj');
+    const [addActivityString, setAddActivityString] = useState(type !== "edit" ? 'Dodaj' : 'Edytuj');
+    const [defaultType, setDefaultType] = useState('inny');
+
+    useEffect(() => {
+        console.log(viewedPlayer.currentActivity)
+        if(type==="duplicate" || type==="edit"){
+            setDates([new Date(viewedPlayer.currentActivity.data.split('.').reverse().join('-') + 'T' + viewedPlayer.currentActivity.czas_rozpoczęcia)]);
+            setDefaultType(viewedPlayer.currentActivity.dodatkowy_rodzaj_aktywności);
+            setSelectedTrenings([{name: viewedPlayer.currentActivity.rodzaj_aktywności}]);
+            setSelectedExercises(viewedPlayer.currentActivity.szczegoly.map(exercise => {
+                return {
+                    id: UniqueComponentId(),
+                    name: exercise.name,
+                    duration: exercise.duration,
+                    repeats: exercise.repeats,
+                    durationSecond: exercise.durationSecond,
+                    goldenScore: exercise.goldenScore,
+                    goldenScoreMinutes: exercise.goldenScoreMin,
+                    meters: exercise.meters,
+                };
+            }));
+            setComment(viewedPlayer.currentActivity.komentarz_trenera);
+        }
+        if (type==="edit"){
+            setSelectedOptions([{name: `${viewedPlayer.imie} ${viewedPlayer.nazwisko}`, id: viewedPlayer.id}]);
+        }
+    }, []);
 
     const sharedStyles = {
         chips: {
@@ -344,7 +373,11 @@ const AddingActivityFirstPage = () => {
     };
 
     const endAdding = () => {
-        navigate('/trener/playerView');
+        if(type==="edit"){
+            navigate('/trener/trainingview');
+        }else{
+            navigate('/trener/playerView');
+        }
     };
     
 
@@ -356,7 +389,7 @@ const AddingActivityFirstPage = () => {
             return;
         }
 
-        const selectedType = document.getElementById("typeSelect")?.value; // Pobierz wybrany typ (kolor)
+        const selectedType = defaultType; // Pobierz wybrany typ (kolor)
         let datesToSms = [];
         let exercises=[];
         dates.map(exercise => {
@@ -408,12 +441,38 @@ const AddingActivityFirstPage = () => {
                     comment: comment,
                     additional_activity_type: selectedType // Nowe pole!
                 };
+                if(type!=="edit"){
+                    const { data, error } = await supabase
+                        .from('aktywności')
+                        .insert([
+                            { 
+                                id_trenera: activity.id_trainer, 
+                                id_zawodnika: activity.id_athlete,
+                                data: activity.date,
+                                czas_trwania: activity.duration,
+                                rodzaj_aktywności: activity.activity_type,
+                                dodatkowy_rodzaj_aktywności: activity.additional_activity_type, // Wstaw do bazy
+                                zadania: activity.exercise,
+                                czas_rozpoczęcia: activity.start_time,
+                                komentarz_trenera: activity.comment,
+                                szczegoly: activity.exercises_details
+                            },
+                        ])
+                        .select()
+                    if(error){
+                        console.log("Problem podczas dodawania nowej aktywności");
+                        console.log(error);
+                        return;
+                    }
+                    if(data){
+                        setAddActivityString('Dodano');
+                    }
                 
-                const { data, error } = await supabase
-                    .from('aktywności')
-                    .insert([
-                        { 
-                            id_trenera: activity.id_trainer, 
+                }else{
+                    const { data, error } = await supabase
+                        .from('aktywności')
+                        .update({
+                            id_trenera: activity.id_trainer,
                             id_zawodnika: activity.id_athlete,
                             data: activity.date,
                             czas_trwania: activity.duration,
@@ -423,16 +482,21 @@ const AddingActivityFirstPage = () => {
                             czas_rozpoczęcia: activity.start_time,
                             komentarz_trenera: activity.comment,
                             szczegoly: activity.exercises_details
-                        },
-                    ])
-                    .select()
-                if(error){
-                    console.log("Problem podczas dodawania nowej aktywności");
-                    console.log(error);
-                    return;
+                        })  
+                        .eq('id', viewedPlayer.currentActivity.id)
+                        .select()
+                        
+                    if(error){
+                        console.log("Problem podczas edycji nowej aktywności");
+                        console.log(error);
+                        return;
+                    }
+                    if(data && type==="edit"){
+                        setAddActivityString('Edytowano');
+                        console.log(data);
+                        setViewedPlayer({...viewedPlayer, currentActivity: data[0]});
+                    }
                 }
-                
-                if(data){setAddActivityString('Dodano');}
             }
         }
     };
@@ -616,15 +680,18 @@ const AddingActivityFirstPage = () => {
         <div className={styles.background}>
                 <div className={styles.navbar}>
                     <div className={styles.toLeft}><BackButton/></div>
-                    <div>Nowa aktywność</div>
+                    {type==="edit" ? <div>Edytuj aktywność</div> : <div>Nowa aktywność</div>}
                 </div>
                 <div className={styles.white_container}>
                     {errors.general && (
                         <div className={styles.error_message}>{errors.general}</div>
                     )}
                     <div className={styles.content}>
-                    <div className={styles.input_container}>
-                        Wybierz grupę zawodników
+                    
+                        {type==="edit" ? null :
+                        <>
+                        <div className={styles.input_container}>
+                            Wybierz grupę zawodników
                             <Multiselect
                                 options={playerGroups}
                                 selectedValues={selectedGroup}
@@ -643,8 +710,8 @@ const AddingActivityFirstPage = () => {
                             />
                             {errors.selectedOptions && <div className={styles.error_message}>{errors.selectedOptions}</div>}
                         </div>
-                    <div className={styles.input_container}>
-                        Wybierz zawodników
+                        <div className={styles.input_container}>
+                            Wybierz zawodników
                             <Multiselect
                                 options={filteredOptions}
                                 selectedValues={selectedOptions}
@@ -663,6 +730,8 @@ const AddingActivityFirstPage = () => {
                             />
                             {errors.selectedOptions && <div className={styles.error_message}>{errors.selectedOptions}</div>}
                         </div>
+                        </>
+            }
 
                         <div className={styles.input_container}>
                             <div>Wybierz datę oraz godzinę treningu</div>
@@ -718,7 +787,12 @@ const AddingActivityFirstPage = () => {
                         
                         <div className={styles.input_container}>
                             Wybierz typ    
-                            <select id="typeSelect" className={styles.select}>
+                            <select id="typeSelect" 
+                                value={defaultType} 
+                                className={styles.select} 
+                                defaultValue={defaultType}
+                                onChange={(e) => setDefaultType(e.target.value)}
+                                >
                                 <option value="inny"> Domyślny</option>
                                 <option value="taktyczny">🔵 Taktyczny</option>
                                 <option value="motoryczny">🔴 Motoryczny</option>

@@ -35,4 +35,4 @@ Po majowym spotkaniu
 
 
 Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
--
+- [X] Duplikowanie aktywności i poprawiona edycja
