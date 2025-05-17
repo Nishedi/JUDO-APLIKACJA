@@ -40,6 +40,9 @@ const PlayerProfile = () => {
 
                 <p>Nazwisko: <strong>{viewedPlayer.nazwisko}</strong></p>
                 <div className={styles.line}></div>
+
+                <p>Numer telefonu: <strong>{viewedPlayer.numer_telefonu}</strong></p>
+                <div className={styles.line}></div>
                 
                 <p>Login: <strong>{viewedPlayer.login}</strong></p>
                 <div className={styles.line}></div>

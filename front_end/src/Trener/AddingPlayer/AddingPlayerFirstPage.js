@@ -13,6 +13,7 @@ const AddingPlayerFirstPage = () => {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [yearOfBirth, setYearOfBirth] = useState("");
+    const [phone, setPhone] = useState("");
     const [errors, setErrors] = useState({}); // Obiekt przechowujący błędy
     const [selectedGroup, setSelectedGroup] = useState("Wybierz grupę zawodnika");
     
@@ -50,6 +51,10 @@ const AddingPlayerFirstPage = () => {
         setSurname(e.target.value);
     };
 
+    const handlePhoneChange = (e) => {
+        setPhone(e.target.value);
+    };
+
     const handleYearOfBirthChange = (e) => {
         setYearOfBirth(e.target.value);
     };
@@ -77,7 +82,19 @@ const AddingPlayerFirstPage = () => {
         if (yearOfBirth === "") {
             validationErrors.yearOfBirth = "Proszę podać rok urodzenia zawodnika";
         }
-
+        const phoneRegex = /^[0-9]{9}$/;
+        if (!phoneRegex.test(phone)) {
+            validationErrors.phone = "Numer telefonu musi mieć 9 cyfr";
+        }
+        if (phone === "") {
+            validationErrors.phone = "Proszę podać numer telefonu zawodnika";
+        } else if (phone.length < 9) {
+            validationErrors.phone = "Numer telefonu musi mieć conajmniej 9 cyfr";
+        } else if (phone.length > 9) {
+            validationErrors.phone = "Numer telefonu nie może mieć więcej niż 9 cyfr";
+        } else if (isNaN(phone)) {
+            validationErrors.phone = "Numer telefonu może zawierać tylko cyfry";
+        }
         // Walidacja imienia i nazwiska: musi zaczynać się wielką literą i nie zawierać cyfr
         const regex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$/;
         if (!regex.test(name.trim())) {
@@ -106,8 +123,10 @@ const AddingPlayerFirstPage = () => {
             "gender": selectedGender,
             "weightCategory": selectedWeightCategory,
             "yearOfBirth": yearOfBirth,
-            "group": selectedGroup
+            "group": selectedGroup,
+            "phone": phone
         });
+        
         navigate('/trener/addingplayerlogininfo');
         };
 
@@ -148,6 +167,19 @@ const AddingPlayerFirstPage = () => {
                             }}
                         />
                         {errors.surname && <div className={styles.error_message}>{errors.surname}</div>}
+                    </div>
+                    <div className={styles.input_container}>
+                        <div>Numer telefonu</div>
+                        <input 
+                            type="number" 
+                            className={styles.input} 
+                            placeholder={'Podaj numer telefonu'} 
+                            value={phone} 
+                            onChange={handlePhoneChange}style={{
+                                borderColor: errors.phone ? 'red' : ''
+                            }}
+                        />
+                        {errors.phone && <div className={styles.error_message}>{errors.phone}</div>}
                     </div>
                     <div className={styles.input_container}>
                         <div>PŁEĆ</div>                        

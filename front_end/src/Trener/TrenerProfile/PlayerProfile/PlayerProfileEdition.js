@@ -42,7 +42,7 @@ const PlayerProfileEdition = () => {
 
        setError('');
 
-       const { firstname, lastname, gender, year, weight } = e.target;
+       const { firstname, lastname, gender, year, weight, phone_number } = e.target;
 
        try {
         const grupa = selectedGroup === "Brak grupy" ? null : selectedGroup;
@@ -55,7 +55,8 @@ const PlayerProfileEdition = () => {
                    plec: gender.value,
                    rocznik: year.value,
                    kategoria_wagowa: weight.value,
-                   grupa: grupa
+                   grupa: grupa,
+                   numer_telefonu: phone_number.value
                })
                .eq('id', viewedPlayer.id); // Użyj ID użytkownika do aktualizacji
 
@@ -72,7 +73,8 @@ const PlayerProfileEdition = () => {
                plec: gender.value,
                rocznik: year.value,
                kategoria_wagowa: weight.value,
-               grupa: grupa
+               grupa: grupa,
+               numer_telefonu: phone_number.value
            });
 
            // Zmiana flagi na zakończenie edycji
@@ -111,6 +113,9 @@ const PlayerProfileEdition = () => {
 
                        <label>Nazwisko:</label>
                        <input type="text" name="lastname" defaultValue={viewedPlayer.nazwisko} required />
+                        
+                       <label>Numer telefonu:</label>
+                       <input type="text" name="phone_number" defaultValue={viewedPlayer.numer_telefonu} required />
 
                        <label>Płeć:</label>
                        <select name="gender" defaultValue={viewedPlayer.plec} required>

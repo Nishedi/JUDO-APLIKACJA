@@ -46,6 +46,9 @@ const UserProfile = () => {
 
                 <p>Nazwisko: <strong>{globalVariable.nazwisko}</strong></p>
                 <div className={styles.line}></div>
+
+                <p>Numer telefonu: <strong>{globalVariable.numer_telefonu}</strong></p>
+                <div className={styles.line}></div>
                 
                 <p>Login: <strong>{globalVariable.login}</strong></p>
                 <div className={styles.line}></div>

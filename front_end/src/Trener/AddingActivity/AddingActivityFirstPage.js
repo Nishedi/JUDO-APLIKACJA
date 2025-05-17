@@ -13,9 +13,7 @@ import MultiSelectDropdown from './MultiSelectDropdown';
 
 import 'primereact/resources/themes/saga-blue/theme.css';  // Lub inny motyw
 import 'primereact/resources/primereact.min.css';          // Podstawowe style komponentów
-import 'primeicons/primeicons.css';                        // Ikony
-import { use } from 'react';
-
+import 'primeicons/primeicons.css';        
 const AddingActivityFirstPage = () => {
     const navigate = useNavigate();
     const [isUploading, setIsUploading] = useState(false);
@@ -128,10 +126,8 @@ const AddingActivityFirstPage = () => {
 
     useEffect(() => {
         if (selectedGroup && selectedGroup.length > 0 && selectedGroup[0].name !== "Brak grupy") {
-            const filteredZawodnicy = options.filter(zawodnik => zawodnik.grupa === selectedGroup[0].name);
-            options.map(zawodnik => {console.log(zawodnik)})
-            console.log(selectedGroup[0].name);
-            setFilteredOptions(filteredZawodnicy);
+            const filteredZawodnicy = options.filter(zawodnik => selectedGroup.some(group => group.name === zawodnik.grupa));
+             setFilteredOptions(filteredZawodnicy);
         } else {
             setFilteredOptions(options);
         }
@@ -633,7 +629,6 @@ const AddingActivityFirstPage = () => {
                                 options={playerGroups}
                                 selectedValues={selectedGroup}
                                 onSelect={onSelectGroup}
-                                singleSelect={true}
                                 onRemove={onRemoveGroup}
                                 displayValue="name"
                                 placeholder='Wybierz grupę zawodników'

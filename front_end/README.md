@@ -15,19 +15,24 @@
 - [X] Kilka takich samych aktywności w ramach jednego treningu
 - [X] Naprawic przechodzenie do wybranego dnia z widoku tygodniowego i miesięcznego (zawodnik)
 - [X] Wyszukiwanie notatek
-- [ ] Dodać powyższe dla zaznaczonych czynność + dodać możliwość zaznaczenia aktywności (do przemyślenia jak to zrobić bo: możemy ograniczyć zaznaczanie do jednego widoku bez zapamiętywania - wtedy podsumowanie ma sens (liczba poszczególnych aktywności 2) możemy zostawić jak jest ale wtedy troche średnio - do przemyślenia)
+- [X] Osobne wykresy dla statystyk
+Po majowym spotkaniu
+- [ ] Zaznaczanie aktywności i wyliczanie z tego statystyk tylko na podstawie widoku rocznego
 - [ ] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
 - [ ] Ćwiczenia mają różny czas serii
-- [X] Osobne wykresy dla statystyk
 - [ ] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz
 - [x] Oznaczyc miesiące na X  - względnie ok
 - [ ] Te pałki ^ powinny być podpisane bo mozna pomieszać jak jest więcej miesięcy
 - [X] Poprawić wysyłanie sms z pozycji dodawania aktywności jedno i wielodniowej (ma być licznik i wartości niepotrzebnie są duplikowane)
 - [ ] Przy dodawaniu ćwiczenia mają być jeszcze trzy pola xd (przerwa między interwałami, przerwa między seriami, licba serii)
 - [ ] Podczas usuwania czy edycji treningu, gdy dotyczy wielu zawodników zmiana dotyczy wszystkich a nie tylko jednego
-- [X] Dodać grupy dla zawodników i filtrowanie po nich przy dodawaniu aktywności (senior, junior, młodszy senior, młodzik)
+- [X] Dodać grupy dla zawodników i filtrowanie po nich przy dodawaniu aktywności (senior, junior, młodszy senior, młodzik) - możliwość kliknięcia dla kilku grup jednocześnie
 - [X] Wyszukiwanie ćwiczeń (było ale zniknęło)
 - [ ] Kilku trenerów ma mieć dostęp do tych samych zawodników
 - [ ] Możliwość zapisywania schematów aktywności
 - [ ] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)
 - [ ] Poprawić edycje aktywności aby pasowało do aktualnego dodawania aktywności
+
+
+Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
+-

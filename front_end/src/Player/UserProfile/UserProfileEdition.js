@@ -35,7 +35,7 @@ const UserProfileEdition = () => {
 
        setError('');
 
-       const { firstname, lastname, login, gender, year, weight } = e.target;
+       const { firstname, lastname, login, gender, year, weight, phone_number } = e.target;
 
         try {
             const updates = {};
@@ -62,6 +62,9 @@ const UserProfileEdition = () => {
             }
             if (weight.value) {
                 updates.kategoria_wagowa = weight.value;
+            }
+            if (phone_number.value) {
+                updates.numer_telefonu = phone_number.value;
             }
         
             // Jeżeli oba pola hasła są wypełnione, zaktualizuj hasło
@@ -113,6 +116,7 @@ const UserProfileEdition = () => {
             plec: gender.value,
             rocznik: year.value,
             kategoria_wagowa: weight.value,
+            numer_telefonu: phone_number.value,
         });
 
         // Zmiana flagi na zakończenie edycji
@@ -146,7 +150,10 @@ const UserProfileEdition = () => {
 
                        <label>Nazwisko:</label>
                        <input type="text" name="lastname" defaultValue={globalVariable.nazwisko} required />
-
+                          
+                       <label>Numer telefonu:</label>
+                       <input type="text" name="phone_number" defaultValue={globalVariable.numer_telefonu} required />
+                       
                        <label>Płeć:</label>
                        <select name="gender" defaultValue={globalVariable.plec} required>
                            <option value="Mężczyzna">Mężczyzna</option>

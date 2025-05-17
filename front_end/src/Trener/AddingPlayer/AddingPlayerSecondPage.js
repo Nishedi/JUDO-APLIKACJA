@@ -48,9 +48,11 @@ const AddingPlayerSecondPage = () => {
             "yearOfBirth": newPlayer.yearOfBirth,
             "group": newPlayer.group,
             "login": login,
-            "password": password
+            "password": password,
+            "phone": newPlayer.phone,
         }
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log(newUser);
         const { data, error } = await supabase
             .from('zawodnicy')
             .insert([
@@ -64,6 +66,7 @@ const AddingPlayerSecondPage = () => {
                     rocznik: `${newUser.yearOfBirth}`,
                     plec: `${newUser.gender}`,
                     grupa: `${newUser.group}`,
+                    numer_telefonu: `${newUser.phone}`,
                 },
             ])
             .select()
