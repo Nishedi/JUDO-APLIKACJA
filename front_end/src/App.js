@@ -31,8 +31,7 @@ import ReportError from './ReportSide/ReportError';
 import PlayerStats from './Trener/PlayersView/PlayerStats/PlayerStats';
 import PlayerNotes from './Trener/PlayersView/Notes/PlayerNotes';
 import PlayerNotesOpponent from './Trener/PlayersView/Notes/PlayerNotesOpponent';
-import TestowaniePowiadomien from './Trener/PlayersView/TestowaniePowiadomien';
-import Sms from './SmsSide/Sms';
+import MotionTreningTest from './Test/MotionTreningTest';
 import SinglePlayerMonthView from './Trener/PlayersView/SinglePlayerMonthView';
 import Smssending from './SmsSide/Sms';
 
@@ -77,6 +76,7 @@ function App() {
           <Route path = 'trener/smssending' element ={<Smssending />}/>
           <Route path = 'trener/playermonthview/:viewtype' element = {<SinglePlayerMonthView />} />
           <Route path = 'trener/addinmultidayactivity' element = {<AddingMultiDayActivity />} />
+          <Route path = 'trener/motiontrening' element = {<MotionTreningTest />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

@@ -60,7 +60,7 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                         <div
                             onClick={onTestowaniePowiadomienClick}
                             className={styles.singleClickableElemementv3}>
-                            Sekcja testowa powiadomień
+                            Sekcja testowa treningu motorycznego
                             {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                         </div>
                     </>

@@ -1,0 +1,130 @@
+
+
+
+.background{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Kodchasan-SemiBold";
+    font-size: 24px;
+    height: 80px;
+    min-height: 80px;
+}
+.toLeft{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* position: absolute; */
+    left: 0;
+    padding: 20px;
+}
+
+.tag {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-end;    
+    width: 100%;
+    height: 100%;
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 24px;
+    text-align: right;         
+    word-break: break-word;   
+    flex-direction: column;   
+    padding: 20px;
+}
+
+.white_container{
+    display: flex;
+    flex-direction: column;
+    background-color: #F5F7FA;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+    padding: 4px;
+}
+
+.content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.input_container{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: 'Montserrat-Medium';
+    color: #103476;
+    font-size: 14px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.multiLineInput{
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    overflow-wrap: break-word;
+    font-family: 'Roboto-Regular';
+    border-radius: 4px;
+    border-color: #CCC;
+}
+
+.ABC_section{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    width: 100%;
+    /* padding: 10px; */
+    gap: 20px;
+}
+
+.rounds_container{
+    display: flex;
+    flex-direction: row;
+    /* align-items: space-between; */
+    justify-content: space-between;
+    /* gap: 10px; */
+    width: 100%;
+}
+
+.rounds_container input{
+    width: 50%;
+}
+
+.acivity_details_container{
+    display: flex;
+    flex-direction: row;
+    /* align-items: space-between; */
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+
+.acivity_details_container input{
+    width: 50%;
+}
+
+.activity_container{
+    /* display: flex;
+    gap: 10px;
+    flex-direction: column; */
+    /* align-items: space-between; */
+    /* justify-content: space-between;
+    gap: 10px;
+    width: 100%;  */
+}

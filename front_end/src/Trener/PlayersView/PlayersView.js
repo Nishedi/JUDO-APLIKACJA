@@ -71,7 +71,7 @@ const PlayersView = () => {
     }
 
     const goToTestowaniePowiadomien = () => {
-        navigate('/trener/testowaniepowiadomien');
+        navigate('/trener/motiontrening');
     }
 
 

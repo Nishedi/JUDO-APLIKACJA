@@ -36,7 +36,6 @@ const AddingActivityFirstPage = () => {
     const [defaultType, setDefaultType] = useState('inny');
 
     useEffect(() => {
-        console.log(viewedPlayer.currentActivity)
         if(type==="duplicate" || type==="edit"){
             setDates([new Date(viewedPlayer.currentActivity.data.split('.').reverse().join('-') + 'T' + viewedPlayer.currentActivity.czas_rozpoczęcia)]);
             setDefaultType(viewedPlayer.currentActivity.dodatkowy_rodzaj_aktywności);
