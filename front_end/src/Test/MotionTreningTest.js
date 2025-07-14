@@ -67,6 +67,7 @@ const MotionTreningTest = () => {
     }
 
     const Component = ({name}) => {
+        const [exerciseNumber, setExerciseNumber] = useState();
         const [roundNumber, setRoundNumber] = useState();
         const [exerciseTime, setExerciseTime] = useState();
         const [breakTime, setBreakTime] = useState();
@@ -75,6 +76,19 @@ const MotionTreningTest = () => {
             <div id={name} className={styles.ABC_section}>
                 <h2>{name}</h2>
                 <div className={styles.activity_container}>
+                    <div className={styles.rounds_element}>
+                        <label>
+                            Liczba ćwiczeń:
+                        </label>
+                        <input
+                            type="number"
+                            placeholder='Liczba ćwiczeń'
+                            min="0"
+                            value={exerciseNumber}
+                            onChange={(e) => setExerciseNumber(e.target.value)}
+                            className={styles.round_input}
+                        />
+                    </div>
                     <div className={styles.rounds_element}>
                         <label>
                             Liczba rund:
@@ -135,7 +149,7 @@ const MotionTreningTest = () => {
                     }
                 </div>
                 
-                {Array.from({ length: Math.max(0, Number(roundNumber) || 0) }, (_, i) => (
+                {Array.from({ length: Math.max(0, Number(exerciseNumber) || 0) }, (_, i) => (
                     <ActivityPart key={i} number={i + 1} />
                 ))}
 
