@@ -20,7 +20,9 @@ const MotionTreningTest = () => {
         { name: "Część A", value: "Czesc A" },
         { name: "Część B", value: "Czesc B" },
         { name: "Część C", value: "Czesc C" },
-        { name: "EMOM/FOR TIME/AMRAP", value: "EMOM/FOR TIME/AMRAP" },
+        { name: "EMOM", value: "EMOM" },
+        { name: "FOR TIME", value: "FOR TIME" },
+        { name: "AMRAP", value: "AMRAP" },
         { name: "OBWÓD", value: "OBWÓD" },
         { name: "Cool down", value: "Cool down" },
     ]);
@@ -66,20 +68,68 @@ const MotionTreningTest = () => {
 
     const Component = ({name}) => {
         const [roundNumber, setRoundNumber] = useState(1);
+        const [exerciseTime, setExerciseTime] = useState(0);
+        const [breakTime, setBreakTime] = useState(0);
+        const [brakeBetweenRounds, setBrakeBetweenRounds] = useState(0);
         return (
             <div className={styles.ABC_section}>
                 <h2>{name}</h2>
-                <div className={styles.rounds_container}>
-                    <label>
-                        Liczba rund:
-                    </label>
-                    <input
-                        type="number"
-                        value={roundNumber}
-                        onChange={(e) => setRoundNumber(e.target.value)}
-                        className={styles.round_input}
-                    />
+                <div className={styles.activity_container}>
+                    <div className={styles.rounds_element}>
+                        <label>
+                            Liczba rund:
+                        </label>
+                        <input
+                            type="number"
+                            value={roundNumber}
+                            onChange={(e) => setRoundNumber(e.target.value)}
+                            className={styles.round_input}
+                        />
+                    </div>
+                    {name === "EMOM" || name === "FOR TIME" || name === "AMRAP" || name==="OBWÓD"?
+                        <div className={styles.rounds_element}>
+                            <label>
+                                Czas ćwiczenia:
+                            </label>
+                            <input
+                                type="number"
+                                value={exerciseTime}
+                                onChange={(e) => setExerciseTime(e.target.value)}
+                                className={styles.round_input}
+                            />
+                        </div>:null
+                    }
+                    {name==="OBWÓD"?
+                        <div className={styles.rounds_element}>
+                            <label>
+                                Czas przerwy:
+                            </label>
+                            <input
+                                type="number"
+                                value={breakTime}
+                                onChange={(e) => setBreakTime(e.target.value)}
+                                className={styles.round_input}
+                            />
+                        </div>:null
+                    }
+                    {name === "OBWÓD" ? 
+                    
+                        <div className={styles.rounds_element}>
+                            <label className={styles.label_with_player}>
+                                Przerwa między rundami:
+                            </label>
+                            <input
+                                type="number"
+                                value={brakeBetweenRounds}
+                                onChange={(e) => setBrakeBetweenRounds(e.target.value)}
+                                className={styles.round_input}
+                            />
+
+                        </div>
+                        : null
+                    }
                 </div>
+                
                 {Array.from({ length: Math.max(0, Number(roundNumber) || 0) }, (_, i) => (
                     <ActivityPart key={i} number={i + 1} />
                 ))}
@@ -92,7 +142,11 @@ const MotionTreningTest = () => {
     const partComponents = {
         "Część A": (key) => <Component key={key} name="Część A" />,
         "Część B": (key) => <Component key={key} name="Część B" />,
-        "Część C": (key) => <Component key={key} name="Część C" />
+        "Część C": (key) => <Component key={key} name="Część C" />,
+        "EMOM": (key) => <Component key={key} name="EMOM" />,
+        "FOR TIME": (key) => <Component key={key} name="FOR TIME" />,
+        "AMRAP": (key) => <Component key={key} name="AMRAP" />,
+        "OBWÓD": (key) => <Component key={key} name="OBWÓD" />
     };
 
     const ActivityPart = ({number}) => {
@@ -102,7 +156,7 @@ const MotionTreningTest = () => {
         const [time, setTime] = useState();
         const [rate, setRate] = useState();
         return (
-            <div className={styles.activity_container}>
+            <div id={number} className={styles.activity_container}>
                 <div className={styles.acivity_details_container}>
                     <label>
                         Ćwiczenie {number}:
@@ -127,18 +181,20 @@ const MotionTreningTest = () => {
                         className={styles.round_input}
                     />
                 </div>
-                <div className={styles.acivity_details_container}>
-                    <label>
-                        Waga (kg):
-                    </label>
-                    <input
+                {selectedPlayers.map(player => (
+                    <div id={player.id} className={styles.acivity_details_container}>
+                        <label className={styles.label_with_player}>
+                            <span className={styles.player_name}>Waga: {player.name}</span>
+                        </label>
+                        <input
                         type="number"
                         placeholder='Waga (kg)'
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
                         className={styles.round_input}
-                    />
-                </div>
+                        />
+                    </div>
+                ))}
                 <div className={styles.acivity_details_container}>
                     <label>
                         Czas (sekundy):
@@ -258,51 +314,13 @@ const MotionTreningTest = () => {
                     : null 
                 }
                 {selectedCategories?.map(item =>
-                    partComponents[item.name]?.(item.name) ?? null
+                    partComponents[item.name]?.(item.id) ?? null
                 )}
 
 
             </div>
         </div>
-        {/* Body */}
-        {/* <div className={styles.userdetails}>
-            <div>
-                <h2>Dane użytkownika</h2>
-            </div>
-            <div>
-            <div className={styles.userdetails1}>
-                <p>Imię: <strong>{globalVariable.imie}</strong></p>
-                <div className={styles.line}></div>
-
-                <p>Nazwisko: <strong>{globalVariable.nazwisko}</strong></p>
-                <div className={styles.line}></div>
-
-                <p>Numer telefonu: <strong>{globalVariable.numer_telefonu}</strong></p>
-                <div className={styles.line}></div>
-                
-                <p>Login: <strong>{globalVariable.login}</strong></p>
-                <div className={styles.line}></div>
-
-                <p>Płeć: <strong>{globalVariable.plec}</strong></p>
-                <div className={styles.line}></div>
-
-                <p>Rocznik: <strong>{globalVariable.rocznik}</strong></p>
-                <div className={styles.line}></div>
-                
-                <p>Kategoria wagowa: <strong>{globalVariable.kategoria_wagowa}</strong></p>
-
-            </div>
-            <div className={styles.buttoncenter}>
-                <button 
-                    className={styles.buttonUser} 
-                    onClick={handleEditClick}
-                >
-                    Edytuj profil
-                </button>
-            </div>
-
-            </div>
-        </div> */}
+        
 
         </div>
     );
