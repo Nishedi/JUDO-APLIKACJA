@@ -54,7 +54,7 @@ const Sidebar = ({ isOpen, onLogOutClick, name, surname, onAddActivityClick, onA
                         Zgłoś błąd
                         {/* <IoIosArrowForward className={styles.right_arrow} /> */}
                     </div>
-                    {name === "konradekAdmin" &&
+                    {
                     <>
                      <div className={styles.line}></div>
                         <div

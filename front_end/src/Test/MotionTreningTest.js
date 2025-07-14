@@ -67,12 +67,12 @@ const MotionTreningTest = () => {
     }
 
     const Component = ({name}) => {
-        const [roundNumber, setRoundNumber] = useState(1);
-        const [exerciseTime, setExerciseTime] = useState(0);
-        const [breakTime, setBreakTime] = useState(0);
-        const [brakeBetweenRounds, setBrakeBetweenRounds] = useState(0);
+        const [roundNumber, setRoundNumber] = useState();
+        const [exerciseTime, setExerciseTime] = useState();
+        const [breakTime, setBreakTime] = useState();
+        const [brakeBetweenRounds, setBrakeBetweenRounds] = useState();
         return (
-            <div className={styles.ABC_section}>
+            <div id={name} className={styles.ABC_section}>
                 <h2>{name}</h2>
                 <div className={styles.activity_container}>
                     <div className={styles.rounds_element}>
@@ -81,6 +81,8 @@ const MotionTreningTest = () => {
                         </label>
                         <input
                             type="number"
+                            placeholder='Liczba rund'
+                            min="0"
                             value={roundNumber}
                             onChange={(e) => setRoundNumber(e.target.value)}
                             className={styles.round_input}
@@ -93,6 +95,7 @@ const MotionTreningTest = () => {
                             </label>
                             <input
                                 type="number"
+                                placeholder='Czas ćwiczenia (sekundy)'
                                 value={exerciseTime}
                                 onChange={(e) => setExerciseTime(e.target.value)}
                                 className={styles.round_input}
@@ -106,6 +109,7 @@ const MotionTreningTest = () => {
                             </label>
                             <input
                                 type="number"
+                                placeholder='Czas przerwy (sekundy)'
                                 value={breakTime}
                                 onChange={(e) => setBreakTime(e.target.value)}
                                 className={styles.round_input}
@@ -120,6 +124,7 @@ const MotionTreningTest = () => {
                             </label>
                             <input
                                 type="number"
+                                placeholder='Czas przerwy między rundami (sekundy)'
                                 value={brakeBetweenRounds}
                                 onChange={(e) => setBrakeBetweenRounds(e.target.value)}
                                 className={styles.round_input}
