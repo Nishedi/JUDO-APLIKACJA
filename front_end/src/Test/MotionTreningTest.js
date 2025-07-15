@@ -8,70 +8,48 @@ import { useState } from 'react';
 import BackButton from '../BackButton';
 import { sharedStyles } from '../CommonFunction';
 import Multiselect from 'multiselect-react-dropdown';
+import { use } from 'react';
 
-const MotionTreningTest = () => {
+    const Component = ({name, selectedPlayers, setSelectedExercises, selectedExercises}) => {
+        const [exerciseNumber, setExerciseNumber] = useState("");
+        const [roundNumber, setRoundNumber] = useState("");
+        const [exerciseTime, setExerciseTime] = useState("");
+        const [breakTime, setBreakTime] = useState("");
+        const [brakeBetweenRounds, setBrakeBetweenRounds] = useState("");
+        const [activities, setActivities] = useState([]);
+        useEffect(() => {
+            setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.name === name
+                            ? { ...item, name: name, roundNumber: roundNumber, exerciseTime: exerciseTime, breakTime: breakTime, brakeBetweenRounds: brakeBetweenRounds}
+                            : item 
+                    )
+                );
+        }, [roundNumber, exerciseTime, breakTime, brakeBetweenRounds]);
 
-    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
+        useEffect(() => {
+            const num = Number(exerciseNumber) || 0;
+            setActivities(prev => {
+                if (num > prev.length) {
+                return [
+                    ...prev,
+                    ...Array.from({ length: num - prev.length }, (_, i) => ({
+                    number: prev.length + i + 1,
+                    activityName: "",
+                    repeats: "",
+                    weight: "",
+                    time: "",
+                    rate: ""
+                    }))
+                ];
+                } else if (num < prev.length) {
+                return prev.slice(0, num);
+                } else {
+                return prev;
+                }
+            });
+            }, [exerciseNumber]);
 
-    const navigate = useNavigate();
-    const [isEditing, setIsEditing] = useState(false);
-    const [categories] = useState([
-        { name: "Warm up", value: "Warm up" },
-        { name: "Część A", value: "Czesc A" },
-        { name: "Część B", value: "Czesc B" },
-        { name: "Część C", value: "Czesc C" },
-        { name: "EMOM", value: "EMOM" },
-        { name: "FOR TIME", value: "FOR TIME" },
-        { name: "AMRAP", value: "AMRAP" },
-        { name: "OBWÓD", value: "OBWÓD" },
-        { name: "Cool down", value: "Cool down" },
-    ]);
-    const [selectedCategories, setSelectedCategories] = useState(null);
-    const onSelectGroup = (selectedList) => {
-        setSelectedCategories(selectedList);
-    };
-
-    const onRemoveGroup = (selectedList) => {
-        setSelectedCategories(selectedList);
-    };
-    const [warmUp, setWarmUp] = useState('');
-    const [coolDown, setCoolDown] = useState('');
-    const [players, setPlayers] = useState([]);
-    const [selectedPlayers, setSelectedPlayers] = useState([]);
-
-    const onSelectPlayer = (selectedList) => {
-        setSelectedPlayers(selectedList);
-    };
-    const onRemovePlayer = (selectedList) => {
-        setSelectedPlayers(selectedList);
-    };
-
-    const initiatePlayers = async () => {
-        let { data: zawodnicy, error } = await supabase
-            .from('zawodnicy')
-            .select('*')
-            .eq('id_trenera', globalVariable.id);
-
-        if (zawodnicy && zawodnicy.length !== 0) {
-            setPlayers(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
-            // setFilteredOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
-        }
-    };
-
-    useEffect(() => {
-        initiatePlayers();
-    }, []);
-
-    const handleEditClick = () => {
-        navigate('/trener/playerView'); // Przekierowanie do strony edycji profilu
-    }
-
-    const Component = ({name}) => {
-        const [exerciseNumber, setExerciseNumber] = useState();
-        const [roundNumber, setRoundNumber] = useState();
-        const [exerciseTime, setExerciseTime] = useState();
-        const [breakTime, setBreakTime] = useState();
-        const [brakeBetweenRounds, setBrakeBetweenRounds] = useState();
         return (
             <div id={name} className={styles.ABC_section}>
                 <h2>{name}</h2>
@@ -147,10 +125,11 @@ const MotionTreningTest = () => {
                         </div>
                         : null
                     }
+                    <button onClick={()=>{console.log(activities)}}>Show activities</button>
                 </div>
                 
                 {Array.from({ length: Math.max(0, Number(exerciseNumber) || 0) }, (_, i) => (
-                    <ActivityPart key={i} number={i + 1} />
+                    <ActivityPart key={i} number={i + 1} selectedPlayers={selectedPlayers} setActivities={setActivities} />
                 ))}
 
                 
@@ -158,22 +137,21 @@ const MotionTreningTest = () => {
         );
     }
 
-    const partComponents = {
-        "Część A": (key) => <Component key={key} name="Część A" />,
-        "Część B": (key) => <Component key={key} name="Część B" />,
-        "Część C": (key) => <Component key={key} name="Część C" />,
-        "EMOM": (key) => <Component key={key} name="EMOM" />,
-        "FOR TIME": (key) => <Component key={key} name="FOR TIME" />,
-        "AMRAP": (key) => <Component key={key} name="AMRAP" />,
-        "OBWÓD": (key) => <Component key={key} name="OBWÓD" />
-    };
-
-    const ActivityPart = ({number}) => {
+     const ActivityPart = ({number, selectedPlayers, activities, setActivities}) => {
         const [activityName, setActivityName] = useState('');
         const [repeats, setRepeats] = useState();
         const [weight, setWeight] = useState();
         const [time, setTime] = useState();
         const [rate, setRate] = useState();
+        useEffect(() => {
+            setActivities((prevActivities) =>
+                prevActivities.map((item) =>
+                    item.number === number
+                        ? { ...item, activityName: activityName, repeats: repeats, weight: weight, time: time, rate: rate }
+                        : item
+                )
+            );
+        }, [activityName, repeats, weight, time, rate]);
         return (
             <div id={number} className={styles.activity_container}>
                 <div className={styles.acivity_details_container}>
@@ -242,6 +220,83 @@ const MotionTreningTest = () => {
             )
     }
 
+
+const MotionTreningTest = () => {
+
+    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
+    const [selectedExercises, setSelectedExercises] = useState([]);
+    const navigate = useNavigate();
+    const [isEditing, setIsEditing] = useState(false);
+    const [categories] = useState([
+        { name: "Warm up", value: "Warm up" },
+        { name: "Część A", value: "Czesc A" },
+        { name: "Część B", value: "Czesc B" },
+        { name: "Część C", value: "Czesc C" },
+        { name: "EMOM", value: "EMOM" },
+        { name: "FOR TIME", value: "FOR TIME" },
+        { name: "AMRAP", value: "AMRAP" },
+        { name: "OBWÓD", value: "OBWÓD" },
+        { name: "Cool down", value: "Cool down" },
+    ]);
+    const [selectedCategories, setSelectedCategories] = useState(null);
+    const onSelectGroup = (selectedList) => {
+        setSelectedCategories(selectedList);
+        setSelectedExercises(selectedList.map(item => {
+            return { name: item.name};
+        }));
+    };
+
+    const onRemoveGroup = (selectedList) => {
+        setSelectedCategories(selectedList);
+        setSelectedExercises(selectedList.map(item => {
+            return { name: item.name};
+        }));
+    };
+    const [warmUp, setWarmUp] = useState('');
+    const [coolDown, setCoolDown] = useState('');
+    const [players, setPlayers] = useState([]);
+    const [selectedPlayers, setSelectedPlayers] = useState([]);
+
+    const onSelectPlayer = (selectedList) => {
+        setSelectedPlayers(selectedList);
+    };
+    const onRemovePlayer = (selectedList) => {
+        setSelectedPlayers(selectedList);
+    };
+
+    const initiatePlayers = async () => {
+        let { data: zawodnicy, error } = await supabase
+            .from('zawodnicy')
+            .select('*')
+            .eq('id_trenera', globalVariable.id);
+
+        if (zawodnicy && zawodnicy.length !== 0) {
+            setPlayers(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
+            // setFilteredOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
+        }
+    };
+
+    useEffect(() => {
+        initiatePlayers();
+    }, []);
+
+    const handleEditClick = () => {
+        navigate('/trener/playerView'); // Przekierowanie do strony edycji profilu
+    }
+
+
+
+    const partComponents = {
+        "Część A": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="Część A" />,
+        "Część B": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="Część B" />,
+        "Część C": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="Część C" />,
+        "EMOM": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="EMOM" />,
+        "FOR TIME": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="FOR TIME" />,
+        "AMRAP": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="AMRAP" />,
+        "OBWÓD": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="OBWÓD" />
+    };
+
+   
 
     return (
         <div className = {styles.background}>
@@ -332,8 +387,9 @@ const MotionTreningTest = () => {
                     </>
                     : null 
                 }
+                
                 {selectedCategories?.map(item =>
-                    partComponents[item.name]?.(item.id) ?? null
+                    partComponents[item.name]?.(item.name) ?? null
                 )}
 
 
