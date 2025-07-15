@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './MotionTreningTest.module.css';
+import { addLocale } from 'primereact/api';
 
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
@@ -8,6 +9,7 @@ import { useState } from 'react';
 import BackButton from '../BackButton';
 import { sharedStyles } from '../CommonFunction';
 import Multiselect from 'multiselect-react-dropdown';
+import { Calendar } from 'primereact/calendar';
 
     const Component = ({name, selectedPlayers, setSelectedExercises}) => {
         const [exerciseNumber, setExerciseNumber] = useState("");
@@ -269,7 +271,16 @@ import Multiselect from 'multiselect-react-dropdown';
 
 
 const MotionTreningTest = () => {
-
+    addLocale('pl', {
+            firstDayOfWeek: 1,
+            dayNames: ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'],
+            dayNamesShort: ['nd', 'pn', 'wt', 'śr', 'czw', 'pt', 'sb'],
+            dayNamesMin: ['N', 'P', 'W', 'Ś', 'C', 'P', 'S'],
+            monthNames: ['styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'],
+            monthNamesShort: ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paź', 'lis', 'gru'],
+            today: 'Dziś',
+            clear: 'Wyczyść'
+        });
     const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const navigate = useNavigate();
@@ -285,6 +296,22 @@ const MotionTreningTest = () => {
         { name: "OBWÓD", value: "OBWÓD" },
         { name: "Cool down", value: "Cool down" },
     ]);
+    const [dates, setDates] = useState(null);
+    const getTimeString = (time) => {
+        if (!time) return '';
+        const hours = time.getHours().toString().padStart(2, '0');
+        const minutes = time.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+      };
+
+      const getDateString = (time) => {
+        if (!time) return '';
+        const day = time.getDate().toString().padStart(2, '0');
+        const month = (time.getMonth() + 1).toString().padStart(2, '0');
+        const year = time.getFullYear();
+        return `${day}.${month}.${year}`;
+      };
+    
     const [selectedCategories, setSelectedCategories] = useState(null);
     const onSelectGroup = (selectedList) => {
         setSelectedCategories(selectedList);
@@ -343,7 +370,77 @@ const MotionTreningTest = () => {
         "OBWÓD": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="OBWÓD" />
     };
 
-   
+    const handleSave = async () => {
+        // if (selectedPlayers.length === 0) {
+        //     alert("Wybierz zawodników");
+        //     return;
+        // }
+        // if (selectedCategories.length === 0) {
+        //     alert("Wybierz kategorię");
+        //     return;
+        // }
+        // if (dates === null || dates.length === 0) {
+        //     alert("Wybierz datę i godzinę treningu");
+        //     return;
+        // }
+        // if (selectedExercises.length === 0) {
+        //     alert("Wybierz ćwiczenia");
+        //     return;
+        // }   
+        // if (selectedCategories.some(item => item.name === "Warm up" && item.value === "Warm up") && warmUp.trim() === '') {
+        //     alert("Wprowadź treść rozgrzewki");
+        //     return;
+        // }
+        // if (selectedCategories.some(item => item.name === "Cool down" && item.value === "Cool down") && coolDown.trim() === '') {
+        //     alert("Wprowadź treść schłodzenia");
+        //     return;
+        // }
+         for (const athlete of selectedPlayers) {
+            for (const date of dates) {
+                const exercisesWithSingleWeight = selectedExercises.map(exercise => ({
+                    ...exercise,
+                    activities: exercise.activities.map(act => ({
+                        ...act,
+                        weight: act.weight?.[athlete.id] ?? "" // tutaj wstawia odpowiednią wagę
+                    }))
+                }));
+                const activity = {
+                    id_trenera: globalVariable.id,
+                    id_athlete: athlete.id,
+                    date: getDateString(date),
+                    start_time: getTimeString(date),
+                    activity_type: "Motoryczny",
+                    szczegoly: exercisesWithSingleWeight,
+                    
+                };
+                console.log("Aktywność:",athlete, " dnia: ", date+": ", activity);
+                console.log(selectedExercises);
+        
+        
+        
+            }}
+        // const { data, error } = await supabase
+        //     .from('treningi')
+        //     .insert({
+        //         id_trenera: globalVariable.id,
+        //         data: trainingData.date,
+        //         godzina: trainingData.time,
+        //         rozgrzewka: trainingData.warmUp,
+        //         schlodzenie: trainingData.coolDown,
+        //         zawodnicy: trainingData.players,
+        //         kategorie: trainingData.categories,
+        //         cwiczenia: trainingData.exercises
+        //     });
+        // if (error) {
+        //     console.error("Błąd podczas zapisywania treningu:", error);
+        //     alert("Wystąpił błąd podczas zapisywania treningu. Spróbuj ponownie.");
+        // }
+        // else {
+        //     console.log("Trening zapisany pomyślnie:", data);
+        //     alert("Trening został zapisany pomyślnie.");
+        //     navigate('/trener/playerView'); // Przekierowanie do strony widoku zawodników
+        // }
+    }
 
     return (
         <div className = {styles.background}>
@@ -354,6 +451,7 @@ const MotionTreningTest = () => {
         </div>
         <div className={styles.white_container}>
             <div className={styles.content}>
+                <button className={styles.edit_button} onClick={handleSave}>Zapisz</button>
                 {isEditing===true ? null :
                     <>
                         <div className={styles.input_container}>
@@ -396,6 +494,36 @@ const MotionTreningTest = () => {
                             />
                             {/* {errors.selectedOptions && <div className={styles.error_message}>{errors.selectedOptions}</div>} */}
                         </div>
+                        <div className={styles.input_container}>
+                            <div>Wybierz datę oraz godzinę treningu</div>
+                                <Calendar
+                                    value={dates}
+                                    onChange={(e) => setDates(e.value)}
+                                    selectionMode="multiple"
+                                    readOnlyInput={false}
+                                    className="custom-calendar"
+                                    locale='pl'
+                                    dateFormat='dd/mm/yy'
+                                    showTime 
+                                    hourFormat="24" 
+                                    placeholder='Wybierz datę i godzinę'
+                                    stepMinute={10}
+                                    inputStyle={{
+                                        border: 'none',  // Removes the inner border
+                                        boxShadow: 'none',
+                                        outline: 'none',
+                                    }}
+                                    style={{
+                                        width: '100%',
+                                        // border: errors.dates ? '2px solid red' : '1px solid #ccc',
+                                        padding: '10px',
+                                        borderRadius: '3px',
+                                        backgroundColor: '#fff',
+                                    }}
+                                />
+                        
+                                                    {/* {errors.dates && <div className={styles.error_message}>{errors.dates}</div>} */}
+                            </div>
                     </>
                 }
                 {selectedCategories?.some(
