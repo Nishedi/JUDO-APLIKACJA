@@ -8,9 +8,8 @@ import { useState } from 'react';
 import BackButton from '../BackButton';
 import { sharedStyles } from '../CommonFunction';
 import Multiselect from 'multiselect-react-dropdown';
-import { use } from 'react';
 
-    const Component = ({name, selectedPlayers, setSelectedExercises, selectedExercises}) => {
+    const Component = ({name, selectedPlayers, setSelectedExercises}) => {
         const [exerciseNumber, setExerciseNumber] = useState("");
         const [roundNumber, setRoundNumber] = useState("");
         const [exerciseTime, setExerciseTime] = useState("");
@@ -21,34 +20,51 @@ import { use } from 'react';
             setSelectedExercises((prevExercises) =>
                     prevExercises.map((item) =>
                         item.name === name
-                            ? { ...item, name: name, roundNumber: roundNumber, exerciseTime: exerciseTime, breakTime: breakTime, brakeBetweenRounds: brakeBetweenRounds}
+                            ? { ...item, name: name, roundNumber: roundNumber, exerciseTime: exerciseTime, breakTime: breakTime, brakeBetweenRounds: brakeBetweenRounds, activities: activities }
                             : item 
                     )
                 );
-        }, [roundNumber, exerciseTime, breakTime, brakeBetweenRounds]);
+        }, [roundNumber, exerciseTime, breakTime, brakeBetweenRounds, activities]);
 
-        useEffect(() => {
+         useEffect(() => {
             const num = Number(exerciseNumber) || 0;
             setActivities(prev => {
-                if (num > prev.length) {
+            if (num > prev.length) {
                 return [
-                    ...prev,
-                    ...Array.from({ length: num - prev.length }, (_, i) => ({
+                ...prev,
+                ...Array.from({ length: num - prev.length }, (_, i) => ({
                     number: prev.length + i + 1,
                     activityName: "",
                     repeats: "",
                     weight: "",
                     time: "",
                     rate: ""
-                    }))
+                }))
                 ];
-                } else if (num < prev.length) {
-                return prev.slice(0, num);
-                } else {
-                return prev;
-                }
+            } else if (num < prev.length) {
+                return prev.slice(0, num).map((item, idx) => ({
+                ...item,
+                number: idx + 1
+                }));
+            } else {
+                return prev.map((item, idx) => ({
+                ...item,
+                number: idx + 1
+                }));
+            }
             });
-            }, [exerciseNumber]);
+        }, [exerciseNumber]);
+
+        const handleRemoveActivity = (number) => {
+            setActivities(prev => {
+            const filtered = prev.filter(item => item.number !== number);
+            return filtered.map((item, idx) => ({
+                ...item,
+                number: idx + 1
+            }));
+            });
+            setExerciseNumber(prev => String(Number(prev) - 1));
+        };
 
         return (
             <div id={name} className={styles.ABC_section}>
@@ -125,97 +141,128 @@ import { use } from 'react';
                         </div>
                         : null
                     }
-                    <button onClick={()=>{console.log(activities)}}>Show activities</button>
                 </div>
-                
-                {Array.from({ length: Math.max(0, Number(exerciseNumber) || 0) }, (_, i) => (
-                    <ActivityPart key={i} number={i + 1} selectedPlayers={selectedPlayers} setActivities={setActivities} />
-                ))}
+                {activities.map((activity, i) => (
+                    <ActivityPart
+                        key={activity.number}
+                        number={activity.number}
+                        activity={activity}
+                        selectedPlayers={selectedPlayers}
+                        setActivities={setActivities}
+                        onRemove={handleRemoveActivity}
+                    />))
+                }
 
                 
             </div>       
         );
     }
 
-     const ActivityPart = ({number, selectedPlayers, activities, setActivities}) => {
-        const [activityName, setActivityName] = useState('');
-        const [repeats, setRepeats] = useState();
-        const [weight, setWeight] = useState();
-        const [time, setTime] = useState();
-        const [rate, setRate] = useState();
-        useEffect(() => {
-            setActivities((prevActivities) =>
-                prevActivities.map((item) =>
-                    item.number === number
-                        ? { ...item, activityName: activityName, repeats: repeats, weight: weight, time: time, rate: rate }
-                        : item
-                )
-            );
-        }, [activityName, repeats, weight, time, rate]);
+     const ActivityPart = ({number, activity, selectedPlayers, setActivities, onRemove}) => {
         return (
             <div id={number} className={styles.activity_container}>
                 <div className={styles.acivity_details_container}>
-                    <label>
-                        Ćwiczenie {number}:
-                    </label>
+                    <label>Ćwiczenie {number}:</label>
                     <input
                         type="text"
-                        placeholder='Nazwa ćwiczenia'
-                        value={activityName}
-                        onChange={(e) => setActivityName(e.target.value)}
+                        placeholder="Nazwa ćwiczenia"
+                        value={activity.activityName}
+                        onChange={e =>
+                            setActivities(prev =>
+                            prev.map(item =>
+                                item.number === number
+                                ? { ...item, activityName: e.target.value }
+                                : item
+                            )
+                            )
+                        }
                         className={styles.round_input}
                     />
                 </div>
                 <div className={styles.acivity_details_container}>
-                    <label>
-                        Liczba powtórzeń:
-                    </label>
+                    <label>Liczba powtórzeń:</label>
                     <input
                         type="number"
-                        placeholder='Liczba powtórzeń'
-                        value={repeats}
-                        onChange={(e) => setRepeats(e.target.value)}
+                        placeholder="Liczba powtórzeń"
+                        value={activity.repeats}
+                        onChange={e =>
+                            setActivities(prev =>
+                            prev.map(item =>
+                                item.number === number
+                                ? { ...item, repeats: e.target.value }
+                                : item
+                            )
+                            )
+                        }
                         className={styles.round_input}
                     />
                 </div>
                 {selectedPlayers.map(player => (
-                    <div id={player.id} className={styles.acivity_details_container}>
+                    <div key={player.id} className={styles.acivity_details_container}>
                         <label className={styles.label_with_player}>
-                            <span className={styles.player_name}>Waga: {player.name}</span>
+                        <span className={styles.player_name}>Waga: {player.name}</span>
                         </label>
                         <input
                         type="number"
-                        placeholder='Waga (kg)'
-                        value={weight}
-                        onChange={(e) => setWeight(e.target.value)}
+                        placeholder="Waga (kg)"
+                        value={activity.weight?.[player.id] ?? ""}
+                        onChange={e =>
+                            setActivities(prev =>
+                            prev.map(item =>
+                                item.number === number
+                                ? {
+                                    ...item,
+                                    weight: {
+                                        ...item.weight,
+                                        [player.id]: e.target.value
+                                    }
+                                    }
+                                : item
+                            )
+                            )
+                        }
                         className={styles.round_input}
                         />
                     </div>
-                ))}
+                    ))}
                 <div className={styles.acivity_details_container}>
-                    <label>
-                        Czas (sekundy):
-                    </label>
+                    <label> Czas (sekundy):</label>
                     <input
                         type="number"
-                        placeholder='Czas (sekundy)'
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
+                        placeholder="Czas (sekundy)"
+                        value={activity.time}
+                        onChange={e =>
+                            setActivities(prev =>
+                            prev.map(item =>
+                                item.number === number
+                                ? { ...item, time: e.target.value }
+                                : item
+                            )
+                            )
+                        }
                         className={styles.round_input}
                     />
                 </div>
                 <div className={styles.acivity_details_container}>
-                    <label>
-                        Tempo:
-                    </label>
+                    <label>Tempo:</label>
                     <input
-                        placeholder='Tempo'
-                        type="text"
-                        value={rate}
-                        onChange={(e) => setRate(e.target.value)}
+                        type="number"
+                        placeholder="Tempo"
+                        value={activity.rate}
+                        onChange={e =>
+                            setActivities(prev =>
+                            prev.map(item =>
+                                item.number === number
+                                ? { ...item, rate: e.target.value }
+                                : item
+                            )
+                            )
+                        }
                         className={styles.round_input}
                     />
                 </div>
+                <button onClick={() => onRemove(number)} className={styles.remove_btn}>Usuń ćwiczenie</button>
+                
             </div>
             )
     }
