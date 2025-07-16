@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './MotionTreningTest.module.css';
 import { addLocale } from 'primereact/api';
-
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext';
 import { useContext } from 'react';
@@ -154,8 +153,6 @@ import { Calendar } from 'primereact/calendar';
                         onRemove={handleRemoveActivity}
                     />))
                 }
-
-                
             </div>       
         );
     }
@@ -264,7 +261,6 @@ import { Calendar } from 'primereact/calendar';
                     />
                 </div>
                 <button onClick={() => onRemove(number)} className={styles.remove_btn}>Usuń ćwiczenie</button>
-                
             </div>
             )
     }
@@ -281,7 +277,7 @@ const MotionTreningTest = () => {
             today: 'Dziś',
             clear: 'Wyczyść'
         });
-    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
+    const { globalVariable, supabase } = useContext(GlobalContext);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
@@ -326,8 +322,6 @@ const MotionTreningTest = () => {
             return { name: item.name};
         }));
     };
-    const [warmUp, setWarmUp] = useState('');
-    const [coolDown, setCoolDown] = useState('');
     const [players, setPlayers] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
 
@@ -338,6 +332,26 @@ const MotionTreningTest = () => {
         setSelectedPlayers(selectedList);
     };
 
+    const handleWarmUpChange = (e) => {
+         setSelectedExercises((prevExercises) =>
+            prevExercises.map((item) =>
+                item.name === "Warm up"
+                    ? { ...item, content: e.target.value }
+                    : item 
+            )
+        );
+    };
+
+    const handleCoolDownChange = (e) => {  
+        setSelectedExercises((prevExercises) =>
+            prevExercises.map((item) =>
+                item.name === "Cool down"
+                    ? { ...item, content: e.target.value }
+                    : item
+            )
+        );
+    };
+
     const initiatePlayers = async () => {
         let { data: zawodnicy, error } = await supabase
             .from('zawodnicy')
@@ -346,19 +360,12 @@ const MotionTreningTest = () => {
 
         if (zawodnicy && zawodnicy.length !== 0) {
             setPlayers(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
-            // setFilteredOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
-        }
+     }
     };
 
     useEffect(() => {
         initiatePlayers();
     }, []);
-
-    const handleEditClick = () => {
-        navigate('/trener/playerView'); // Przekierowanie do strony edycji profilu
-    }
-
-
 
     const partComponents = {
         "Część A": (key) => <Component key={key} selectedPlayers={selectedPlayers} setSelectedExercises={setSelectedExercises} selectedExercises={selectedExercises} name="Część A" />,
@@ -371,75 +378,62 @@ const MotionTreningTest = () => {
     };
 
     const handleSave = async () => {
-        // if (selectedPlayers.length === 0) {
-        //     alert("Wybierz zawodników");
-        //     return;
-        // }
-        // if (selectedCategories.length === 0) {
-        //     alert("Wybierz kategorię");
-        //     return;
-        // }
-        // if (dates === null || dates.length === 0) {
-        //     alert("Wybierz datę i godzinę treningu");
-        //     return;
-        // }
-        // if (selectedExercises.length === 0) {
-        //     alert("Wybierz ćwiczenia");
-        //     return;
-        // }   
-        // if (selectedCategories.some(item => item.name === "Warm up" && item.value === "Warm up") && warmUp.trim() === '') {
-        //     alert("Wprowadź treść rozgrzewki");
-        //     return;
-        // }
-        // if (selectedCategories.some(item => item.name === "Cool down" && item.value === "Cool down") && coolDown.trim() === '') {
-        //     alert("Wprowadź treść schłodzenia");
-        //     return;
-        // }
+        if (selectedPlayers.length === 0) {
+            alert("Wybierz zawodników");
+            return;
+        }
+        if (selectedCategories.length === 0) {
+            alert("Wybierz kategorię");
+            return;
+        }
+        if (dates === null || dates.length === 0) {
+            alert("Wybierz datę i godzinę treningu");
+            return;
+        }
          for (const athlete of selectedPlayers) {
             for (const date of dates) {
-                const exercisesWithSingleWeight = selectedExercises.map(exercise => ({
-                    ...exercise,
-                    activities: exercise.activities.map(act => ({
-                        ...act,
-                        weight: act.weight?.[athlete.id] ?? "" // tutaj wstawia odpowiednią wagę
-                    }))
-                }));
+                const exercisesWithSingleWeight = selectedExercises.map(exercise => {
+                    if (exercise.activities && Array.isArray(exercise.activities)) {
+                        return {
+                        ...exercise,
+                        activities: exercise.activities.map(act => ({
+                            ...act,
+                            weight: act.weight?.[athlete.id] ?? ""
+                        }))
+                        };
+                    } else if ('content' in exercise) {
+                        // Jeśli jest pole content, kopiujemy je bez zmian
+                        return { ...exercise, content: exercise.content };
+                    } else {
+                        // Opcjonalnie: obsługa innych przypadków (np. pusty obiekt)
+                        return { ...exercise };
+                    }
+                    });
                 const activity = {
-                    id_trenera: globalVariable.id,
-                    id_athlete: athlete.id,
-                    date: getDateString(date),
-                    start_time: getTimeString(date),
-                    activity_type: "Motoryczny",
                     szczegoly: exercisesWithSingleWeight,
                     
                 };
-                console.log("Aktywność:",athlete, " dnia: ", date+": ", activity);
-                console.log(selectedExercises);
-        
-        
-        
+                const { data, error } = await supabase
+                    .from('aktywności')
+                    .insert({
+                        id_trenera: globalVariable.id,
+                        id_zawodnika: athlete.id,
+                        data: getDateString(date),                        
+                        czas_rozpoczęcia: getTimeString(date),
+                        rodzaj_aktywności: "Motoryczny_test",
+                        szczegoly: activity.szczegoly,
+                        dodatkowy_rodzaj_aktywności: "inny",
+                    });
+                if (error) {
+                    console.error("Błąd podczas zapisywania treningu:", error);
+                    alert("Wystąpił błąd podczas zapisywania treningu. Spróbuj ponownie.");
+                }
+                else {
+                    console.log("Trening zapisany pomyślnie:", data);
+                    navigate('/trener/treningi');
+                }
             }}
-        // const { data, error } = await supabase
-        //     .from('treningi')
-        //     .insert({
-        //         id_trenera: globalVariable.id,
-        //         data: trainingData.date,
-        //         godzina: trainingData.time,
-        //         rozgrzewka: trainingData.warmUp,
-        //         schlodzenie: trainingData.coolDown,
-        //         zawodnicy: trainingData.players,
-        //         kategorie: trainingData.categories,
-        //         cwiczenia: trainingData.exercises
-        //     });
-        // if (error) {
-        //     console.error("Błąd podczas zapisywania treningu:", error);
-        //     alert("Wystąpił błąd podczas zapisywania treningu. Spróbuj ponownie.");
-        // }
-        // else {
-        //     console.log("Trening zapisany pomyślnie:", data);
-        //     alert("Trening został zapisany pomyślnie.");
-        //     navigate('/trener/playerView'); // Przekierowanie do strony widoku zawodników
-        // }
+        
     }
 
     return (
@@ -531,11 +525,12 @@ const MotionTreningTest = () => {
                     ) ? 
                     <>
                         <div className={styles.input_container}>
-                            Wprowadź treść rozgrzewki:
+                            Wprowadź treść rozgrzewki :
                             <textarea
                                 id="multiline-input"
-                                value={warmUp}
-                                onChange={(e) => setWarmUp(e.target.value)}
+                                value={selectedExercises.find(
+                                    item => item.name === "Warm up")?.content}
+                                onChange={(e) => handleWarmUpChange(e)}
                                 rows={5}  
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz treść rozgrzewki"
@@ -552,8 +547,9 @@ const MotionTreningTest = () => {
                             Wprowadź treść schłodzenia:
                             <textarea
                                 id="multiline-input"
-                                value={coolDown}
-                                onChange={(e) => setCoolDown(e.target.value)}
+                                value={selectedExercises.find(
+                                    item => item.name === "Cool down")?.content}
+                                onChange={(e) => handleCoolDownChange(e)}
                                 rows={5}  
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz treść schłodzenia"
