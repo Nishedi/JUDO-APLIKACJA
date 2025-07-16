@@ -109,7 +109,135 @@ const TrenerTrainingView = () => {
                     </div>
                     :null
                 }
-                <div className={styles.trainingDetails} style={{border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>
+                <div
+                    className={styles.trainingDetails}
+                    style={{ border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności) }}
+                    >
+                    <p className={styles.oneline}>
+                        <strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}
+                    </p>
+                    <div className={styles.line}></div>
+
+                    {(activity.rodzaj_aktywności === 'Fizjoterapia' || activity.rodzaj_aktywności === 'Inny') ? (
+                        activity.rodzaj_aktywności === 'Fizjoterapia' ? (
+                        <div className={styles.physioterapy}>Fizjoterapia</div>
+                        ) : (
+                        <div className={styles.physioterapy}>{activity.zadania}</div>
+                        )
+                    ) : (
+                        <div>
+                        <p><strong>Zadania do wykonania:</strong></p>
+                        {activity.rodzaj_aktywności === 'Motoryczny' ? (
+                            <button
+                            className={styles.buttonRozwin}
+                            onClick={() => {
+                                window.open(activity.zadania);
+                            }}
+                            >
+                            Wyświetl szczegóły
+                            </button>
+                        ) : activity.szczegoly ? (
+                            activity.rodzaj_aktywności !== "Motoryczny_test" ? (
+                            <ul>
+                                {activity.szczegoly.map((thing, index) => (
+                                <li key={index}>
+                                    <strong>{thing?.name + " "}</strong>
+                                    {thing?.duration ? thing.duration + " min. " : ""}
+                                    {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
+                                    {thing?.repeats ? "x" + thing.repeats + "\u00A0\u00A0" : ""}
+                                    {thing?.meters ? thing.meters + " m. " : ""}
+                                    {thing?.goldenScoreMinutes && thing?.goldenScore
+                                    ? "+ " + thing.goldenScoreMinutes + ":" + String(thing.goldenScore).padStart(2, "0")
+                                    : thing?.goldenScoreMinutes
+                                    ? "+ " + thing.goldenScoreMinutes + " min. "
+                                    : thing?.goldenScore
+                                    ? "+ " + thing.goldenScore + " s."
+                                    : ""}
+                                </li>
+                                ))}
+                            </ul>
+                            ) : (
+                                <>
+                                
+                                {console.log(activity.szczegoly)}
+                                {activity.szczegoly.map((thing, index) => (
+                                    <li key={index}>
+                                        <span className={styles.bolded700}>{thing?.name + " "}</span><br/>
+                                        {thing?.content && thing.content}
+                                        {thing?.roundNumber?<>Liczba rund: {thing.roundNumber}<br/></>:""}
+                                        {thing?.exerciseTime ? <> Czas ćwiczenia: {thing.exerciseTime} <br/></> : ""}
+                                        {thing?.breakTime ? <span> Przerwa: {thing.breakTime} <br/></span> : ""}
+                                        {thing?.brakeBetweenRounds ? <span> Przerwa między rundami: {thing.brakeBetweenRounds}<br/> </span> : ""}
+                                        {
+                                            thing.activities && thing.activities.length > 0 ? (
+                                                <>
+                                                <span>Ćwiczenia:</span>
+                                                <br/>
+                                                <ul className={styles.list}>
+                                                    
+                                                    {thing.activities.map((activityItem, activityIndex) => (
+                                                        <li key={activityIndex} className={styles.list}>
+                                                            <strong className={styles.bolded}>{activityItem.activityName }</strong><br/>
+                                                            {activityItem.repeats ? <>Liczba powtórzeń: {activityItem.repeats}<br/></> : ""}
+                                                            {activityItem.weight ? <>Waga: {activityItem.weight} kg<br/></> : ""}
+                                                            {activityItem.time ? <>Czas: {activityItem.time} <br/></> : ""} 
+                                                            {activityItem.rate ? <>Tempo: {activityItem.rate}<br/></>: ""}
+                                                            
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                                </>
+                                            ) : null
+                                            
+                                        }
+                                    </li>
+                                ))}
+                                </>
+                            )
+                        ) : (
+                            <ul>
+                            {thingsToDo.map((thing, index) => {
+                                const parts = thing.split(":");
+                                return (
+                                <li key={index}>
+                                    {parts.length === 1 && <strong>{parts[0]}</strong>}
+                                    {parts.length === 2 && (
+                                    <>
+                                        <strong>{parts[0]}</strong>: {parts[1]}
+                                    </>
+                                    )}
+                                    {parts.length === 3 && (
+                                    <>
+                                        <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                                    </>
+                                    )}
+                                </li>
+                                );
+                            })}
+                            </ul>
+                        )}
+                        </div>
+                    )}
+
+                    <div className={styles.line}></div>
+                    <div className={styles.trainerComment}>
+                        <p>
+                        <strong>Komentarz trenera:</strong>
+                        <br />
+                        <div className={styles.commentSection}>
+                            {activity.komentarz_trenera
+                            ? activity.komentarz_trenera.split('\n').map((line, index) => (
+                                <span key={index} className={styles.commentLine}>
+                                    {parseTextWithLinks(line)}
+                                    {index < activity.komentarz_trenera.split('\n').length - 1 && <br />}
+                                </span>
+                                ))
+                            : 'Brak komentarza'}
+                        </div>
+                        </p>
+                    </div>
+                    </div>
+                {/* <div className={styles.trainingDetails} style={{border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>
                     <p className={styles.oneline}><strong>Godzina rozpoczęcia:</strong> {activity.czas_rozpoczęcia}</p>
                             <div className={styles.line}></div>
 
@@ -123,16 +251,15 @@ const TrenerTrainingView = () => {
                          ) :
                         <div>
                             <p><strong>Zadania do wykonania:</strong></p>
-                            {/* Tutaj połączone z bazą - to co trener wskaże! */}
                             {activity.rodzaj_aktywności==='Motoryczny' ? 
                             <button 
                                 className={styles.buttonRozwin}
                                 onClick={() => {
-                                window.open(activity.zadania);  // Przekierowanie
+                                window.open(activity.zadania);  
                             }}>Wyświetl szczegóły</button>
                             : (
-                                
                                 activity.szczegoly ?
+                                    ({ activity.rodzaj_aktywności !=="Motoryczny_test" ? 
                                     <ul>
                                          {activity.szczegoly.map((thing, index) => {
                                             return(
@@ -156,6 +283,8 @@ const TrenerTrainingView = () => {
                                             );
                                         })}
                                     </ul> 
+                                    }: <>XD</>)
+                                    
                                     :
                                     <ul>
                                         {thingsToDo.map((thing, index) => {
@@ -200,7 +329,7 @@ const TrenerTrainingView = () => {
                                 </div>
                             </p>    
                         </div>
-                    </div>
+                    </div> */}
                     <div className={styles.trainingDetails} style={{border: '2px solid ' + getActivityTypeColor(activity.dodatkowy_rodzaj_aktywności)}}>
                         {activity.rodzaj_aktywności !== 'Inny' ?
                             <>

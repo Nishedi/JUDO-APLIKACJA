@@ -566,8 +566,6 @@ const MotionTreningTest = () => {
 
             </div>
         </div>
-        
-
         </div>
     );
 }

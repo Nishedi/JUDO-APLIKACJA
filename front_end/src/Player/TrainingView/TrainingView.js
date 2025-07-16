@@ -129,8 +129,8 @@ const TrainingView = () => {
                 :
                 <>
                 {activity.szczegoly ?
-                
                   <ul>
+                    {console.log(activity)}
                       {activity.szczegoly.map((thing, index) => {
                         return(
                           <li key={index}>
@@ -186,8 +186,12 @@ const TrainingView = () => {
         <div className={styles.line}></div>        
         <div className={styles.trainerComment}>
           <p><strong>Komentarz trenera:</strong></p>
-          <div className={styles.commentSection}>
-            {parseTextWithLinks(activity.komentarz_trenera)}
+          <div className={styles.commentSection}> 
+            {activity.komentarz_trenera ? (
+              parseTextWithLinks(activity.komentarz_trenera)
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

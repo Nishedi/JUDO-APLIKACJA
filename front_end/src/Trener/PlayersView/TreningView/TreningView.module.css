@@ -204,7 +204,7 @@ input, select{
   .emotki {
     display: flex;
     font-family: 'Montserrat-Medium';
-    font-size: 14px;
+    font-size: 16px;
     text-transform: uppercase;
     justify-content: space-between;
     align-items: center;
@@ -383,4 +383,32 @@ transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transfor
   font-family: 'Kodchasan-SemiBold';
   font-size: 20px;
   text-align: center;
+}
+
+.list{
+  gap:0px;
+  margin-bottom: 0 !important;
+}
+
+
+ul {
+  margin: 0;
+  margin-bottom: 0;
+  padding-left: 18px;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
+  list-style-position: inside; /* lub 'outside' jeśli wolisz */
+}
+
+.bolded600{
+  font-weight: 600;
+}
+
+.bolded700{
+  font-weight: 700;
+  font-size: 13px;
 }
