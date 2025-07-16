@@ -310,3 +310,31 @@ input, select{
   font-size: 20px;
   text-align: center;
 }
+
+ .list{
+  gap:0px;
+  margin-bottom: 0 !important;
+}
+
+/*
+ul {
+  margin: 0;
+  margin-bottom: 0;
+  padding-left: 18px;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
+  list-style-position: inside;
+} */
+
+.bolded600{
+  font-weight: 600;
+}
+
+.bolded700{
+  font-weight: 700;
+  font-size: 13px;
+}

@@ -11,7 +11,7 @@ const TrainingView = () => {
   const { supabase } = useContext(GlobalContext);
   const [isTrainingCompleted, setIsTrainingCompleted] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const { id } = useParams();
   const [activity, setActivity] = useState(null); 
   const navigate = useNavigate();
@@ -110,77 +110,99 @@ const TrainingView = () => {
 
        )
         :
-        <div>
+        (
+          <div>
             <p><strong>Zadania do wykonania:</strong></p>
-            <ul>
-              { activity.zadania ? (
-                activity.rodzaj_aktywności === 'Motoryczny' ?
-                <> {activity?.zadania ? 
-                  <button 
-                      className={styles.buttonRozwin}
-                      onClick={() => {
-                      window.open(activity.zadania);  // Przekierowanie
-                  }}>
-                      Wyświetl szczegóły
-                  </button>
-                  : null} 
-                </>
-                
-                :
+            {activity.rodzaj_aktywności === 'Motoryczny' ? (
+              <button
+                className={styles.buttonRozwin}
+                onClick={() => {
+                  window.open(activity.zadania);
+                }}
+              >
+                Wyświetl szczegóły
+              </button>
+            ) : activity.szczegoly ? 
+            (
+              activity.rodzaj_aktywności !== "Motoryczny_test" ? (
+                <ul>
+                  {activity.szczegoly.map((thing, index) => (
+                    <li key={index}>
+                      <strong>{thing?.name + " "}</strong>
+                      {thing?.duration ? thing.duration + " min. " : ""}
+                      {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
+                      {thing?.repeats ? "x" + thing.repeats + "\u00A0\u00A0" : ""}
+                      {thing?.meters ? thing.meters + " m. " : ""}
+                      {thing?.goldenScoreMinutes && thing?.goldenScore
+                        ? "+ " + thing.goldenScoreMinutes + ":" + String(thing.goldenScore).padStart(2, "0")
+                        : thing?.goldenScoreMinutes
+                        ? "+ " + thing.goldenScoreMinutes + " min. "
+                        : thing?.goldenScore
+                        ? "+ " + thing.goldenScore + " s."
+                        : ""}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
                 <>
-                {activity.szczegoly ?
-                  <ul>
-                    {console.log(activity)}
-                      {activity.szczegoly.map((thing, index) => {
-                        return(
-                          <li key={index}>
-                            <strong>{thing?.name+" "}</strong>
-                            {thing?.duration ? thing.duration + " min. " : ""} 
-                            {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
-                            {thing?.repeats ? "x"+thing.repeats + "\u00A0\u00A0" : ""}
-                            {thing?.meters ? thing.meters + " m. " : ""}
-                            {
-                            thing?.goldenScoreMinutes && thing?.goldenScore 
-                            ? "+ " + thing.goldenScoreMinutes + ":" + (thing.goldenScore.toString().padStart(2, "0"))
-                            : thing?.goldenScoreMinutes 
-                            ? "+ " + thing.goldenScoreMinutes + " min. "
-                            : thing?.goldenScore 
-                            ? "+ " +  thing.goldenScore + " s."
-                            : ""
-                            }                            
-                          </li>
-                        );
-                      })}
-                    </ul> 
-                    :
-                    <ul>
-                    {activity.zadania.split(',').map((thing, index) => {
-                      const parts = thing.split(":");
-                      return (
-                        <li key={index}>
-                          {parts.length === 1 && (
-                            <strong>{parts[0]}</strong>
-                           )}
-                          {parts.length === 2 && (
-                             <>
-                                <strong>{parts[0]}</strong>: {parts[1]}
-                              </>
-                           )}
-                          {parts.length === 3 && (
+                  {activity.szczegoly.map((thing, index) => (
+                    <li key={index}>
+                        <span className={styles.bolded700}>{thing?.name + " "}</span><br/>
+                        {thing?.content && thing.content}
+                        {thing?.roundNumber?<>Liczba rund: {thing.roundNumber}<br/></>:""}
+                        {thing?.exerciseTime ? <> Czas ćwiczenia: {thing.exerciseTime} <br/></> : ""}
+                        {thing?.breakTime ? <span> Przerwa: {thing.breakTime} <br/></span> : ""}
+                        {thing?.brakeBetweenRounds ? <span> Przerwa między rundami: {thing.brakeBetweenRounds}<br/> </span> : ""}
+                        {
+                          thing.activities && thing.activities.length > 0 ? (
                             <>
-                              <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                              <span>Ćwiczenia:</span>
+                              <br/>
+                              <ul className={styles.list}>                      
+                                  {thing.activities.map((activityItem, activityIndex) => (
+                                    <li key={activityIndex} className={styles.list}>
+                                      <strong className={styles.bolded}>{activityItem.activityName }</strong><br/>
+                                      {activityItem.repeats ? <>Liczba powtórzeń: {activityItem.repeats}<br/></> : ""}
+                                      {activityItem.weight ? <>Waga: {activityItem.weight} kg<br/></> : ""}
+                                      {activityItem.time ? <>Czas: {activityItem.time} <br/></> : ""} 
+                                      {activityItem.rate ? <>Tempo: {activityItem.rate}<br/></>: ""}                            
+                                     </li>
+                                  ))}
+                              </ul>
                             </>
-                          )}
-                        </li>
+                          ) : null                          
+                        }
+                     </li>
+                  ))}
+                </>
+              )
+            ) : 
+            (
+              <ul>
+                {activity.zadania.split(',').map((thing, index) => {
+                  const parts = thing.split(":");
+                    return (
+                      <li key={index}>
+                        {parts.length === 1 && (
+                          <strong>{parts[0]}</strong>
+                         )}
+                        {parts.length === 2 && (
+                          <>
+                            <strong>{parts[0]}</strong>: {parts[1]}
+                          </>
+                         )}
+                        {parts.length === 3 && (
+                          <>
+                            <strong>{parts[0]}</strong> {parts[1]} {parts[2]}
+                          </>
+                        )}
+                      </li>
                       );
                     })}
-                  </ul>}                                    
-                </>
-              ) : (
-                <li>Brak zadań do wykonania</li>
+                </ul>           
               )}
-            </ul>
-          </div>
+            </div>
+          )
         }
 
         <div className={styles.line}></div>        
