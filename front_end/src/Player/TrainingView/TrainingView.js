@@ -149,7 +149,7 @@ const TrainingView = () => {
                     <li key={index}>
                         <span className={styles.bolded700}>{thing?.name + " "}</span><br/>
                         {thing?.content && thing.content}
-                        {thing?.roundNumber?<>Liczba rund: {thing.roundNumber}<br/></>:""}
+                        {thing?.roundNumber?<>Liczba rund: {thing.roundNumber}<br/></>:""} 
                         {thing?.exerciseTime ? <> Czas ćwiczenia: {thing.exerciseTime} <br/></> : ""}
                         {thing?.breakTime ? <span> Przerwa: {thing.breakTime} <br/></span> : ""}
                         {thing?.brakeBetweenRounds ? <span> Przerwa między rundami: {thing.brakeBetweenRounds}<br/> </span> : ""}
