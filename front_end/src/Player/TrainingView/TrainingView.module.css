@@ -67,7 +67,9 @@
     margin: 0;
     padding: 0;
 }
-
+.name{
+  font-size: 14px;
+}
 
 .commentSection {
     font-size: 12px;
