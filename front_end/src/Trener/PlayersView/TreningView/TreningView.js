@@ -141,18 +141,22 @@ const TrenerTrainingView = () => {
                             <ul>
                                 {activity.szczegoly.map((thing, index) => (
                                 <li key={index}>
-                                    <strong>{thing?.name + " "}</strong>
-                                    {thing?.duration ? thing.duration + " min. " : ""}
-                                    {thing?.durationSecond ? thing.durationSecond + " sek. " : ""}
-                                    {thing?.repeats ? "x" + thing.repeats + "\u00A0\u00A0" : ""}
-                                    {thing?.meters ? thing.meters + " m. " : ""}
-                                    {thing?.goldenScoreMinutes && thing?.goldenScore
-                                    ? "+ " + thing.goldenScoreMinutes + ":" + String(thing.goldenScore).padStart(2, "0")
-                                    : thing?.goldenScoreMinutes
-                                    ? "+ " + thing.goldenScoreMinutes + " min. "
-                                    : thing?.goldenScore
-                                    ? "+ " + thing.goldenScore + " s."
-                                    : ""}
+                                    <strong className={styles.name}>{thing?.name + " "}</strong><br/>
+
+                                    {thing?.duration ?  <span>Czas trwania: <strong>{thing.duration}  min. </strong> </span>: ""}
+                                    {thing?.durationSecond? <span>{!thing?.duration ? "Czas trwania: " : ""}<strong>{thing.durationSecond} sek.</strong></span>:""}
+                                    {thing?.duration || thing?.durationSecond ? <br/>:null}
+                                    {thing?.repeats ? <><span>Liczba powtórzeń: <strong>x{thing.repeats}</strong></span> <br/></>: ""}
+                                    {thing?.meters ?<><span>Odległość: <strong>{thing.meters} m. </strong></span> <br/></>: ""}
+
+                                    {thing?.goldenScoreMinutes ? <span> Golden Score: <strong>{thing.goldenScoreMinutes} min. </strong></span> : ""}
+                                    {thing?.goldenScore ? <span>{!thing?.goldenScoreMinutes ? "Golden Score: " : ""}<strong>{thing.goldenScore} sek. </strong></span> : ""}
+                                    {thing?.goldenScoreMinutes && thing?.goldenScore ? <br /> : ""}
+
+                                    {thing?.breakBetweenSeries ?<> <span>Przerwa między seriami: <strong>{thing.breakBetweenSeries} sek. </strong></span><br/></> : ""}
+                                    {thing?.numberOfSeries ? <><span>Liczba serii: <strong>{thing.numberOfSeries}</strong></span><br/> </>: ""}
+                                    {thing?.breakBetweenIntervals ? <><span>Przerwa między interwałami: <strong>{thing.breakBetweenIntervals} sek. </strong></span><br/> </> : ""}
+                                    
                                 </li>
                                 ))}
                             </ul>

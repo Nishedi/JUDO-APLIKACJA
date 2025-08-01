@@ -50,6 +50,9 @@ const AddingActivityFirstPage = () => {
                     goldenScore: exercise.goldenScore,
                     goldenScoreMinutes: exercise.goldenScoreMin,
                     meters: exercise.meters,
+                    breakBetweenSeries: exercise.breakBetweenSeries,
+                    numberOfSeries: exercise.numberOfSeries,
+                    breakBetweenIntervals: exercise.breakBetweenIntervals,
                 };
             }));
             setComment(viewedPlayer.currentActivity.komentarz_trenera);
@@ -426,7 +429,10 @@ const AddingActivityFirstPage = () => {
                         durationSecond: exercise.durationSecond,
                         goldenScore: exercise.goldenScore,
                         goldenScoreMinutes: exercise.goldenScoreMinutes,
-                        meters: exercise.meters
+                        meters: exercise.meters,
+                        breakBetweenSeries: exercise.breakBetweenSeries,
+                        numberOfSeries: exercise.numberOfSeries,
+                        breakBetweenIntervals: exercise.breakBetweenIntervals,
                     });
                 }
                 const activity = {
@@ -464,6 +470,7 @@ const AddingActivityFirstPage = () => {
                         return;
                     }
                     if(data){
+                        console.log(data);
                         setAddActivityString('Dodano');
                     }
                 
@@ -510,11 +517,11 @@ const AddingActivityFirstPage = () => {
         const [goldenScore, setGoldenScore] = useState(exercise?.goldenScore||'');
         const [goldenScoreMinutes, setGoldenScoreMinutes] = useState(exercise?.goldenScoreMinutes||'');
         const [isConfirmed, setIsConfirmed] = useState(exercise?.isConfirmed||false);
-        
-        
+        const [breakBetweenIntervals, setBreakBetweenIntervals] = useState(exercise?.breakBetweenIntervals||'');
+        const [breakBetweenSeries, setBreakBetweenSeries] = useState(exercise?.breakBetweenSeries||'');
+        const [numberOfSeries, setNumberOfSeries] = useState(exercise?.numberOfSeries||'');
 
-        const updateExercise = () => {
-            
+        const updateExercise = () => { 
             setSelectedExercises((prevExercises) =>
                 prevExercises.map((item) =>
                     item.id === exercise.id
@@ -545,6 +552,33 @@ const AddingActivityFirstPage = () => {
                     prevExercises.map((item) =>
                         item.id === exercise.id
                             ? { ...item, durationSecond: durationSeconds } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+            if(breakBetweenIntervals){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, breakBetweenIntervals: breakBetweenIntervals } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+            if(breakBetweenSeries){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, breakBetweenSeries: breakBetweenSeries } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
+            if(numberOfSeries){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, numberOfSeries: numberOfSeries } // Zaktualizuj tylko liczbę powtórzeń
                             : item // Zwróć niezmienione elementy
                     )
                 );
@@ -629,6 +663,27 @@ const AddingActivityFirstPage = () => {
                         />
                         </div>
                          : null}
+                    </div>
+                    <div>
+                        <input
+                            type="number"
+                            placeholder='P. m. interwałami'
+                            value={breakBetweenIntervals}
+                            onChange={(e)=>{setBreakBetweenIntervals(e.target.value);setIsConfirmed(false);}}
+                           
+                        />
+                        <input
+                            type="number"
+                            placeholder='P. m. seriami'
+                            value={breakBetweenSeries}
+                            onChange={(e)=>{setBreakBetweenSeries(e.target.value);setIsConfirmed(false);}}
+                        />
+                        <input
+                            type="number"
+                            placeholder='L. serii'
+                            value={numberOfSeries}
+                            onChange={(e)=>{setNumberOfSeries(e.target.value);setIsConfirmed(false);}}
+                        />
                     </div>
                     <MdOutlineDone 
                         onClick={updateExercise}
