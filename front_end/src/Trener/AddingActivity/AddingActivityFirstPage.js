@@ -34,6 +34,9 @@ const AddingActivityFirstPage = () => {
     const [errors, setErrors] = useState({}); // New state to track errors
     const [addActivityString, setAddActivityString] = useState(type !== "edit" ? 'Dodaj' : 'Edytuj');
     const [defaultType, setDefaultType] = useState('inny');
+    const [template_name, setTemplateName] = useState('');
+    const [templates, setTemplates] = useState([]);
+    const [selectedTemplates, setSelectedTemplates] = useState([]);
 
     useEffect(() => {
         if(type==="duplicate" || type==="edit"){
@@ -60,7 +63,54 @@ const AddingActivityFirstPage = () => {
         if (type==="edit"){
             setSelectedOptions([{name: `${viewedPlayer.imie} ${viewedPlayer.nazwisko}`, id: viewedPlayer.id}]);
         }
+
     }, []);
+
+    const downloadTemplate = async () => {
+        if (selectedTemplates.length === 0) {
+            
+            return;
+        }
+        const template = selectedTemplates[0];
+        const { data, error } = await supabase
+            .from('schematy')
+            .select('*')
+            .eq('id', template.id)
+            .single();
+        if (error) {
+            console.error('Błąd podczas pobierania szablonu:', error);
+            return;
+        }
+        if (data) {
+            setSelectedExercises(data.szczegoly.map(exercise => {
+                return {
+                    id: UniqueComponentId(),
+                    name: exercise.name,
+                    duration: exercise.duration,
+                    repeats: exercise.repeats,
+                    durationSecond: exercise.durationSecond,
+                    goldenScore: exercise.goldenScore,
+                    goldenScoreMinutes: exercise.goldenScoreMinutes,
+                    meters: exercise.meters,
+                    breakBetweenSeries: exercise.breakBetweenSeries,
+                    numberOfSeries: exercise.numberOfSeries,
+                    breakBetweenIntervals: exercise.breakBetweenIntervals,
+                };
+            }));
+            const selectedTrening = trenings.find(
+                trening => trening.name === data.rodzaj_aktywności
+            );
+            setSelectedTrenings([selectedTrening]);
+            setComment(data.komentarz_trenera);
+    }}
+    useEffect(() => {
+        console.log(selectedExercises);
+    }, [selectedExercises]);
+    useEffect(() => {
+        if (selectedTemplates.length > 0) {
+            downloadTemplate();
+        }
+    }, [selectedTemplates]);
 
     const sharedStyles = {
         chips: {
@@ -153,6 +203,18 @@ const AddingActivityFirstPage = () => {
             setOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
             setFilteredOptions(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
         }
+        let { data: templatesm, error: templatesError } = await supabase
+            .from('schematy')
+            .select('*')
+            .eq('id_trenera', globalVariable.id);
+        if (templatesm && templatesm.length !== 0) {
+            setTemplates(templatesm.map(template => {
+                return { name: template.nazwa, id: template.id, additional_activity_type: template.dodatkowy_rodzaj_aktywnosci };
+            }));
+        }
+        if (error) {
+            console.log("Błąd podczas pobierania zawodników:", error);
+        }
     };
 
     useEffect(() => {
@@ -206,6 +268,14 @@ const AddingActivityFirstPage = () => {
 
     const onRemove = (selectedList) => {
         setSelectedOptions(selectedList);
+    };
+
+    const onSelectTemplate = (selectedList) => {
+        setSelectedTemplates(selectedList);
+    };
+
+    const onRemoveTemplate = (selectedList) => {
+        setSelectedTemplates(selectedList);
     };
 
     const onSelectGroup = (selectedList) => {
@@ -287,6 +357,65 @@ const AddingActivityFirstPage = () => {
                 console.log(data);
             }
     };
+
+    const saveTemplate = async () => {
+        if(!template_name || template_name.trim() === '') {
+            alert('Proszę podać nazwę szablonu.');
+            return;
+        }
+        const selectedType = defaultType
+        const exercises2 = [];
+        for (const exercise of selectedExercises) {
+            exercises2.push({
+                name: exercise.name,
+                duration: exercise.duration,
+                repeats: exercise.repeats,
+                durationSecond: exercise.durationSecond,
+                goldenScore: exercise.goldenScore,
+                goldenScoreMinutes: exercise.goldenScoreMinutes,
+                meters: exercise.meters,
+                breakBetweenSeries: exercise.breakBetweenSeries,
+                numberOfSeries: exercise.numberOfSeries,
+                breakBetweenIntervals: exercise.breakBetweenIntervals,
+            });
+        }
+        const activity = {
+            activity_type: selectedTrenings[0]?.name,
+            exercises_details: exercises2,
+            comment: comment,
+            additional_activity_type: selectedType 
+        };
+        let { data, error } = await supabase
+            .from('schematy')
+            .insert([
+                { 
+                    id_trenera: globalVariable.id, 
+                    nazwa: template_name,
+                    rodzaj_aktywności: activity.activity_type,
+                    komentarz_trenera: activity.comment,
+                    szczegoly: activity.exercises_details,
+                    dodatkowy_rodzaj_aktywnosci: activity.additional_activity_type // Nowe pole!
+                },
+            ])
+            .select();
+        if (error) {
+            if(error.code === '23505') {
+                alert('Szablon o tej nazwie już istnieje. Wybierz inną nazwę.');
+            } else if (error.code === '23503') {
+                alert('Błąd podczas zapisywania szablonu. Sprawdź, czy wszystkie pola są poprawnie wypełnione.');
+            }else if (error.code === '23502') {
+                alert('Wszystkie pola muszą być wypełnione.');
+            } else {
+                console.error('Błąd podczas zapisywania szablonu:', error);
+                alert('Błąd podczas zapisywania szablonu. Spróbuj ponownie.');
+                return;
+            }
+        }
+        if (data && data.length > 0) {
+            console.log('Zapisany szablon:', data[0]);
+        }
+    }
+            
 
     async function sendSMS() {
         const phoneNumbers = [];
@@ -618,7 +747,7 @@ const AddingActivityFirstPage = () => {
                 <div className={styles.exercise_details} style={true? {flexDirection: "column"}:{flexDirection: "row"}}>
                     <div>
                         <input
-                            type="number"
+                            type="text"
                             placeholder='Minuty'
                             value={duration}
                             onChange={(e)=>{setDuration(e.target.value);setIsConfirmed(false);}}
@@ -744,6 +873,27 @@ const AddingActivityFirstPage = () => {
                     
                         {type==="edit" ? null :
                         <>
+                        <div className={styles.input_container}>
+                            Wczytaj schemat aktywności
+                            <Multiselect
+                                options={templates}
+                                selectedValues={selectedTemplates}
+                                onSelect={onSelectTemplate}
+                                onRemove={onRemoveTemplate}
+                                displayValue="name"
+                                placeholder='Wybierz schemat'
+                                singleSelect={true}
+                                style={{
+                                    ...sharedStyles,
+                                    searchBox: {
+                                        ...sharedStyles.searchBox,
+                                        border: errors.selectedOptions ? '2px solid red' : '1px solid #ccc',
+                                        height: 'fit-content' 
+                                    }
+                                }}
+                            />
+                            {errors.selectedOptions && <div className={styles.error_message}>{errors.selectedOptions}</div>}
+                        </div>
                         <div className={styles.input_container}>
                             Wybierz grupę zawodników
                             <Multiselect
@@ -933,6 +1083,13 @@ const AddingActivityFirstPage = () => {
 
                         <button onClick={sendSMS } className={styles.button} >
                             Wyślij SMS
+                        </button>
+                        <div className={styles.input_container}>
+                            <div>Nazwa schematu</div>
+                            <input type="text" onChange={(e)=>setTemplateName(e.target.value)} placeholder='Podaj nazwę schematu' style={{width: "100%"}} />
+                        </div>
+                        <button onClick={saveTemplate}  className={styles.button} style={{fontSize: "18px", marginTop: "10px"}}>
+                            Zapisz schemat
                         </button>
                         <button onClick={endAdding } className={styles.button} >
                             Zakończ

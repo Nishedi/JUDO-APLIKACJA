@@ -37,6 +37,7 @@ const PlayerStats = () => {
     const [minKwasMlekowy, setMinKwasMlekowy] = useState(0);
     const [maxKwasMlekowy, setMaxKwasMlekowy] = useState(0);
     const [monthChangeLines, setMonthChangeLines] = useState([]);
+    const [longActivities, setLongActivities] = useState([]);
 
     const getPlayerStats = async () => {
         const dates = generateDateArray(firstDate, secondDate);
@@ -53,6 +54,8 @@ const PlayerStats = () => {
             setPlayerStats(statystyki);
         }
     }
+
+    const colors = ["red", "blue", "green", "orange", "purple", "pink", "brown", "gray", "cyan", "magenta"];
 
     const monthNames = [
         'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 
@@ -238,7 +241,6 @@ const PlayerStats = () => {
         setProcessedPlayerStats(dx);
         setProcessedPlayerStats2(dx2);
         const changes = [];
-        console.log(dx.length);
         for (let i = 1; i < dx.length; i++) {
             const prevMonth = new Date(dx[i - 1].date).getMonth();
             const currMonth = new Date(dx[i].date).getMonth();
@@ -332,10 +334,36 @@ const PlayerStats = () => {
     }
     , [window.innerWidth]);
 
+    const getLongActivities = async () => {
+
+        let { data: zawodnicy, error } = await supabase
+            .from('aktywnosci_wielodniowe')
+            .select('*')
+            .eq('id_zawodnika', viewedPlayer.id);
+
+        if (error) {
+            console.error("Błąd podczas pobierania danych zawodnika:", error);
+            return;
+        }
+        if (zawodnicy && zawodnicy.length !== 0) {
+            setLongActivities(zawodnicy);
+        }
+
+        
+    };
+    const getPolishMonthName = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleString('pl-PL', { month: 'long' });
+        };
+
+    useEffect(() => {
+        getLongActivities();
+    }, [viewedPlayer.id]);
+
     const Chart = ({selectedFilter}) => {
             return (
                 <div id="chart-container" className={!scrolableChart? styles.scrollableChartContainer: styles.x}>
-                    
+                <div>Legenda</div>
                 <LineChart 
                     width={!scrolableChart?windowWidth-50:processedPlayerStats.length*20} 
                     height={400} 
@@ -347,8 +375,27 @@ const PlayerStats = () => {
                     >
                     <CartesianGrid strokeDasharray="5 5" />
                     {scrolableChart && monthChangeLines.map((date, index) => (
-                        <ReferenceLine key={index} x={date} stroke="gray" strokeDasharray="10" />
-                    ))}
+                        <ReferenceLine
+                            key={index}
+                            x={date}
+                            stroke="gray"
+                            strokeDasharray="10"
+                            label={{
+                            value: getPolishMonthName(date),
+                            position: 'insideBottomLeft',
+                            fill: 'red',
+                            }}
+                        />
+                        ))}
+                     {
+                        longActivities.map((activity, index) => (
+                            <>
+                                <ReferenceLine key={index} x={activity.poczatek} stroke={colors[index]} strokeDasharray="10" label={{ value: activity.nazwa, position: 'top', fill: colors[index] }} />
+                                <ReferenceLine key={index + longActivities.length} x={activity.koniec} stroke={colors[index]} strokeDasharray="10"  />
+                            </>
+                        ))
+                    }
+                   
                     <XAxis 
                         dataKey="date" 
                         type="category" 
@@ -561,8 +608,19 @@ const PlayerStats = () => {
                     >
                     <CartesianGrid strokeDasharray="5 5" />
                     {scrolableChart && monthChangeLines.map((date, index) => (
-                        <ReferenceLine key={index} x={date} stroke="gray" strokeDasharray="10" />
-                    ))}
+                        <ReferenceLine
+                            key={index}
+                            x={date}
+                            stroke="gray"
+                            strokeDasharray="10"
+                            label={{
+                            value: getPolishMonthName(date),
+                            position: 'insideBottomLeft',
+                            fill: 'red',
+                            }}
+                        />
+                        ))}
+                    
                     <XAxis dataKey="date" label={{ value: `Data
                     (${!scrolableChart? monthName(): firstDate.split('-')[2]+"."+firstDate.split('-')[1]+'-'+secondDate.split('-')[2]+"."+secondDate.split('-')[1]})`, 
                     position: 'bottom', offset: 0, dx:!scrolableChart?0:-processedPlayerStats.length*25/4 }} minTickGap={15} 

@@ -1,5 +1,5 @@
 import styles from './SinglePlayerWeekView.module.css';
-import React, { useEffect } from 'react';
+import React, { act, useEffect } from 'react';
 import { useState, useContext } from 'react';
 import { GlobalContext } from '../../GlobalContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -25,7 +25,6 @@ const SinglePlayerMonthView = () => {
     const [motorTreningsCounter, setMotorTreningsCounter] = useState(0);
     const [strengthTreningsCounter, setStrengthTreningsCounter] = useState(0);
     const [otherTreningsCounter, setOtherTreningsCounter] = useState(0);
-
     const [multiDayActivities, setMultiDayActivities] = useState([]);
 
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
@@ -136,34 +135,67 @@ const SinglePlayerMonthView = () => {
             .order('data', { ascending: true });
        
         if (aktywnosci ) {
-            setWeeklyActivities(aktywnosci);
-            let runningTreningsCounter = 0;
-            let motorTreningsCounter = 0;
-            let strengthTreningsCounter = 0;
-            let otherTreningsCounter = 0;
-            aktywnosci.forEach(activity => {
-                if(activity.rodzaj_aktywności === "Biegowy"){
-                    runningTreningsCounter++;
-                }
-                else if(activity.rodzaj_aktywności === "Motoryczny"){
-                    motorTreningsCounter++;
-                }
-                else if(activity.rodzaj_aktywności === "Na macie"){
-                    strengthTreningsCounter++;
-                }
-               
-                else{
-                    otherTreningsCounter++;
-                }
-            }
+            setWeeklyActivities(
+                aktywnosci.map(activity => ({
+                    ...activity,
+                    isChecked: true
+                }))
+
             );
-            setRunningTreningsCounter(runningTreningsCounter);
-            setMotorTreningsCounter(motorTreningsCounter);
-            setStrengthTreningsCounter(strengthTreningsCounter);
-            setOtherTreningsCounter(otherTreningsCounter);
+            
         }
         
     }
+
+    const onAllActivitiesClick = () => {
+        setWeeklyActivities(prevActivities =>
+            prevActivities.map(activity => ({
+                ...activity,
+                isChecked: true
+            }))
+        );
+    };
+
+    const onNoneActivitiesClick = () => {
+        setWeeklyActivities(prevActivities =>
+            prevActivities.map(activity => ({
+                ...activity,
+                isChecked: false
+            }))
+        );
+    };
+
+
+    useEffect(() => {
+        const aktywnosci = weeklyActivities;
+        let runningTreningsCounter = 0;
+        let motorTreningsCounter = 0;
+        let strengthTreningsCounter = 0;
+        let otherTreningsCounter = 0;
+        aktywnosci.forEach(activity => {
+            if (activity.isChecked === false) {
+                return; // Pomijamy aktywności, które nie są zaznaczone
+            }
+            if(activity.rodzaj_aktywności === "Biegowy"){
+                runningTreningsCounter++;
+            }
+            else if(activity.rodzaj_aktywności === "Motoryczny"){
+                motorTreningsCounter++;
+            }
+            else if(activity.rodzaj_aktywności === "Na macie"){
+                strengthTreningsCounter++;
+            }
+            else{
+                otherTreningsCounter++;
+            }
+        }
+        );
+        setRunningTreningsCounter(runningTreningsCounter);
+        setMotorTreningsCounter(motorTreningsCounter);
+        setStrengthTreningsCounter(strengthTreningsCounter);
+        setOtherTreningsCounter(otherTreningsCounter);
+    }, [weeklyActivities]);
+
 
     const getPercent = (count) => {
         const total = runningTreningsCounter + motorTreningsCounter + strengthTreningsCounter + otherTreningsCounter;
@@ -224,12 +256,16 @@ const SinglePlayerMonthView = () => {
     }
 
     const WeekDay = ({ day, date }) => {
-        const activities = getActivitiesForThatDay(date);
+        const [activities, setActivities] = useState(getActivitiesForThatDay(date));
+        
         const isToday = 
             date.getDate() === new Date().getDate() && 
             date.getMonth() === new Date().getMonth();
 
         const isMultiDay = hasMultiDayActivity(date);
+        const [isChecked, setIsChecked] = useState(false);
+       
+        
         return (
            <>
            {(activities.length !== 0 || viewType ===  "week" || isMultiDay)&& (
@@ -260,9 +296,55 @@ const SinglePlayerMonthView = () => {
                                         {getMultiDayActivityEmoji(activity.rodzaj_aktywnosci)} {activity.nazwa}
                                     </div>
                                 ))}
-
+                                
                                 <p>
                                 <span style={{ textTransform: 'uppercase' }}>{day}</span>, {formatDate(date)}
+                                
+                                {
+                                    
+                                    viewType === 'year' && (
+                                    <>
+                                    <input
+                                        key={date.toISOString()}
+                                        type="checkbox"
+                                        className={styles.todayText}
+                                        onClick={e => e.stopPropagation()}
+                                        onChange={e => {
+                                            const checked = e.target.checked;
+                                            setIsChecked(!checked);
+                                            setWeeklyActivities(prevActivities =>
+                                                prevActivities.map(a =>
+                                                    a.data === `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
+                                                        ? { ...a, isChecked: !checked }
+                                                        : a
+                                                )
+                                            );
+                                        }}
+                                        checked={false}
+                                    />
+                                    <input
+                                        key={date.toISOString()+1}
+                                        type="checkbox"
+                                        className={styles.todayText}
+                                        onClick={e => e.stopPropagation()}
+                                        onChange={e => {
+                                            const checked = e.target.checked;
+                                            setIsChecked(!checked);
+                                            setWeeklyActivities(prevActivities =>
+                                                prevActivities.map(a =>
+                                                    a.data === `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
+                                                        ? { ...a, isChecked: !checked }
+                                                        : a
+                                                )
+                                            );
+                                        }}
+                                        checked={true}
+                                    />
+                                
+                                    </>
+                                    
+                                    )
+                                }
                                 {isToday && <span className={styles.todayText}>dzisiaj</span>}
                                 </p>
                                 
@@ -302,6 +384,24 @@ const SinglePlayerMonthView = () => {
                                          <div className={styles.timeText}>
                                              {activity.czas_rozpoczęcia}
                                          </div>
+                                         {
+                                            viewType === 'year' && (
+                                                <input
+                                                    type="checkbox"
+                                                    className={styles.todayText}
+                                                    onClick={(e) => { e.stopPropagation(); }}
+                                                    checked={weeklyActivities.some((a) => a.id === activity.id && a.isChecked)}
+                                                    onChange={(e) => {
+                                                        const isChecked = e.target.checked;
+                                                        setWeeklyActivities((prevActivities) =>
+                                                            prevActivities.map((a) =>
+                                                                a.id === activity.id ? { ...a, isChecked } : a
+                                                            )
+                                                        );
+                                                    }}
+                                                />
+                                            )
+                                        }
                                      </div>
                                  </div>
                              ))}
@@ -371,6 +471,9 @@ const SinglePlayerMonthView = () => {
             );
             break;
     }
+
+    
+        
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -507,6 +610,15 @@ const SinglePlayerMonthView = () => {
                                         </span>
                                     </div>
                                 </div>
+                                <div className={styles.selectButtons}>
+                                    <button className={styles.buttonStats} onClick={onAllActivitiesClick}>
+                                        Zaznacz wszystkie 
+                                    </button>
+                                    <button className={styles.buttonStats} onClick={onNoneActivitiesClick}>
+                                        odznacz wszystkie 
+                                    </button>
+                                </div>
+                                
                             </div>
 
                             </div>
@@ -514,6 +626,7 @@ const SinglePlayerMonthView = () => {
                                 <button className={styles.buttonStats} onClick={() => navigate("/trener/playerstats")}>
                                     Statystyki
                                 </button>
+                                
                             </div>
                         </div>
                     </div>

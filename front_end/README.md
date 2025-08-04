@@ -16,23 +16,38 @@
 - [X] Naprawic przechodzenie do wybranego dnia z widoku tygodniowego i miesięcznego (zawodnik)
 - [X] Wyszukiwanie notatek
 - [X] Osobne wykresy dla statystyk
+
+
+
+
+
 Po majowym spotkaniu
-- [ ] Zaznaczanie aktywności i wyliczanie z tego statystyk tylko na podstawie widoku rocznego
-- [ ] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
-- [ ] Ćwiczenia mają różny czas serii
-- [ ] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz
-- [x] Oznaczyc miesiące na X  - względnie ok
-- [ ] Te pałki ^ powinny być podpisane bo mozna pomieszać jak jest więcej miesięcy
+- [X] Zaznaczanie aktywności i wyliczanie z tego statystyk tylko na podstawie widoku rocznego
+- [X] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
+- [ ] Ćwiczenia mają różny czas serii (powiedzieć zeby wpisywał x/x/x/x i zeby to bylo do wyboru albo minuty i sekundy albo wpisywane z palca wszystko)
+- [X] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz
+- [X] Oznaczyc miesiące na X  - względnie ok
+- [X] Te pałki ^ powinny być podpisane bo mozna pomieszać jak jest więcej miesięcy
 - [X] Poprawić wysyłanie sms z pozycji dodawania aktywności jedno i wielodniowej (ma być licznik i wartości niepotrzebnie są duplikowane)
 - [X] Przy dodawaniu ćwiczenia mają być jeszcze trzy pola xd (przerwa między interwałami, przerwa między seriami, licba serii) tutaj trzeba dopytać jakie dla jakiego typu aktyności (biegowy, na macie)!!!!
-- [ ] Podczas usuwania czy edycji treningu, gdy dotyczy wielu zawodników zmiana dotyczy wszystkich a nie tylko jednego
+- [X] Podczas usuwania czy edycji treningu, gdy dotyczy wielu zawodników zmiana dotyczy wszystkich a nie tylko jednego
 - [X] Dodać grupy dla zawodników i filtrowanie po nich przy dodawaniu aktywności (senior, junior, młodszy senior, młodzik) - możliwość kliknięcia dla kilku grup jednocześnie
 - [X] Wyszukiwanie ćwiczeń (było ale zniknęło)
-- [ ] Kilku trenerów ma mieć dostęp do tych samych zawodników
-- [ ] Możliwość zapisywania schematów aktywności
-- [ ] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)
-- [ ] Poprawić edycje aktywności aby pasowało do aktualnego dodawania aktywności
+- [!X] Kilku trenerów ma mieć dostęp do tych samych zawodników
+- [X] Możliwość zapisywania schematów aktywności
+- [X] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)
+- [X] Poprawić edycje aktywności aby pasowało do aktualnego dodawania aktywności
 - ![ ] W dodawaniu aktywności, przy wpisywaniu szczegółów ćwiczenia trzeba dodać opisy pól tekstowych (są tylko placeholdery na początku, może być nieintuicyjne) 
 - [ ] Umożliwić zawodnikom tworzenie własnych aktywności tak aby mogli podsumować treningi (w skrtórecie zawodnik tez może dodać aktywność)
 Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
 - [X] Duplikowanie aktywności i poprawiona edycja
+
+
+Zrobione do spotkania:
+- [] Poprawione widoki statystyk (pałki)
+- [] Duplikowanie aktywności i poprawiona edycja
+- [] Poprawienie filtrowania na podstawie grupy (kilka grup zaznaczonych jednocześnie)
+- [] Treningi motoryczne (cała nowa sekcja)
+- [] Dodatkowe pola przy dodawaniu aktywności + modernizacja widoków
+- [] Schematy w tworzeniu aktywności
+- [] Umozliwienie zawodnikom tworzenia treningów

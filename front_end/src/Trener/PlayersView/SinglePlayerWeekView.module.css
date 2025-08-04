@@ -368,7 +368,9 @@
 .timeText {
     font-size: 16px;
     text-align: left;
-    width: 40px; /* Ustalona szerokość kontenera dla godzin */
+    width: 45px; /* Ustalona szerokość kontenera dla godzin */
+    display: inline-block;
+    text-align: right;
 }
 
 .arrowButton {
@@ -395,3 +397,11 @@
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }
 
+.selectButtons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Dystans między przyciskami */
+    margin-top: 10px;
+}
