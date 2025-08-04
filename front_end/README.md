@@ -33,6 +33,6 @@ Po majowym spotkaniu
 - [ ] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)
 - [ ] Poprawić edycje aktywności aby pasowało do aktualnego dodawania aktywności
 - ![ ] W dodawaniu aktywności, przy wpisywaniu szczegółów ćwiczenia trzeba dodać opisy pól tekstowych (są tylko placeholdery na początku, może być nieintuicyjne) 
-
+- [ ] Umożliwić zawodnikom tworzenie własnych aktywności tak aby mogli podsumować treningi (w skrtórecie zawodnik tez może dodać aktywność)
 Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
 - [X] Duplikowanie aktywności i poprawiona edycja
