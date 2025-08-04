@@ -24,7 +24,7 @@ Po majowym spotkaniu
 - [x] Oznaczyc miesiące na X  - względnie ok
 - [ ] Te pałki ^ powinny być podpisane bo mozna pomieszać jak jest więcej miesięcy
 - [X] Poprawić wysyłanie sms z pozycji dodawania aktywności jedno i wielodniowej (ma być licznik i wartości niepotrzebnie są duplikowane)
-- [ ] Przy dodawaniu ćwiczenia mają być jeszcze trzy pola xd (przerwa między interwałami, przerwa między seriami, licba serii) tutaj trzeba dopytać jakie dla jakiego typu aktyności (biegowy, na macie)!!!!
+- [X] Przy dodawaniu ćwiczenia mają być jeszcze trzy pola xd (przerwa między interwałami, przerwa między seriami, licba serii) tutaj trzeba dopytać jakie dla jakiego typu aktyności (biegowy, na macie)!!!!
 - [ ] Podczas usuwania czy edycji treningu, gdy dotyczy wielu zawodników zmiana dotyczy wszystkich a nie tylko jednego
 - [X] Dodać grupy dla zawodników i filtrowanie po nich przy dodawaniu aktywności (senior, junior, młodszy senior, młodzik) - możliwość kliknięcia dla kilku grup jednocześnie
 - [X] Wyszukiwanie ćwiczeń (było ale zniknęło)
