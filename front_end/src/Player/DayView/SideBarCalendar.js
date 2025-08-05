@@ -71,6 +71,11 @@ const SideBarCalendar = ({ isOpen, onLogOutClick, player, onReportClick, viewTyp
                         <div className={styles.line}></div>
                     </>
                     }
+                    <div onClick={()=>navigate("/player/addingactivityfirstpage/player")} className={styles.singleClickableElemement}>
+                        Dodaj aktywność
+                        <IoIosArrowForward className={styles.right_arrow} />
+                    </div>
+
                     <div className={styles.emptyElement}></div>   
                     
                     <div onClick={handleNoteClick} className={styles.singleClickableElemement}>

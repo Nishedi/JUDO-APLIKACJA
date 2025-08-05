@@ -77,6 +77,7 @@ function App() {
           <Route path = 'trener/playermonthview/:viewtype' element = {<SinglePlayerMonthView />} />
           <Route path = 'trener/addinmultidayactivity' element = {<AddingMultiDayActivity />} />
           <Route path = 'trener/motiontrening' element = {<MotionTreningTest />} />
+          <Route path = 'player/addingactivityfirstpage/:type' element = {<AddiActivityFirstPage />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

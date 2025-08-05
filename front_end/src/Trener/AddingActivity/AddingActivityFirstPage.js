@@ -63,6 +63,9 @@ const AddingActivityFirstPage = () => {
         if (type==="edit"){
             setSelectedOptions([{name: `${viewedPlayer.imie} ${viewedPlayer.nazwisko}`, id: viewedPlayer.id}]);
         }
+        if (type==="player"){
+            setSelectedOptions([globalVariable]);
+        }
 
     }, []);
 
@@ -103,9 +106,6 @@ const AddingActivityFirstPage = () => {
             setSelectedTrenings([selectedTrening]);
             setComment(data.komentarz_trenera);
     }}
-    useEffect(() => {
-        console.log(selectedExercises);
-    }, [selectedExercises]);
     useEffect(() => {
         if (selectedTemplates.length > 0) {
             downloadTemplate();
@@ -216,6 +216,8 @@ const AddingActivityFirstPage = () => {
             console.log("Błąd podczas pobierania zawodników:", error);
         }
     };
+
+    
 
     useEffect(() => {
         if (selectedGroup && selectedGroup.length > 0 && selectedGroup[0].name !== "Brak grupy") {
@@ -516,9 +518,12 @@ const AddingActivityFirstPage = () => {
         if (isUploading) return;
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
+            console.log(formErrors);
             setErrors(formErrors);
             return;
         }
+        
+        
 
         const selectedType = defaultType; // Pobierz wybrany typ (kolor)
         let datesToSms = [];
@@ -547,6 +552,7 @@ const AddingActivityFirstPage = () => {
             exercises.join(", ")
         );
 
+        
         for (const athlete of selectedOptions) {
             for (const date of dates) {
                 const exercises2 = [];
@@ -564,18 +570,20 @@ const AddingActivityFirstPage = () => {
                         breakBetweenIntervals: exercise.breakBetweenIntervals,
                     });
                 }
-                const activity = {
-                    id_trainer: globalVariable.id,
-                    id_athlete: athlete.id,
-                    date: getDateString(date),
-                    start_time: getTimeString(date),
-                    activity_type: selectedTrenings[0]?.name,
-                    exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
-                    exercises_details: exercises2,
-                    comment: comment,
-                    additional_activity_type: selectedType // Nowe pole!
-                };
-                if(type!=="edit"){
+                
+                if(type==="player"){
+                    const activity = {
+                        id_trainer: athlete.id_trenera,
+                        id_athlete: athlete.id,
+                        date: getDateString(date),
+                        start_time: getTimeString(date),
+                        activity_type: selectedTrenings[0]?.name,
+                        exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
+                        exercises_details: exercises2,
+                        comment: comment,
+                        additional_activity_type: selectedType // Nowe pole!
+                    };
+                   
                     const { data, error } = await supabase
                         .from('aktywności')
                         .insert([
@@ -602,8 +610,19 @@ const AddingActivityFirstPage = () => {
                         console.log(data);
                         setAddActivityString('Dodano');
                     }
-                
-                }else{
+                }
+                else if (type==="edit"){
+                    const activity = {
+                        id_trainer: globalVariable.id,
+                        id_athlete: athlete.id,
+                        date: getDateString(date),
+                        start_time: getTimeString(date),
+                        activity_type: selectedTrenings[0]?.name,
+                        exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
+                        exercises_details: exercises2,
+                        comment: comment,
+                        additional_activity_type: selectedType // Nowe pole!
+                    };
                     const { data, error } = await supabase
                         .from('aktywności')
                         .update({
@@ -631,6 +650,45 @@ const AddingActivityFirstPage = () => {
                         console.log(data);
                         setViewedPlayer({...viewedPlayer, currentActivity: data[0]});
                     }
+                }else{
+                    const activity = {
+                        id_trainer: globalVariable.id,
+                        id_athlete: athlete.id,
+                        date: getDateString(date),
+                        start_time: getTimeString(date),
+                        activity_type: selectedTrenings[0]?.name,
+                        exercise: selectedExercises.map(exercise => `${exercise.name}${exercise?.duration ? ':' + exercise.duration + ' min.' : ''}${exercise?.repeats ? ':x'+exercise.repeats:''}`).join(','),
+                        exercises_details: exercises2,
+                        comment: comment,
+                        additional_activity_type: selectedType // Nowe pole!
+                    };
+                    const { data, error } = await supabase
+                        .from('aktywności')
+                        .insert([
+                            { 
+                                id_trenera: activity.id_trainer, 
+                                id_zawodnika: activity.id_athlete,
+                                data: activity.date,
+                                czas_trwania: activity.duration,
+                                rodzaj_aktywności: activity.activity_type,
+                                dodatkowy_rodzaj_aktywności: activity.additional_activity_type, // Wstaw do bazy
+                                zadania: activity.exercise,
+                                czas_rozpoczęcia: activity.start_time,
+                                komentarz_trenera: activity.comment,
+                                szczegoly: activity.exercises_details
+                            },
+                        ])
+                        .select()
+                    if(error){
+                        console.log("Problem podczas dodawania nowej aktywności");
+                        console.log(error);
+                        return;
+                    }
+                    if(data){
+                        console.log(data);
+                        setAddActivityString('Dodano');
+                    }
+                
                 }
             }
         }
@@ -870,8 +928,8 @@ const AddingActivityFirstPage = () => {
                         <div className={styles.error_message}>{errors.general}</div>
                     )}
                     <div className={styles.content}>
-                    
-                        {type==="edit" ? null :
+
+                        {type==="edit" || type === "player" ? null :
                         <>
                         <div className={styles.input_container}>
                             Wczytaj schemat aktywności
@@ -1048,26 +1106,30 @@ const AddingActivityFirstPage = () => {
                             </div>
                         </div>
                         :null}
-                        <div className={styles.input_container}>
-                            <div>Komentarz</div>
-                            <textarea
-                                id="multiline-input"
-                                value={comment}
-                                onChange={onCommentChange}
-                                rows={5}  // Ustaw liczbę widocznych wierszy
-                                className={styles.multiLineInput}
-                                placeholder="Wpisz komentarz"
-                            />
-                             {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
-                                <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
-                                :
-                                null
-                            }
-                        </div>
+                        {type === "player" ? null :
+                            <div className={styles.input_container}>
+                                <div>Komentarz</div>
+                                <textarea
+                                    id="multiline-input"
+                                    value={comment}
+                                    onChange={onCommentChange}
+                                    rows={5}  // Ustaw liczbę widocznych wierszy
+                                    className={styles.multiLineInput}
+                                    placeholder="Wpisz komentarz"
+                                />
+                                {selectedTrenings[0]?.name=== 'Biegowy' || selectedTrenings[0]?.name === 'Na macie' ? 
+                                    <button onClick={addHeaders}>Dodaj aktywności do komentarza</button>
+                                    :
+                                    null
+                                }
+                            </div>
+                        }
                         <button onClick={addActivities} className={styles.button} disabled={isUploading}>
                             {isUploading ? 'Przesyłanie pliku...' : addActivityString}
                         </button>
-                        <textarea
+                        {type === "player" ? null :
+                        <>
+                            <textarea
                                 id="multiline-input"
                                 value={smsContent}
                                 onChange={onSmsContentChange}
@@ -1075,15 +1137,17 @@ const AddingActivityFirstPage = () => {
                                 className={styles.multiLineInput}
                                 placeholder="Wpisz wiadomość sms"
                             />
-                        <div style={{width: "100%", textAlign: "right", fontSize: "12px", color: "#667", marginTop: "4px" }}>
-                            Uwaga!<br/> W przypadku dłuższej wiadomości koszt SMS-a wzrośnie.<br/>
-                            Liczba znaków: {smsContent.length}/160<br/>(sugerowane 160,  400 max)
-                            
-                        </div>
+                            <div style={{width: "100%", textAlign: "right", fontSize: "12px", color: "#667", marginTop: "4px" }}>
+                                Uwaga!<br/> W przypadku dłuższej wiadomości koszt SMS-a wzrośnie.<br/>
+                                Liczba znaków: {smsContent.length}/160<br/>(sugerowane 160,  400 max)
+                                
+                            </div>
 
-                        <button onClick={sendSMS } className={styles.button} >
-                            Wyślij SMS
-                        </button>
+                            <button onClick={sendSMS } className={styles.button} >
+                                Wyślij SMS
+                            </button>
+                        </>
+                        }
                         <div className={styles.input_container}>
                             <div>Nazwa schematu</div>
                             <input type="text" onChange={(e)=>setTemplateName(e.target.value)} placeholder='Podaj nazwę schematu' style={{width: "100%"}} />
