@@ -46,10 +46,27 @@
 .exercise_details div {
     display: flex;
     flex-direction: row;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-family: 'Montserrat-SemiBold';
 }
 
+.input_container button {
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #fff;
+    border-color: #D7DFEE;
+    border-radius: 5px;
+    font-family: 'Montserrat-Semibold';
+    font-size: 12px;
+    padding: 10px;
+}
+
+.activity_fields{
+    display: flex;
+    flex-direction: column !important;
+    width: 100%;
+    font-size: 12px;
+    font-family: 'Montserrat-Medium' !important;
+}
 
 .exercise_details input{
     width: 50%;
@@ -129,17 +146,9 @@
     /* margin-top: 5px; */
 }
 
-.input_container button {
-    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
-    color: #fff;
-    border-color: #D7DFEE;
-    border-radius: 5px;
-    font-family: 'Montserrat-Semibold';
-    font-size: 12px;
-    padding: 10px;
+.activity_fields input{
+    width: 100%;
 }
-
-
 
 .content{
     width: 100%;

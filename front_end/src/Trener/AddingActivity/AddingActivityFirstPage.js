@@ -607,7 +607,7 @@ const AddingActivityFirstPage = () => {
                         return;
                     }
                     if(data){
-                        console.log(data);
+                        // console.log(data);
                         setAddActivityString('Dodano');
                     }
                 }
@@ -804,73 +804,100 @@ const AddingActivityFirstPage = () => {
                 <div style={{marginBottom: '5px'}}>{exercise.name}</div>
                 <div className={styles.exercise_details} style={true? {flexDirection: "column"}:{flexDirection: "row"}}>
                     <div>
-                        <input
-                            type="text"
-                            placeholder='Minuty'
-                            value={duration}
-                            onChange={(e)=>{setDuration(e.target.value);setIsConfirmed(false);}}
-                        />
-                        <input
-                            type="number"
-                            placeholder='Sekundy'
-                            value={durationSeconds}
-                            onChange={(e)=>{setDurationSeconds(e.target.value);setIsConfirmed(false);}}
-                        />
+                        <div className={styles.activity_fields}>
+                            Minuty
+                            <input
+                                type="text"
+                                placeholder='Minuty'
+                                value={duration}
+                                onChange={(e)=>{setDuration(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
+                        <div className={styles.activity_fields}>
+                            Sekundy
+                            <input
+                                type="number"
+                                placeholder='Sekundy'
+                                value={durationSeconds}
+                                onChange={(e)=>{setDurationSeconds(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
                     </div>
                     <div>
-                        <input
-                            type="number"
-                            placeholder='Liczba powtórzeń'
-                            value={repeats}
-                            onChange={(e)=>{setRepeats(e.target.value);setIsConfirmed(false);}}
-                            style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
-                        />
-                        {selectedTrenings[0]?.name === 'Biegowy' ? 
+                        <div className={styles.activity_fields}>
+                            Liczba powtórzeń
                             <input
-                            type="number"
-                            placeholder='Metry'
-                            value={meters}
-                            onChange={(e)=>{setMeters(e.target.value);setIsConfirmed(false);}}
-                            style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
-                        />:null
+                                type="number"
+                                placeholder='Liczba powtórzeń'
+                                value={repeats}
+                                onChange={(e)=>{setRepeats(e.target.value);setIsConfirmed(false);}}
+                                style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
+                            />
+                        </div>
+                        {selectedTrenings[0]?.name === 'Biegowy' ? 
+                            <div className={styles.activity_fields}>
+                                Metry
+                                <input
+                                    type="number"
+                                    placeholder='Metry'
+                                    value={meters}
+                                    onChange={(e)=>{setMeters(e.target.value);setIsConfirmed(false);}}
+                                    style={selectedTrenings[0].name!=="Na macie"? {width: "100%"}:null}
+                                />
+                            </div>:null
                             }
                         {selectedTrenings[0]?.name === 'Na macie' ? 
                         <div>
-                            <input
-                            type="number"
-                            placeholder='GS [min]'
-                            value={goldenScoreMinutes}
-                            onChange={(e)=>{setGoldenScoreMinutes(e.target.value);setIsConfirmed(false);}}
-                        />
-                        <input
-                            type="number"
-                            placeholder='GS [s]'
-                            value={goldenScore}
-                            onChange={(e)=>{setGoldenScore(e.target.value);setIsConfirmed(false);}}
-                        />
+                            <div className={styles.activity_fields}>
+                                {"Czas GS[min]"}
+                                <input
+                                    type="number"
+                                    placeholder='GS [min]'
+                                    value={goldenScoreMinutes}
+                                    onChange={(e)=>{setGoldenScoreMinutes(e.target.value);setIsConfirmed(false);}}
+                                />
+                            </div>
+                            <div className={styles.activity_fields}>
+                                {"Czas GS[s]"}
+                                <input
+                                    type="number"
+                                    placeholder='GS [s]'
+                                    value={goldenScore}
+                                    onChange={(e)=>{setGoldenScore(e.target.value);setIsConfirmed(false);}}
+                                />
+                            </div>
                         </div>
                          : null}
                     </div>
                     <div>
-                        <input
-                            type="number"
-                            placeholder='P. m. interwałami'
-                            value={breakBetweenIntervals}
-                            onChange={(e)=>{setBreakBetweenIntervals(e.target.value);setIsConfirmed(false);}}
-                           
-                        />
-                        <input
-                            type="number"
-                            placeholder='P. m. seriami'
-                            value={breakBetweenSeries}
-                            onChange={(e)=>{setBreakBetweenSeries(e.target.value);setIsConfirmed(false);}}
-                        />
-                        <input
-                            type="number"
-                            placeholder='L. serii'
-                            value={numberOfSeries}
-                            onChange={(e)=>{setNumberOfSeries(e.target.value);setIsConfirmed(false);}}
-                        />
+                        <div className={styles.activity_fields}>
+                            {"P. m. interwałami"}
+                            <input
+                                type="number"
+                                placeholder='P. m. interwałami'
+                                value={breakBetweenIntervals}
+                                onChange={(e)=>{setBreakBetweenIntervals(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
+                        <div className={styles.activity_fields}>
+                            {"P. m. seriami"}
+                            <input
+                                type="number"
+                                placeholder='P. m. seriami'
+                                value={breakBetweenSeries}
+                                onChange={(e)=>{setBreakBetweenSeries(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
+                        <div className={styles.activity_fields}>
+                            {"L. serii"}
+                            <input
+                                type="number"
+                                placeholder='L. serii'
+                                value={numberOfSeries}
+                                onChange={(e)=>{setNumberOfSeries(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
+                        
                     </div>
                     <MdOutlineDone 
                         onClick={updateExercise}

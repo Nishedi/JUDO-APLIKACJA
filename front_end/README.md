@@ -24,7 +24,7 @@
 Po majowym spotkaniu
 - [X] Zaznaczanie aktywności i wyliczanie z tego statystyk tylko na podstawie widoku rocznego
 - [X] Moduł obozów - początkowo nowa zakładka, później od zaznaczania aktywności
-- [ ] Ćwiczenia mają różny czas serii (powiedzieć zeby wpisywał x/x/x/x i zeby to bylo do wyboru albo minuty i sekundy albo wpisywane z palca wszystko)
+- [ ] Ćwiczenia mają różny czas serii (powiedzieć zeby wpisywał x/x/x/x i zeby to bylo do wyboru albo minuty i sekundy albo wpisywane z palca wszystko) pomysł: zrobić w zależności od liczby serii (tyle grup pól co liczby serii cos jak w motorycznych do obgadania!!!)
 - [X] Na wykresach statystyk powinny być dodatkowo pałki które oznaczają jakieś wydarzenie np. obóz
 - [X] Oznaczyc miesiące na X  - względnie ok
 - [X] Te pałki ^ powinny być podpisane bo mozna pomieszać jak jest więcej miesięcy
@@ -37,17 +37,7 @@ Po majowym spotkaniu
 - [X] Możliwość zapisywania schematów aktywności
 - [X] Modernizacja treningów motorycznych (do dogadania, ma tam też byc zapisywanie nowych ćwiczeń jak w przypadku maty)
 - [X] Poprawić edycje aktywności aby pasowało do aktualnego dodawania aktywności
-- ![ ] W dodawaniu aktywności, przy wpisywaniu szczegółów ćwiczenia trzeba dodać opisy pól tekstowych (są tylko placeholdery na początku, może być nieintuicyjne) 
-- [ ] Umożliwić zawodnikom tworzenie własnych aktywności tak aby mogli podsumować treningi (w skrtórecie zawodnik tez może dodać aktywność)
+- [X] W dodawaniu aktywności, przy wpisywaniu szczegółów ćwiczenia trzeba dodać opisy pól tekstowych (są tylko placeholdery na początku, może być nieintuicyjne) 
+- [X] Umożliwić zawodnikom tworzenie własnych aktywności tak aby mogli podsumować treningi (w skrtórecie zawodnik tez może dodać aktywność)
 Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
 - [X] Duplikowanie aktywności i poprawiona edycja
-
-
-Zrobione do spotkania:
-- [] Poprawione widoki statystyk (pałki)
-- [] Duplikowanie aktywności i poprawiona edycja
-- [] Poprawienie filtrowania na podstawie grupy (kilka grup zaznaczonych jednocześnie)
-- [] Treningi motoryczne (cała nowa sekcja)
-- [] Dodatkowe pola przy dodawaniu aktywności + modernizacja widoków
-- [] Schematy w tworzeniu aktywności
-- [] Umozliwienie zawodnikom tworzenia treningów
