@@ -60,6 +60,10 @@ const PlayersView = () => {
         navigate('/trener/playermonthview/week');
     }
 
+    const onVideosClick = () => {
+        navigate('/trener/videos');
+    }
+
     const goToProfile = () => {
         navigate('/trener/userprofile');
     }
@@ -93,6 +97,7 @@ const PlayersView = () => {
                         onAddMultiDayActivityClick={onAddMultiDayActivityClick}
                         goToProfile={goToProfile} 
                         onTestowaniePowiadomienClick={goToTestowaniePowiadomien}
+                        onVideosClick={onVideosClick}
                         />
             <div className={styles.navbar}>
                 <div onClick={toggleSidebar}>
