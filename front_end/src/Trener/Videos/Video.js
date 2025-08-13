@@ -38,6 +38,7 @@ const Video = () => {
             console.error('Błąd pobierania informacji o wideo:', error.message);
         } else {
             setVideoInfo(data);
+            console.log('Pobrano informacje o wideo:', data);
             loadAndPlay(data[0].linki_wideo)
         }
     };

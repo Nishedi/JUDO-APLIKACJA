@@ -59,10 +59,14 @@ const Videos = () => {
             return;
         }
 
-        const headersWithNames = headers.map(h => ({
-            ...h,
-            ...zawodnicy.find(z => z.id === h.id_zawodnika)
-        }));
+        const headersWithNames = headers.map(h => {
+        const zawodnik = zawodnicy.find(z => z.id === h.id_zawodnika);
+            return {
+                ...h,
+                imie: zawodnik?.imie || null,
+                nazwisko: zawodnik?.nazwisko || null
+            };
+        });
 
         setVideoHeaders(headersWithNames);
     }
@@ -154,6 +158,7 @@ const Videos = () => {
             <div
                 key={index}
                 className={styles.analysisCard}
+                
                 onClick={() => handleThreadClick(frame.id)}>
                 <div className={styles.analysisInfo}>
                     <div className={styles.analysisName}>
@@ -212,6 +217,7 @@ const Videos = () => {
             </div>
             {videoHeaders.length > 0 && (
                 <div className={styles.video_list}>
+                    {console.log(videoHeaders)}
                     {videoHeaders.map((header, index) => (
                         <VideoFrame key={index} frame={header} />
                     ))}
