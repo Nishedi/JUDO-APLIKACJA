@@ -16,3 +16,37 @@
     cursor: pointer;
     width: 100%;
 }
+
+.background{
+    display: grid;
+    grid-template-rows: flex; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #D7DFEE;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
+    color: #FFFFFF;
+    font-family: "Poppins-Medium";
+    font-size: 20px;
+    height: 80px;
+    min-height: 80px;
+}
+
+.left_navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.writing_div{
+    font-family: 'Kodchasan-SemiBold';
+    font-size: 20px;
+}

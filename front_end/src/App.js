@@ -35,7 +35,7 @@ import MotionTreningTest from './Test/MotionTreningTest';
 import SinglePlayerMonthView from './Trener/PlayersView/SinglePlayerMonthView';
 import Smssending from './SmsSide/Sms';
 import Videos from './Trener/Videos/Videos';
-
+import Video from './Trener/Videos/Video';
 import AddingMultiDayActivity from './Trener/AddingActivity/AddingMultiDayActivity';
 
 function App() {
@@ -80,6 +80,7 @@ function App() {
           <Route path = 'trener/motiontrening' element = {<MotionTreningTest />} />
           <Route path = 'player/addingactivityfirstpage/:type' element = {<AddiActivityFirstPage />} />
           <Route path = 'trener/videos' element = {<Videos />} />
+          <Route path = 'trener/videos/:id_video' element = {<Video />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

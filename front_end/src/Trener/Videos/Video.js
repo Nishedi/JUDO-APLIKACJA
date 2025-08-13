@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import { GlobalContext } from '../../GlobalContext';
 import styles from './Video.module.css';
 
+import BackButton from '../../BackButton';
+import { useParams } from "react-router-dom";
+
 const Video = () => {
     const { supabase } = useContext(GlobalContext);
     const videoRef = useRef(null);
@@ -12,12 +15,48 @@ const Video = () => {
     const [screenshotImage, setScreenshotImage] = useState(null); // zapisany obraz
     const [isDrawing, setIsDrawing] = useState(false);
     const [color, setColor] = useState("red");
+    const { id_video } = useParams();
+    const [videoInfo, setVideoInfo] = useState(null);
 
     useEffect(() => {
-        loadVideoBlob(
-            "https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/public/1754994224494481595461_10018500904830921_2817224661189247323_n.mp4"
-        );
+        (async () => {
+            await downloadVideoInfo();
+            
+            // loadVideoBlob(
+            //     "https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/public/1754994224494481595461_10018500904830921_2817224661189247323_n.mp4"
+            // );
+        })();
     }, []);
+
+    const downloadVideoInfo = async () => {
+        const {data, error} = await supabase
+            .from('analizy_wideo')
+            .select('*')
+            .eq('id', id_video);
+
+        if (error) {
+            console.error('Błąd pobierania informacji o wideo:', error.message);
+        } else {
+            setVideoInfo(data);
+            loadAndPlay(data[0].linki_wideo)
+        }
+    };
+
+    async function loadAndPlay(parts) {
+        // parts = array of URLs to each chunk
+        const blobs = await Promise.all(parts.map(url =>
+        {
+            console.log("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/"+url)
+            return fetch("https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/"+url).then(res => res.blob())
+        }
+            
+        ));
+        // Połącz blob’y w jeden
+        const superBlob = new Blob(blobs, { type: 'video/mp4' });
+        const url = URL.createObjectURL(superBlob);
+        videoRef.current.src = url;
+        // videoRef.current.play();
+    }
 
     const loadVideoBlob = async (url) => {
         const res = await fetch(url);
@@ -128,17 +167,70 @@ const Video = () => {
         }
     };
 
+    // return (
+    //     <div>
+    //         <br />
+    //         <div className={styles.buttonsContainer}>
+    //             <button onClick={handlePlay}>Play</button>
+    //             <button onClick={handlePause}>Pause</button>
+    //         </div>
+    //         <div className={styles.buttonsContainer}>
+    //             <button onClick={() => handleSpeed(0.5)}>0.5x</button>
+    //             <button onClick={() => handleSpeed(1)}>1x</button>
+    //             <button onClick={() => handleSpeed(1.5)}>1.5x</button>
+    //             <button onClick={() => handleSpeed(2)}>2x</button>
+    //         </div>
+    //         <div className={styles.buttonsContainer}>
+    //             <button onClick={handleScreenshot}>Zrób screenshot</button>
+    //         </div>
+
+    //         {/* Narzędzia do rysowania */}
+    //         {screenshot && (
+    //             <>
+    //             <div className={styles.buttonsContainer}>
+    //                 <canvas
+    //                     ref={canvasRef}
+    //                     style={{
+    //                         border: "1px solid #ccc",
+    //                         maxWidth: "100%",
+    //                         cursor: screenshot ? "crosshair" : "default"
+    //                     }}
+    //                     onMouseDown={startDrawing}
+    //                     onMouseMove={draw}
+    //                     onMouseUp={stopDrawing}
+    //                     onMouseLeave={stopDrawing}
+    //                     onTouchStart={startDrawing}
+    //                     onTouchMove={draw}
+    //                     onTouchEnd={stopDrawing}
+    //                 />
+    //             </div>
+    //             <div className={styles.buttonsContainer}>
+    //                 <label>
+    //                     Kolor:
+    //                     <input
+    //                         type="color"
+    //                         value={color}
+    //                         onChange={(e) => setColor(e.target.value)}
+    //                     />
+    //                 </label>
+    //                 <button onClick={handleEraseAll}>Cofnij zmiany</button>
+    //                 <button onClick={handleSaveImage}>Zapisz obraz</button>
+    //             </div>
+    //             </>
+    //         )}
+    //     </div>
+    // );
     return (
-        <div>
-            
-
-            <div>
-                <input type="file" accept="video/*" onChange={handleUpload} />
+        <div  className={styles.background}>
+            <div className={styles.navbar}>
+                <div>
+                    <BackButton path="/trener/videos" />
+                </div>
+                {/* <div className="left_navbar" onClick={() => setIsSidebarOpen(false)}></div> */}
+                <div className={styles.writing_div}>
+                    Analiza Wideo
+                </div> 
             </div>
-
-            <h1>{isUploading ? 'Wysyłanie...' : ''}</h1>
-            <h1>Video Component</h1>
-
             <video
                 ref={videoRef}
                 width={400}
@@ -146,56 +238,8 @@ const Video = () => {
                 crossOrigin="anonymous"
                 src={videoUrl}
             />
-
-            <br />
-            <div className={styles.buttonsContainer}>
-                <button onClick={handlePlay}>Play</button>
-                <button onClick={handlePause}>Pause</button>
-            </div>
-            <div className={styles.buttonsContainer}>
-                <button onClick={() => handleSpeed(0.5)}>0.5x</button>
-                <button onClick={() => handleSpeed(1)}>1x</button>
-                <button onClick={() => handleSpeed(1.5)}>1.5x</button>
-                <button onClick={() => handleSpeed(2)}>2x</button>
-            </div>
-            <div className={styles.buttonsContainer}>
-                <button onClick={handleScreenshot}>Zrób screenshot</button>
-            </div>
-
-            {/* Narzędzia do rysowania */}
-            {screenshot && (
-                <>
-                <div className={styles.buttonsContainer}>
-                    <canvas
-                        ref={canvasRef}
-                        style={{
-                            border: "1px solid #ccc",
-                            maxWidth: "100%",
-                            cursor: screenshot ? "crosshair" : "default"
-                        }}
-                        onMouseDown={startDrawing}
-                        onMouseMove={draw}
-                        onMouseUp={stopDrawing}
-                        onMouseLeave={stopDrawing}
-                        onTouchStart={startDrawing}
-                        onTouchMove={draw}
-                        onTouchEnd={stopDrawing}
-                    />
-                </div>
-                <div className={styles.buttonsContainer}>
-                    <label>
-                        Kolor:
-                        <input
-                            type="color"
-                            value={color}
-                            onChange={(e) => setColor(e.target.value)}
-                        />
-                    </label>
-                    <button onClick={handleEraseAll}>Cofnij zmiany</button>
-                    <button onClick={handleSaveImage}>Zapisz obraz</button>
-                </div>
-                </>
-            )}
+            
+            
         </div>
     );
 };

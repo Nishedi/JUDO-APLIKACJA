@@ -51,6 +51,45 @@ export const sharedStyles = {
         }
     };
 
+export const sharedStyles2 = {
+        chips: {
+            color: '#f8f8f8',
+            fontSize: '1rem',
+            padding: '2px 8px',
+            backgroundColor: '#1D61DC',
+            margin: '0px',
+        },
+        multiselectContainer: {
+            color: '#000',
+            width: '100%'
+        },
+        searchBox: {
+            color: '#000',
+            backgroundColor: '#FFF',
+            borderRadius: '3px',
+            padding: '8px',
+            border: '0px solid #ccc',
+            height: 'fit-content' 
+        },
+        optionContainer: {
+            color: 'red',
+            background: '#f8f8f8',
+            border: '1px solid #ccc'
+        },
+        option: {
+            color: '#000',
+            background: '#f8f8f8',
+            padding: '5px 10px',
+            fontSize: '1rem',
+            cursor: 'pointer',
+        },
+        selectedOption: {
+            fontWeight: 'bold',
+            fontSize: '15px',
+        }
+    };
+    
+
 export const getMultiDayActivityBorderColor = (type) => {
     switch (type) {
         case 'oboz':
