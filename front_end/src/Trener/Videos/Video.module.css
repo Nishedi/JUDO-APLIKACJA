@@ -31,6 +31,23 @@ canvas {
   touch-action: none;
 }
 
+.multiLineDiv{
+    width: 100%;
+    padding: 14px;
+}
+
+.multiLineInput{
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    overflow-wrap: break-word;
+    font-family: 'Roboto-Regular';
+    border-radius: 4px;
+    border-color: #CCC;
+}
+
 .background{
     display: grid;
     grid-template-rows: flex; 
