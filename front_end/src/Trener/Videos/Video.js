@@ -4,7 +4,7 @@ import styles from './Video.module.css';
 import BackButton from '../../BackButton';
 import { useParams } from "react-router-dom";
 
-const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrlChange }) => {
+const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrlChange, url }) => {
     const { supabase } = useContext(GlobalContext);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
@@ -19,8 +19,38 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
                 ctx.clearRect(0, 0, width, height);
                 ctx.drawImage(img, 0, 0, width, height);
             };
+        }else if(canvasRef.current && url){
+            getImageFromUrl(width, height);
         }
     }, [image, width, height]);
+
+    const getImageFromUrl = async (width, height) => {
+        if (!url) return;
+
+        // 1. Zbuduj publiczny URL Supabase
+        const publicImageUrl = `https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/${url}`;
+        
+        // 2. Pobierz obraz z Supabase
+        const response = await fetch(publicImageUrl);
+        if (!response.ok) {
+            console.error('Nie udało się pobrać obrazka z Supabase:', response.status);
+            return;
+        }
+
+        // 3. Zamień na blob, wstaw na canvas
+        const blob = await response.blob();
+        const imgURL = URL.createObjectURL(blob);
+
+        const ctx = canvasRef.current.getContext("2d");
+        const img = new window.Image();
+        img.onload = () => {
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            // (opcjonalnie) zwolnij URL po załadowaniu
+            URL.revokeObjectURL(imgURL);
+        };
+        img.src = imgURL;
+    };
 
     const getCanvasPos = (e) => {
         const canvas = canvasRef.current;
@@ -153,7 +183,6 @@ const Video = () => {
     const videoRef = useRef(null);
     const [videoUrl, setVideoUrl] = useState(null);
     const { id_video } = useParams();
-    const [videoInfo, setVideoInfo] = useState(null);
     const [screenshots, setScreenshots] = useState([]);
 
     const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth, height: 400 }); // domyślna wysokość
@@ -199,21 +228,23 @@ const Video = () => {
         if (error) {
             console.error('Błąd pobierania informacji o wideo:', error.message);
         } else {
-            setVideoInfo(data);
             loadAndPlay(data[0].linki_wideo);
+            console.log(data)
+            setScreenshots(data[0].zdjecia || []);
         }
     };
 
-    useEffect(() => {
-        updateVideoInfo();
-    }, [screenshots]);
+    // useEffect(() => {
+        
+    // }, []);
 
     const updateVideoInfo = async () => {
-        const images = screenshots.map(({ url, comment }) => ({
+        const images = screenshots.map(({ url, comment, width, height }) => ({
             url,
-            comment
+            comment,
+            width,
+            height
         }));
-        console.log(id_video)
         const {data, error} = await supabase
             .from('analizy_wideo')
             .update({ zdjecia: images })
@@ -288,10 +319,12 @@ const Video = () => {
             </div>
             {screenshots.length > 0 && (
                 <div>
+                    {console.log(screenshots)}
                     {screenshots.map((data, idx) => (
                         <ImageProcessing
                             key={idx}
                             image={data.image}
+                            url={data.url}
                             width={data.width}
                             height={data.height}
                             comment={data.comment}
@@ -301,6 +334,7 @@ const Video = () => {
                     ))}
                 </div>
             )}
+            <button onClick={updateVideoInfo}>Zapisz</button>
         </div>
     );
 };
