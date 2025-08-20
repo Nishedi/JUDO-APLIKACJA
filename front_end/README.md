@@ -41,3 +41,13 @@ Po majowym spotkaniu
 - [X] Umożliwić zawodnikom tworzenie własnych aktywności tak aby mogli podsumować treningi (w skrtórecie zawodnik tez może dodać aktywność)
 Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
 - [X] Duplikowanie aktywności i poprawiona edycja
+
+
+
+8.06
+- [ ] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
+- [ ] pola na sekunndy i minuty w zaleznosci od liczby serii
+- [ ] usuwanie zawodników
+- [ ] sekcja z filmami, zeby była możliwość spowolnienia, spróbować zrobić zrzut ekranu z filmu i coś na tym zaznaczyć
+
+- [X] Zdjęcia są nadpisywane przez dodawanie nowych linków, nie da się jeszcze usuwać

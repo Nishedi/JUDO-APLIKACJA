@@ -4,11 +4,12 @@ import styles from './Video.module.css';
 import BackButton from '../../BackButton';
 import { useParams } from "react-router-dom";
 
-const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrlChange, url }) => {
+const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrlChange, url, updateVideoInfo }) => {
     const { supabase } = useContext(GlobalContext);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [color, setColor] = useState("red");
+    const [firstUpload, setFirstUpload] = useState();
 
     useEffect(() => {
         if (canvasRef.current && image) {
@@ -108,29 +109,44 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
 
     const handleSaveImage = async () => {
         if (!canvasRef.current) return;
-
+        
         canvasRef.current.toBlob(async (blob) => {
             if (!blob) return;
-
+            if(url || firstUpload){
+                const fn = url || firstUpload;
+                console.log(fn)
+                const {deleteddata, deletedError} = await supabase.storage
+                    .from('videos')
+                    .remove(fn);
+                    if(deletedError){
+                        console.error('Błąd usuwania starego pliku:', deletedError);
+                    }
+                    if(deleteddata){
+                        console.log('Usunięto stary plik:', deleteddata);
+                    }
+            }
             const fileName = `user-uploads/screenshot_${Date.now()}.png`;
-
             const { data, error } = await supabase.storage
                 .from('videos')
-                .upload(fileName, blob, { contentType: 'image/png' });
+                .upload(fileName, blob, { 
+                    contentType: 'image/png'
+                });
 
             if (error) {
                 alert(`Błąd zapisu: ${error.message}`);
             } 
             if(data)
             {   
+                setFirstUpload(data.path);
                 onUrlChange(data.path);
-                console.log('Zapisano plik w Supabase!', data.path);
+                // console.log('Zapisano plik w Supabase!', data.path);
             }
         }, 'image/png');
     };
 
+
     return (
-        <div style={{position: "relative", marginBottom: 32, width: "100%" }}>
+        <div style={{position: "relative", marginBottom: "30px", width: "100%" }}>
             <canvas
                 ref={canvasRef}
                 width={width}
@@ -141,7 +157,8 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
                     height: "auto",
                     maxWidth: "100vw",
                     display: "block",
-                    cursor: "crosshair"
+                    cursor: "crosshair",
+                    marginBottom: "5px"
                 }}
                 onMouseDown={startDrawing}
                 onMouseMove={draw}
@@ -151,7 +168,7 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
                 onTouchMove={draw}
                 onTouchEnd={stopDrawing}
             />
-            <div className={styles.buttonsContainer} style={{padding:"10px", marginTop: 8 }}>
+            <div className={styles.buttonsContainer} style={{padding:"5px 10px" }}>
                 <div >Kolor:</div>
                 <input
                     type="color"
@@ -160,9 +177,8 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
                     style={{ marginLeft: 8 }}
                 />
                 <button onClick={handleEraseAll} style={{ marginLeft: 8 }}>Cofnij zmiany</button>
-                <button onClick={handleSaveImage} style={{ marginLeft: 8 }}>Zapisz obraz</button>
             </div>
-            <div style={{ padding: "10px", marginTop: 8 }}>
+            <div style={{padding:"5px 10px" }}>
                 Komentarz
                 <textarea
                     rows={4}
@@ -173,7 +189,12 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
                     style={{  width: "100%" }}
                 />
             </div>
+            <div className={styles.buttonsContainer} style={{padding:"5px 10px" }}>
+                <button onClick={handleSaveImage} >Zapisz</button>
             
+            </div>
+                
+
         </div>
     )
 };
@@ -195,12 +216,32 @@ const Video = () => {
         });
     };
 
-    const handleUrlChange = (idx, newUrl) => {
+
+    const handleUrlChange = async (idx, newUrl) => {
+        const localScreenshot = screenshots;
         setScreenshots(prev => {
             const updated = [...prev];
             updated[idx] = { ...updated[idx], url: newUrl };
             return updated;
         });
+        localScreenshot[idx].url = newUrl;
+        const images = localScreenshot.map(({ url, comment, width, height }) => ({
+            url,
+            comment,
+            width,
+            height
+        }));
+        const {data, error} = await supabase
+            .from('analizy_wideo')
+            .update({ zdjecia: images })
+            .eq('id', id_video)
+            .select();
+
+        if (error) {
+            console.error('Błąd aktualizacji informacji o wideo:', error.message);
+        } else {
+            // console.log('Zaktualizowano informacje o wideo:', data);
+        }
     };
 
     useEffect(() => {
@@ -208,7 +249,7 @@ const Video = () => {
             setCanvasSize({ width: window.innerWidth, height: window.innerHeight * 0.6 }); // np. 60% wysokości ekranu
         }
         window.addEventListener('resize', handleResize);
-        handleResize(); // ustawia od razu
+        handleResize(); 
 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -229,14 +270,10 @@ const Video = () => {
             console.error('Błąd pobierania informacji o wideo:', error.message);
         } else {
             loadAndPlay(data[0].linki_wideo);
-            console.log(data)
+            // console.log(data)
             setScreenshots(data[0].zdjecia || []);
         }
     };
-
-    // useEffect(() => {
-        
-    // }, []);
 
     const updateVideoInfo = async () => {
         const images = screenshots.map(({ url, comment, width, height }) => ({
@@ -253,7 +290,7 @@ const Video = () => {
         if (error) {
             console.error('Błąd aktualizacji informacji o wideo:', error.message);
         } else {
-            console.log('Zaktualizowano informacje o wideo:', data);
+            // console.log('Zaktualizowano informacje o wideo:', data);
         }
     }
 
@@ -319,7 +356,7 @@ const Video = () => {
             </div>
             {screenshots.length > 0 && (
                 <div>
-                    {console.log(screenshots)}
+                    {/* {console.log(screenshots)} */}
                     {screenshots.map((data, idx) => (
                         <ImageProcessing
                             key={idx}
@@ -330,11 +367,12 @@ const Video = () => {
                             comment={data.comment}
                             onCommentChange={newComment => handleCommentChange(idx, newComment)}
                             onUrlChange={newUrl => handleUrlChange(idx, newUrl)}
+                            updateVideoInfo={updateVideoInfo}
                         />
                     ))}
                 </div>
             )}
-            <button onClick={updateVideoInfo}>Zapisz</button>
+            {/* <button onClick={updateVideoInfo}>Zapisz</button> */}
         </div>
     );
 };
