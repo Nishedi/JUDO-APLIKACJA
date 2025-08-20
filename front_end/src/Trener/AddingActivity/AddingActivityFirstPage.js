@@ -1179,9 +1179,14 @@ const AddingActivityFirstPage = () => {
                             <div>Nazwa schematu</div>
                             <input type="text" onChange={(e)=>setTemplateName(e.target.value)} placeholder='Podaj nazwę schematu' style={{width: "100%"}} />
                         </div>
-                        <button onClick={saveTemplate}  className={styles.button} style={{fontSize: "18px", marginTop: "10px"}}>
-                            Zapisz schemat
-                        </button>
+                        {
+                            !type && (
+                                <button onClick={saveTemplate}  className={styles.button} style={{fontSize: "18px", marginTop: "10px"}}>
+                                    Zapisz schemat
+                                </button>
+                            )
+                        }
+                        
                         <button onClick={endAdding } className={styles.button} >
                             Zakończ
                         </button>
