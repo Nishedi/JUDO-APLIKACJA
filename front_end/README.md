@@ -42,9 +42,10 @@ Po majowym spotkaniu
 Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione):
 - [X] Duplikowanie aktywności i poprawiona edycja
 - [X] Zdjęcia są nadpisywane przez dodawanie nowych linków, nie da się jeszcze usuwać (analiza wide)
-- [ ] Usuwanie zdjęć
-- [ ] Usuwanie analiz
-- [ ] Zmiana kolejności zdjęć
+- [X] Usuwanie zdjęć
+- [X] Usuwanie analiz
+- [X] Zmiana kolejności zdjęć
+- [ ] Usuwanie plików ze storage (na razie usuwane są tylko linki - na pierwszy rzut oka dziala dobrze ale zagraca baze danych)
 - [ ] Przy przeglądaniu starych aktywności zeby sensownie wracał a nie do aktyalnego dnia
  
 
