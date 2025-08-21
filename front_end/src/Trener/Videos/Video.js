@@ -1,15 +1,18 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { GlobalContext } from '../../GlobalContext';
+import { useNavigate } from 'react-router-dom';
 import styles from './Video.module.css';
 import BackButton from '../../BackButton';
 import { useParams } from "react-router-dom";
 
-const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrlChange, url, updateVideoInfo }) => {
+const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrlChange, url, updateVideoInfo, onRemove, onMoveScreenshot }) => {
     const { supabase } = useContext(GlobalContext);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
     const [color, setColor] = useState("red");
     const [firstUpload, setFirstUpload] = useState();
+    const [isSaved, setIsSaved] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (canvasRef.current && image) {
@@ -27,7 +30,7 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
 
     const getImageFromUrl = async (width, height) => {
         if (!url) return;
-
+        setIsSaved(true);
         // 1. Zbuduj publiczny URL Supabase
         const publicImageUrl = `https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/${url}`;
         
@@ -114,7 +117,6 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
             if (!blob) return;
             if(url || firstUpload){
                 const fn = url || firstUpload;
-                console.log(fn)
                 const {deleteddata, deletedError} = await supabase.storage
                     .from('videos')
                     .remove(fn);
@@ -137,6 +139,7 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
             } 
             if(data)
             {   
+                setIsSaved(true);
                 setFirstUpload(data.path);
                 onUrlChange(data.path);
                 // console.log('Zapisano plik w Supabase!', data.path);
@@ -191,8 +194,24 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
             </div>
             <div className={styles.buttonsContainer} style={{padding:"5px 10px" }}>
                 <button onClick={handleSaveImage} >Zapisz</button>
-            
+                {isSaved && (<button onClick={() => setIsModalOpen(true)} className={styles.redButton} style={{ width: "30%" }}>Usuń</button>)}
             </div>
+            {isModalOpen && (
+                <div className={styles.modal_overlay}>
+                    <div className={styles.modal_content}>
+                        <h2>Czy na pewno chcesz usunąć ten fragment analizy?</h2>
+                        <div className={styles.modal_buttons}>
+                            <button onClick={() => {onRemove(); setIsModalOpen(false);}}>Tak</button>
+                            <button onClick={() => setIsModalOpen(false)}>Nie</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isSaved&&(<div className={styles.buttonsContainer} style={{padding:"5px 10px" }}>
+                <button onClick={() => onMoveScreenshot("up")} >Przesuń w górę</button>
+                <button onClick={() => onMoveScreenshot("down")} style={{ marginLeft: 8 }}>Przesuń w dół</button>
+            </div>)}
+            
                 
 
         </div>
@@ -205,7 +224,8 @@ const Video = () => {
     const [videoUrl, setVideoUrl] = useState(null);
     const { id_video } = useParams();
     const [screenshots, setScreenshots] = useState([]);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate(); 
     const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth, height: 400 }); // domyślna wysokość
 
     const handleCommentChange = (idx, newComment) => {
@@ -241,6 +261,63 @@ const Video = () => {
             console.error('Błąd aktualizacji informacji o wideo:', error.message);
         } else {
             // console.log('Zaktualizowano informacje o wideo:', data);
+        }
+    };
+
+    const handleRemoveScreenshot = async (idx) => {
+        const localScreenshot = screenshots.filter((_, i) => i !== idx);
+        setScreenshots(localScreenshot);
+
+        const images = localScreenshot.map(({ url, comment, width, height }) => ({
+            url,
+            comment,
+            width,
+            height
+        }));
+
+        const { data, error } = await supabase
+            .from('analizy_wideo')
+            .update({ zdjecia: images })
+            .eq('id', id_video)
+            .select();
+
+        if (error) {
+            console.error('Błąd aktualizacji informacji o wideo:', error.message);
+        }
+    };
+
+    const handleMoveScreenshot = async (idx, direction) => {
+        
+        const localScreenshot = [...screenshots];
+        let newIdx = idx;
+        console.log(screenshots)
+
+        if (direction === "up" && idx > 0) {
+            [localScreenshot[idx - 1], localScreenshot[idx]] = [localScreenshot[idx], localScreenshot[idx - 1]];
+            newIdx = idx - 1;
+        }
+        if (direction === "down" && idx < localScreenshot.length - 1) {
+            [localScreenshot[idx + 1], localScreenshot[idx]] = [localScreenshot[idx], localScreenshot[idx + 1]];
+            newIdx = idx + 1;
+        }
+
+        setScreenshots(localScreenshot);
+
+        const images = localScreenshot.map(({ url, comment, width, height }) => ({
+            url,
+            comment,
+            width,
+            height
+        }));
+
+        const { data, error } = await supabase
+            .from('analizy_wideo')
+            .update({ zdjecia: images })
+            .eq('id', id_video)
+            .select();
+
+        if (error) {
+            console.error('Błąd aktualizacji informacji o wideo:', error.message);
         }
     };
 
@@ -324,6 +401,21 @@ const Video = () => {
         setScreenshots(prev => ([...prev, { image, width, height, comment: "", url: "" }]));
     };
 
+    const removeAnalysis = async () => {
+        setIsModalOpen(false)
+        const {data, error} = await supabase
+            .from('analizy_wideo')
+            .delete()
+            .eq('id', id_video);
+
+        if (error) {
+            console.error('Błąd usuwania analizy wideo:', error.message);
+        } else {
+            console.log('Usunięto analizę wideo:', data);
+        }
+        navigate('/trener/videos');
+    };
+
     return (
         <div className={styles.background}>
             <div className={styles.navbar}>
@@ -358,8 +450,9 @@ const Video = () => {
                 <div>
                     {/* {console.log(screenshots)} */}
                     {screenshots.map((data, idx) => (
+                        <>
                         <ImageProcessing
-                            key={idx}
+                            key={data.url || data.image}
                             image={data.image}
                             url={data.url}
                             width={data.width}
@@ -368,11 +461,29 @@ const Video = () => {
                             onCommentChange={newComment => handleCommentChange(idx, newComment)}
                             onUrlChange={newUrl => handleUrlChange(idx, newUrl)}
                             updateVideoInfo={updateVideoInfo}
+                            onRemove={() => handleRemoveScreenshot(idx)}
+                            onMoveScreenshot={(direction) => handleMoveScreenshot(idx, direction)}
                         />
+                        </>
+                        
                     ))}
                 </div>
             )}
-            {/* <button onClick={updateVideoInfo}>Zapisz</button> */}
+            {isModalOpen && (
+                <div className={styles.modal_overlay}>
+                    <div className={styles.modal_content}>
+                        <h2>Czy na pewno chcesz usunąć tą analizę?</h2>
+                        <div className={styles.modal_buttons}>
+                            <button onClick={() => {setIsModalOpen(false); removeAnalysis();}}>Tak</button>
+                            <button onClick={() => setIsModalOpen(false)}>Nie</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className={styles.buttonsContainer}>
+                <button className={styles.redButton} onClick={() => { setIsModalOpen(true);}}>Usuń analizę</button>
+            </div>
+            
         </div>
     );
 };

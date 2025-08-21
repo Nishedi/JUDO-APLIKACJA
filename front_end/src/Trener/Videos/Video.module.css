@@ -6,7 +6,7 @@
     padding: 5px;
 }
 
-.buttonsContainer button {
+button, .buttonsContainer button {
     margin: 0 5px;
     padding: 5px 10px;
     background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
@@ -18,6 +18,19 @@
     font-family: 'Kodchasan-SemiBold';
     cursor: pointer; /* Kursor zmienia się na wskazujący */
     transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.buttonContainer{
+    padding: 10px;
+}
+
+button{
+    margin: 0px;
+    padding: 10px;
+}
+
+.redButton{
+    background-image: linear-gradient(90deg, #DC1D61 9%, #DC1D61 47%, #76103A 100%) !important;
 }
 
 video{
@@ -80,4 +93,49 @@ canvas {
 .writing_div{
     font-family: 'Kodchasan-SemiBold';
     font-size: 20px;
+}
+
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Wyższy z-index, aby modal był nad resztą */
+}
+
+.modal_content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.modal_buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+}
+
+.modal_content button {
+  font-family: 'Kodchasan-SemiBold';
+  font-size: 12px;
+  text-shadow: 0 1px 1px rgba(112, 111, 111, 0.5);
+  color: #ffffff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  padding: 10px 25px;
+  margin: 0 5px;
+  background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
+  border: 0.5px solid #A7B7D6;
+  border-radius: 5px;
+  cursor: pointer; /* Kursor zmienia się na wskazujący */
+  transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
