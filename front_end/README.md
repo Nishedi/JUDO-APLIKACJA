@@ -45,13 +45,14 @@ Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione)
 - [X] Usuwanie zdjęć
 - [X] Usuwanie analiz
 - [X] Zmiana kolejności zdjęć
+
+
 - [ ] Usuwanie plików ze storage (na razie usuwane są tylko linki - na pierwszy rzut oka dziala dobrze ale zagraca baze danych)
 - [ ] Przy przeglądaniu starych aktywności zeby sensownie wracał a nie do aktyalnego dnia
- 
 
 8.06
 - [X] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
 - [ ] pola na sekunndy i minuty w zaleznosci od liczby serii
-- [ ] usuwanie zawodników
+- [X] usuwanie zawodników
 
 

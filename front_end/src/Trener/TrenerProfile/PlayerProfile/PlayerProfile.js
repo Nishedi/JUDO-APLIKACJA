@@ -1,15 +1,31 @@
 import styles from './PlayerProfile.module.css';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../GlobalContext';
 import BackButton from '../../../BackButton';
 
 const PlayerProfile = () => {
+    const { supabase } = useContext(GlobalContext);
     const {viewedPlayer, setViewedPlayer} = useContext(GlobalContext);
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const handleEditClick = () => {
         setViewedPlayer({...viewedPlayer});
         navigate('/trener/playerprofileedition'); // Przekierowanie do strony edycji profilu
+    }
+
+    const removePlayer = async () => {
+        const { error } = await supabase
+            .from('zawodnicy')
+            .delete()
+            .eq('id', viewedPlayer.id);
+
+        if (error) {
+            console.error('Error removing player:', error);
+        } else {
+            setViewedPlayer(null);
+            navigate('/trener/playerview');
+        }
     }
 
     return (
@@ -62,9 +78,23 @@ const PlayerProfile = () => {
                 )}
                     
             </div>
+             {isModalOpen && (
+                <div className={styles.modal_overlay}>
+                    <div className={styles.modal_content}>
+                        <h2>Czy na pewno chcesz usunąć tego zawodnika?</h2>
+                        <div className={styles.modal_buttons}>
+                            <button onClick={() => {setIsModalOpen(false); removePlayer() }}>Tak</button>
+                            <button onClick={() => setIsModalOpen(false)}>Nie</button>
+                        </div>
+                    </div>
+                </div>    
+                )}
             <div className={styles.buttoncenter}>
                 <button className={styles.buttonUser} onClick={handleEditClick}>
                     Edytuj profil
+                </button>
+                <button className={styles.redButton} onClick={()=>setIsModalOpen(true)}>
+                    Usuń zawodnika
                 </button>
             </div>
 
