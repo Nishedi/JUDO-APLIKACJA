@@ -15,6 +15,10 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
+        if(canvasRef.current && url){
+            getImageFromUrl(width, height);
+        }
+        else 
         if (canvasRef.current && image) {
             const ctx = canvasRef.current.getContext("2d");
             const img = new window.Image();
@@ -23,18 +27,15 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
                 ctx.clearRect(0, 0, width, height);
                 ctx.drawImage(img, 0, 0, width, height);
             };
-        }else if(canvasRef.current && url){
-            getImageFromUrl(width, height);
         }
     }, [image, width, height]);
 
     const getImageFromUrl = async (width, height) => {
         if (!url) return;
+        
         setIsSaved(true);
-        // 1. Zbuduj publiczny URL Supabase
         const publicImageUrl = `https://akxozdmzzqcviqoejhfj.supabase.co/storage/v1/object/public/videos/${url}`;
         
-        // 2. Pobierz obraz z Supabase
         const response = await fetch(publicImageUrl);
         if (!response.ok) {
             console.error('Nie udało się pobrać obrazka z Supabase:', response.status);
@@ -139,14 +140,17 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
             } 
             if(data)
             {   
+                console.log('Zapisano plik:', data);
                 setIsSaved(true);
                 setFirstUpload(data.path);
                 onUrlChange(data.path);
-                // console.log('Zapisano plik w Supabase!', data.path);
             }
         }, 'image/png');
     };
 
+    useEffect(()=>{
+        console.log(isSaved)
+    }, [isSaved])
 
     return (
         <div style={{position: "relative", marginBottom: "30px", width: "100%" }}>
