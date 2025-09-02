@@ -42,7 +42,6 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
             return;
         }
 
-        // 3. Zamień na blob, wstaw na canvas
         const blob = await response.blob();
         const imgURL = URL.createObjectURL(blob);
 
@@ -148,9 +147,6 @@ const ImageProcessing = ({ image, width, height, comment, onCommentChange, onUrl
         }, 'image/png');
     };
 
-    useEffect(()=>{
-        console.log(isSaved)
-    }, [isSaved])
 
     return (
         <div style={{position: "relative", marginBottom: "30px", width: "100%" }}>
@@ -230,6 +226,7 @@ const Video = () => {
     const [screenshots, setScreenshots] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate(); 
+    const [parts, setParts] = useState([]);
     const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth, height: 400 }); // domyślna wysokość
 
     const handleCommentChange = (idx, newComment) => {
@@ -269,6 +266,8 @@ const Video = () => {
     };
 
     const handleRemoveScreenshot = async (idx) => {
+       
+        
         const localScreenshot = screenshots.filter((_, i) => i !== idx);
         setScreenshots(localScreenshot);
 
@@ -288,6 +287,7 @@ const Video = () => {
         if (error) {
             console.error('Błąd aktualizacji informacji o wideo:', error.message);
         }
+        
     };
 
     const handleMoveScreenshot = async (idx, direction) => {
@@ -351,6 +351,7 @@ const Video = () => {
             console.error('Błąd pobierania informacji o wideo:', error.message);
         } else {
             loadAndPlay(data[0].linki_wideo);
+            setParts(data[0].linki_wideo);
             // console.log(data)
             setScreenshots(data[0].zdjecia || []);
         }
@@ -417,6 +418,39 @@ const Video = () => {
         } else {
             console.log('Usunięto analizę wideo:', data);
         }
+
+        if(parts<=0){
+            navigate('/trener/videos');
+            return;
+        }
+
+        parts.forEach(async (part) => {
+            const {videoData, videoError} = await supabase.storage
+                .from('videos')
+                .remove(part);
+
+             if (videoError) {
+                console.error('Błąd usuwania wideo:', videoError.message);
+            } else {
+                console.log('Usunięto wideo:', videoData);
+            }
+            
+        });
+
+        if(screenshots.length > 0) {
+            screenshots.forEach(async (screenshot) => {
+                const {data, error} = await supabase.storage
+                    .from('videos')
+                    .remove(screenshot.url);
+
+                if (error) {
+                    console.error('Błąd usuwania zrzutu ekranu:', error.message);
+                } else {
+                    console.log('Usunięto zrzut ekranu:', data);
+                }
+            });
+        }
+
         navigate('/trener/videos');
     };
 
@@ -452,7 +486,6 @@ const Video = () => {
             </div>
             {screenshots.length > 0 && (
                 <div>
-                    {/* {console.log(screenshots)} */}
                     {screenshots.map((data, idx) => (
                         <>
                         <ImageProcessing
