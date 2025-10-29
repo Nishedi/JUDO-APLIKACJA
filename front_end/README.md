@@ -49,6 +49,7 @@ Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione)
 
 - [ ] Usuwanie plików ze storage (na razie usuwane są tylko linki - na pierwszy rzut oka dziala dobrze ale zagraca baze danych)
 - [ ] Przy przeglądaniu starych aktywności zeby sensownie wracał a nie do aktyalnego dnia
+- [ ] Usuwanie aktywności stworzonych przez zawodnika
 
 8.06
 - [X] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika

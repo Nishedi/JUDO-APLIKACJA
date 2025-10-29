@@ -56,6 +56,7 @@ const AddingActivityFirstPage = () => {
                     breakBetweenSeries: exercise.breakBetweenSeries,
                     numberOfSeries: exercise.numberOfSeries,
                     breakBetweenIntervals: exercise.breakBetweenIntervals,
+                    times: exercise.times
                 };
             }));
             setComment(viewedPlayer.currentActivity.komentarz_trenera);
@@ -710,6 +711,7 @@ const AddingActivityFirstPage = () => {
         const [breakBetweenSeries, setBreakBetweenSeries] = useState(exercise?.breakBetweenSeries||'');
         const [numberOfSeries, setNumberOfSeries] = useState(exercise?.numberOfSeries||'');
         const [times, setTimes] = useState(exercise?.times||[]);
+        console.log(exercise)
          useEffect(() => {
             const num = Number(repeats) || 0;
             setTimes(prev => {
