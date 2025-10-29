@@ -49,6 +49,13 @@
     font-family: 'Montserrat-SemiBold';
 }
 
+.exercise_details_time {
+    display: flex;
+    flex-direction: column !important;
+    /* text-transform: uppercase; */
+    font-family: 'Montserrat-SemiBold';
+}
+
 .input_container button {
     background-image: linear-gradient(90deg, #1D61DC 0%, #103476 47%);
     color: #fff;

@@ -133,6 +133,11 @@ const TrainingView = () => {
                       {thing?.durationSecond? <span>{!thing?.duration ? "Czas trwania: " : ""}<strong>{thing.durationSecond} sek.</strong></span>:""}
                       {thing?.duration || thing?.durationSecond ? <br/>:null}
                       {thing?.repeats ? <><span>Liczba powtórzeń: <strong>x{thing.repeats}</strong></span> <br/></>: ""}
+                      {thing?.times?.map(time => 
+                        <div>
+                          Powtórzenie {time.number}: <strong>{time?.minutes} min. {time?.seconds}sek.</strong>
+                        </div>
+                      )}
                       {thing?.meters ?<><span>Odległość: <strong>{thing.meters} m. </strong></span> <br/></>: ""}
                       {thing?.goldenScoreMinutes ? <span> Golden Score: <strong>{thing.goldenScoreMinutes} min. </strong></span> : ""}
                       {thing?.goldenScore ? <span>{!thing?.goldenScoreMinutes ? "Golden Score: " : ""}<strong>{thing.goldenScore} sek. </strong></span> : ""}

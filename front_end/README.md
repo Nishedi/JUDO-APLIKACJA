@@ -52,7 +52,7 @@ Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione)
 
 8.06
 - [X] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
-- [ ] pola na sekunndy i minuty w zaleznosci od liczby serii
+- [X] pola na sekunndy i minuty w zaleznosci od liczby serii
 - [X] usuwanie zawodników
 
 

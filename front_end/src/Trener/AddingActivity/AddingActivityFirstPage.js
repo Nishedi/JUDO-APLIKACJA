@@ -568,8 +568,10 @@ const AddingActivityFirstPage = () => {
                         breakBetweenSeries: exercise.breakBetweenSeries,
                         numberOfSeries: exercise.numberOfSeries,
                         breakBetweenIntervals: exercise.breakBetweenIntervals,
+                        times: exercise.times
                     });
                 }
+                console.log(exercises2);
                 
                 if(type==="player"){
                     const activity = {
@@ -707,6 +709,32 @@ const AddingActivityFirstPage = () => {
         const [breakBetweenIntervals, setBreakBetweenIntervals] = useState(exercise?.breakBetweenIntervals||'');
         const [breakBetweenSeries, setBreakBetweenSeries] = useState(exercise?.breakBetweenSeries||'');
         const [numberOfSeries, setNumberOfSeries] = useState(exercise?.numberOfSeries||'');
+        const [times, setTimes] = useState(exercise?.times||[]);
+         useEffect(() => {
+            const num = Number(repeats) || 0;
+            setTimes(prev => {
+            if (num > prev.length) {
+                return [
+                ...prev,
+                ...Array.from({ length: num - prev.length }, (_, i) => ({
+                    number: prev.length + i + 1,
+                    minutes: '',
+                    seconds: ''
+                }))
+                ];
+            } else if (num < prev.length) {
+                return prev.slice(0, num).map((item, idx) => ({
+                ...item,
+                number: idx + 1
+                }));
+            } else {
+                return prev.map((item, idx) => ({
+                ...item,
+                number: idx + 1
+                }));
+            }
+            });
+        }, [repeats]);
 
         const updateExercise = () => { 
             setSelectedExercises((prevExercises) =>
@@ -797,32 +825,22 @@ const AddingActivityFirstPage = () => {
                     )
                 );
             }
+            if(times && times.length>0){
+                setSelectedExercises((prevExercises) =>
+                    prevExercises.map((item) =>
+                        item.id === exercise.id
+                            ? { ...item, times: times } // Zaktualizuj tylko liczbę powtórzeń
+                            : item // Zwróć niezmienione elementy
+                    )
+                );
+            }
         };
     
         return (
             <div>
                 <div style={{marginBottom: '5px'}}>{exercise.name}</div>
                 <div className={styles.exercise_details} style={true? {flexDirection: "column"}:{flexDirection: "row"}}>
-                    <div>
-                        <div className={styles.activity_fields}>
-                            Minuty
-                            <input
-                                type="text"
-                                placeholder='Minuty'
-                                value={duration}
-                                onChange={(e)=>{setDuration(e.target.value);setIsConfirmed(false);}}
-                            />
-                        </div>
-                        <div className={styles.activity_fields}>
-                            Sekundy
-                            <input
-                                type="number"
-                                placeholder='Sekundy'
-                                value={durationSeconds}
-                                onChange={(e)=>{setDurationSeconds(e.target.value);setIsConfirmed(false);}}
-                            />
-                        </div>
-                    </div>
+                    
                     <div>
                         <div className={styles.activity_fields}>
                             Liczba powtórzeń
@@ -897,8 +915,69 @@ const AddingActivityFirstPage = () => {
                                 onChange={(e)=>{setNumberOfSeries(e.target.value);setIsConfirmed(false);}}
                             />
                         </div>
-                        
                     </div>
+                    {times.map((time, i) => (
+                        <div className={styles.exercise_details_time} id={time.number}>
+                            Powtórzenie {time.number}
+                            <div>
+                            <div className={styles.activity_fields}>
+                                Minuty
+                                <input
+                                    type="text"
+                                    placeholder='Minuty'
+                                    value={time.minutes}
+                                    onChange={e =>
+                                        setTimes(prev =>
+                                            prev.map(item =>
+                                                item.number === time.number
+                                                ? { ...item, minutes: e.target.value, number: item.number }
+                                                : item
+                                            )
+                                        )
+                                    }
+                                    />
+                            </div>
+                            <div className={styles.activity_fields}>
+                                Sekundy
+                                <input
+                                    type="number"
+                                    placeholder='Sekundy'
+                                    value={time.seconds}
+                                    onChange={e =>
+                                        setTimes(prev =>
+                                            prev.map(item =>
+                                                item.number === time.number
+                                                ? { ...item, seconds: e.target.value, number: item.number }
+                                                : item
+                                            )
+                                        )}
+                                />
+                            </div>
+                            </div>
+                        </div>
+                    ))
+                    }
+                    {/* <div>
+                        <div className={styles.activity_fields}>
+                            Minuty
+                            <input
+                                type="text"
+                                placeholder='Minuty'
+                                value={duration}
+                                onChange={(e)=>{setDuration(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
+                        <div className={styles.activity_fields}>
+                            Sekundy
+                            <input
+                                type="number"
+                                placeholder='Sekundy'
+                                value={durationSeconds}
+                                onChange={(e)=>{setDurationSeconds(e.target.value);setIsConfirmed(false);}}
+                            />
+                        </div>
+                    </div> */}
+                    
                     <MdOutlineDone 
                         onClick={updateExercise}
                         className={`${isConfirmed ? styles.add_button_confirmed : styles.add_button}`}
