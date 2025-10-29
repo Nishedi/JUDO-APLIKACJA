@@ -190,6 +190,7 @@ const DayView = () => {
 
     const onLogOutClick = () => {
         setGlobalVariable(null);
+        localStorage.clear();
         navigate('/');
     }
 

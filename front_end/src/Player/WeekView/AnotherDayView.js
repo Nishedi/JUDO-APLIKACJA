@@ -32,6 +32,7 @@ const AnotherDayView = () => {
 
     const onLogOutClick = () => {
         setGlobalVariable(null);
+        localStorage.clear();
         navigate('/');
     }
 

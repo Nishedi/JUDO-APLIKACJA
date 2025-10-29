@@ -39,6 +39,7 @@ const PlayersView = () => {
     }
 
     const onLogOutClick = () => {
+        localStorage.clear();
         setGlobalVariable(null);
         navigate('/');
     }

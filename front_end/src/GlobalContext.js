@@ -10,6 +10,7 @@ export const GlobalProvider = ({ children }) => {
   const [sms, setSms] = useState(null);
   const [smsList, setSmsList] = useState([]);
   const [prevViewType, setPrevViewType] = useState(null);
+  const [prevViewDate, setPrevViewDate] = useState(null);
   const supabaseUrl = 'https://akxozdmzzqcviqoejhfj.supabase.co';
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFreG96ZG16enFjdmlxb2VqaGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTA3NDYsImV4cCI6MjAzOTgyNjc0Nn0.FoI4uG4VI_okBCTgfgIPIsJHWxB6I6ylOjJEm40qEb4";
   const supabase = createClient(supabaseUrl, supabaseKey);
@@ -22,10 +23,15 @@ export const GlobalProvider = ({ children }) => {
     const storedSms = localStorage.getItem('sms');
     const storedSmsList = localStorage.getItem('smsList');
     const storedPrevViewType = localStorage.getItem('prevViewType');
+    const storedPrevViewDate = localStorage.getItem('storedPrevViewDate');
     if (storedGlobalVariable) setGlobalVariable(JSON.parse(storedGlobalVariable));
     if (storedNewPlayer) setNewPlayer(storedNewPlayer);
     if (storedSmsList) setSmsList(JSON.parse(storedSmsList));
     if (storedPrevViewType) setPrevViewType(JSON.parse(storedPrevViewType));
+    if (storedPrevViewDate) {
+      const date = new Date(JSON.parse(storedPrevViewDate));
+      setPrevViewDate(date);
+    }
     if (storedViewedPlayer) {
       const player = JSON.parse(storedViewedPlayer);
       if(player.currentDate){
@@ -75,6 +81,11 @@ export const GlobalProvider = ({ children }) => {
       localStorage.setItem('prevViewType', JSON.stringify(prevViewType));
     }
   }, [prevViewType]);
+  useEffect(() => {
+    if (prevViewDate !== null) {
+      localStorage.setItem('storedPrevViewDate', JSON.stringify(prevViewDate));
+    }
+  }, [prevViewDate]);
   if (globalVariable === null&&window.location.pathname!=="/") {
     return <div>Ładowanie...</div>;
   }
@@ -88,6 +99,7 @@ export const GlobalProvider = ({ children }) => {
       sms, setSms,
       smsList, setSmsList,
       prevViewType, setPrevViewType,
+      prevViewDate, setPrevViewDate,
     }}>
       {children}
     </GlobalContext.Provider>

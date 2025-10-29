@@ -261,6 +261,7 @@ const PlayerStats = () => {
     }
 
     const onLogOutClick = () => {
+        localStorage.clear();
         setGlobalVariable(null);
         navigate('/');
     }

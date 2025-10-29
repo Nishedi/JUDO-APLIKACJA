@@ -11,13 +11,23 @@ import SidebarPlayer from '../PlayersView/SidebarPlayer';
 
 
 const SinglePlayerMonthView = () => {
-    const { viewedPlayer, setViewedPlayer, supabase, globalVariable, setPrevViewType } = useContext(GlobalContext);
+    const { viewedPlayer, setViewedPlayer, supabase, globalVariable, setPrevViewType, prevViewDate, setPrevViewDate } = useContext(GlobalContext);
     const now = new Date();
     const navigate = useNavigate();
-    const [currentDate, setCurrentDate] = useState(now);
+    const [currentDate, setCurrentDate] = useState(prevViewDate || now);
     const [weeklyActivities, setWeeklyActivities] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const viewType = useParams().viewtype;
+    useEffect(() => {
+        if(prevViewDate){
+            setCurrentDate(prevViewDate);
+            setPrevViewDate(null);
+            // getPlayer();
+            // getMonthDays();
+            // getMultiDayActivities();
+        }
+
+    }, []);
     useEffect(() => {
         setPrevViewType(viewType);
     }, [viewType]);
@@ -125,7 +135,6 @@ const SinglePlayerMonthView = () => {
         const { startOfWeek } = getRangeToDatabase(currentDate);
         const { endOfWeek } =   getRangeToDatabase(currentDate);
         const dates = generateDateArray(startOfWeek, endOfWeek);
-       
         let { data: aktywnosci, error } = await supabase
             .from('aktywności')
             .select('*')
@@ -133,7 +142,6 @@ const SinglePlayerMonthView = () => {
             .eq('id_zawodnika', viewedPlayer.id)
             .eq('id_trenera', globalVariable.id)
             .order('data', { ascending: true });
-       
         if (aktywnosci ) {
             setWeeklyActivities(
                 aktywnosci.map(activity => ({
@@ -244,6 +252,7 @@ const SinglePlayerMonthView = () => {
     
 
     const goToSinglePlayerSingleDay = (date) => {
+        setPrevViewDate(currentDate);
         const normalizedDate = new Date(date);
     normalizedDate.setHours(0, 0, 0, 0); // Zresetuj godzinę
         setViewedPlayer({ ...viewedPlayer, currentDate: date });
@@ -441,9 +450,9 @@ const SinglePlayerMonthView = () => {
         getMultiDayActivities();
     }, [currentDate]);
 
-    useEffect(() => {
-        setCurrentDate(now);
-    }, [viewType]);
+    // useEffect(() => {
+    //     setCurrentDate(now);
+    // }, [viewType]);
 
     const { currentMonth } = getMonthRanges(currentDate);
     const { currentWeek } = getWeekRanges(currentDate);
