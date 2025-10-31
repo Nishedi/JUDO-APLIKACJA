@@ -365,7 +365,7 @@ const AddingActivityFirstPage = () => {
         setTimeout(() => {
             setAddActivityString('Dodaj');
             if(addActivityString === 'Dodano'){
-                navigate('/trener/playerView');
+                endAdding();
             }
         }, 5000);
     }, [addActivityString]);
@@ -519,7 +519,11 @@ const AddingActivityFirstPage = () => {
     const endAdding = () => {
         if(type==="edit"){
             navigate('/trener/trainingview');
-        }else{
+        }
+        else if(type==="player"){
+            navigate('/player/dayview');
+        }
+        else{
             navigate('/trener/playerView');
         }
     };

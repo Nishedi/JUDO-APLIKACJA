@@ -7,17 +7,18 @@ import bcrypt from 'bcryptjs';
 const LoginComponent = () => {
     const { setGlobalVariable, supabase } = useContext(GlobalContext);
     const navigate = useNavigate();
-    const [login, setLogin] = useState("Login");
-    const [password, setPassword] = useState("Hasło");
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
     const [isLogged, setIsLogged] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLoginChange = (event) => {
-        setLogin(event.target.value);
+        setLogin(event.target.value.trim());
         setIsLogged(null);
     }
 
     const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
+        setPassword(event.target.value.trim());
         setIsLogged(null);
     }
 
@@ -64,13 +65,49 @@ const LoginComponent = () => {
             </div>
             <div className="test2">
                 <div className="inputs-placer">    
-                    {isLogged === false 
-                    ? (<><input onChange={handleLoginChange} className = "custom_input_incorrect" type="text" placeholder={login} />
-                    <input onChange={handlePasswordChange} className = "custom_input_incorrect" type="password" placeholder={password} /></>)
-                    : (<><input onChange={handleLoginChange} className = "custom_input_correct" type="text" placeholder={login} />
-                        <input onChange={handlePasswordChange} className = "custom_input_correct" type="password" placeholder={password} />
-                        </>)
-                    }
+                    <input 
+                        onChange={handleLoginChange}  
+                        className = {isLogged === false ? "custom_input_incorrect" : "custom_input_correct"}
+                        type="text" 
+                        placeholder={"Login"} 
+                        value={login} 
+                    />
+                    <>
+                        <div style={{ position: 'relative', display: 'inline-block', width: '80%' }}>
+                            <input
+                                onChange={handlePasswordChange}
+                                className={isLogged === false ? "custom_input_incorrect" : "custom_input_correct"}
+                                type={showPassword ? "text" : "password"}
+                                placeholder={"Hasło"}
+                                value={password}
+                                style={{ paddingRight: '60px', boxSizing: 'border-box', width: '100%' }}
+                                aria-label="Hasło"
+                            />
+                            <button
+                            type="button"
+                            className="showPasswordButton"
+                            onClick={() => setShowPassword(!showPassword)}
+                            onMouseDown={(e) => e.preventDefault()} /* zapobiega odfokusowaniu inputa przy kliknięciu */
+                            aria-pressed={showPassword}
+                            aria-label={showPassword ? "Ukryj hasło" : "Pokaż hasło"}
+                            style={{
+                                position: 'absolute',
+                                right: '8px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'transparent',
+                                border: 'none',
+                                padding: '4px 8px',
+                                cursor: 'pointer',
+                                width: 'auto',
+                            }}
+                            >
+                            {showPassword ? "Ukryj" : "Pokaż"}
+                            </button>
+                        </div>
+                        </>
+                    
+                    
                 </div>
                 <div className="buttonPlacement">
                     <button onClick={tryLogin} className="button">Zaloguj</button>
