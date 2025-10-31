@@ -48,12 +48,22 @@ Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione)
 
 
 - [ ] Usuwanie plików ze storage (na razie usuwane są tylko linki - na pierwszy rzut oka dziala dobrze ale zagraca baze danych)
-- [ ] Przy przeglądaniu starych aktywności zeby sensownie wracał a nie do aktyalnego dnia
+- [X] Przy przeglądaniu starych aktywności zeby sensownie wracał a nie do aktyalnego dnia
 - [ ] Usuwanie aktywności stworzonych przez zawodnika
 
 8.06
 - [X] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
 - [X] pola na sekunndy i minuty w zaleznosci od liczby serii
 - [X] usuwanie zawodników
+
+31.10
+- [X] Dodać podejrzenie hasła przy logowaniu
+- [ ] Dodać automatyczne ustawianie hasła i loginu przy tworzeniu zawodnika (po prostu wypełnić pola)
+- [ ] Podgląd hasła przy jego zmianie
+- [ ] Reset hasła przez trenera
+- [ ] Udostępnić filmy zawodnikow
+- [ ] Spróbować zredukować rozmiar filmów
+- [ ] Sprobwać poprawnie usuwać filmy
+- [ ] ogarnąć scrollowanie podczas rysowania po zdjęciach
 
 

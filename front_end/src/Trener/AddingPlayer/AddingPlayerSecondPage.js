@@ -6,9 +6,9 @@ import bcrypt from 'bcryptjs';
 
 const AddingPlayerSecondPage = () => {
     const { newPlayer, globalVariable, supabase } = useContext(GlobalContext);
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [login, setLogin] = useState(newPlayer.name.toLowerCase() + "." + newPlayer.surname.toLowerCase());
+    const [password, setPassword] = useState(newPlayer.name.toLowerCase() + "." + newPlayer.surname.toLowerCase());
+    const [confirmPassword, setConfirmPassword] = useState(newPlayer.name.toLowerCase() + "." + newPlayer.surname.toLowerCase());
     
     const navigate = useNavigate();
     
