@@ -52,18 +52,22 @@ Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione)
 - [ ] Usuwanie aktywności stworzonych przez zawodnika
 
 8.06
-- [X] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
+
 - [X] pola na sekunndy i minuty w zaleznosci od liczby serii
 - [X] usuwanie zawodników
 
 31.10
 - [X] Dodać podejrzenie hasła przy logowaniu
-- [ ] Dodać automatyczne ustawianie hasła i loginu przy tworzeniu zawodnika (po prostu wypełnić pola)
-- [ ] Podgląd hasła przy jego zmianie
-- [ ] Reset hasła przez trenera
-- [ ] Udostępnić filmy zawodnikow
+- [X] Dodać automatyczne ustawianie hasła i loginu przy tworzeniu zawodnika (po prostu wypełnić pola)
+- [X] Podgląd hasła przy jego zmianie (zawodnikw)
+- [X] Reset hasła przez trenera
+- [ ] Udostępnić filmy zawodnikow (w trakcie, trzeba edycje wideo jeszcze sprawdzic)
 - [ ] Spróbować zredukować rozmiar filmów
 - [ ] Sprobwać poprawnie usuwać filmy
 - [ ] ogarnąć scrollowanie podczas rysowania po zdjęciach
+- [ ] Zablokować ponowne wysyłanie gdy poprzednie jest w trakcie
+- [ ] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
+- [ ] Poprawić style notatek
+- [ ] dodac sortowanie po dacie
 
 

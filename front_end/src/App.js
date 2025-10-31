@@ -81,6 +81,8 @@ function App() {
           <Route path = 'player/addingactivityfirstpage/:type' element = {<AddiActivityFirstPage />} />
           <Route path = 'trener/videos' element = {<Videos />} />
           <Route path = 'trener/videos/:id_video' element = {<Video />} />
+          <Route path = 'videos' element = {<Videos />} />
+          <Route path = 'videos/:id_video' element = {<Video />} />
         </Routes>
       </BrowserRouter>
     </GlobalProvider>

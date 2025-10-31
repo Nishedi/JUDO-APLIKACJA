@@ -3,7 +3,7 @@ import styles from './SideBarCalendar.module.css';
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 
-const SideBarCalendar = ({ isOpen, onLogOutClick, player, onReportClick, viewType, navigate }) => {
+const SideBarCalendar = ({ isOpen, onLogOutClick, player, onReportClick, viewType, navigate, }) => {
 
    // const navigate = useNavigate(); // Użycie useNavigate do nawigacji
 
@@ -23,6 +23,10 @@ const SideBarCalendar = ({ isOpen, onLogOutClick, player, onReportClick, viewTyp
     const handleProfileClick = () => {
         navigate('/player/userprofile'); // Przekierowanie do profilu
     };
+
+    const handleVideoAnalysisClick = () => {
+        navigate('/videos'); // Przekierowanie do analizy wideo
+    }
 
 
     return (
@@ -77,6 +81,12 @@ const SideBarCalendar = ({ isOpen, onLogOutClick, player, onReportClick, viewTyp
                     </div>
 
                     <div className={styles.emptyElement}></div>   
+
+                    <div onClick={handleVideoAnalysisClick} className={styles.singleClickableElemement}>
+                        Analizy filmów
+                        <IoIosArrowForward className={styles.right_arrow} />
+                    </div>
+                    <div className={styles.line}></div>
                     
                     <div onClick={handleNoteClick} className={styles.singleClickableElemement}>
                         Notatka

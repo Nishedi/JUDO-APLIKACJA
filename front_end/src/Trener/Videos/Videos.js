@@ -8,6 +8,9 @@ import { sharedStyles2 } from '../../CommonFunction';
 
 const Videos = () => {
     const { supabase, globalVariable } = useContext(GlobalContext);
+    
+    const type = globalVariable.id_trenera ? "zawodnik" : "trener";
+    console.log("TYPE:", type);
     const [isUploading, setIsUploading] = useState(false);
     const [videoFile, setVideoFile] = useState(null); 
     const [analiseName, setAnaliseName] = useState("");
@@ -29,51 +32,64 @@ const Videos = () => {
             .from('zawodnicy')
             .select('*')
             .eq('id_trenera', globalVariable.id);
-
         if (zawodnicy && zawodnicy.length !== 0) {
             setPlayers(zawodnicy.map(zawodnik => { return { name: `${zawodnik.imie} ${zawodnik.nazwisko}`, grupa: zawodnik.grupa, id: zawodnik.id }; }));
         }
     }
 
     const downloadVideoHeaders = async () => {
-        const { data: headers, error: headersError } = await supabase
-            .from('analizy_wideo')
-            .select('id, nazwa_analizy, id_zawodnika')
-            .eq('id_trenera', globalVariable.id);
+        
+        if (type === "trener") {
+            const { data: headers, error: headersError } = await supabase
+                .from('analizy_wideo')
+                .select('id, nazwa_analizy, id_zawodnika')
+                .eq('id_trenera', globalVariable.id);
 
-        if (headersError) {
-            console.error('Błąd podczas pobierania nagłówków wideo:', headersError.message);
-            return;
+            if (headersError) {
+                console.error('Błąd podczas pobierania nagłówków wideo:', headersError.message);
+                return;
+            }
+            const zawodnikIds = headers
+                .filter(h => h.id_zawodnika != null) 
+                .map(h => h.id_zawodnika);
+            const { data: zawodnicy, error: zawodnicyError } = await supabase
+                .from('zawodnicy')
+                .select('id, imie, nazwisko')
+                .in('id', zawodnikIds);
+
+            if (zawodnicyError) {
+                console.error('Błąd podczas pobierania zawodników:', zawodnicyError.message);
+                return;
+            }
+
+            const headersWithNames = headers.map(h => {
+            const zawodnik = zawodnicy.find(z => z.id === h.id_zawodnika);
+                return {
+                    ...h,
+                    imie: zawodnik?.imie || null,
+                    nazwisko: zawodnik?.nazwisko || null
+                };
+            });
+
+            setVideoHeaders(headersWithNames);
+        }else{
+            const { data: headers, error: headersError } = await supabase
+                .from('analizy_wideo')
+                .select('id, nazwa_analizy')
+                .eq('id_zawodnika', globalVariable.id);
+
+            if (headersError) {
+                console.error('Błąd podczas pobierania nagłówków wideo:', headersError.message);
+                return;
+            }
+            setVideoHeaders(headers);
         }
-
-        const zawodnikIds = headers
-            .filter(h => h.id_zawodnika != null) 
-            .map(h => h.id_zawodnika);
-        const { data: zawodnicy, error: zawodnicyError } = await supabase
-            .from('zawodnicy')
-            .select('id, imie, nazwisko')
-            .in('id', zawodnikIds);
-
-        if (zawodnicyError) {
-            console.error('Błąd podczas pobierania zawodników:', zawodnicyError.message);
-            return;
-        }
-
-        const headersWithNames = headers.map(h => {
-        const zawodnik = zawodnicy.find(z => z.id === h.id_zawodnika);
-            return {
-                ...h,
-                imie: zawodnik?.imie || null,
-                nazwisko: zawodnik?.nazwisko || null
-            };
-        });
-
-        setVideoHeaders(headersWithNames);
     }
 
     useEffect(() => {
         downloadVideoHeaders();
-        downloadPlayers();
+        if(type === "trener")
+            downloadPlayers();
     }, []);
 
     const handleUpload = async () => {
@@ -96,10 +112,11 @@ const Videos = () => {
         setIsUploading(true);
         const pathsToUpload = await uploadChunks(file);
         if (pathsToUpload.length > 0) {
-            const {data, error} = await supabase
+            if(type === "zawodnik"){
+                const {data, error} = await supabase
                 .from('analizy_wideo')
                 .insert([
-                    { nazwa_analizy: analiseName, linki_wideo: pathsToUpload, id_trenera: globalVariable.id, id_zawodnika: selectedPlayers[0]?.id },
+                    { nazwa_analizy: analiseName, linki_wideo: pathsToUpload, id_zawodnika: globalVariable.id, id_trenera: globalVariable.id_trenera },
                 ])
                 .select()
             if (error) {
@@ -108,7 +125,22 @@ const Videos = () => {
                 alert('Analiza wideo została zapisana pomyślnie!');
                 setAnaliseName("");
                 // setVideoFile(null);
-                setSelectedPlayers([]);
+            }
+            }else if(type === "trener"){
+                const {data, error} = await supabase
+                    .from('analizy_wideo')
+                    .insert([
+                        { nazwa_analizy: analiseName, linki_wideo: pathsToUpload, id_trenera: globalVariable.id, id_zawodnika: selectedPlayers[0]?.id },
+                    ])
+                    .select()
+                if (error) {
+                    alert('Błąd podczas zapisywania analizy wideo: ' + error.message);
+                } else {
+                    alert('Analiza wideo została zapisana pomyślnie!');
+                    setAnaliseName("");
+                    // setVideoFile(null);
+                    setSelectedPlayers([]);
+                }
             }
         }
         
@@ -177,7 +209,7 @@ const Videos = () => {
         <div  className={styles.background}>
             <div className={styles.navbar}>
                 <div>
-                    <BackButton path="/trener/playerview" />
+                    <BackButton path={type === "trener" ? "/trener/playerview" : "/player/dayview"} />
                 </div>
                 {/* <div className="left_navbar" onClick={() => setIsSidebarOpen(false)}></div> */}
                 <div className="left_navbar" >
@@ -197,6 +229,7 @@ const Videos = () => {
                         onChange={(e) => setAnaliseName(e.target.value)}
                         placeholder="Wpisz nazwę analizy"
                      />
+                     {type === "trener" && <div>
                         Wybierz zawodnika
                         <Multiselect
                             options={players}
@@ -209,6 +242,7 @@ const Videos = () => {
                             style={sharedStyles2}
                         />
                         {/* {errors.selectedOptions && <div className={styles.error_message}>{errors.selectedOptions}</div>} */}
+                        </div>}
                                              
                     <div className={styles.button_container}>
                         <button onClick={handleUpload}>{isUploading ? 'Wysyłanie' : 'Wyślij'}</button>
