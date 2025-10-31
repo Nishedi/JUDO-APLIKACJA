@@ -157,10 +157,11 @@ const PlayerProfileEdition = () => {
                        <div className={styles.buttoncenter}>
                            <button className={styles.buttonEdit} type="submit">Zapisz</button>
                        </div>
+                       
+                    <div className={styles.change_password} onClick={handlePassChange}>zmień hasło</div>
                    </form>
                </div>
            </div>
-           <div className={styles.change_password} onClick={handlePassChange}>zmień hasło</div>
        </div>
    );
 };

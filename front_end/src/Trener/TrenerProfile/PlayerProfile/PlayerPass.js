@@ -14,6 +14,7 @@ const PlayerPass = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [success, setSuccess] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
 
 
@@ -80,7 +81,7 @@ const PlayerPass = () => {
                    <form onSubmit={handleSubmit}>
                    <label>Nowe hasło:</label>
                        <input 
-                           type="password" 
+                           type={showPassword ? "text" : "password"}
                            name="password"
                            value={password}
                            onChange={(e) => setPassword(e.target.value)}
@@ -88,11 +89,12 @@ const PlayerPass = () => {
 
                        <label>Potwierdź hasło:</label>
                        <input 
-                           type="password" 
+                           type={showPassword ? "text" : "password"}
                            name="confirmPassword" 
                            value={confirmPassword} 
                            onChange={(e) => setConfirmPassword(e.target.value)} 
                        />
+                       <div onClick={()=>setShowPassword(!showPassword)} className={styles.showPassword}>{showPassword ? "Ukryj hasło" : "Pokaż hasło"}</div>
                        {error && <p style={{ color: 'red' }}>{error}</p>}
                        <div className={styles.buttoncenter}>
                            <button className={styles.buttonEdit} type="submit">zapisz</button>

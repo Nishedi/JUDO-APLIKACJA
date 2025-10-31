@@ -9,6 +9,7 @@ const UserProfileEdition = () => {
    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
+   const [showPassword, setShowPassword] = useState(false);
    const [error, setError] = useState('');
    const navigate = useNavigate();
    const weightCategories = {
@@ -83,11 +84,11 @@ const UserProfileEdition = () => {
                 console.log('Hasła nie są takie same');
             }
             else if (password && confirmPassword) {
-                const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/;
-                if (!regex.test(password)) {
-                    alert('Hasło powinno zawierać co najmniej jedną dużą literę, jedną małą literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 7 znaków');
-                    return;
-                }
+                // const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/;
+                // if (!regex.test(password)) {
+                //     alert('Hasło powinno zawierać co najmniej jedną dużą literę, jedną małą literę, jedną cyfrę, jeden znak specjalny oraz mieć co najmniej 7 znaków');
+                //     return;
+                // }
                 updates.haslo = await bcrypt.hash(password, 10); 
                 console.log('hasło zostało zaktualizowane', password);
             }
@@ -187,7 +188,7 @@ const UserProfileEdition = () => {
 
                        <label>Nowe hasło:</label>
                        <input 
-                           type="password" 
+                           type={showPassword ? "text" : "password"}
                            name="new-password"
                            value={password}
                            autoComplete='new-password'
@@ -196,11 +197,13 @@ const UserProfileEdition = () => {
 
                        <label>Potwierdź hasło:</label>
                        <input 
-                           type="password" 
+                           type={showPassword ? "text" : "password"}
                            name="confirmPassword" 
                            value={confirmPassword} 
                            onChange={(e) => setConfirmPassword(e.target.value)} 
                        />
+                        <div onClick={()=>setShowPassword(!showPassword)} className={styles.showPassword}>{showPassword ? "Ukryj hasło" : "Pokaż hasło"}</div>
+                                              
 
                        {error && <p style={{ color: 'red' }}>{error}</p>}
                        <div className={styles.buttoncenter}>

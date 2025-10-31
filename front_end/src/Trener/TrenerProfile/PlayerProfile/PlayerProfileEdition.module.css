@@ -75,7 +75,7 @@ label {
     color: #a7b7d6;
     font-family: 'Kodchasan-SemiBold';
     font-size: 15px;
-    margin: 10px 0;
+    margin-top: 20px;
     cursor: pointer;
     text-align: center;
     cursor: pointer; /* Kursor zmienia się na wskazujący */
@@ -129,4 +129,18 @@ input, select{
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+.showPassword {
+    margin-top: 10px;
+    font-family: 'Montserrat-Medium';
+    font-size: 14px;
+    color: #1D61DC;
+    cursor: pointer;
+    display: flex;
+    justify-content: right;
+}
+
+.showPassword:active {
+    color: #000f63;
 }

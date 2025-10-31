@@ -149,3 +149,17 @@ input, select{
     width: 80%;
     margin: 0; /* Upewnij się, że nie ma marginesu */
 }
+
+.showPassword {
+    margin-top: 10px;
+    font-family: 'Montserrat-Medium';
+    font-size: 14px;
+    color: #1D61DC;
+    cursor: pointer;
+    display: flex;
+    justify-content: right;
+}
+
+.showPassword:active {
+    color: #000f63;
+}
