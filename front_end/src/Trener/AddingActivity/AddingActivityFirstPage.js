@@ -361,6 +361,15 @@ const AddingActivityFirstPage = () => {
             }
     };
 
+    useEffect(() => {
+        setTimeout(() => {
+            setAddActivityString('Dodaj');
+            if(addActivityString === 'Dodano'){
+                navigate('/trener/playerView');
+            }
+        }, 5000);
+    }, [addActivityString]);
+
     const saveTemplate = async () => {
         if(!template_name || template_name.trim() === '') {
             alert('Proszę podać nazwę szablonu.');
@@ -503,6 +512,7 @@ const AddingActivityFirstPage = () => {
         if (selectedExercises.length === 0 && (selectedTrenings[0]?.name !== 'Motoryczny'&&selectedTrenings[0]?.name !== 'Fizjoterapia')) {
             newErrors.selectedExercises = 'Proszę wybrać ćwiczenia';
         }
+        setAddActivityString('Błąd');
         return newErrors;
     };
 
@@ -523,6 +533,7 @@ const AddingActivityFirstPage = () => {
             setErrors(formErrors);
             return;
         }
+        setErrors({});
         
         
 
@@ -572,9 +583,9 @@ const AddingActivityFirstPage = () => {
                         times: exercise.times
                     });
                 }
-                console.log(exercises2);
                 
                 if(type==="player"){
+                    setAddActivityString('Dodawanie...');
                     const activity = {
                         id_trainer: athlete.id_trenera,
                         id_athlete: athlete.id,
@@ -607,6 +618,7 @@ const AddingActivityFirstPage = () => {
                     if(error){
                         console.log("Problem podczas dodawania nowej aktywności");
                         console.log(error);
+                        setAddActivityString('Wystąpił błąd, spróbuj ponownie');
                         return;
                     }
                     if(data){
@@ -654,6 +666,7 @@ const AddingActivityFirstPage = () => {
                         setViewedPlayer({...viewedPlayer, currentActivity: data[0]});
                     }
                 }else{
+                    setAddActivityString('Dodawanie...');
                     const activity = {
                         id_trainer: globalVariable.id,
                         id_athlete: athlete.id,
@@ -688,7 +701,7 @@ const AddingActivityFirstPage = () => {
                         return;
                     }
                     if(data){
-                        console.log(data);
+                        
                         setAddActivityString('Dodano');
                     }
                 
@@ -711,7 +724,6 @@ const AddingActivityFirstPage = () => {
         const [breakBetweenSeries, setBreakBetweenSeries] = useState(exercise?.breakBetweenSeries||'');
         const [numberOfSeries, setNumberOfSeries] = useState(exercise?.numberOfSeries||'');
         const [times, setTimes] = useState(exercise?.times||[]);
-        console.log(exercise)
          useEffect(() => {
             const num = Number(repeats) || 0;
             setTimes(prev => {

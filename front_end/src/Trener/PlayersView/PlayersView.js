@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PlayersView = () => {
     const {setViewedPlayer, supabase} = useContext(GlobalContext);
-    const {globalVariable, setGlobalVariable } = useContext(GlobalContext);
+    const {globalVariable, setGlobalVariable, setPrevViewDate } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [players, setPlayers] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -57,6 +57,7 @@ const PlayersView = () => {
     }
 
     const pickPlayer = (player) => {
+        setPrevViewDate(null);
         setViewedPlayer(player);
         navigate('/trener/playermonthview/week');
     }

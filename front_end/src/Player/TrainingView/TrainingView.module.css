@@ -143,7 +143,7 @@ input, select{
     padding: 10px;
 }
 
-.buttonTrening {
+.buttonTrening, .redButton{
     justify-self: center;
     background-image: linear-gradient(90deg, #1D61DC 9%, #1D61DC 47%, #103476 100%);
     color: #FFFFFF;
@@ -157,12 +157,16 @@ input, select{
     transition: box-shadow 0.3s, transform 0.3s; /* Płynna zmiana cienia i transformacji */
 }
 
-.buttonTrening:hover {
+.redButton{
+    background-image: linear-gradient(90deg, #DC1D61 9%, #DC1D61 47%, #76103A 100%) !important;
+}
+
+.buttonTrening:hover, .redButton:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Większy cień przy najechaniu */
     transform: translateY(-2px); /* Lekko unosi przy najechaniu */
 }
 
-.buttonTrening:active {
+.buttonTrening:active, .redButton:active {
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3); /* Mniejszy cień przy kliknięciu */
     transform: translateY(0); /* Powrót do normalnej pozycji */
 }

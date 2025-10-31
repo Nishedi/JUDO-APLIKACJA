@@ -38,6 +38,23 @@ const TrainingView = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const { error } = await supabase
+        .from('aktywności')
+        .delete()
+        .eq('id', activity.id);
+
+      if (error) {
+        console.error('Błąd podczas usuwania aktywności:', error);
+      } else {
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error('Błąd podczas usuwania aktywności:', error);
+    }
+  };
+
   useEffect(() => {
     fetchActivityFromDatabase(id);
   }, [id]);
@@ -267,6 +284,9 @@ const TrainingView = () => {
        
         <div className={styles.buttoncenter}>
           <button className={styles.buttonTrening} onClick={handleSubmit}>Zatwierdź</button>
+        </div>
+        <div className={styles.buttoncenter}>
+          <button className={styles.redButton} onClick={handleDelete}>Usuń</button>
         </div>
       </div>
     </div>

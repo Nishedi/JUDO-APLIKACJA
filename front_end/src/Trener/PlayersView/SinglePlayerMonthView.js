@@ -443,7 +443,7 @@ const SinglePlayerMonthView = () => {
         getPlayer();
         getMonthDays();
         getMultiDayActivities();
-    }, []);
+    }, [viewType]);
 
     useEffect(() => {
         getMonthDays();

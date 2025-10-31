@@ -8,18 +8,28 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const WeekView = () => {
-    const { globalVariable, setGlobalVariable, supabase } = useContext(GlobalContext);
+    const { globalVariable, setGlobalVariable, supabase, prevViewDate, setPrevViewDate } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(prevViewDate || new Date());
     const dayNames = ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"];
     const monthNames = ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", 
         "lipca", "sierpnia", "września", "października", "listopada", "grudnia"];
-   const [weeklyActivities, setWeeklyActivities] = useState([]);
+    const [weeklyActivities, setWeeklyActivities] = useState([]);
     const  viewType  = useParams().viewtype;
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
+    useEffect(() => {
+            if(prevViewDate){
+                setCurrentDate(prevViewDate);
+                setPrevViewDate(null);
+                // getPlayer();
+                // getMonthDays();
+                // getMultiDayActivities();
+            }
+    
+        }, []);
 
     const [multiDayActivities, setMultiDayActivities] = useState([]);
 
@@ -161,7 +171,7 @@ const WeekView = () => {
         //     navigate("/player/anotherdayview");
         // }
         const formattedDate = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
-        
+        setPrevViewDate(date);
         setGlobalVariable({ ...globalVariable, date: formattedDate}); // oba formaty dostępne
         navigate("/player/dayview");
     }
@@ -281,6 +291,7 @@ const WeekView = () => {
     }
 
     useEffect(() => {
+        console.log("Current Date changed:", currentDate);
         getWeekDays();
         getMultiDayActivities();
     }, [currentDate]);
