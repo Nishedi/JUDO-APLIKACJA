@@ -437,6 +437,7 @@ const Video = () => {
         });
 
         if(screenshots.length > 0) {
+            console.log('Usuwanie zrzutów ekranu...');
             screenshots.forEach(async (screenshot) => {
                 const {data, error} = await supabase.storage
                     .from('videos')

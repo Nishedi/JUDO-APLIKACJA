@@ -15,6 +15,7 @@ const TrainingView = () => {
   const { id } = useParams();
   const [activity, setActivity] = useState(null); 
   const navigate = useNavigate();
+  const [buttonString, setButtonString] = useState("Zatwierdź");
   
   // Pobieranie aktywności z bazy danych
   const fetchActivityFromDatabase = async (activityId) => {
@@ -74,6 +75,7 @@ const TrainingView = () => {
     }
 
   const handleSubmit = async (e) => {
+    setButtonString("Zapisywanie...");
     e.preventDefault();
     const trainingStatus = isTrainingCompleted ? 'Zrealizowany' : 'Niezrealizowany';
     try {
@@ -89,7 +91,11 @@ const TrainingView = () => {
       if (error) {
         console.error('Błąd aktualizacji danych', error);
       } else {
-        navigate(-1);
+        setButtonString("Zapisano!");
+        setTimeout(() => {
+          navigate(-1);
+        }, 1000);
+        
       }
     } catch (err) {
       console.error('Błądddd', err);
@@ -150,11 +156,18 @@ const TrainingView = () => {
                       {thing?.durationSecond? <span>{!thing?.duration ? "Czas trwania: " : ""}<strong>{thing.durationSecond} sek.</strong></span>:""}
                       {thing?.duration || thing?.durationSecond ? <br/>:null}
                       {thing?.repeats ? <><span>Liczba powtórzeń: <strong>x{thing.repeats}</strong></span> <br/></>: ""}
-                      {thing?.times?.map(time => 
-                        <div>
-                          Powtórzenie {time.number}: <strong>{time?.minutes} min. {time?.seconds}sek.</strong>
+                      {thing?.times?.map((time, index) => (
+                        <div key={index}>
+                          Powtórzenie {time.number}: <strong>
+                            {(() => {
+                              const parts = [];
+                              if (time?.minutes !== '' && time?.minutes != null) parts.push(`${time.minutes} min.`);
+                              if (time?.seconds !== '' && time?.seconds != null) parts.push(`${time.seconds} sek.`);
+                              return parts.length ? parts.join(' ') : '—'; // tutaj możesz dać '' zamiast '—'
+                            })()}
+                          </strong>
                         </div>
-                      )}
+                      ))}
                       {thing?.meters ?<><span>Odległość: <strong>{thing.meters} m. </strong></span> <br/></>: ""}
                       {thing?.goldenScoreMinutes ? <span> Golden Score: <strong>{thing.goldenScoreMinutes} min. </strong></span> : ""}
                       {thing?.goldenScore ? <span>{!thing?.goldenScoreMinutes ? "Golden Score: " : ""}<strong>{thing.goldenScore} sek. </strong></span> : ""}
@@ -283,7 +296,7 @@ const TrainingView = () => {
         </div>
        
         <div className={styles.buttoncenter}>
-          <button className={styles.buttonTrening} onClick={handleSubmit}>Zatwierdź</button>
+          <button className={styles.buttonTrening} onClick={handleSubmit}>{buttonString}</button>
         </div>
         <div className={styles.buttoncenter}>
           <button className={styles.redButton} onClick={handleDelete}>Usuń</button>

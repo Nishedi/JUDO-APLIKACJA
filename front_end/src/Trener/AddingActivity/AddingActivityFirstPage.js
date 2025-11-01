@@ -363,11 +363,11 @@ const AddingActivityFirstPage = () => {
 
     useEffect(() => {
         setTimeout(() => {
-            setAddActivityString('Dodaj');
+            // setAddActivityString('Dodaj');
             if(addActivityString === 'Dodano'){
                 endAdding();
             }
-        }, 5000);
+        }, 1000);
     }, [addActivityString]);
 
     const saveTemplate = async () => {
@@ -1272,15 +1272,20 @@ const AddingActivityFirstPage = () => {
                             </button>
                         </>
                         }
-                        <div className={styles.input_container}>
-                            <div>Nazwa schematu</div>
-                            <input type="text" onChange={(e)=>setTemplateName(e.target.value)} placeholder='Podaj nazwę schematu' style={{width: "100%"}} />
-                        </div>
+                        
+                        
                         {
                             !type && (
-                                <button onClick={saveTemplate}  className={styles.button} style={{fontSize: "18px", marginTop: "10px"}}>
-                                    Zapisz schemat
-                                </button>
+                                <>
+                                    <div className={styles.input_container}>
+                                        <div>Nazwa schematu</div>
+                                        <input type="text" onChange={(e)=>setTemplateName(e.target.value)} placeholder='Podaj nazwę schematu' style={{width: "100%"}} />
+                                    </div>
+                                    <button onClick={saveTemplate}  className={styles.button} style={{fontSize: "18px", marginTop: "10px"}}>
+                                        Zapisz schemat
+                                    </button>
+                                </>
+                                
                             )
                         }
                         

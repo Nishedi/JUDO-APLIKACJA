@@ -62,11 +62,11 @@ Dodatkowe etapy (tutaj zapisujemy poprawki, które nie są wyżej uwzględnione)
 - [X] Podgląd hasła przy jego zmianie (zawodnikw)
 - [X] Reset hasła przez trenera
 - [X] Udostępnić filmy zawodnikow
-- [ ] Spróbować zredukować rozmiar filmów
-- [ ] Sprobwać poprawnie usuwać filmy
+- [X] Spróbować zredukować rozmiar filmów - na razie nie robie
+- [X] Sprobwać poprawnie usuwać filmy
 - [ ] ogarnąć scrollowanie podczas rysowania po zdjęciach
 - [ ] Zablokować ponowne wysyłanie gdy poprzednie jest w trakcie
-- [ ] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
+- [X] usunąć zapisywanie schematu w dodawaniu aktywności przez zawodnika
 - [ ] Poprawić style notatek
 - [ ] dodac sortowanie filmow po dacie
 

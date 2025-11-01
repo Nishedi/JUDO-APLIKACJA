@@ -189,7 +189,7 @@ const MultiSelectDropdown = ({ options, selectedOptions, setSelectedOptions }) =
                     ✕
                   </button>
                 </div>
-                <div>
+                <div className={styles.buttonContainer}>
                   <button
                     className={styles.moveButton}
                     onClick={(e) => { moveUp(index); e.stopPropagation(); }}

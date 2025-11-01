@@ -251,7 +251,6 @@ const Videos = () => {
             </div>
             {videoHeaders.length > 0 && (
                 <div className={styles.video_list}>
-                    {console.log(videoHeaders)}
                     {videoHeaders.map((header, index) => (
                         <VideoFrame key={index} frame={header} />
                     ))}
