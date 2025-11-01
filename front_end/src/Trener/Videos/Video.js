@@ -294,7 +294,6 @@ const Video = () => {
         
         const localScreenshot = [...screenshots];
         let newIdx = idx;
-        console.log(screenshots)
 
         if (direction === "up" && idx > 0) {
             [localScreenshot[idx - 1], localScreenshot[idx]] = [localScreenshot[idx], localScreenshot[idx - 1]];
@@ -346,7 +345,7 @@ const Video = () => {
             .from('analizy_wideo')
             .select('*')
             .eq('id', id_video);
-
+        console.log(data, id_video);
         if (error) {
             console.error('Błąd pobierania informacji o wideo:', error.message);
         } else {
