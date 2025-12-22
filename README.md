@@ -209,10 +209,7 @@ Trener może prowadzić szczegółowe notatki o każdym zawodniku zawierające:
 - Aktywności wielodniowe
 
 ### 4. Moduł Statystyk
-- Wykresy postępów
-- Analiza danych treningowych
-- Podsumowania okresowe
-- Oznaczenia ważnych wydarzeń
+- Wykresy danych raportowanych przez zawodników
 
 ### 5. Moduł Notatek
 - Notatki personalne o zawodnikach
@@ -224,11 +221,10 @@ Trener może prowadzić szczegółowe notatki o każdym zawodniku zawierające:
 - Biblioteka materiałów
 - Udostępnianie filmów
 - Zarządzanie plikami
-- Analiza wideo z adnotacjami
+- Analiza wideo z adnotacjami (zrzuty ekranów, oznaczenia na obrazkach, zapis do bazy danych)
 
 ### 7. Moduł Komunikacji
 - Powiadomienia SMS
-- System alertów
 - Komunikacja z zawodnikami
 
 ### 8. Moduł Raportowania
@@ -240,28 +236,22 @@ Trener może prowadzić szczegółowe notatki o każdym zawodniku zawierające:
 ## 🎨 Cechy Systemu
 
 ### Intuicyjny Interface
-- Kolorowe oznaczenia typów aktywności (niebieski, czerwony, zielony)
 - Responsywny design dostosowany do różnych urządzeń
-- Menu hamburgerowe dla łatwej nawigacji
 - Sidebar z szybkim dostępem do funkcji
 
 ### Elastyczność
 - Możliwość dostosowania do indywidualnych potrzeb trenera
 - Zapisywanie schematów treningowych
 - Duplikowanie aktywności
-- Personalizacja widoków
 
 ### Kompleksowość
 - Obsługa pełnego cyklu treningowego
 - Od planowania przez realizację do analizy
 - Integracja różnych aspektów treningu
-- Wsparcie dla różnych grup wiekowych
 
 ### Dostępność
 - Dostęp z dowolnego miejsca przez przeglądarkę
 - Synchronizacja danych w czasie rzeczywistym
-- Wsparcie dla wielu trenerów (w rozwoju)
-- Bezpieczne przechowywanie danych
 
 ---
 
@@ -274,7 +264,6 @@ System jest aktywnie rozwijany z planowanymi ulepszeniami takimi jak:
 - Sortowanie filmów po dacie
 - Obsługa scrollowania podczas rysowania po zdjęciach
 - Usuwanie aktywności stworzonych przez zawodnika
-- Wsparcie dla wielu trenerów współdzielących dostęp do zawodników
 
 ---
 
@@ -284,27 +273,6 @@ Aplikacja jest dostępna przez przeglądarkę internetową i wymaga:
 - Konta użytkownika (trener lub zawodnik)
 - Loginu i hasła
 - Połączenia z internetem
-
----
-
-## 💡 Korzyści z Używania Systemu
-
-### Dla Trenera
-✅ Lepsze planowanie i organizacja treningów  
-✅ Łatwy dostęp do historii i statystyk zawodników  
-✅ Efektywna komunikacja z zawodnikami  
-✅ Kompleksowa analiza postępów  
-✅ Oszczędność czasu przy planowaniu  
-✅ Baza wiedzy o zawodnikach i przeciwnikach  
-
-### Dla Zawodnika
-✅ Jasny przegląd planu treningowego  
-✅ Śledzenie własnych postępów  
-✅ Dostęp do materiałów szkoleniowych  
-✅ Możliwość prowadzenia notatek  
-✅ Motywacja przez wizualizację postępów  
-✅ Lepsze przygotowanie do walk  
-
 ---
 
 ## 📞 Wsparcie
@@ -313,4 +281,3 @@ System zawiera wbudowany moduł zgłaszania błędów, który umożliwia użytko
 
 ---
 
-**Judo Tracker** - Profesjonalne narzędzie do zarządzania treningami judo 🥋
